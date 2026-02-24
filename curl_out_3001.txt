@@ -1,0 +1,9 @@
+* Host localhost:3001 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:3001...
+* connect to ::1 port 3001 from ::1 port 54865 failed: Connection refused
+*   Trying 127.0.0.1:3001...
+* connect to 127.0.0.1 port 3001 from 127.0.0.1 port 54866 failed: Connection refused
+* Failed to connect to localhost port 3001 after 0 ms: Couldn't connect to server
+* Closing connection
