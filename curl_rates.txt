@@ -1,0 +1,25 @@
+* Host localhost:3000 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:3000...
+* Connected to localhost (::1) port 3000
+> POST /api/rates HTTP/1.1
+> Host: localhost:3000
+> User-Agent: curl/8.7.1
+> Accept: */*
+> Content-Type: application/json
+> Content-Length: 71
+> 
+} [71 bytes data]
+* upload completely sent off: 71 bytes
+< HTTP/1.1 200 OK
+< vary: RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch
+< content-type: application/json
+< Date: Fri, 20 Feb 2026 22:13:02 GMT
+< Connection: keep-alive
+< Keep-Alive: timeout=5
+< Transfer-Encoding: chunked
+< 
+{ [3583 bytes data]
+* Connection #0 to host localhost left intact
+{"data":[{"hotelId":"lp1a278","roomTypes":[{"roomTypeId":"GYZDALJRGA3TCMRYPRHFERSOPQZDAMRWGAZDEMBQHAYTG7BRGAYHYURRG43TKOL4GE2DAMQ","offerId":"3gAVonJzkY2kc3JpZNoBXEc0WkRNWlJXTVkzR0lNUlFHSTRET01SV01ZM0dNTlRFR0lZRE9OQlhIRTNUQU5SVkdJWURNTUpYR00zVEdOUlpHWTNUTVpKV0dVM0RJTVJRR1pURE1aSlNHQTNEQ05aU0c0WkRNT0pYR1kzRENOVERHSTRYWU1KREdJWURFTlJRR01ZREM3QlNHQVpETU1CVEdBWlhZWkxPTDVLVkc3Q1ZLTjZGS1UyRVBRWkVDTUNEUFFaREVPQlRQUktURVZTWU9KNkRDTlpYR0UzREVOSlZHNDRUU01SUklWSFVVWlJER0VZRE9NSlNIQVJUTU1SUUZVWVRBTlpSR0k0SFlUU1NJWkhIWU1SUUdJM0RBTVJTR0FZRFFNSlRQUVlUQU1ENEtJWVRPTlpWSEY2RENOQlFHSVJWRVRaREpaSkVNVFJER0lZREVOUk5HQVpDMk1SUUVBWURRT1JSR01SUaNwcmPLQCwKPXCj1wqlb3JfcHLLAAAAAAAAAACiY23LAAAAAAAAAACjcGNkoKNicmSiUk-kbXJpZM5W-XMCo21ybtkkUm9vbSAoUm9vbSBUeXBlIEFzc2lnbmVkIG9uIEFycml2YWwpo2hkcMCjZnJuoKNzcm7ZJFJvb20gKFJvb20gVHlwZSBBc3NpZ25lZCBvbiBBcnJpdmFsKaNvY24BpHBya3PApHNoaWSmMTA3MTI4o3NpZAKjaGlkp2xwMWEyNzijb2NjkYGhYQKjY3Vyo1VTRKJnbqJVU6JjaaoyMDI2LTAzLTAxomNvqjIwMjYtMDMtMDOjZ2lkoKJjcssAAAAAAAAAAKRzc2lk2TBzZXNzaW9uXzAxOWM3ZDFkMDU3OVlxVjZEc3M3M3hWVGVrTlZFYkhETlRpWG9BU0OjaXNowqNzc3CucHJvdmlkZXJEaXJlY3SjaWZtwqVpZmNocsKlc2VhaWSnbHAxYTI3OKJua8CidHiThKFpw6Fk2SN0YXggcmVjb3ZlcnkgY2hhcmdlcyAmIHNlcnZpY2UgZmVlc6Fhy0ACPXCj1wo9oWOjVVNEhKFpwqFktHJlc29ydCBmZWUgcGVyIG5pZ2h0oWHLQFFB64UeuFKhY6NVU0SEoWnCoWStdGF4IHBlciBuaWdodKFhy0AidcKPXCj2oWOjVVNEomxwwKNia3QF","supplier":"nuitee","supplierId":2,"rates":[{"rateId":"I42FURCNLJJFOTKZGNDUSTKSKFDUSNCEJ5GVEV2NLEZUOTKOKRCUOSKZIRHU4QSYJBCTGVCBJZJFMR2JLFCE2TKKLBDU2M2UI5HFEWSHLEZVITK2JJLUOVJTIREU2USRI5NFIRCNLJFFGR2BGNCEGTS2KNDTIWSEJVHUUWCHLEZUIQ2OKRCEOSJULBMU2SSEI5EVSRCFJZJFCR2NLFCEGN2CKNDUCWSEJVGUEVCHIFNFQWK2JRHUYNKLKZDTOQ2WJNHDMRSLKUZEKUCRLJCUGTKDIRIFCWSEIVHUEVCQKJFVIRKWKNMU6SRWIRBU4WSYI5CTGRCFJZFFMRZUGRKFGTKSKJEVMSCVKVNFERCHIVMUIT2NJJJUQQKSKRGU2USRIZKVSVCBJZNFER2JGREFSVCTKNEVUSCILFGVEUKHJEZUIQKNKJJUOQKZIRIU2SSUKBIVSVCBJVCDIS2JLFKE6TS2KZEEMNSEINHEEUKHJFJFMRKULJCEUWSKIVGVIUSEI5EVSRCFJZJE4R2BLJBTETKSKFCUCWKEKFHVEUSHJVJFC7BRGQXDAMT4PRJE67BRGQ2TSMJYHA2DQMT4PR6FE33PNUQCQUTPN5WSAVDZOBSSAQLTONUWO3TFMQQG63RAIFZHE2LWMFWCS7BQFYYDA7BQFYYDA7CSN5XW2IBIKJXW63JAKR4XAZJAIFZXG2LHNZSWIIDPNYQEC4TSNF3GC3BJ","occupancyNumber":1,"name":"Room (Room Type Assigned on Arrival)","maxOccupancy":2,"adultCount":2,"childCount":0,"childrenAges":[],"boardType":"RO","boardName":"Room Only","remarks":"","priceType":"commission","commission":[{"amount":0,"currency":"USD"}],"retailRate":{"total":[{"amount":14.02,"currency":"USD"}],"suggestedSellingPrice":[{"amount":248.9,"currency":"USD","source":"providerDirect"}],"initialPrice":[{"amount":14.02,"currency":"USD"}],"taxesAndFees":[{"included":true,"description":"tax recovery charges & service fees","amount":2.28,"currency":"USD"},{"included":false,"description":"resort fee per night","amount":69.03,"currency":"USD"},{"included":false,"description":"tax per night","amount":9.23,"currency":"USD"}]},"cancellationPolicies":{"cancelPolicyInfos":[],"hotelRemarks":[],"refundableTag":"NRFN"},"mappedRoomId":1459188482,"paymentTypes":["NUITEE_PAY"],"providerCommission":{"amount":0,"currency":""},"perks":[],"promotions":null}],"offerRetailRate":{"amount":14.02,"currency":"USD"},"suggestedSellingPrice":{"amount":248.9,"currency":"USD","source":"providerDirect"},"offerInitialPrice":{"amount":14.02,"currency":"USD"},"priceType":"commission","rateType":"standard","paymentTypes":["NUITEE_PAY"]}],"et":10800}],"guestLevel":0,"hotels":[{"id":"lp1a278","name":"Horseshoe Las Vegas","main_photo":"https://static.cupid.travel/hotels/ex_35dfe9d4_z.jpg","address":"3645 Las Vegas Blvd S, Las Vegas, Nevada, 89109","rating":8}]}

@@ -1,0 +1,106 @@
+
+> cheap-getaway-app@1.0.0 dev
+> next dev -p 3001
+
+   ▲ Next.js 15.0.7
+   - Local:        http://localhost:3001
+
+ ✓ Starting...
+ ✓ Ready in 1553ms
+ ○ Compiling / ...
+ ✓ Compiled / in 4.1s (714 modules)
+ GET / 200 in 4510ms
+ GET / 200 in 99ms
+ ○ Compiling /api/min-rates ...
+ ✓ Compiled /api/min-rates in 803ms (734 modules)
+ POST /api/min-rates 200 in 2459ms
+ ✓ Compiled /api/data/hotel in 219ms (736 modules)
+ GET /api/data/hotel?hotelId=lp1a7fc 200 in 394ms
+ GET /api/data/hotel?hotelId=lp1a6b0 200 in 118ms
+ GET /api/data/hotel?hotelId=lp1a278 200 in 109ms
+ GET /api/data/hotel?hotelId=lp1a88f 200 in 88ms
+ POST /api/rates 200 in 4405ms
+ ✓ Compiled /api/places in 296ms (738 modules)
+ GET /api/places?textQuery=mia 200 in 682ms
+ ○ Compiling /search ...
+ ✓ Compiled /search in 816ms (753 modules)
+ GET /search?checkin=2026-03-10&checkout=2026-03-12&adults=2&mode=standard&type=standard&placeId=ChIJEcHIDqKw2YgRZU-t3XHylv8&placeName=Miami 200 in 967ms
+ ✓ Compiled /api/data/hotels in 280ms (755 modules)
+ GET /api/data/hotels?placeId=ChIJEcHIDqKw2YgRZU-t3XHylv8&limit=60 200 in 563ms
+ GET /api/data/hotels?placeId=ChIJEcHIDqKw2YgRZU-t3XHylv8&limit=60 200 in 162ms
+ POST /api/rates 200 in 2425ms
+ POST /api/rates 200 in 3352ms
+ ○ Compiling /hotel/[hotelId] ...
+ ✓ Compiled /hotel/[hotelId] in 884ms (792 modules)
+ GET /hotel/lp1ca82?checkin=2026-03-10&checkout=2026-03-12&adults=2 200 in 1397ms
+ ✓ Compiled /api/data/reviews in 295ms (794 modules)
+ GET /api/data/hotel?hotelId=lp1ca82 200 in 318ms
+ GET /api/data/hotel?hotelId=lp1ca82 200 in 182ms
+ GET /api/data/reviews?hotelId=lp1ca82&limit=5 200 in 607ms
+ GET /api/data/reviews?hotelId=lp1ca82&limit=5 200 in 106ms
+ POST /api/rates 200 in 1228ms
+ POST /api/rates 200 in 1468ms
+ ✓ Compiled /api/data/hotel/ask in 354ms (790 modules)
+ GET /api/data/hotel/ask?hotelId=lp1ca82&query=Is%20parking%20available%3F 200 in 1386ms
+ GET /api/data/hotel/ask?hotelId=lp1ca82&query=What%20time%20is%20check-in%3F 200 in 791ms
+ ✓ Compiled /api/data/hotels in 142ms (427 modules)
+ GET /api/data/hotels?placeId=ChIJEcHIDqKw2YgRZU-t3XHylv8&limit=60 200 in 452ms
+ ✓ Compiled /api/rates in 155ms (429 modules)
+ GET /api/data/hotels?placeId=ChIJEcHIDqKw2YgRZU-t3XHylv8&limit=60 200 in 191ms
+ POST /api/rates 200 in 326ms
+ POST /api/rates 200 in 296ms
+ ⨯ ./src/components/SearchForm.tsx
+Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
+     ,-[[36;1;4mC:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\src\components\SearchForm.tsx[0m:150:1]
+ [2m147[0m |     };
+ [2m148[0m | 
+ [2m149[0m |     return (
+ [2m150[0m |         <div className="search-module">
+     : [35;1m         ^^^[0m
+ [2m151[0m |             <div className="search-mode-switch" role="tablist" aria-label="Search mode">
+ [2m152[0m |                 <button
+ [2m153[0m |                     type="button"
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/SearchForm.tsx
+./src/components/Hero.tsx
+ ✓ Compiled in 459ms (767 modules)
+ ✓ Compiled in 602ms (765 modules)
+ ✓ Compiled in 342ms (765 modules)
+ GET / 200 in 172ms
+ ✓ Compiled /api/min-rates in 150ms (424 modules)
+ ✓ Compiled (426 modules)
+ POST /api/rates 200 in 696ms
+ POST /api/rates 200 in 690ms
+ POST /api/min-rates 200 in 1781ms
+ POST /api/min-rates 200 in 1782ms
+ ✓ Compiled /api/data/hotel in 141ms (428 modules)
+ GET /api/data/hotel?hotelId=lp1a7fc 200 in 295ms
+ GET /api/data/hotel?hotelId=lp1a6b0 200 in 60ms
+ GET /api/data/hotel?hotelId=lp1a7fc 200 in 69ms
+ GET /api/data/hotel?hotelId=lp1a6b0 200 in 70ms
+ GET /api/data/hotel?hotelId=lp1a278 200 in 137ms
+ GET /api/data/hotel?hotelId=lp1a88f 200 in 60ms
+ GET /api/data/hotel?hotelId=lp1a278 200 in 104ms
+ GET /api/data/hotel?hotelId=lp1a88f 200 in 107ms
+ ✓ Compiled in 285ms (786 modules)
+ GET /hotel/lp1a88f?checkin=2026-03-13&checkout=2026-03-15&adults=2 200 in 108ms
+ GET /api/data/hotel?hotelId=lp1a88f 200 in 235ms
+ ✓ Compiled /api/data/reviews in 230ms (430 modules)
+ GET /api/data/hotel?hotelId=lp1a88f 200 in 197ms
+ GET /api/data/reviews?hotelId=lp1a88f&limit=5 200 in 524ms
+ GET /api/data/reviews?hotelId=lp1a88f&limit=5 200 in 50ms
+ POST /api/rates 200 in 994ms
+ POST /api/rates 200 in 1098ms
+ ✓ Compiled in 326ms (788 modules)
+ ✓ Compiled in 565ms (802 modules)
+ GET /hotel/lp1a88f?checkin=2026-03-13&checkout=2026-03-15&adults=2 200 in 111ms
+ ✓ Compiled in 405ms (802 modules)
+ GET /hotel/lp1a88f?checkin=2026-03-13&checkout=2026-03-15&adults=2 200 in 90ms
+ ✓ Compiled in 573ms (788 modules)
+ ✓ Compiled in 456ms (763 modules)
+ ✓ Compiled in 408ms (763 modules)

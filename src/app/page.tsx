@@ -1,0 +1,24 @@
+import Hero from '@/components/Hero';
+import RecommendedHotels from '@/components/RecommendedHotels';
+import WeekendDeals from '@/components/WeekendDeals';
+import FeaturedCollections from '@/components/FeaturedCollections';
+import TopDealsGrid from '@/components/TopDealsGrid';
+import VibeSearchModule from '@/components/VibeSearchModule';
+import ValueProps from '@/components/ValueProps';
+
+export default function HomePage() {
+    return (
+        <main>
+            <Hero />
+
+            <div className="home-container">
+                <RecommendedHotels />
+                <FeaturedCollections />
+                <TopDealsGrid />
+                <VibeSearchModule />
+                <WeekendDeals />
+                <ValueProps />
+            </div>
+        </main>
+    );
+}

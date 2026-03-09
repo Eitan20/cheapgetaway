@@ -1,0 +1,22 @@
+* Host localhost:3000 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:3000...
+* Connected to localhost (::1) port 3000
+> GET /api/data/weather?latitude=36.1699&longitude=-115.1398&startDate=2026-03-01&endDate=2026-03-03 HTTP/1.1
+> Host: localhost:3000
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+* Request completely sent off
+< HTTP/1.1 200 OK
+< vary: RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch
+< content-type: application/json
+< Date: Fri, 20 Feb 2026 22:12:29 GMT
+< Connection: keep-alive
+< Keep-Alive: timeout=5
+< Transfer-Encoding: chunked
+< 
+{ [1026 bytes data]
+* Connection #0 to host localhost left intact
+{"weatherData":[{"dailyWeather":{"date":"2026-03-01","units":"metric","cloud_cover":{"afternoon":37.73},"humidity":{"afternoon":25.33},"precipitation":{"total":0},"temperature":{"min":15.73,"max":25.31,"afternoon":16.39,"night":25.31,"evening":20.2,"morning":20.12},"pressure":{"afternoon":1013.01},"wind":{"max":{"speed":6.93,"direction":17.85}}}},{"dailyWeather":{"date":"2026-03-02","units":"metric","cloud_cover":{"afternoon":100},"humidity":{"afternoon":22.07},"precipitation":{"total":0},"temperature":{"min":14.8,"max":22.23,"afternoon":14.8,"night":22.23,"evening":18.39,"morning":17.9},"pressure":{"afternoon":1016.43},"wind":{"max":{"speed":7.36,"direction":19.59}}}},{"dailyWeather":{"date":"2026-03-03","units":"metric","cloud_cover":{"afternoon":81.61},"humidity":{"afternoon":24.12},"precipitation":{"total":0},"temperature":{"min":15.68,"max":24.17,"afternoon":15.68,"night":21.54,"evening":20.86,"morning":17.96},"pressure":{"afternoon":1009.58},"wind":{"max":{"speed":7.37,"direction":220.91}}}}]}
