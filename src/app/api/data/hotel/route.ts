@@ -2,6 +2,29 @@ import { NextResponse } from 'next/server';
 
 const LITEAPI_KEY = 'prod_836dbd63-00e5-443a-9b49-ce47adc49202';
 
+async function getHeroVideo(hotelId: string, poster?: string) {
+    const videoUrl = `https://static.nuitee.cloud/videos/${hotelId}.mp4`;
+
+    try {
+        const res = await fetch(videoUrl, {
+            method: 'HEAD',
+            cache: 'no-store',
+        });
+
+        if (!res.ok) return null;
+
+        const contentType = res.headers.get('content-type') || '';
+        if (!contentType.startsWith('video/')) return null;
+
+        return {
+            url: videoUrl,
+            poster: poster || null,
+        };
+    } catch {
+        return null;
+    }
+}
+
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const hotelId = searchParams.get('hotelId');
@@ -28,6 +51,16 @@ export async function GET(request: Request) {
         }
 
         const data = await res.json();
+        const hotel = data?.data || data;
+
+        if (hotel?.id) {
+            const poster = hotel.main_photo || hotel.hotelImages?.[0]?.url || null;
+            const heroVideo = await getHeroVideo(hotel.id, poster);
+            if (heroVideo) {
+                hotel.heroVideo = heroVideo;
+            }
+        }
+
         return NextResponse.json(data);
     } catch (error) {
         console.error('Error in data/hotel:', error);

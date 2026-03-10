@@ -6,9 +6,17 @@ import HorizontalScrollArrows from '@/components/HorizontalScrollArrows';
 import {
     Star, MapPin, Check, ChevronRight, ChevronLeft, Clock, Info,
     Wifi, Car, Dumbbell, Coffee, Shield, Users, Bed, Maximize,
-    X, ChevronDown, ChevronUp, ArrowLeft, Image as ImageIcon,
+    X, ChevronDown, ChevronUp, ArrowLeft, Image as ImageIcon, Play,
     MessageCircle, Sparkles, Send
 } from 'lucide-react';
+
+type GalleryMedia = {
+    type: 'image' | 'video';
+    url: string;
+    urlHd?: string;
+    caption?: string;
+    poster?: string | null;
+};
 
 export default function HotelDetailsPage({ params }: { params: Promise<{ hotelId: string }> }) {
     return (
@@ -19,33 +27,70 @@ export default function HotelDetailsPage({ params }: { params: Promise<{ hotelId
 }
 
 // ---------- Image Gallery Component ----------
-function ImageGallery({ images }: { images: any[] }) {
+function ImageGallery({ media }: { media: GalleryMedia[] }) {
     const [activeIndex, setActiveIndex] = useState(0);
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const thumbRef = useRef<HTMLDivElement>(null);
 
-    if (!images || images.length === 0) return null;
+    if (!media || media.length === 0) return null;
 
-    const next = () => setActiveIndex((prev) => (prev + 1) % images.length);
-    const prev = () => setActiveIndex((prev) => (prev - 1 + images.length) % images.length);
+    const next = () => setActiveIndex((prev) => (prev + 1) % media.length);
+    const prev = () => setActiveIndex((prev) => (prev - 1 + media.length) % media.length);
+    const activeMedia = media[activeIndex];
+    const totalPhotos = media.filter((item) => item.type === 'image').length;
+    const totalVideos = media.filter((item) => item.type === 'video').length;
+
+    const renderMainMedia = (item: GalleryMedia, autoplay = false) => {
+        if (item.type === 'video') {
+            return (
+                <video
+                    src={item.url}
+                    poster={item.poster || undefined}
+                    autoPlay={autoplay}
+                    muted={autoplay}
+                    loop={autoplay}
+                    playsInline
+                    controls={!autoplay}
+                />
+            );
+        }
+
+        return <img src={item.urlHd || item.url} alt={item.caption || 'Hotel'} />;
+    };
+
+    const renderThumbMedia = (item: GalleryMedia, alt: string) => (
+        <>
+            <img src={item.poster || item.url} alt={alt} />
+            {item.type === 'video' && (
+                <div className="hd-media-play-badge" aria-hidden="true">
+                    <Play size={16} fill="currentColor" />
+                </div>
+            )}
+        </>
+    );
+
+    const overlayLabel = [
+        totalVideos ? `${totalVideos} video${totalVideos === 1 ? '' : 's'}` : '',
+        totalPhotos ? `${totalPhotos} photo${totalPhotos === 1 ? '' : 's'}` : '',
+    ].filter(Boolean).join(' • ');
 
     return (
         <>
             {/* Main Gallery Grid */}
             <div className="hd-gallery">
                 <div className="hd-gallery-main" onClick={() => setLightboxOpen(true)}>
-                    <img src={images[0]?.urlHd || images[0]?.url} alt={images[0]?.caption || 'Hotel'} />
+                    {renderMainMedia(media[0], true)}
                     <div className="hd-gallery-overlay">
-                        <ImageIcon size={20} />
-                        <span>{images.length} photos</span>
+                        {media[0]?.type === 'video' ? <Play size={18} fill="currentColor" /> : <ImageIcon size={20} />}
+                        <span>View gallery</span>
                     </div>
                 </div>
                 <div className="hd-gallery-side">
-                    {images.slice(1, 5).map((img, i) => (
+                    {media.slice(1, 5).map((item, i) => (
                         <div key={i} className="hd-gallery-thumb" onClick={() => { setActiveIndex(i + 1); setLightboxOpen(true); }}>
-                            <img src={img.url} alt={img.caption || `Photo ${i + 2}`} />
-                            {i === 3 && images.length > 5 && (
-                                <div className="hd-gallery-more">+{images.length - 5}</div>
+                            {renderThumbMedia(item, item.caption || `Media ${i + 2}`)}
+                            {i === 3 && media.length > 5 && (
+                                <div className="hd-gallery-more">+{media.length - 5}</div>
                             )}
                         </div>
                     ))}
@@ -58,23 +103,33 @@ function ImageGallery({ images }: { images: any[] }) {
                     <div className="hd-lightbox-content" onClick={(e) => e.stopPropagation()}>
                         <button className="hd-lightbox-close" onClick={() => setLightboxOpen(false)}><X size={24} /></button>
                         <button className="hd-lightbox-nav hd-lightbox-prev" onClick={prev}><ChevronLeft size={28} /></button>
-                        <img src={images[activeIndex]?.urlHd || images[activeIndex]?.url} alt={images[activeIndex]?.caption || ''} />
+                        {activeMedia?.type === 'video' ? (
+                            <video
+                                src={activeMedia.url}
+                                poster={activeMedia.poster || undefined}
+                                controls
+                                autoPlay
+                                playsInline
+                            />
+                        ) : (
+                            <img src={activeMedia?.urlHd || activeMedia?.url} alt={activeMedia?.caption || ''} />
+                        )}
                         <button className="hd-lightbox-nav hd-lightbox-next" onClick={next}><ChevronRight size={28} /></button>
                         <div className="hd-lightbox-caption">
-                            <span>{images[activeIndex]?.caption}</span>
-                            <span className="hd-lightbox-count">{activeIndex + 1} / {images.length}</span>
+                            <span>{activeMedia?.caption || (activeMedia?.type === 'video' ? 'Property video' : '')}</span>
+                            <span className="hd-lightbox-count">{activeIndex + 1} / {media.length}</span>
                         </div>
                     </div>
                     {/* Thumbnail strip */}
                     <div className="hd-lightbox-thumbstrip-wrap">
                         <div className="hd-lightbox-thumbstrip" ref={thumbRef}>
-                            {images.map((img, i) => (
+                            {media.map((item, i) => (
                                 <div
                                     key={i}
                                     className={`hd-lightbox-thumb ${i === activeIndex ? 'active' : ''}`}
                                     onClick={(e) => { e.stopPropagation(); setActiveIndex(i); }}
                                 >
-                                    <img src={img.url} alt={img.caption || ''} />
+                                    {renderThumbMedia(item, item.caption || '')}
                                 </div>
                             ))}
                         </div>
@@ -348,6 +403,23 @@ function HotelDetailsContent({ params }: { params: Promise<{ hotelId: string }> 
     if (!hotel) return <div className="hotel-details-page"><div className="empty-state">Hotel not found.</div></div>;
 
     const hotelPhotos = hotel.hotelImages || (hotel.main_photo ? [{ url: hotel.main_photo }] : []);
+    const hotelMedia: GalleryMedia[] = [
+        ...(hotel.heroVideo?.url
+            ? [{
+                type: 'video' as const,
+                url: hotel.heroVideo.url,
+                poster: hotel.heroVideo.poster || hotel.main_photo || hotelPhotos[0]?.url || null,
+                caption: 'Property video',
+            }]
+            : []),
+        ...hotelPhotos.map((image: any) => ({
+            type: 'image' as const,
+            url: image.url,
+            urlHd: image.urlHd,
+            caption: image.caption,
+            poster: image.url,
+        })),
+    ];
     const facilities = hotel.hotelFacilities || [];
     const rooms = hotel.rooms || [];
     const checkinInfo = hotel.checkinCheckoutTimes;
@@ -377,7 +449,7 @@ function HotelDetailsContent({ params }: { params: Promise<{ hotelId: string }> 
             </button>
 
             {/* Image Gallery */}
-            <ImageGallery images={hotelPhotos} />
+            <ImageGallery media={hotelMedia} />
 
             {/* Hotel Header */}
             <div className="hd-header">

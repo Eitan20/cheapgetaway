@@ -1,106 +1,188 @@
 
 > cheap-getaway-app@1.0.0 dev
-> next dev -p 3001
+> node scripts/dev-next.mjs
 
    ▲ Next.js 15.0.7
    - Local:        http://localhost:3001
 
  ✓ Starting...
- ✓ Ready in 1553ms
+ ✓ Ready in 1401ms
  ○ Compiling / ...
- ✓ Compiled / in 4.1s (714 modules)
- GET / 200 in 4510ms
- GET / 200 in 99ms
+ ✓ Compiled / in 4s (742 modules)
+ GET / 200 in 4497ms
+ ✓ Compiled in 473ms (351 modules)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving '../../../typescript/lib/typescript' in c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build for build dependencies doesn't lead to expected result 'C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\typescript\lib\typescript.js', but to 'c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\typescript\lib\typescript.js' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ../../../typescript/lib/typescript (expected C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\typescript\lib\typescript.js)
+<w>  at file dependencies c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\load-jsconfig.js
+<w>  at file c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\load-jsconfig.js
+<w>  at file dependencies c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\server\dev\turbopack-utils.js
+<w>  at file c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\server\dev\turbopack-utils.js
+<w>  at file dependencies c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\swc\index.js
+<w>  at file c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\swc\index.js
+<w>  at file dependencies c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\analysis\parse-module.js
+<w>  at file c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\analysis\parse-module.js
+<w>  at file dependencies c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\analysis\get-page-static-info.js
+<w>  at file c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\analysis\get-page-static-info.js
+<w>  at file dependencies c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\webpack\loaders\next-flight-loader\index.js
+<w>  at file c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\webpack\loaders\next-flight-loader\index.js
+<w>  at resolve commonjs c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\webpack\loaders\next-flight-loader\index.js
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving '../../../typescript/lib/typescript' in c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build for build dependencies doesn't lead to expected result 'C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\typescript\lib\typescript.js', but to 'c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\typescript\lib\typescript.js' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ../../../typescript/lib/typescript (expected C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\typescript\lib\typescript.js)
+<w>  at file dependencies c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\load-jsconfig.js
+<w>  at file c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\load-jsconfig.js
+<w>  at file dependencies c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\server\dev\turbopack-utils.js
+<w>  at file c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\server\dev\turbopack-utils.js
+<w>  at file dependencies c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\swc\index.js
+<w>  at file c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\swc\index.js
+<w>  at file dependencies c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\webpack\loaders\next-barrel-loader.js
+<w>  at file c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\webpack\loaders\next-barrel-loader.js
+<w>  at resolve commonjs c:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\webpack\loaders\next-barrel-loader.js
+ GET /? 200 in 146ms
  ○ Compiling /api/min-rates ...
- ✓ Compiled /api/min-rates in 803ms (734 modules)
- POST /api/min-rates 200 in 2459ms
- ✓ Compiled /api/data/hotel in 219ms (736 modules)
- GET /api/data/hotel?hotelId=lp1a7fc 200 in 394ms
- GET /api/data/hotel?hotelId=lp1a6b0 200 in 118ms
- GET /api/data/hotel?hotelId=lp1a278 200 in 109ms
- GET /api/data/hotel?hotelId=lp1a88f 200 in 88ms
- POST /api/rates 200 in 4405ms
- ✓ Compiled /api/places in 296ms (738 modules)
- GET /api/places?textQuery=mia 200 in 682ms
+ ✓ Compiled /api/min-rates in 865ms (739 modules)
+ POST /api/min-rates 200 in 2510ms
+ ○ Compiling /api/data/hotel ...
+ ✓ Compiled /api/data/hotel in 507ms (741 modules)
+ GET /api/data/hotel?hotelId=lp1a7fc 200 in 1010ms
+ GET /api/data/hotel?hotelId=lp1a6b0 200 in 277ms
+ GET /api/data/hotel?hotelId=lp1a278 200 in 363ms
+ GET /api/data/hotel?hotelId=lp1a88f 200 in 233ms
+ POST /api/rates 200 in 4649ms
  ○ Compiling /search ...
- ✓ Compiled /search in 816ms (753 modules)
- GET /search?checkin=2026-03-10&checkout=2026-03-12&adults=2&mode=standard&type=standard&placeId=ChIJEcHIDqKw2YgRZU-t3XHylv8&placeName=Miami 200 in 967ms
- ✓ Compiled /api/data/hotels in 280ms (755 modules)
- GET /api/data/hotels?placeId=ChIJEcHIDqKw2YgRZU-t3XHylv8&limit=60 200 in 563ms
- GET /api/data/hotels?placeId=ChIJEcHIDqKw2YgRZU-t3XHylv8&limit=60 200 in 162ms
- POST /api/rates 200 in 2425ms
- POST /api/rates 200 in 3352ms
+ ✓ Compiled /search in 1242ms (776 modules)
+ GET /search?aiSearch=beachfront+resort&checkin=2026-03-24&checkout=2026-03-27&adults=2&type=ai 200 in 1352ms
+ ✓ Compiled /api/data/hotels/semantic-search in 263ms (778 modules)
+ GET /api/data/hotels/semantic-search?query=beachfront%20resort&limit=30 200 in 557ms
+ GET /api/data/hotels/semantic-search?query=beachfront%20resort&limit=30 200 in 229ms
+ POST /api/rates 200 in 1529ms
+ POST /api/rates 200 in 1771ms
+ GET / 200 in 221ms
+ POST /api/rates 200 in 219ms
+ POST /api/rates 200 in 222ms
+ POST /api/min-rates 200 in 1252ms
+ GET /api/data/hotel?hotelId=lp1a7fc 200 in 268ms
+ GET /api/data/hotel?hotelId=lp1a6b0 200 in 331ms
+ GET /api/data/hotel?hotelId=lp1a278 200 in 248ms
+ GET /api/data/hotel?hotelId=lp1a88f 200 in 277ms
+ ○ Compiling /api/places ...
+ POST /api/min-rates 200 in 2950ms
+ ✓ Compiled /api/places in 912ms (780 modules)
+ GET /api/places?textQuery=mia 200 in 1044ms
+ GET /api/places?textQuery=miai 200 in 806ms
+ GET /api/data/hotel?hotelId=lp1a7fc 200 in 661ms
+ GET /api/data/hotel?hotelId=lp1a6b0 200 in 229ms
+ GET /api/data/hotel?hotelId=lp1a278 200 in 293ms
+ GET /api/data/hotel?hotelId=lp1a88f 200 in 1008ms
+ GET /search?checkin=2026-03-11&checkout=2026-03-13&adults=2&mode=standard&type=standard&placeId=ChIJ1YpTHd4dsEwR0KggZ2_MedY&placeName=Maine 200 in 112ms
+ ✓ Compiled /api/data/places/[placeId] in 264ms (782 modules)
+ GET /api/data/places/ChIJ1YpTHd4dsEwR0KggZ2_MedY 200 in 800ms
+ ✓ Compiled /api/data/hotels in 453ms (784 modules)
+ GET /api/data/places/ChIJ1YpTHd4dsEwR0KggZ2_MedY 200 in 731ms
+ GET /api/data/hotels?placeId=ChIJ1YpTHd4dsEwR0KggZ2_MedY&limit=60 200 in 807ms
+ GET /api/data/hotels?placeId=ChIJ1YpTHd4dsEwR0KggZ2_MedY&limit=60 200 in 245ms
+ POST /api/rates 200 in 1895ms
+ ○ Compiling /api/data/facilities ...
+ ✓ Compiled /api/data/facilities in 542ms (790 modules)
+ GET /api/data/hoteltypes?ids=204,205,218 200 in 739ms
+ GET /api/data/chains?ids=2188,1851,1029,2301,12132,2187,1122,2378,4444,1072,1738 200 in 820ms
+ POST /api/rates 200 in 2697ms
+ GET /api/data/chains?ids=2188,1851,1029,2301,12132,2187,1122,2378,4444,1072,1738 200 in 24ms
+ GET /api/data/hoteltypes?ids=204,205,218 200 in 33ms
+ GET /api/data/facilities?ids=16,109,455,451,449,540,761,857,2083,81,457,459,584,720,462,468,48,456,25,108,916,301,49,488,568,6848,425,422,453,757,467,675,461,464,630,51,420,784,460,28,458,828,859,222,195,714,185,424,521,465,497,200,486,500,4,143,205,421,418,419,91,809,631,803,835,966,452,188,1005,15,3,176,485,981,856,882,411,407,626,789,1003,642,5,72,402,454,2413,141,487,967,211,768,64,697,900,2170,170,147,223,531 200 in 1459ms
+ GET /api/data/facilities?ids=16,109,455,451,449,540,761,857,2083,81,457,459,584,720,462,468,48,456,25,108,916,301,49,488,568,6848,425,422,453,757,467,675,461,464,630,51,420,784,460,28,458,828,859,222,195,714,185,424,521,465,497,200,486,500,4,143,205,421,418,419,91,809,631,803,835,966,452,188,1005,15,3,176,485,981,856,882,411,407,626,789,1003,642,5,72,402,454,2413,141,487,967,211,768,64,697,900,2170,170,147,223,531 200 in 17ms
+ GET /api/data/facilities?ids=930,196,219,63,127,101,409 200 in 1788ms
+ GET /api/data/facilities?ids=930,196,219,63,127,101,409 200 in 18ms
+ GET / 200 in 71ms
+ POST /api/rates 200 in 338ms
+ POST /api/rates 200 in 342ms
+ POST /api/min-rates 200 in 1376ms
+ POST /api/min-rates 200 in 1380ms
+ GET /api/data/hotel?hotelId=lp1a7fc 200 in 336ms
+ GET /api/data/hotel?hotelId=lp1a7fc 200 in 309ms
+ GET /api/data/hotel?hotelId=lp1a6b0 200 in 335ms
+ GET /api/data/hotel?hotelId=lp1a6b0 200 in 287ms
+ GET /api/data/hotel?hotelId=lp1a278 200 in 319ms
+ GET /api/data/hotel?hotelId=lp1a278 200 in 366ms
+ GET /api/data/hotel?hotelId=lp1a88f 200 in 359ms
+ GET /api/data/hotel?hotelId=lp1a88f 200 in 249ms
+ GET /api/places?textQuery=mia 200 in 81ms
+ GET /api/places?textQuery=miai 200 in 62ms
+ GET /api/places?textQuery=mia 200 in 88ms
+ GET /search?checkin=2026-03-11&checkout=2026-03-13&adults=2&mode=standard&type=standard&placeId=ChIJEcHIDqKw2YgRZU-t3XHylv8&placeName=Miami 200 in 73ms
+ GET /api/data/places/ChIJEcHIDqKw2YgRZU-t3XHylv8 200 in 65ms
+ GET /api/data/places/ChIJEcHIDqKw2YgRZU-t3XHylv8 200 in 64ms
+ GET /api/data/hotels?placeId=ChIJEcHIDqKw2YgRZU-t3XHylv8&limit=60 200 in 165ms
+ GET /api/data/hotels?placeId=ChIJEcHIDqKw2YgRZU-t3XHylv8&limit=60 200 in 80ms
+ POST /api/rates 200 in 3173ms
+ GET /api/data/facilities?ids=857,584,16,109,25,540,761,455,108,451,449,916,48,835,301,91,459,468,185,714,6848,757,51,81,457,422,859,828,49,784,425,222,462,461,420,467,456,453,521,675,568,497,460,15,1005,465,124,418,3,4,421,880,2083,454,424,488,485,720,143,464,626,195,188,1003,219,28,486,642,500,63,809,452,458,5,101,407,211,989,466,176,708,419,491,535,170,2413,967,189,205,966,712,1725,107,8,492,519,827,941,944,10 200 in 70ms
+ GET /api/data/chains?ids=1122,1851,2301,1080,1093,1078,12893,4444,2811,14675,1129,14682,12918,14671,1121,1772,1748,14292,2542,3631,1982,6532,2285 200 in 98ms
+ GET /api/data/facilities?ids=147,200,463,213,223,14,533,564,1814,901,942,597,44,218,1021,1022,1842,502,513,543,590,936,946,974,241,503,592,593,678,723,78,848,969,970,987,999,1002,1014,127,411,75,217,487,581,1091,1102,557,561,933,937,975,508,516,782,64,55,856,2261,995,2020 200 in 103ms
+ GET /api/data/hoteltypes?ids=218,204,205,201 200 in 107ms
+ POST /api/rates 200 in 3214ms
+ GET /api/data/chains?ids=1122,1851,2301,1080,1093,1078,12893,4444,2811,14675,1129,14682,12918,14671,1121,1772,1748,14292,2542,3631,1982,6532,2285 200 in 67ms
+ GET /api/data/hoteltypes?ids=218,204,205,201 200 in 76ms
+ GET /api/data/facilities?ids=857,584,16,109,25,540,761,455,108,451,449,916,48,835,301,91,459,468,185,714,6848,757,51,81,457,422,859,828,49,784,425,222,462,461,420,467,456,453,521,675,568,497,460,15,1005,465,124,418,3,4,421,880,2083,454,424,488,485,720,143,464,626,195,188,1003,219,28,486,642,500,63,809,452,458,5,101,407,211,989,466,176,708,419,491,535,170,2413,967,189,205,966,712,1725,107,8,492,519,827,941,944,10 200 in 87ms
+ GET /api/data/facilities?ids=147,200,463,213,223,14,533,564,1814,901,942,597,44,218,1021,1022,1842,502,513,543,590,936,946,974,241,503,592,593,678,723,78,848,969,970,987,999,1002,1014,127,411,75,217,487,581,1091,1102,557,561,933,937,975,508,516,782,64,55,856,2261,995,2020 200 in 87ms
+ GET / 200 in 38ms
+ POST /api/rates 200 in 325ms
+ POST /api/rates 200 in 391ms
+ POST /api/min-rates 200 in 1369ms
+ POST /api/min-rates 200 in 1478ms
+ GET /api/data/hotel?hotelId=lp1a7fc 200 in 256ms
+ ○ Compiling /api/data/hotel/resolve ...
+ ✓ Compiled /api/data/hotel/resolve in 933ms (790 modules)
+ GET /api/data/hotel?hotelId=lp1a7fc 200 in 1170ms
+ GET /api/data/hotel/resolve?name=The+Royal+Park+Hotel+Iconic+Tokyo+Shiodome&address=Tokyo%2C+1-6-3+Higashishimbashi%2C+Minato+City 200 in 1256ms
+ GET /api/data/hotel?hotelId=lp1a6b0 200 in 1196ms
  ○ Compiling /hotel/[hotelId] ...
- ✓ Compiled /hotel/[hotelId] in 884ms (792 modules)
- GET /hotel/lp1ca82?checkin=2026-03-10&checkout=2026-03-12&adults=2 200 in 1397ms
- ✓ Compiled /api/data/reviews in 295ms (794 modules)
- GET /api/data/hotel?hotelId=lp1ca82 200 in 318ms
- GET /api/data/hotel?hotelId=lp1ca82 200 in 182ms
- GET /api/data/reviews?hotelId=lp1ca82&limit=5 200 in 607ms
- GET /api/data/reviews?hotelId=lp1ca82&limit=5 200 in 106ms
- POST /api/rates 200 in 1228ms
- POST /api/rates 200 in 1468ms
- ✓ Compiled /api/data/hotel/ask in 354ms (790 modules)
- GET /api/data/hotel/ask?hotelId=lp1ca82&query=Is%20parking%20available%3F 200 in 1386ms
- GET /api/data/hotel/ask?hotelId=lp1ca82&query=What%20time%20is%20check-in%3F 200 in 791ms
- ✓ Compiled /api/data/hotels in 142ms (427 modules)
- GET /api/data/hotels?placeId=ChIJEcHIDqKw2YgRZU-t3XHylv8&limit=60 200 in 452ms
- ✓ Compiled /api/rates in 155ms (429 modules)
- GET /api/data/hotels?placeId=ChIJEcHIDqKw2YgRZU-t3XHylv8&limit=60 200 in 191ms
- POST /api/rates 200 in 326ms
- POST /api/rates 200 in 296ms
- ⨯ ./src/components/SearchForm.tsx
-Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
-     ,-[[36;1;4mC:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\src\components\SearchForm.tsx[0m:150:1]
- [2m147[0m |     };
- [2m148[0m | 
- [2m149[0m |     return (
- [2m150[0m |         <div className="search-module">
-     : [35;1m         ^^^[0m
- [2m151[0m |             <div className="search-mode-switch" role="tablist" aria-label="Search mode">
- [2m152[0m |                 <button
- [2m153[0m |                     type="button"
-     `----
-
-Caused by:
-    Syntax Error
-
-Import trace for requested module:
-./src/components/SearchForm.tsx
-./src/components/Hero.tsx
- ✓ Compiled in 459ms (767 modules)
- ✓ Compiled in 602ms (765 modules)
- ✓ Compiled in 342ms (765 modules)
- GET / 200 in 172ms
- ✓ Compiled /api/min-rates in 150ms (424 modules)
- ✓ Compiled (426 modules)
- POST /api/rates 200 in 696ms
- POST /api/rates 200 in 690ms
- POST /api/min-rates 200 in 1781ms
- POST /api/min-rates 200 in 1782ms
- ✓ Compiled /api/data/hotel in 141ms (428 modules)
- GET /api/data/hotel?hotelId=lp1a7fc 200 in 295ms
- GET /api/data/hotel?hotelId=lp1a6b0 200 in 60ms
- GET /api/data/hotel?hotelId=lp1a7fc 200 in 69ms
- GET /api/data/hotel?hotelId=lp1a6b0 200 in 70ms
- GET /api/data/hotel?hotelId=lp1a278 200 in 137ms
- GET /api/data/hotel?hotelId=lp1a88f 200 in 60ms
- GET /api/data/hotel?hotelId=lp1a278 200 in 104ms
- GET /api/data/hotel?hotelId=lp1a88f 200 in 107ms
- ✓ Compiled in 285ms (786 modules)
- GET /hotel/lp1a88f?checkin=2026-03-13&checkout=2026-03-15&adults=2 200 in 108ms
- GET /api/data/hotel?hotelId=lp1a88f 200 in 235ms
- ✓ Compiled /api/data/reviews in 230ms (430 modules)
- GET /api/data/hotel?hotelId=lp1a88f 200 in 197ms
- GET /api/data/reviews?hotelId=lp1a88f&limit=5 200 in 524ms
- GET /api/data/reviews?hotelId=lp1a88f&limit=5 200 in 50ms
- POST /api/rates 200 in 994ms
- POST /api/rates 200 in 1098ms
- ✓ Compiled in 326ms (788 modules)
- ✓ Compiled in 565ms (802 modules)
- GET /hotel/lp1a88f?checkin=2026-03-13&checkout=2026-03-15&adults=2 200 in 111ms
- ✓ Compiled in 405ms (802 modules)
- GET /hotel/lp1a88f?checkin=2026-03-13&checkout=2026-03-15&adults=2 200 in 90ms
- ✓ Compiled in 573ms (788 modules)
- ✓ Compiled in 456ms (763 modules)
- ✓ Compiled in 408ms (763 modules)
+ ✓ Compiled /hotel/[hotelId] in 1589ms (825 modules)
+ GET /api/data/hotel?hotelId=lp1a6b0 200 in 2182ms
+ GET /api/data/hotel?hotelId=lp1a278 200 in 2189ms
+ GET /api/data/hotel/resolve?name=Pullman+Paris+Tour+Eiffel&address=Paris%2C+18+avenue+de+Suffren 200 in 1151ms
+ GET /hotel/lp32483?checkin=2026-04-10&checkout=2026-04-11&adults=2 200 in 2387ms
+ GET /hotel/lp27e2f?checkin=2026-04-10&checkout=2026-04-11&adults=2 200 in 95ms
+ GET /api/data/hotel?hotelId=lp1a88f 200 in 297ms
+ GET /api/data/hotel?hotelId=lp1a278 200 in 418ms
+ ○ Compiling /api/data/reviews ...
+ ✓ Compiled /api/data/reviews in 975ms (827 modules)
+ GET /api/data/hotel?hotelId=lp1a88f 200 in 1003ms
+ GET /api/data/reviews?hotelId=lp27e2f&limit=5 200 in 1287ms
+ GET /api/data/hotel?hotelId=lp27e2f 200 in 1320ms
+ GET /api/data/reviews?hotelId=lp27e2f&limit=5 200 in 166ms
+ GET /api/data/hotel?hotelId=lp27e2f 200 in 360ms
+ POST /api/rates 200 in 3083ms
+ POST /api/rates 200 in 2750ms
+ GET / 200 in 106ms
+ POST /api/rates 200 in 97ms
+ POST /api/rates 200 in 106ms
+ POST /api/min-rates 200 in 1312ms
+ POST /api/min-rates 200 in 1528ms
+ GET /api/data/hotel?hotelId=lp1a7fc 200 in 268ms
+ GET /api/data/hotel/resolve?name=Four+Seasons+Resort+Dubai+at+Jumeirah+Beach&address=Dubai%2C+Jumeirah+Beach+Road%2C+Jumeirah+2 200 in 275ms
+ GET /hotel/lp72e2c?checkin=2026-04-10&checkout=2026-04-11&adults=2 200 in 54ms
+ GET /api/data/hotel?hotelId=lp1a7fc 200 in 198ms
+ GET /api/data/hotel?hotelId=lp1a6b0 200 in 275ms
+ GET /api/data/hotel?hotelId=lp72e2c 200 in 218ms
+ GET /api/data/hotel?hotelId=lp1a6b0 200 in 179ms
+ GET /api/data/reviews?hotelId=lp72e2c&limit=5 200 in 255ms
+ GET /api/data/reviews?hotelId=lp72e2c&limit=5 200 in 55ms
+ GET /api/data/hotel?hotelId=lp1a278 200 in 253ms
+ GET /api/data/hotel?hotelId=lp72e2c 200 in 253ms
+ GET /api/data/hotel?hotelId=lp1a88f 200 in 204ms
+ GET /api/data/hotel?hotelId=lp1a278 200 in 242ms
+ GET /api/data/hotel?hotelId=lp1a88f 200 in 225ms
+ POST /api/rates 200 in 1066ms
+ POST /api/rates 200 in 1471ms
+ GET / 200 in 51ms
+ POST /api/rates 200 in 270ms
+ POST /api/rates 200 in 284ms
+ POST /api/min-rates 200 in 1368ms
+ POST /api/min-rates 200 in 1372ms
+ GET /api/data/hotel?hotelId=lp1a7fc 200 in 265ms
+ GET /api/data/hotel?hotelId=lp1a6b0 200 in 273ms
+ GET /api/data/hotel?hotelId=lp1a7fc 200 in 281ms
+ GET /api/data/hotel?hotelId=lp1a278 200 in 255ms
+ GET /api/data/hotel?hotelId=lp1a6b0 200 in 255ms
+ GET /api/data/hotel?hotelId=lp1a278 200 in 228ms
+ GET /api/data/hotel?hotelId=lp1a88f 200 in 297ms
+ GET /api/data/hotel?hotelId=lp1a88f 200 in 211ms

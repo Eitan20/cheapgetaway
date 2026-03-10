@@ -10,6 +10,7 @@ export default function Navbar() {
     const pathname = usePathname();
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
+    const hideNavbar = pathname === '/search';
     const useSolidNav = pathname !== '/' || scrolled;
 
     useEffect(() => {
@@ -30,6 +31,8 @@ export default function Navbar() {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    if (hideNavbar) return null;
 
     return (
         <nav className={`nav-glass ${useSolidNav ? 'scrolled' : ''}`}>

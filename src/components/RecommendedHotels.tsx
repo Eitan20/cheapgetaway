@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight, MapPin, Star } from "lucide-react";
 
@@ -70,44 +70,63 @@ function getNextStayDates() {
 
 export default function RecommendedHotels() {
     const router = useRouter();
-    const trackRef = useRef<HTMLDivElement>(null);
-    const [canScrollLeft, setCanScrollLeft] = useState(false);
-    const [canScrollRight, setCanScrollRight] = useState(true);
+    const [resolvingHotel, setResolvingHotel] = useState<string | null>(null);
+    const [page, setPage] = useState(0);
     const { checkin, checkout } = getNextStayDates();
+    const pageSize = 3;
+    const pageCount = Math.ceil(RECOMMENDED_HOTELS.length / pageSize);
+    const pageStart = page * pageSize;
+    const visibleHotels = RECOMMENDED_HOTELS.slice(pageStart, pageStart + pageSize);
+    const canGoLeft = page > 0;
+    const canGoRight = page < pageCount - 1;
 
-    useEffect(() => {
-        const track = trackRef.current;
-        if (!track) return;
+    const handleHotelClick = async (hotel: RecommendedHotel) => {
+        if (resolvingHotel) return;
 
-        const updateScrollState = () => {
-            const maxScrollLeft = track.scrollWidth - track.clientWidth;
-            setCanScrollLeft(track.scrollLeft > 4);
-            setCanScrollRight(maxScrollLeft - track.scrollLeft > 4);
-        };
+        const fallbackQuery = `${hotel.name} ${hotel.address}`.trim();
+        setResolvingHotel(hotel.name);
 
-        updateScrollState();
-        track.addEventListener("scroll", updateScrollState, { passive: true });
-        window.addEventListener("resize", updateScrollState);
+        try {
+            const params = new URLSearchParams({
+                name: hotel.name,
+                address: hotel.address,
+            });
+            const controller = new AbortController();
+            const timeoutId = window.setTimeout(() => controller.abort(), 3500);
 
-        const observer = new ResizeObserver(updateScrollState);
-        observer.observe(track);
+            let res: Response;
+            try {
+                res = await fetch(`/api/data/hotel/resolve?${params.toString()}`, {
+                    signal: controller.signal,
+                });
+            } finally {
+                window.clearTimeout(timeoutId);
+            }
 
-        return () => {
-            track.removeEventListener("scroll", updateScrollState);
-            window.removeEventListener("resize", updateScrollState);
-            observer.disconnect();
-        };
-    }, []);
+            if (res.ok) {
+                const payload = await res.json();
+                if (payload?.hotelId) {
+                    router.push(`/hotel/${payload.hotelId}?checkin=${checkin}&checkout=${checkout}&adults=2`);
+                    return;
+                }
+            }
+        } catch (error) {
+            console.error("Failed to resolve recommended hotel:", error);
+        } finally {
+            setResolvingHotel(null);
+        }
 
-    const scrollByCard = (direction: "left" | "right") => {
-        const track = trackRef.current;
-        if (!track) return;
+        router.push(`/search?type=ai&mode=ai&aiQuery=${encodeURIComponent(fallbackQuery)}&checkin=${checkin}&checkout=${checkout}&adults=2`);
+    };
 
-        const amount = Math.max(320, Math.round(track.clientWidth * 0.92));
-        track.scrollBy({
-            left: direction === "left" ? -amount : amount,
-            behavior: "smooth"
-        });
+    const handlePrev = () => {
+        if (!canGoLeft) return;
+        setPage((current) => Math.max(0, current - 1));
+    };
+
+    const handleNext = () => {
+        if (!canGoRight) return;
+        setPage((current) => Math.min(pageCount - 1, current + 1));
     };
 
     return (
@@ -121,30 +140,31 @@ export default function RecommendedHotels() {
                     <button
                         type="button"
                         className="recommended-hotels-nav-btn"
-                        aria-label="Scroll recommended hotels left"
-                        onClick={() => scrollByCard("left")}
-                        disabled={!canScrollLeft}
+                        aria-label="Show previous recommended hotels"
+                        onClick={handlePrev}
+                        disabled={!canGoLeft}
                     >
                         <ChevronLeft size={24} />
                     </button>
                     <button
                         type="button"
                         className="recommended-hotels-nav-btn"
-                        aria-label="Scroll recommended hotels right"
-                        onClick={() => scrollByCard("right")}
-                        disabled={!canScrollRight}
+                        aria-label="Show more recommended hotels"
+                        onClick={handleNext}
+                        disabled={!canGoRight}
                     >
                         <ChevronRight size={24} />
                     </button>
                 </div>
             </div>
 
-            <div className="recommended-hotels-track hide-scrollbar" ref={trackRef}>
-                {RECOMMENDED_HOTELS.map((hotel) => (
+            <div className="recommended-hotels-track">
+                {visibleHotels.map((hotel) => (
                     <article
                         key={hotel.name}
                         className="recommended-hotel-card"
-                        onClick={() => router.push(`/search?type=ai&mode=ai&aiQuery=${encodeURIComponent(hotel.name)}&checkin=${checkin}&checkout=${checkout}&adults=2`)}
+                        onClick={() => void handleHotelClick(hotel)}
+                        aria-busy={resolvingHotel === hotel.name}
                     >
                         <div className="recommended-hotel-image-wrap">
                             <img src={hotel.image} alt={hotel.name} loading="lazy" />

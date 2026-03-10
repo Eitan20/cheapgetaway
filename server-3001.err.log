@@ -1,0 +1,305 @@
+Error: Route "/api/data/places/[placeId]" used `params.placeId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at createParamsAccessError (webpack://next/dist/src/server/request/params.ts:467:9)
+    at getMessage (webpack://next/dist/src/server/create-deduped-by-callsite-server-error-logger.ts:46:20)
+    at warnForSyncAccess (webpack://next/dist/src/server/request/params.ts:445:4)
+    at syncIODev (webpack://next/dist/src/server/request/params.ts:403:10)
+    at placeId (src\app\api\data\places\[placeId]\route.ts:10:86)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:529:41)
+    at handler (webpack://next/dist/src/server/route-modules/app-route/module.ts:725:18)
+    at fn (node_modules\next\src\server\lib\trace\tracer.ts:351:27)
+    at NoopContextManager.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at NoopTracer.startActiveSpan (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18093)
+    at ProxyTracer.startActiveSpan (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18854)
+    at startActiveSpan (node_modules\next\src\server\lib\trace\tracer.ts:304:31)
+    at NoopContextManager.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at spanContext (node_modules\next\src\server\lib\trace\tracer.ts:303:24)
+    at trace (webpack://next/dist/src/server/route-modules/app-route/module.ts:715:26)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:662:32)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:661:34)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:658:60)
+    at handle (node_modules\next\src\server\base-server.ts:2504:47)
+    at doRender (node_modules\next\src\server\base-server.ts:3027:27)
+    at responseGenerator (node_modules\next\src\server\response-cache\index.ts:67:13)
+    at get (node_modules\next\src\server\base-server.ts:3039:48)
+    at async DevServer.renderPageComponent (node_modules\next\src\server\base-server.ts:3597:15)
+    at async DevServer.renderToResponseImpl (node_modules\next\src\server\base-server.ts:3659:23)
+    at async DevServer.pipeImpl (node_modules\next\src\server\base-server.ts:1698:20)
+    at async NextNodeServer.handleCatchallRenderRequest (node_modules\next\src\server\next-server.ts:1034:6)
+    at async DevServer.handleRequestImpl (node_modules\next\src\server\base-server.ts:1462:8)
+    at async (node_modules\next\src\server\dev\next-dev-server.ts:514:13)
+    at async Span.traceAsyncFn (node_modules\next\src\trace\trace.ts:143:13)
+    at async DevServer.handleRequest (node_modules\next\src\server\dev\next-dev-server.ts:512:19)
+    at async invokeRender (node_modules\next\src\server\lib\router-server.ts:284:10)
+    at async handleRequest (node_modules\next\src\server\lib\router-server.ts:530:15)
+    at async requestHandlerImpl (node_modules\next\src\server\lib\router-server.ts:576:6)
+    at async Server.requestListener (node_modules\next\src\server\lib\start-server.ts:146:6)
+  465 | ) {
+  466 |   const prefix = route ? `Route "${route}" ` : 'This route '
+> 467 |   return new Error(
+      |         ^
+  468 |     `${prefix}used ${expression}. ` +
+  469 |       `\`params\` should be awaited before using its properties. ` +
+  470 |       `Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis`
+Error: Route "/api/data/places/[placeId]" used `params.placeId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at createParamsAccessError (webpack://next/dist/src/server/request/params.ts:467:9)
+    at getMessage (webpack://next/dist/src/server/create-deduped-by-callsite-server-error-logger.ts:46:20)
+    at warnForSyncAccess (webpack://next/dist/src/server/request/params.ts:445:4)
+    at syncIODev (webpack://next/dist/src/server/request/params.ts:403:10)
+    at placeId (src\app\api\data\places\[placeId]\route.ts:10:86)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:529:41)
+    at handler (webpack://next/dist/src/server/route-modules/app-route/module.ts:725:18)
+    at fn (node_modules\next\src\server\lib\trace\tracer.ts:351:27)
+    at NoopContextManager.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at NoopTracer.startActiveSpan (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18093)
+    at ProxyTracer.startActiveSpan (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18854)
+    at startActiveSpan (node_modules\next\src\server\lib\trace\tracer.ts:304:31)
+    at NoopContextManager.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at spanContext (node_modules\next\src\server\lib\trace\tracer.ts:303:24)
+    at trace (webpack://next/dist/src/server/route-modules/app-route/module.ts:715:26)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:662:32)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:661:34)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:658:60)
+    at handle (node_modules\next\src\server\base-server.ts:2504:47)
+    at doRender (node_modules\next\src\server\base-server.ts:3027:27)
+    at responseGenerator (node_modules\next\src\server\response-cache\index.ts:67:13)
+    at get (node_modules\next\src\server\base-server.ts:3039:48)
+  465 | ) {
+  466 |   const prefix = route ? `Route "${route}" ` : 'This route '
+> 467 |   return new Error(
+      |         ^
+  468 |     `${prefix}used ${expression}. ` +
+  469 |       `\`params\` should be awaited before using its properties. ` +
+  470 |       `Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis`
+ ⨯ Failed to generate static paths for /api/data/places/[placeId]:
+SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>)
+    at parse (node_modules\next\src\server\load-manifest.ts:44:22)
+    at path (node_modules\next\src\server\require.ts:37:6)
+    at getMaybePagePath (node_modules\next\src\server\require.ts:93:19)
+    at getPagePath (node_modules\next\src\server\require.ts:107:19)
+    at page (node_modules\next\src\server\load-components.ts:189:41)
+    at async Object.loadStaticPaths (node_modules\next\src\server\dev\static-paths-worker.ts:79:21) {
+  type: 'SyntaxError'
+}
+Error: Route "/api/data/places/[placeId]" used `params.placeId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at createParamsAccessError (webpack://next/dist/src/server/request/params.ts:467:9)
+    at getMessage (webpack://next/dist/src/server/create-deduped-by-callsite-server-error-logger.ts:46:20)
+    at warnForSyncAccess (webpack://next/dist/src/server/request/params.ts:445:4)
+    at syncIODev (webpack://next/dist/src/server/request/params.ts:403:10)
+    at placeId (src\app\api\data\places\[placeId]\route.ts:10:86)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:529:41)
+    at handler (webpack://next/dist/src/server/route-modules/app-route/module.ts:725:18)
+    at fn (node_modules\next\src\server\lib\trace\tracer.ts:351:27)
+    at NoopContextManager.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at NoopTracer.startActiveSpan (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18093)
+    at ProxyTracer.startActiveSpan (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18854)
+    at startActiveSpan (node_modules\next\src\server\lib\trace\tracer.ts:304:31)
+    at NoopContextManager.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at spanContext (node_modules\next\src\server\lib\trace\tracer.ts:303:24)
+    at trace (webpack://next/dist/src/server/route-modules/app-route/module.ts:715:26)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:662:32)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:661:34)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:658:60)
+    at handle (node_modules\next\src\server\base-server.ts:2504:47)
+    at doRender (node_modules\next\src\server\base-server.ts:3027:27)
+    at responseGenerator (node_modules\next\src\server\response-cache\index.ts:67:13)
+    at get (node_modules\next\src\server\base-server.ts:3039:48)
+    at async DevServer.renderPageComponent (node_modules\next\src\server\base-server.ts:3597:15)
+    at async DevServer.renderToResponseImpl (node_modules\next\src\server\base-server.ts:3659:23)
+    at async DevServer.pipeImpl (node_modules\next\src\server\base-server.ts:1698:20)
+    at async NextNodeServer.handleCatchallRenderRequest (node_modules\next\src\server\next-server.ts:1034:6)
+    at async DevServer.handleRequestImpl (node_modules\next\src\server\base-server.ts:1462:8)
+    at async (node_modules\next\src\server\dev\next-dev-server.ts:514:13)
+    at async Span.traceAsyncFn (node_modules\next\src\trace\trace.ts:143:13)
+    at async DevServer.handleRequest (node_modules\next\src\server\dev\next-dev-server.ts:512:19)
+    at async invokeRender (node_modules\next\src\server\lib\router-server.ts:284:10)
+    at async handleRequest (node_modules\next\src\server\lib\router-server.ts:530:15)
+    at async requestHandlerImpl (node_modules\next\src\server\lib\router-server.ts:576:6)
+    at async Server.requestListener (node_modules\next\src\server\lib\start-server.ts:146:6)
+  465 | ) {
+  466 |   const prefix = route ? `Route "${route}" ` : 'This route '
+> 467 |   return new Error(
+      |         ^
+  468 |     `${prefix}used ${expression}. ` +
+  469 |       `\`params\` should be awaited before using its properties. ` +
+  470 |       `Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis`
+Error: Route "/api/data/places/[placeId]" used `params.placeId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at createParamsAccessError (webpack://next/dist/src/server/request/params.ts:467:9)
+    at getMessage (webpack://next/dist/src/server/create-deduped-by-callsite-server-error-logger.ts:46:20)
+    at warnForSyncAccess (webpack://next/dist/src/server/request/params.ts:445:4)
+    at syncIODev (webpack://next/dist/src/server/request/params.ts:403:10)
+    at placeId (src\app\api\data\places\[placeId]\route.ts:10:86)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:529:41)
+    at handler (webpack://next/dist/src/server/route-modules/app-route/module.ts:725:18)
+    at fn (node_modules\next\src\server\lib\trace\tracer.ts:351:27)
+    at NoopContextManager.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at NoopTracer.startActiveSpan (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18093)
+    at ProxyTracer.startActiveSpan (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18854)
+    at startActiveSpan (node_modules\next\src\server\lib\trace\tracer.ts:304:31)
+    at NoopContextManager.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at spanContext (node_modules\next\src\server\lib\trace\tracer.ts:303:24)
+    at trace (webpack://next/dist/src/server/route-modules/app-route/module.ts:715:26)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:662:32)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:661:34)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:658:60)
+    at handle (node_modules\next\src\server\base-server.ts:2504:47)
+    at doRender (node_modules\next\src\server\base-server.ts:3027:27)
+    at responseGenerator (node_modules\next\src\server\response-cache\index.ts:67:13)
+    at get (node_modules\next\src\server\base-server.ts:3039:48)
+  465 | ) {
+  466 |   const prefix = route ? `Route "${route}" ` : 'This route '
+> 467 |   return new Error(
+      |         ^
+  468 |     `${prefix}used ${expression}. ` +
+  469 |       `\`params\` should be awaited before using its properties. ` +
+  470 |       `Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis`
+Error: Route "/api/data/places/[placeId]" used `params.placeId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at createParamsAccessError (webpack://next/dist/src/server/request/params.ts:467:9)
+    at getMessage (webpack://next/dist/src/server/create-deduped-by-callsite-server-error-logger.ts:46:20)
+    at warnForSyncAccess (webpack://next/dist/src/server/request/params.ts:445:4)
+    at syncIODev (webpack://next/dist/src/server/request/params.ts:403:10)
+    at placeId (src\app\api\data\places\[placeId]\route.ts:10:86)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:529:41)
+    at handler (webpack://next/dist/src/server/route-modules/app-route/module.ts:725:18)
+    at fn (node_modules\next\src\server\lib\trace\tracer.ts:351:27)
+    at NoopContextManager.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at NoopTracer.startActiveSpan (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18093)
+    at ProxyTracer.startActiveSpan (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18854)
+    at startActiveSpan (node_modules\next\src\server\lib\trace\tracer.ts:304:31)
+    at NoopContextManager.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at spanContext (node_modules\next\src\server\lib\trace\tracer.ts:303:24)
+    at trace (webpack://next/dist/src/server/route-modules/app-route/module.ts:715:26)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:662:32)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:661:34)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:658:60)
+    at handle (node_modules\next\src\server\base-server.ts:2504:47)
+    at doRender (node_modules\next\src\server\base-server.ts:3027:27)
+    at responseGenerator (node_modules\next\src\server\response-cache\index.ts:67:13)
+    at get (node_modules\next\src\server\base-server.ts:3039:48)
+  465 | ) {
+  466 |   const prefix = route ? `Route "${route}" ` : 'This route '
+> 467 |   return new Error(
+      |         ^
+  468 |     `${prefix}used ${expression}. ` +
+  469 |       `\`params\` should be awaited before using its properties. ` +
+  470 |       `Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis`
+Error: Route "/api/data/places/[placeId]" used `params.placeId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at createParamsAccessError (webpack://next/dist/src/server/request/params.ts:467:9)
+    at getMessage (webpack://next/dist/src/server/create-deduped-by-callsite-server-error-logger.ts:46:20)
+    at warnForSyncAccess (webpack://next/dist/src/server/request/params.ts:445:4)
+    at syncIODev (webpack://next/dist/src/server/request/params.ts:403:10)
+    at placeId (src\app\api\data\places\[placeId]\route.ts:10:86)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:529:41)
+    at handler (webpack://next/dist/src/server/route-modules/app-route/module.ts:725:18)
+    at fn (node_modules\next\src\server\lib\trace\tracer.ts:351:27)
+    at NoopContextManager.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at NoopTracer.startActiveSpan (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18093)
+    at ProxyTracer.startActiveSpan (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18854)
+    at startActiveSpan (node_modules\next\src\server\lib\trace\tracer.ts:304:31)
+    at NoopContextManager.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at spanContext (node_modules\next\src\server\lib\trace\tracer.ts:303:24)
+    at trace (webpack://next/dist/src/server/route-modules/app-route/module.ts:715:26)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:662:32)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:661:34)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:658:60)
+    at handle (node_modules\next\src\server\base-server.ts:2504:47)
+    at doRender (node_modules\next\src\server\base-server.ts:3027:27)
+    at responseGenerator (node_modules\next\src\server\response-cache\index.ts:67:13)
+    at get (node_modules\next\src\server\base-server.ts:3039:48)
+  465 | ) {
+  466 |   const prefix = route ? `Route "${route}" ` : 'This route '
+> 467 |   return new Error(
+      |         ^
+  468 |     `${prefix}used ${expression}. ` +
+  469 |       `\`params\` should be awaited before using its properties. ` +
+  470 |       `Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis`
+Error: Route "/api/data/places/[placeId]" used `params.placeId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at createParamsAccessError (webpack://next/dist/src/server/request/params.ts:467:9)
+    at getMessage (webpack://next/dist/src/server/create-deduped-by-callsite-server-error-logger.ts:46:20)
+    at warnForSyncAccess (webpack://next/dist/src/server/request/params.ts:445:4)
+    at syncIODev (webpack://next/dist/src/server/request/params.ts:403:10)
+    at placeId (src\app\api\data\places\[placeId]\route.ts:10:86)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:529:41)
+    at handler (webpack://next/dist/src/server/route-modules/app-route/module.ts:725:18)
+    at fn (node_modules\next\src\server\lib\trace\tracer.ts:351:27)
+    at NoopContextManager.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at NoopTracer.startActiveSpan (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18093)
+    at ProxyTracer.startActiveSpan (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18854)
+    at startActiveSpan (node_modules\next\src\server\lib\trace\tracer.ts:304:31)
+    at NoopContextManager.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at spanContext (node_modules\next\src\server\lib\trace\tracer.ts:303:24)
+    at trace (webpack://next/dist/src/server/route-modules/app-route/module.ts:715:26)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:662:32)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:661:34)
+    at run (webpack://next/dist/src/server/route-modules/app-route/module.ts:658:60)
+    at handle (node_modules\next\src\server\base-server.ts:2504:47)
+    at doRender (node_modules\next\src\server\base-server.ts:3027:27)
+    at responseGenerator (node_modules\next\src\server\response-cache\index.ts:67:13)
+    at get (node_modules\next\src\server\base-server.ts:3039:48)
+  465 | ) {
+  466 |   const prefix = route ? `Route "${route}" ` : 'This route '
+> 467 |   return new Error(
+      |         ^
+  468 |     `${prefix}used ${expression}. ` +
+  469 |       `\`params\` should be awaited before using its properties. ` +
+  470 |       `Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis`
+ ⨯ Error: Cannot find module './1989.js'
+Require stack:
+- C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\.next\server\webpack-runtime.js
+- C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\.next\server\app\api\data\places\[placeId]\route.js
+- C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\server\require.js
+- C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\server\load-components.js
+- C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\utils.js
+- C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\swc\options.js
+- C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\swc\index.js
+- C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\node_modules\next\dist\server\lib\start-server.js
+    at call (node_modules\next\src\server\require-hook.ts:51:33)
+    at call (node_modules\next\src\server\require-hook.ts:70:25)
+    at __webpack_require__.f.require (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\.next\server\webpack-runtime.js:203:28)
+    at <unknown> (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\.next\server\webpack-runtime.js:116:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\.next\server\webpack-runtime.js:115:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\.next\server\webpack-runtime.js:167:22)
+    at <unknown> (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\.next\server\app\api\data\places\[placeId]\route.js:1:1903)
+    at Object.<anonymous> (C:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\.next\server\app\api\data\places\[placeId]\route.js:1:1950)
+    at call (node_modules\next\src\server\require-hook.ts:70:25)
+    at require (node_modules\next\src\server\require.ts:121:8)
+    at page (node_modules\next\src\server\load-components.ts:189:41)
+    at async DevServer.findPageComponentsImpl (node_modules\next\src\server\next-server.ts:779:27)
+    at async DevServer.findPageComponents (node_modules\next\src\server\dev\next-dev-server.ts:881:13)
+    at async DevServer.renderPageComponent (node_modules\next\src\server\base-server.ts:3584:19)
+    at async DevServer.renderToResponseImpl (node_modules\next\src\server\base-server.ts:3659:23)
+    at async DevServer.pipeImpl (node_modules\next\src\server\base-server.ts:1698:20)
+    at async NextNodeServer.handleCatchallRenderRequest (node_modules\next\src\server\next-server.ts:1034:6)
+    at async DevServer.handleRequestImpl (node_modules\next\src\server\base-server.ts:1462:8)
+    at async (node_modules\next\src\server\dev\next-dev-server.ts:514:13)
+    at async Span.traceAsyncFn (node_modules\next\src\trace\trace.ts:143:13)
+    at async DevServer.handleRequest (node_modules\next\src\server\dev\next-dev-server.ts:512:19)
+    at async invokeRender (node_modules\next\src\server\lib\router-server.ts:284:10)
+    at async handleRequest (node_modules\next\src\server\lib\router-server.ts:530:15)
+    at async requestHandlerImpl (node_modules\next\src\server\lib\router-server.ts:576:6)
+    at async Server.requestListener (node_modules\next\src\server\lib\start-server.ts:146:6) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/api/data/places/ChIJEcHIDqKw2YgRZU-t3XHylv8'
+}
+^C^C

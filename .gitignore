@@ -3,6 +3,8 @@ node_modules/
 
 # next.js
 .next/
+.next-dev/
+.next-dev.lock
 out/
 
 # build artifacts
@@ -11,6 +13,8 @@ out/
 # local tooling / generated
 .agent/
 .next_stale_*/
+.next-stale-*/
+.next-broken-*/
 
 # logs
 npm-debug.log*

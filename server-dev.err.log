@@ -1,0 +1,19 @@
+ ⨯ ./src/app/search/page.tsx
+Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
+     ,-[[36;1;4mC:\Users\Nerik\Downloads\cheapgetaway-main\cheapgetaway-main\src\app\search\page.tsx[0m:543:1]
+ [2m540[0m |     }
+ [2m541[0m | 
+ [2m542[0m |     return (
+ [2m543[0m |         <div className="min-h-screen bg-[#f6f7fb] text-[#0b0f1f]">
+     : [35;1m         ^^^[0m
+ [2m544[0m |             {/* 1) TOP SEARCH RAIL */}
+ [2m545[0m |             <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200 px-4 md:px-6 py-3 flex items-center justify-between shadow-soft-sm transition-all duration-300">
+ [2m546[0m |                 <Link href="/" className="flex-shrink-0 transition-opacity hover:opacity-80">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/search/page.tsx
+^C^C
