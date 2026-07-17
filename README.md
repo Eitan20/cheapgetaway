@@ -15,7 +15,7 @@ All pages live at the repository root.
 | `index.html` | Site entry — main hotel search hub |
 | `search-results.html` | Hotel search results |
 | `hotel-detail.html` | Hotel detail — rooms/rates, prebook |
-| `checkout.html` | Hotel booking checkout (stops at prebook, see limitation below) |
+| `checkout.html` | Hotel booking checkout — prebook → LiteAPI Payment SDK → book |
 | `booking-confirmed.html` | Hotel booking confirmation |
 | `my-trips.html` | Signed-in user's saved/booked trips |
 | `sign-in.html` | Sign in / create account |
@@ -85,7 +85,16 @@ client-shippable code.
 
 ## Local testing
 
-- **Full proxy mode** (recommended — exercises the real serverless function):
+- **Node dev server** (no deps — wraps the real proxy handler): serves the
+  static site with clean URLs and dispatches `/api/liteapi/...` to the actual
+  `api/liteapi.js` handler (same request shape as the Vercel rewrite), so you
+  can exercise the real proxy — including the `book.liteapi.travel` routing and
+  the `__env` path — without Vercel:
+  ```
+  node scripts/dev-server.mjs        # PORT env overrides, default 8940
+  ```
+  e.g. `curl localhost:8940/api/liteapi/__env` -> `{"env":"live"}`.
+- **Full proxy mode** (exercises the deployed serverless function):
   ```
   npx vercel dev
   ```
@@ -109,8 +118,17 @@ client-shippable code.
 3. `join-the-club.html` — the post-webinar page; its membership CTAs
    point to `https://travorium.com/enroll.php?sponsor=106720`.
 
-## Known limitations
+## Payment flow
 
-- **Checkout stops at prebook.** `POST /rates/book` is intentionally not
-  called from checkout — completing a real booking requires payment
-  processing that isn't wired up yet. This is a documented TODO, not a bug.
+Checkout completes a real booking: guest details → `POST /rates/prebook`
+(`usePaymentSdk: true`) → the LiteAPI Payment SDK card form (hosted by the
+payment partner) → on success the browser is redirected back to
+`/checkout?return=1&prebookId=…&transactionId=…` → `POST /rates/book`
+(`payment.method: 'TRANSACTION_ID'`). A booking is written to `cg_trips` and
+the user reaches `booking-confirmed` **only** after `/rates/book` succeeds;
+failures are surfaced honestly (no fake confirmations). The `prebook`/`book`/
+`bookings*` paths are proxied to `https://book.liteapi.travel/v3.0`; all other
+paths stay on `https://api.liteapi.travel/v3.0`.
+
+**Note:** the hardcoded fallback key is a **production** key — real card
+submissions create real bookings. Do local testing against stubs only.

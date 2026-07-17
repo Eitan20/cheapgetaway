@@ -21,6 +21,13 @@
   input,button,select{font-family:'Nunito',sans-serif;}
   input:focus{outline:none;}
   @keyframes cg-shimmer{0%{background-position:-400px 0;}100%{background-position:400px 0;}}
+  @keyframes cg-spin{to{transform:rotate(360deg);}}
+  #cg-payment-target{width:100%;min-height:220px;}
+  #cg-payment-target iframe{width:100%!important;max-width:100%!important;}
+  @media (max-width:720px){
+    main.cg-checkout-main{padding:16px 16px 64px;}
+    #cg-payment-target{width:100%;}
+  }
 </style>
 </helmet>
 
@@ -33,63 +40,111 @@
   </div>
 </nav>
 
-<main style="max-width:1100px;margin:0 auto;padding:24px 24px 80px;display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;">
+<main class="cg-checkout-main" style="max-width:1100px;margin:0 auto;padding:24px 24px 80px;display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;">
   <section style="flex:1.6 1 420px;min-width:0;display:flex;flex-direction:column;gap:18px;">
     <a href="{{ backHref }}" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#52586b;width:fit-content;" style-hover="color:#38b6ff;">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><polyline points="14 6 8 12 14 18"></polyline></svg>
       Back to hotel
     </a>
-    <h1 style="margin:0;font-size:26px;font-weight:900;color:#0e1556;">Complete your booking</h1>
+    <h1 style="margin:0;font-size:26px;font-weight:900;color:#0e1556;">{{ heading }}</h1>
 
-    <sc-if value="{{ prebookNote }}" hint-placeholder-val="">
-      <div style="background:{{ prebookNoteBg }};border:1.5px solid {{ prebookNoteBorder }};border-radius:12px;padding:11px 16px;font-size:13px;font-weight:700;color:#0e1556;">{{ prebookNote }}</div>
+    <sc-if value="{{ rateNote }}" hint-placeholder-val="">
+      <div style="background:{{ rateNoteBg }};border:1.5px solid {{ rateNoteBorder }};border-radius:12px;padding:11px 16px;font-size:13px;font-weight:700;color:#0e1556;">{{ rateNote }}</div>
     </sc-if>
 
-    <div style="background:#fff;border-radius:20px;padding:26px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;gap:16px;">
-      <h2 style="margin:0;font-size:17px;font-weight:900;color:#0e1556;">Guest details</h2>
-      <div style="display:flex;gap:14px;flex-wrap:wrap;">
-        <label style="flex:1 1 200px;display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">First name
-          <input id="cg-co-first" type="text" autocomplete="given-name" placeholder="First name" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+    <sc-if value="{{ priceUpdatedNote }}" hint-placeholder-val="">
+      <div style="background:rgba(255,180,0,0.12);border:1.5px solid rgba(255,180,0,0.4);border-radius:12px;padding:11px 16px;font-size:12.5px;font-weight:700;color:#8a6a00;">{{ priceUpdatedNote }}</div>
+    </sc-if>
+
+    <!-- ===================== DETAILS STATE ===================== -->
+    <sc-if value="{{ detailsPhase }}" hint-placeholder-val="{{ true }}">
+      <div style="background:#fff;border-radius:20px;padding:26px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;gap:16px;">
+        <h2 style="margin:0;font-size:17px;font-weight:900;color:#0e1556;">Guest details</h2>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;">
+          <label style="flex:1 1 200px;display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">First name
+            <input id="cg-co-first" type="text" autocomplete="given-name" placeholder="First name" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+          </label>
+          <label style="flex:1 1 200px;display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Last name
+            <input id="cg-co-last" type="text" autocomplete="family-name" placeholder="Last name" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+          </label>
+        </div>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Email — your confirmation goes here
+          <input id="cg-co-email" type="email" autocomplete="email" placeholder="you@email.com" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
         </label>
-        <label style="flex:1 1 200px;display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Last name
-          <input id="cg-co-last" type="text" autocomplete="family-name" placeholder="Last name" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Phone (optional)
+          <input id="cg-co-phone" type="tel" autocomplete="tel" placeholder="+1 555 000 0000" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
         </label>
       </div>
-      <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Email — your confirmation goes here
-        <input id="cg-co-email" type="email" autocomplete="email" placeholder="you@email.com" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
-      </label>
-      <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Phone (optional)
-        <input id="cg-co-phone" type="tel" autocomplete="tel" placeholder="+1 555 000 0000" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
-      </label>
-    </div>
 
-    <div style="background:#fff;border-radius:20px;padding:26px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;gap:16px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
-        <h2 style="margin:0;font-size:17px;font-weight:900;color:#0e1556;">Payment</h2>
-        <div style="display:flex;gap:6px;align-items:center;">
-          <span style="border:1.5px solid rgba(14,21,86,0.12);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:900;color:#1a1f71;">VISA</span>
-          <span style="border:1.5px solid rgba(14,21,86,0.12);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:900;color:#eb001b;">MC</span>
-          <span style="border:1.5px solid rgba(14,21,86,0.12);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:900;color:#016fd0;">AMEX</span>
+      <div style="background:rgba(56,182,255,0.07);border:1.5px solid rgba(56,182,255,0.25);border-radius:16px;padding:16px 18px;display:flex;align-items:flex-start;gap:12px;font-size:12.5px;font-weight:700;color:#0e1556;line-height:1.55;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38b6ff" stroke-width="2.4" stroke-linecap="round" style="flex-shrink:0;margin-top:1px;"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>
+        <span>You'll enter your card on the next step, in a secure form hosted by our payment partner. No card details ever touch cheapgetaway.com.</span>
+      </div>
+
+      <sc-if value="{{ fullyBooked }}" hint-placeholder-val="">
+        <div style="background:#fff;border-radius:20px;padding:24px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;gap:10px;">
+          <p style="margin:0;font-size:15px;font-weight:800;color:#0e1556;">This room just sold out for your dates.</p>
+          <p style="margin:0;font-size:13.5px;font-weight:600;color:#52586b;line-height:1.55;">Live availability changed while you were checking out. Head back to the hotel page to pick another room or adjust your dates.</p>
+          <a href="{{ backHref }}" style="margin-top:6px;background:#38b6ff;color:#fff;font-weight:800;font-size:14px;padding:11px 22px;border-radius:999px;width:fit-content;" style-hover="background:#2da1e6;color:#fff;">Back to the hotel</a>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ errorMsg }}" hint-placeholder-val="">
+        <div style="font-size:13.5px;font-weight:800;color:#e2554f;">{{ errorMsg }}</div>
+      </sc-if>
+
+      <sc-if value="{{ continueReady }}" hint-placeholder-val="{{ true }}">
+        <button onClick="{{ onContinue }}" style="background:#ff6500;color:#fff;border:none;cursor:pointer;font-weight:900;font-size:17px;padding:16px 32px;border-radius:999px;box-shadow:0 12px 32px rgba(255,101,0,0.35);width:fit-content;opacity:{{ continueOpacity }};" style-hover="background:#e65a00;">{{ continueLabel }}</button>
+      </sc-if>
+
+      <sc-if value="{{ rateChecking }}" hint-placeholder-val="">
+        <button style="background:#c7ccdb;color:#fff;border:none;cursor:default;font-weight:900;font-size:17px;padding:16px 32px;border-radius:999px;width:fit-content;">Checking live rate…</button>
+      </sc-if>
+    </sc-if>
+
+    <!-- ===================== PAYMENT STATE ===================== -->
+    <sc-if value="{{ paymentPhase }}" hint-placeholder-val="">
+      <div style="background:#fff;border-radius:20px;padding:26px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;gap:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+          <h2 style="margin:0;font-size:17px;font-weight:900;color:#0e1556;">Secure payment</h2>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <span style="border:1.5px solid rgba(14,21,86,0.12);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:900;color:#1a1f71;">VISA</span>
+            <span style="border:1.5px solid rgba(14,21,86,0.12);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:900;color:#eb001b;">MC</span>
+            <span style="border:1.5px solid rgba(14,21,86,0.12);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:900;color:#016fd0;">AMEX</span>
+          </div>
+        </div>
+        <p style="margin:0;font-size:12.5px;font-weight:600;color:#52586b;line-height:1.55;">The card form below is provided and processed by our payment partner. Your card details are entered directly with them and are never seen or stored by cheapgetaway.com.</p>
+        <div id="cg-payment-target"></div>
+
+        <sc-if value="{{ sdkError }}" hint-placeholder-val="">
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="font-size:13.5px;font-weight:800;color:#e2554f;">{{ sdkError }}</div>
+            <button onClick="{{ onRetryPayment }}" style="background:#0e1556;color:#fff;border:none;cursor:pointer;font-weight:800;font-size:14px;padding:11px 22px;border-radius:999px;width:fit-content;" style-hover="background:#1a2470;">Retry secure payment</button>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- ===================== RETURN / BOOKING STATE ===================== -->
+    <sc-if value="{{ confirming }}" hint-placeholder-val="">
+      <div style="background:#fff;border-radius:20px;padding:36px 26px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;">
+        <span style="width:44px;height:44px;border-radius:50%;border:4px solid rgba(56,182,255,0.25);border-top-color:#38b6ff;display:block;animation:cg-spin 0.8s linear infinite;"></span>
+        <p style="margin:0;font-size:16px;font-weight:800;color:#0e1556;">Confirming your booking…</p>
+        <p style="margin:0;font-size:13px;font-weight:600;color:#52586b;">Please don't close this window — this only takes a moment.</p>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ bookError }}" hint-placeholder-val="">
+      <div style="background:#fff;border-radius:20px;padding:26px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;gap:12px;border:1.5px solid rgba(226,85,79,0.35);">
+        <h2 style="margin:0;font-size:18px;font-weight:900;color:#e2554f;">We couldn't complete this booking</h2>
+        <p style="margin:0;font-size:13.5px;font-weight:600;color:#52586b;line-height:1.6;">{{ bookErrorDetail }}</p>
+        <p style="margin:0;font-size:13.5px;font-weight:600;color:#52586b;line-height:1.6;">If your card was charged, the hold is released automatically within 1–2 business days — you were not booked, so nothing further is owed.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px;">
+          <a href="{{ supportMailto }}" style="background:#0e1556;color:#fff;font-weight:800;font-size:14px;padding:11px 22px;border-radius:999px;" style-hover="background:#1a2470;color:#fff;">Contact support</a>
+          <a href="{{ backHref }}" style="background:#fff;color:#0e1556;font-weight:800;font-size:14px;padding:11px 22px;border-radius:999px;border:1.5px solid rgba(14,21,86,0.15);" style-hover="border-color:#38b6ff;color:#38b6ff;">Try again</a>
         </div>
       </div>
-      <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Card number
-        <input id="cg-co-card" type="text" inputMode="numeric" placeholder="4242 4242 4242 4242" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
-      </label>
-      <div style="display:flex;gap:14px;flex-wrap:wrap;">
-        <label style="flex:1 1 140px;display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Expiry
-          <input id="cg-co-exp" type="text" placeholder="MM / YY" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
-        </label>
-        <label style="flex:1 1 140px;display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">CVC
-          <input id="cg-co-cvc" type="text" inputMode="numeric" placeholder="123" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
-        </label>
-      </div>
-      <p style="margin:0;font-size:12px;font-weight:600;color:#9aa0b4;line-height:1.5;">Prototype payment — no card is charged. In production this connects to the LiteAPI book step with your payment processing.</p>
-    </div>
-
-    <sc-if value="{{ errorMsg }}" hint-placeholder-val="">
-      <div style="font-size:13.5px;font-weight:800;color:#e2554f;">{{ errorMsg }}</div>
     </sc-if>
-    <button onClick="{{ confirmBooking }}" style="background:#ff6500;color:#fff;border:none;cursor:pointer;font-weight:900;font-size:17px;padding:16px 32px;border-radius:999px;box-shadow:0 12px 32px rgba(255,101,0,0.35);width:fit-content;" style-hover="background:#e65a00;">{{ confirmLabel }}</button>
   </section>
 
   <aside style="flex:1 1 300px;position:sticky;top:80px;display:flex;flex-direction:column;gap:16px;">
@@ -123,7 +178,24 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { hotel: null, prebook: null, prebookFailed: false, submitting: false, error: '' };
+  state = {
+    hotel: null,
+    phase: 'details',        // 'details' | 'payment' | 'return'
+    offerId: null,
+    rateChecking: true,
+    fullyBooked: false,
+    submitting: false,       // prebook request in flight
+    error: '',               // details-state inline error
+    prebook: null,           // { prebookId, transactionId, secretKey }
+    price: null,
+    currency: 'USD',
+    priceUpdated: false,
+    sdkError: '',
+    publicKey: 'live',
+    confirming: false,       // return state: /rates/book in flight
+    bookError: false,
+    bookErrorDetail: ''
+  };
 
   params() {
     const p = new URLSearchParams(window.location.search);
@@ -134,14 +206,15 @@ class Component extends DCLogic {
       price: Number(p.get('price') || 0), refund: p.get('refund') !== '0'
     };
   }
+
   async api(path, opts) {
     const res = await cgApiFetch(path, { ...opts,
       headers: { 'accept': 'application/json', ...(opts && opts.body ? { 'content-type': 'application/json' } : {}) } });
-    if (!res.ok) throw new Error('API ' + res.status);
+    if (!res.ok) { let detail = ''; try { detail = await res.text(); } catch (e) {} const err = new Error('API ' + res.status); err.status = res.status; err.detail = detail; throw err; }
     return res.json();
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this._navHandler = (e) => {
       const a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
       if (!a) return;
@@ -151,15 +224,32 @@ class Component extends DCLogic {
       window.location.href = href;
     };
     document.addEventListener('click', this._navHandler, true);
+
     const P = this.params(); this._P = P;
+    const qp = new URLSearchParams(window.location.search);
+
+    // Return leg: the payment partner redirected the browser back here after a
+    // card submission. Skip details/payment and go straight to /rates/book.
+    if (qp.get('return') === '1' && qp.get('prebookId') && qp.get('transactionId')) {
+      this.startBooking(qp.get('prebookId'), qp.get('transactionId'));
+      return;
+    }
+
+    // Normal entry: load hotel for the sidebar, then find the matching live offer.
     this.api('/data/hotel?hotelId=' + encodeURIComponent(P.hotelId))
       .then(r => this.setState({ hotel: r.data || r }))
       .catch(() => this.setState({ hotel: { name: 'Your hotel', address: '', city: '', stars: 4, hotelImages: [{ url: 'assets/hotel-fallback-sm.webp' }] } }));
-    this.tryPrebook(P);
+    this.findOffer(P);
   }
+
   componentWillUnmount() { document.removeEventListener('click', this._navHandler, true); }
 
-  async tryPrebook(P) {
+  componentDidUpdate() {
+    if (this.state.phase === 'payment' && !this._paymentInit) this.initPayment();
+  }
+
+  // ---- Details state: locate the offerId (no prebook on load) ----
+  async findOffer(P) {
     try {
       const r = await this.api('/hotels/rates', { method: 'POST', body: JSON.stringify({
         hotelIds: [P.hotelId], checkin: P.checkin, checkout: P.checkout,
@@ -171,27 +261,219 @@ class Component extends DCLogic {
       }));
       if (!match) { roomTypes.forEach(rt => { if (!match && rt.rates && rt.rates[0]) match = { rate: rt.rates[0], offerId: rt.offerId || rt.rates[0].offerId }; }); }
       if (!match || !match.offerId) throw new Error('no offer');
-      const pb = await this.api('/rates/prebook', { method: 'POST', body: JSON.stringify({ offerId: match.offerId, usePaymentSdk: false }) });
-      const d = pb.data || pb;
-      const total = d.price || (d.roomTypes && d.roomTypes[0] && d.roomTypes[0].rates && d.roomTypes[0].rates[0] && d.roomTypes[0].rates[0].retailRate && d.roomTypes[0].rates[0].retailRate.total && d.roomTypes[0].rates[0].retailRate.total[0] && d.roomTypes[0].rates[0].retailRate.total[0].amount);
-      this.setState({ prebook: { id: d.prebookId || d.transactionId || d.id, price: total ? Math.round(Number(total)) : null } });
+      this.setState({ offerId: match.offerId, rateChecking: false, fullyBooked: false });
     } catch (e) {
-      this.setState({ prebookFailed: true });
+      this.setState({ offerId: null, rateChecking: false, fullyBooked: true });
     }
+  }
+
+  extractPrebookPrice(d) {
+    if (d.price != null && !isNaN(Number(d.price))) return Number(d.price);
+    try {
+      const rate = d.roomTypes[0].rates[0];
+      const t = rate.retailRate.total[0];
+      if (t && t.amount != null) return Number(t.amount);
+    } catch (e) {}
+    return null;
+  }
+
+  // ---- Continue → prebook → payment state ----
+  async doPrebook() {
+    if (this.state.submitting || !this.state.offerId) return;
+    const v = (id) => (document.getElementById(id) || {}).value || '';
+    const first = v('cg-co-first').trim(), last = v('cg-co-last').trim(), email = v('cg-co-email').trim();
+    if (!first || !last) { this.setState({ error: 'Please enter the guest’s first and last name.' }); return; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { this.setState({ error: 'Please enter a valid email address.' }); return; }
+
+    this.setState({ error: '', submitting: true });
+    const P = this._P;
+    try {
+      const pb = await this.api('/rates/prebook', { method: 'POST', body: JSON.stringify({ offerId: this.state.offerId, usePaymentSdk: true }) });
+      const d = pb.data || pb;
+      const prebookId = d.prebookId, transactionId = d.transactionId, secretKey = d.secretKey;
+      if (!prebookId || !transactionId) throw new Error('prebook incomplete');
+
+      const quoted = P.price;
+      const newPrice = this.extractPrebookPrice(d);
+      let price = quoted, priceUpdated = false;
+      if (newPrice) { price = Math.round(newPrice); if (quoted && Math.abs(price - quoted) / quoted > 0.02) priceUpdated = true; }
+      const currency = d.currency || 'USD';
+
+      const hotel = this.state.hotel || {};
+      const img = this.hotelImg(hotel);
+      const pending = {
+        prebookId, transactionId,
+        guest: { first, last, email },
+        trip: {
+          hotelId: P.hotelId, hotelName: hotel.name || 'Hotel', image: img,
+          address: [hotel.address, hotel.city].filter(Boolean).join(', '),
+          room: P.room, board: P.board, checkin: P.checkin, checkout: P.checkout,
+          adults: P.adults, refundable: P.refund
+        },
+        price, currency, createdAt: new Date().toISOString()
+      };
+      try { localStorage.setItem('cg_pending_booking', JSON.stringify(pending)); } catch (e) {}
+
+      this._paymentInit = false;
+      this.setState({ phase: 'payment', prebook: { prebookId, transactionId, secretKey }, price, currency, priceUpdated, submitting: false });
+    } catch (e) {
+      this.setState({ submitting: false, error: "We couldn’t lock this rate — it may have just sold out. Go back and pick another room." });
+    }
+  }
+
+  // ---- Payment state: mount the LiteAPI Payment SDK card form ----
+  async initPayment() {
+    if (this._paymentInit) return;
+    this._paymentInit = true;
+    const pb = this.state.prebook;
+    if (!pb || !pb.secretKey) { this._paymentInit = false; this.setState({ sdkError: 'Payment could not be started. Please go back and try again.' }); return; }
+
+    const returnUrl = window.location.origin + '/checkout?return=1&prebookId=' + encodeURIComponent(pb.prebookId) + '&transactionId=' + encodeURIComponent(pb.transactionId);
+
+    // Pick the SDK publicKey from the proxy's key environment ('live' fallback).
+    let publicKey = 'live';
+    try {
+      const r = await cgApiFetch('/__env', { headers: { 'accept': 'application/json' } });
+      if (r.ok) { const j = await r.json(); publicKey = j && j.env === 'sandbox' ? 'sandbox' : 'live'; }
+    } catch (e) {}
+
+    try {
+      await this.loadScript('https://payment-wrapper.liteapi.travel/dist/liteAPIPayment.js?v=a1');
+      if (!window.LiteAPIPayment) throw new Error('SDK missing');
+      const target = document.getElementById('cg-payment-target');
+      if (target) target.innerHTML = '';
+      const payment = new window.LiteAPIPayment({
+        publicKey: publicKey,
+        secretKey: pb.secretKey,
+        targetElement: '#cg-payment-target',
+        returnUrl: returnUrl,
+        appearance: { theme: 'flat' },
+        options: { business: { name: 'CheapGetaway' } }
+      });
+      payment.handlePayment();
+      if (this.state.sdkError) this.setState({ sdkError: '' });
+    } catch (e) {
+      this._paymentInit = false;
+      this.setState({ sdkError: 'The secure card form couldn’t load. Check your connection and try again.' });
+    }
+  }
+
+  loadScript(src) {
+    return new Promise((resolve, reject) => {
+      if (window.LiteAPIPayment) return resolve();
+      const existing = document.querySelector('script[data-cg-payment-sdk]');
+      if (existing) { existing.addEventListener('load', () => resolve()); existing.addEventListener('error', () => reject(new Error('load'))); return; }
+      const s = document.createElement('script');
+      s.src = src; s.async = true; s.setAttribute('data-cg-payment-sdk', '1');
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error('load'));
+      document.head.appendChild(s);
+    });
+  }
+
+  // ---- Return state: complete the booking with /rates/book ----
+  async startBooking(prebookId, transactionId) {
+    let pending = null;
+    try { pending = JSON.parse(localStorage.getItem('cg_pending_booking') || 'null'); } catch (e) {}
+
+    if (!pending || pending.prebookId !== prebookId) {
+      this.setState({ phase: 'return', confirming: false, bookError: true,
+        bookErrorDetail: 'Your checkout session expired or was opened on another device, so we can’t finish it here. If you were charged, please contact support and we’ll sort it out right away.' });
+      return;
+    }
+
+    // Rebuild sidebar context from the saved pending booking.
+    const t = pending.trip || {};
+    this._P = { hotelId: t.hotelId, checkin: t.checkin, checkout: t.checkout, adults: t.adults,
+      room: t.room, board: t.board, price: pending.price, refund: !!t.refundable };
+    this.setState({
+      phase: 'return', confirming: true,
+      hotel: { name: t.hotelName, address: t.address, city: '', stars: 4, hotelImages: [{ url: t.image }] },
+      price: pending.price, currency: pending.currency || 'USD'
+    });
+
+    const g = pending.guest || {};
+    try {
+      const r = await this.api('/rates/book', { method: 'POST', body: JSON.stringify({
+        prebookId: prebookId,
+        holder: { firstName: g.first, lastName: g.last, email: g.email },
+        guests: [{ occupancyNumber: 1, firstName: g.first, lastName: g.last, email: g.email }],
+        payment: { method: 'TRANSACTION_ID', transactionId: transactionId },
+        clientReference: prebookId }) });
+      const d = r.data || r;
+      const bookingId = d.bookingId || d.id;
+      if (!bookingId) throw new Error('no bookingId');
+
+      const trip = {
+        id: bookingId,
+        confirmation: d.hotelConfirmationCode || d.supplierConfirmationCode || bookingId,
+        status: 'confirmed',
+        hotelId: t.hotelId, hotelName: t.hotelName, image: t.image, address: t.address,
+        room: t.room, board: t.board, checkin: t.checkin, checkout: t.checkout,
+        adults: t.adults, price: pending.price, refundable: !!t.refundable,
+        guest: (g.first || '') + ' ' + (g.last || ''), email: g.email, bookedAt: new Date().toISOString()
+      };
+      const trips = JSON.parse(localStorage.getItem('cg_trips') || '[]');
+      trips.unshift(trip);
+      localStorage.setItem('cg_trips', JSON.stringify(trips));
+      try { localStorage.removeItem('cg_pending_booking'); } catch (e) {}
+      window.location.href = '/booking-confirmed?bid=' + encodeURIComponent(bookingId);
+    } catch (e) {
+      this.setState({ confirming: false, bookError: true,
+        bookErrorDetail: 'The payment step finished, but the room could not be confirmed with the hotel — it may have sold out at the last moment.' });
+    }
+  }
+
+  hotelImg(hotel) {
+    return (hotel && hotel.hotelImages && hotel.hotelImages[0] && (hotel.hotelImages[0].urlHd || hotel.hotelImages[0].url)) || (hotel && hotel.main_photo) || 'assets/hotel-fallback-sm.webp';
   }
 
   renderVals() {
     const S = this.state, P = this._P || this.params();
     const hotel = S.hotel || {};
-    const img = (hotel.hotelImages && hotel.hotelImages[0] && (hotel.hotelImages[0].urlHd || hotel.hotelImages[0].url)) || hotel.main_photo || 'assets/hotel-fallback-sm.webp';
+    const img = this.hotelImg(hotel);
     const stars = Math.max(1, Math.min(5, Math.round(Number(hotel.stars || hotel.starRating) || 4)));
     const fmt = (s) => { try { return new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).format(new Date(s + 'T12:00:00')); } catch (e) { return s; } };
-    const price = (S.prebook && S.prebook.price) || P.price;
+    const price = (S.price != null ? S.price : null) || P.price;
+
+    const detailsPhase = S.phase === 'details';
+    const paymentPhase = S.phase === 'payment';
+    const returnPhase = S.phase === 'return';
+
+    let heading = 'Complete your booking';
+    if (paymentPhase) heading = 'Enter your payment';
+    else if (returnPhase) heading = S.bookError ? 'Booking not completed' : 'Finishing your booking';
+
+    // Rate note (details state only)
+    let rateNote = '', rateNoteBg = '', rateNoteBorder = '';
+    if (detailsPhase && !S.fullyBooked) {
+      if (S.rateChecking) { rateNote = 'Checking the live rate for your dates…'; rateNoteBg = 'rgba(56,182,255,0.08)'; rateNoteBorder = 'rgba(56,182,255,0.35)'; }
+      else if (S.offerId) { rateNote = 'Live rate found — your price is confirmed for these dates. Continue to secure payment to lock it in.'; rateNoteBg = 'rgba(29,158,85,0.08)'; rateNoteBorder = 'rgba(29,158,85,0.35)'; }
+    }
+
+    const priceUpdatedNote = S.priceUpdated ? 'Heads up: the supplier updated this rate to $' + Number(price).toLocaleString() + ' for your dates. That’s the price you’ll pay.' : '';
+
+    const pendingId = (() => { try { const p = JSON.parse(localStorage.getItem('cg_pending_booking') || 'null'); return p && p.prebookId ? p.prebookId : ''; } catch (e) { return ''; } })();
+    const supportMailto = 'mailto:travel@cheapgetaway.com?subject=' + encodeURIComponent('Booking help — prebook ' + pendingId);
+
     return {
       backHref: '/hotel-detail?hotelId=' + encodeURIComponent(P.hotelId) + '&checkin=' + P.checkin + '&checkout=' + P.checkout + '&adults=' + P.adults,
-      prebookNote: S.prebook ? 'Price locked with the supplier — this rate is confirmed live for your dates.' : (S.prebookFailed ? 'Live price-lock unavailable right now — the quoted rate is shown; final confirmation happens at booking.' : 'Locking your price with the supplier…'),
-      prebookNoteBg: S.prebook ? 'rgba(29,158,85,0.08)' : 'rgba(56,182,255,0.08)',
-      prebookNoteBorder: S.prebook ? 'rgba(29,158,85,0.35)' : 'rgba(56,182,255,0.35)',
+      heading: heading,
+      detailsPhase: detailsPhase, paymentPhase: paymentPhase,
+      confirming: returnPhase && S.confirming, bookError: returnPhase && S.bookError,
+      bookErrorDetail: S.bookErrorDetail,
+      rateNote: rateNote, rateNoteBg: rateNoteBg, rateNoteBorder: rateNoteBorder,
+      priceUpdatedNote: priceUpdatedNote,
+      fullyBooked: detailsPhase && S.fullyBooked,
+      rateChecking: detailsPhase && S.rateChecking,
+      continueReady: detailsPhase && !S.rateChecking && !S.fullyBooked,
+      continueLabel: S.submitting ? 'Locking your rate…' : 'Continue to secure payment',
+      continueOpacity: S.submitting ? '0.6' : '1',
+      onContinue: () => this.doPrebook(),
+      errorMsg: detailsPhase ? S.error : '',
+      sdkError: paymentPhase ? S.sdkError : '',
+      onRetryPayment: () => { this._paymentInit = false; this.setState({ sdkError: '' }); },
+      supportMailto: supportMailto,
       hotelImgEl: React.createElement('img', { src: img, alt: hotel.name || 'Hotel', style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
       hotelName: hotel.name || 'Loading…', starsRow: '★★★★★'.slice(0, stars),
       addressLine: [hotel.address, hotel.city].filter(Boolean).join(', '),
@@ -201,41 +483,7 @@ class Component extends DCLogic {
       refundLabel: P.refund ? 'Free cancellation' : 'Non-refundable',
       refundColor: P.refund ? '#1d9e55' : '#52586b',
       priceLabel: price ? '$' + Number(price).toLocaleString() : '—',
-      trustLine: P.refund ? '✓ Free cancellation — you can cancel from My Trips at no charge.' : '✓ Instant confirmation — your room is guaranteed the moment you book.',
-      errorMsg: S.error, confirmLabel: S.submitting ? 'Confirming…' : 'Confirm & book',
-      confirmBooking: () => {
-        if (S.submitting) return;
-        const v = (id) => (document.getElementById(id) || {}).value || '';
-        const first = v('cg-co-first').trim(), last = v('cg-co-last').trim(), email = v('cg-co-email').trim();
-        if (!first || !last) { this.setState({ error: 'Please enter the guest\u2019s first and last name.' }); return; }
-        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { this.setState({ error: 'Please enter a valid email address.' }); return; }
-        if (v('cg-co-card').replace(/\s/g, '').length < 12) { this.setState({ error: 'Please enter a card number (any test number works in this prototype).' }); return; }
-        this.setState({ error: '', submitting: true });
-        const finish = (bookingId, status, confirmation) => {
-          const trips = JSON.parse(localStorage.getItem('cg_trips') || '[]');
-          const trip = { id: bookingId, confirmation, status,
-            hotelId: P.hotelId, hotelName: (S.hotel && S.hotel.name) || 'Hotel',
-            image: img, address: [hotel.address, hotel.city].filter(Boolean).join(', '),
-            room: P.room, board: P.board, checkin: P.checkin, checkout: P.checkout,
-            adults: P.adults, price: price, refundable: P.refund,
-            guest: first + ' ' + last, email, bookedAt: new Date().toISOString() };
-          trips.unshift(trip);
-          localStorage.setItem('cg_trips', JSON.stringify(trips));
-          window.location.href = '/booking-confirmed?bid=' + encodeURIComponent(bookingId);
-        };
-        const localId = 'CG-' + Math.random().toString(36).slice(2, 8).toUpperCase();
-        if (S.prebook && S.prebook.id) {
-          this.api('/rates/book', { method: 'POST', body: JSON.stringify({
-            prebookId: S.prebook.id,
-            holder: { firstName: first, lastName: last, email },
-            guests: [{ occupancyNumber: 1, firstName: first, lastName: last, email }],
-            payment: { method: 'ACC_CREDIT_CARD' } }) })
-            .then(r => { const d = r.data || r; finish(d.bookingId || d.id || localId, 'confirmed', d.supplierConfirmationCode || d.confirmationCode || localId); })
-            .catch(() => finish(localId, 'confirmed', localId));
-        } else {
-          setTimeout(() => finish(localId, 'confirmed', localId), 900);
-        }
-      }
+      trustLine: P.refund ? '✓ Free cancellation — you can cancel from My Trips at no charge.' : '✓ Instant confirmation — your room is guaranteed the moment you book.'
     };
   }
 }

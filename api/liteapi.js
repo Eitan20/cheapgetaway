@@ -12,8 +12,16 @@
 // req.query.path.
 
 const LITEAPI_BASE = 'https://api.liteapi.travel/v3.0';
+// Booking-flow endpoints live on a different host. prebook/book/bookings must
+// be routed here; everything else (data/*, hotels/*) stays on LITEAPI_BASE.
+const LITEAPI_BOOK_BASE = 'https://book.liteapi.travel/v3.0';
 const FALLBACK_KEY = 'prod_836dbd63-00e5-443a-9b49-ce47adc49202';
 const ALLOWED_METHODS = ['GET', 'POST', 'PUT'];
+
+// Paths (relative to /v3.0/) that must be sent to the booking host.
+function isBookingPath(path) {
+  return /^(rates\/prebook|rates\/book|bookings)/.test(path);
+}
 
 export default async function handler(req, res) {
   const method = (req.method || 'GET').toUpperCase();
@@ -55,9 +63,21 @@ export default async function handler(req, res) {
     }
   }
   const queryString = upstreamParams.toString() ? '?' + upstreamParams.toString() : '';
-  const upstreamUrl = LITEAPI_BASE + '/' + upstreamPath + queryString;
 
   const apiKey = process.env.LITEAPI_KEY || FALLBACK_KEY;
+
+  // Meta path: report which key environment is active WITHOUT ever calling
+  // upstream or leaking the key itself. Used by the client to pick the
+  // Payment SDK publicKey ('live' vs 'sandbox').
+  if (upstreamPath === '__env') {
+    res.status(200);
+    res.setHeader('content-type', 'application/json');
+    res.send(JSON.stringify({ env: apiKey.startsWith('sand_') ? 'sandbox' : 'live' }));
+    return;
+  }
+
+  const base = isBookingPath(upstreamPath) ? LITEAPI_BOOK_BASE : LITEAPI_BASE;
+  const upstreamUrl = base + '/' + upstreamPath + queryString;
 
   const upstreamHeaders = {
     'X-API-Key': apiKey,

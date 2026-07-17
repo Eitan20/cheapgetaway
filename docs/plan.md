@@ -55,11 +55,11 @@ Goal: guest actually pays by card via LiteAPI Payment SDK; bookings only confirm
 when /rates/book succeeds; honest failures. No account-credit (ACC_CREDIT_CARD)
 bookings, no fake confirmations.
 
-- [ ] **5.1 Proxy host routing** (senior-engineer): api/liteapi.js routes
+- [x] **5.1 Proxy host routing** (senior-engineer): api/liteapi.js routes
   rates/prebook, rates/book, bookings* to book.liteapi.travel/v3.0; everything
   else stays on api.liteapi.travel/v3.0. Add `__env` meta path returning
   {env: 'live'|'sandbox'} from the key prefix (prod_/sand_).
-- [ ] **5.2 checkout.html payment rewrite** (senior-engineer): guest form →
+- [x] **5.2 checkout.html payment rewrite** (senior-engineer): guest form →
   prebook {offerId, usePaymentSdk:true} on submit → Payment SDK
   (payment-wrapper.liteapi.travel/dist/liteAPIPayment.js?v=a1) renders card
   form → returnUrl back to /checkout?return=1 → POST /rates/book with
