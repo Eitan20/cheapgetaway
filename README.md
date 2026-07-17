@@ -22,7 +22,7 @@ All pages live at the repository root.
 | `flight-results.html` | Flight search results |
 | `flight-checkout.html` | Flight booking checkout |
 | `registration-confirmed.html` | Webinar registration confirmation → WebinarWiz join link |
-| `travorium-landing.html` | Post-webinar Travorium membership landing page |
+| `join-the-club.html` | Post-webinar Travorium membership landing page |
 | `webinar-optin.html` | Webinar opt-in (general "Join the club" funnel) |
 | `webinar-optin-creator.html` | Webinar opt-in (creator-specific funnel) |
 | `terms.html` | Terms of Use (placeholder legal copy) |
@@ -77,7 +77,7 @@ client-shippable code.
    `https://www.webinarwiz.com/w/travel-secrets-y89ib6i?name=<name>&email=<email>`,
    using the query params if present, falling back to the `cg_webinar_signup`
    localStorage value.
-3. `travorium-landing.html` — the post-webinar page; its membership CTAs
+3. `join-the-club.html` — the post-webinar page; its membership CTAs
    point to `https://app.travorium.com/enroll?sponsor=106720`.
 
 ## Known limitations

@@ -1,4 +1,11 @@
 {
   "framework": null,
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/travorium-landing",
+      "destination": "/join-the-club",
+      "permanent": true
+    }
+  ]
 }
