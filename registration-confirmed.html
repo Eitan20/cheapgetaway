@@ -163,17 +163,35 @@ class Component extends DCLogic {
   constructor(props) {
     super(props);
 
+    const IV_MS = 5 * 60000;
+    const LIVE_WINDOW_MS = 60 * 60000; // stored ts stays valid up to 60min after it hits
+
     const q = new URLSearchParams(window.location.search);
     this._name = (q.get('name') || '').trim();
     this._email = (q.get('email') || '').trim();
     let ts = parseInt(q.get('ts') || '', 10);
-    if (!ts || isNaN(ts)) {
+    if (ts && !isNaN(ts)) {
+      // ts arrived via query param (from the opt-in redirect) — persist it so
+      // reloads / revisits of this page reuse the same session instead of
+      // recomputing a new one.
+      try { localStorage.setItem('cg_webinar_session_ts', String(ts)); } catch (err) {}
+    } else {
       try {
         const saved = JSON.parse(localStorage.getItem('cg_webinar_signup') || 'null');
         if (saved && !this._name) this._name = saved.name || '';
         if (saved && !this._email) this._email = saved.email || '';
       } catch (err) {}
-      ts = Math.ceil((Date.now() + 1000) / 900000) * 900000;
+      try {
+        const stored = Number(localStorage.getItem('cg_webinar_session_ts'));
+        if (stored && Date.now() < stored + LIVE_WINDOW_MS) {
+          ts = stored;
+        } else {
+          ts = Math.ceil((Date.now() + 1000) / IV_MS) * IV_MS;
+          localStorage.setItem('cg_webinar_session_ts', String(ts));
+        }
+      } catch (err) {
+        ts = Math.ceil((Date.now() + 1000) / IV_MS) * IV_MS;
+      }
     }
     this._ts = ts;
 

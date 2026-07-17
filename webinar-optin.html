@@ -305,18 +305,19 @@
   &quot;$preview&quot;: { &quot;width&quot;: 1280, &quot;height&quot;: 900 },
   &quot;eyebrow&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Free virtual workshop · open to everyone&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Copy&quot; },
   &quot;formCta&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Save my free seat&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Copy&quot; },
-  &quot;sessionIntervalMin&quot;: { &quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 15, &quot;min&quot;: 5, &quot;max&quot;: 1440, &quot;unit&quot;: &quot;min&quot;, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Behavior&quot; }
+  &quot;sessionIntervalMin&quot;: { &quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 5, &quot;min&quot;: 5, &quot;max&quot;: 1440, &quot;unit&quot;: &quot;min&quot;, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Behavior&quot; }
 }">
 class Component extends DCLogic {
   state = { submitted: false, firstName: '', email: '', error: '', now: Date.now() };
 
   nextSessionTs() {
-    const iv = Math.max(5, this.props.sessionIntervalMin ?? 15) * 60000;
+    const iv = Math.max(5, this.props.sessionIntervalMin ?? 5) * 60000;
+    const LIVE_WINDOW_MS = 60 * 60000; // stored ts stays valid up to 60min after it hits
     try {
-      const stored = Number(localStorage.getItem('cg_next_session_ts'));
-      if (stored && stored > Date.now()) return stored;
+      const stored = Number(localStorage.getItem('cg_webinar_session_ts'));
+      if (stored && Date.now() < stored + LIVE_WINDOW_MS) return stored;
       const next = Math.ceil((Date.now() + 1000) / iv) * iv;
-      localStorage.setItem('cg_next_session_ts', String(next));
+      localStorage.setItem('cg_webinar_session_ts', String(next));
       return next;
     } catch (err) {
       return Math.ceil((Date.now() + 1000) / iv) * iv;
