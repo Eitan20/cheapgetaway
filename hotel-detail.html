@@ -192,8 +192,26 @@
     <section id="rooms" style="margin-top:44px;">
       <h2 style="margin:0 0 16px;font-size:20px;font-weight:900;color:#0e1556;">Choose your room</h2>
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:#f6f7fb;border-radius:16px;padding:12px;">
-        <input id="cg-checkin" type="date" defaultValue="{{ checkinVal }}" style="flex:1 1 150px;border:1.5px solid rgba(14,21,86,0.14);border-radius:12px;padding:11px 14px;font-size:14px;font-weight:700;color:#0e1556;background:#fff;">
-        <input id="cg-checkout" type="date" defaultValue="{{ checkoutVal }}" style="flex:1 1 150px;border:1.5px solid rgba(14,21,86,0.14);border-radius:12px;padding:11px 14px;font-size:14px;font-weight:700;color:#0e1556;background:#fff;">
+        <div data-cg-pop="" style="position:relative;flex:1.6 1 200px;border:1.5px solid rgba(14,21,86,0.14);border-radius:12px;background:#fff;">
+          <button onClick="{{ toggleDates }}" style="border:none;background:transparent;cursor:pointer;display:block;width:100%;text-align:left;padding:7px 14px;">
+            <span style="display:block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Dates</span>
+            <span style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:#0e1556;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#52586b" stroke-width="2.2" stroke-linecap="round" style="flex-shrink:0;"><rect x="3" y="5" width="18" height="16" rx="2"></rect><line x1="3" y1="10" x2="21" y2="10"></line><line x1="8" y1="3" x2="8" y2="7"></line><line x1="16" y1="3" x2="16" y2="7"></line></svg>
+              {{ stayDatesLabel }}
+            </span>
+          </button>
+          <sc-if value="{{ datesOpen }}" hint-placeholder-val="">
+            <div style="position:absolute;top:calc(100% + 16px);left:0;z-index:60;width:320px;max-width:78vw;background:#fff;border-radius:22px;box-shadow:0 24px 64px rgba(11,15,31,0.3);padding:22px;display:flex;flex-direction:column;gap:14px;text-align:left;">
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Check-in
+                <input id="cg-checkin" type="date" defaultValue="{{ checkinVal }}" onChange="{{ setStayCheckin }}" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:11px 14px;font-size:14.5px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+              </label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Check-out
+                <input id="cg-checkout" type="date" defaultValue="{{ checkoutVal }}" onChange="{{ setStayCheckout }}" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:11px 14px;font-size:14.5px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+              </label>
+              <button onClick="{{ toggleDates }}" style="align-self:flex-end;background:#0e1556;color:#fff;border:none;cursor:pointer;font-weight:800;font-size:13.5px;padding:10px 24px;border-radius:999px;" style-hover="background:#1a2470;">Done</button>
+            </div>
+          </sc-if>
+        </div>
         <div style="flex:1.4 1 180px;border:1.5px solid rgba(14,21,86,0.14);border-radius:12px;padding:11px 14px;font-size:14px;font-weight:700;color:#0e1556;background:#fff;">1 room · {{ guestsLabel }}</div>
         <button onClick="{{ changeSearch }}" style="flex:0 0 auto;display:flex;align-items:center;gap:8px;background:#38b6ff;color:#fff;border:none;font-weight:800;font-size:14px;padding:12px 24px;border-radius:999px;cursor:pointer;" style-hover="background:#2da1e6;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
@@ -343,7 +361,8 @@
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   state = { loading: true, hotel: null, rates: [], reviews: [], sentiment: null, highlights: [], similar: [], demo: false,
-    lightbox: false, imgIdx: 0, ratesLoading: false, askLoading: false, askAnswer: '', askQuestion: '' };
+    lightbox: false, imgIdx: 0, ratesLoading: false, askLoading: false, askAnswer: '', askQuestion: '',
+    datesOpen: false, stayCheckin: '', stayCheckout: '' };
 
   params() {
     const p = new URLSearchParams(window.location.search);
@@ -382,6 +401,12 @@ class Component extends DCLogic {
     };
     document.addEventListener('click', this._navHandler, true);
 
+    this._popHandler = (e) => {
+      if (e.target && e.target.closest && e.target.closest('[data-cg-pop]')) return;
+      if (this.state.datesOpen) this.setState({ datesOpen: false });
+    };
+    document.addEventListener('click', this._popHandler);
+
     const P = this.params(); this._P = P;
     try {
       let hotelId = P.hotelId;
@@ -410,7 +435,7 @@ class Component extends DCLogic {
         reviews: this.demoReviews(), sentiment: this.demoSentiment(), highlights: this.demoHighlights(), similar: this.demoSimilar() });
     }
   }
-  componentWillUnmount() { document.removeEventListener('click', this._navHandler, true); }
+  componentWillUnmount() { document.removeEventListener('click', this._navHandler, true); document.removeEventListener('click', this._popHandler); }
 
   flatRates(rates) {
     const roomTypes = (rates && rates.data && rates.data[0] && rates.data[0].roomTypes) || [];
@@ -451,9 +476,11 @@ class Component extends DCLogic {
   }
 
   changeSearch = () => {
-    const ci = document.getElementById('cg-checkin'); const co = document.getElementById('cg-checkout');
-    if (!ci || !co || !ci.value || !co.value) return;
-    const P = { ...this._P, checkin: ci.value, checkout: co.value };
+    const ciEl = document.getElementById('cg-checkin'); const coEl = document.getElementById('cg-checkout');
+    const ci = (ciEl && ciEl.value) || this.state.stayCheckin || this._P.checkin;
+    const co = (coEl && coEl.value) || this.state.stayCheckout || this._P.checkout;
+    if (!ci || !co) return;
+    const P = { ...this._P, checkin: ci, checkout: co };
     this._P = P;
     this.setState({ ratesLoading: true });
     this.api('/hotels/rates', { method: 'POST', body: JSON.stringify(this.ratesBody(this._hotelId, P)) })
@@ -525,7 +552,12 @@ class Component extends DCLogic {
       navCity: (S.hotel && S.hotel.city) || 'Destination',
       navDates: this.fmtDate(P.checkin) + ' – ' + this.fmtDate(P.checkout),
       guestsLabel: P.adults + (P.adults === 1 ? ' Guest' : ' Guests'),
-      checkinVal: P.checkin, checkoutVal: P.checkout,
+      checkinVal: S.stayCheckin || P.checkin, checkoutVal: S.stayCheckout || P.checkout,
+      datesOpen: S.datesOpen,
+      toggleDates: () => this.setState(s => ({ datesOpen: !s.datesOpen })),
+      setStayCheckin: (e) => this.setState({ stayCheckin: e.currentTarget.value }),
+      setStayCheckout: (e) => this.setState({ stayCheckout: e.currentTarget.value }),
+      stayDatesLabel: this.fmtDate(S.stayCheckin || P.checkin) + ' – ' + this.fmtDate(S.stayCheckout || P.checkout),
       openGallery: () => this.setState({ lightbox: true, imgIdx: 0 }),
       closeGallery: () => this.setState({ lightbox: false }),
       lightbox: S.lightbox,
