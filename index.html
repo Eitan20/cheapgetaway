@@ -73,10 +73,10 @@
     </div>
     <div class="cg-nav-auth" style="display:flex;align-items:center;gap:12px;">
       <sc-if value="{{ signedIn }}" hint-placeholder-val="">
-        <a href="my-trips.html" style="font-weight:700;font-size:15px;color:#0e1556;padding:8px 12px;">My trips</a>
+        <a href="/my-trips" style="font-weight:700;font-size:15px;color:#0e1556;padding:8px 12px;">My trips</a>
       </sc-if>
       <button class="cg-signin-btn" onClick="{{ authAction }}" style="border:none;background:transparent;cursor:pointer;font-weight:700;font-size:15px;color:#0e1556;padding:8px 12px;" style-hover="color:#38b6ff;">{{ authLabel }}</button>
-      <a class="cg-join-btn" href="webinar-optin.html" style="background:#ff6500;color:#fff;font-weight:800;font-size:15px;padding:10px 20px;border-radius:999px;box-shadow:0 8px 24px rgba(255,101,0,0.28);" style-hover="background:#e65a00;color:#fff;">Join the club</a>
+      <a class="cg-join-btn" href="/webinar-optin" style="background:#ff6500;color:#fff;font-weight:800;font-size:15px;padding:10px 20px;border-radius:999px;box-shadow:0 8px 24px rgba(255,101,0,0.28);" style-hover="background:#e65a00;color:#fff;">Join the club</a>
     </div>
   </div>
 </nav>
@@ -314,7 +314,7 @@
       <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
         <button class="cg-quick-btn" style="border:none;background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);color:#0e1556;font-weight:700;font-size:13px;padding:8px 16px;border-radius:999px;cursor:pointer;box-shadow:0 4px 14px rgba(11,15,31,0.18);" style-hover="background:#fff;color:#38b6ff;">This weekend</button>
         <button class="cg-quick-btn" style="border:none;background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);color:#0e1556;font-weight:700;font-size:13px;padding:8px 16px;border-radius:999px;cursor:pointer;box-shadow:0 4px 14px rgba(11,15,31,0.18);" style-hover="background:#fff;color:#38b6ff;">Under $120/night</button>
-        <a href="webinar-optin.html" style="display:flex;align-items:center;gap:7px;font-weight:800;font-size:13px;color:#ff6500;background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);padding:8px 16px;border-radius:999px;box-shadow:0 4px 14px rgba(11,15,31,0.18);" style-hover="color:#e65a00;background:#fff;">
+        <a href="/webinar-optin" style="display:flex;align-items:center;gap:7px;font-weight:800;font-size:13px;color:#ff6500;background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);padding:8px 16px;border-radius:999px;box-shadow:0 4px 14px rgba(11,15,31,0.18);" style-hover="color:#e65a00;background:#fff;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>
           Members see lower prices →
         </a>
@@ -401,7 +401,7 @@
         <h2 style="margin:0;font-size:clamp(28px,3.2vw,40px);font-weight:900;line-height:1.12;text-wrap:balance;">The price you see isn't the price members pay.</h2>
         <p style="margin:0;font-size:17px;font-weight:600;line-height:1.65;color:rgba(255,255,255,0.85);max-width:560px;">Hotels can't publish their lowest rates — public sites would revolt. So they release them inside closed clubs instead. Our club taps those rates. Same room, same dates, no coupon hunting. Members routinely knock 40–65% off the public price.</p>
         <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:6px;">
-          <a href="webinar-optin.html" style="background:#ff6500;color:#fff;font-weight:900;font-size:16px;padding:14px 28px;border-radius:999px;box-shadow:0 8px 24px rgba(255,101,0,0.35);" style-hover="background:#e65a00;color:#fff;">See how the club works</a>
+          <a href="/webinar-optin" style="background:#ff6500;color:#fff;font-weight:900;font-size:16px;padding:14px 28px;border-radius:999px;box-shadow:0 8px 24px rgba(255,101,0,0.35);" style-hover="background:#e65a00;color:#fff;">See how the club works</a>
           <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.6);">Free walkthrough · 2 minutes · No card needed</span>
         </div>
       </div>
@@ -432,22 +432,22 @@
       <p style="margin:0;color:#52586b;font-weight:600;font-size:16px;">Curated trips for whatever vibe you're chasing.</p>
     </div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:220px 220px;gap:18px;">
-      <a href="search-results.html?ai=Beachfront%20resorts%20in%20Miami%20with%20pools" style="grid-column:span 2;grid-row:span 2;position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
+      <a href="/search-results?ai=Beachfront%20resorts%20in%20Miami%20with%20pools" style="grid-column:span 2;grid-row:span 2;position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
         <img src="assets/featured-beach.webp" alt="Beach Escapes" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
         <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(11,15,31,0.72) 0%, rgba(11,15,31,0) 55%);"></div>
         <div style="position:absolute;left:22px;bottom:20px;color:#fff;"><h3 style="margin:0;font-size:24px;font-weight:900;">Beach Escapes</h3><p style="margin:2px 0 0;font-weight:600;opacity:0.9;">Sun, sand, and savings</p></div>
       </a>
-      <a href="search-results.html?ai=Top-rated%20hotels%20near%20Times%20Square%20New%20York" style="grid-column:span 2;position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
+      <a href="/search-results?ai=Top-rated%20hotels%20near%20Times%20Square%20New%20York" style="grid-column:span 2;position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
         <img src="assets/featured-roadtrip.webp" alt="City Breaks" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
         <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(11,15,31,0.72) 0%, rgba(11,15,31,0) 55%);"></div>
         <div style="position:absolute;left:22px;bottom:20px;color:#fff;"><h3 style="margin:0;font-size:22px;font-weight:900;">City Breaks</h3><p style="margin:2px 0 0;font-weight:600;opacity:0.9;">Neon lights and late nights</p></div>
       </a>
-      <a href="search-results.html?ai=Mountain%20cabin%20resorts%20near%20Denver%20Colorado" style="position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
+      <a href="/search-results?ai=Mountain%20cabin%20resorts%20near%20Denver%20Colorado" style="position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
         <img src="assets/featured-mountain.webp" alt="Mountain Retreats" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
         <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(11,15,31,0.72) 0%, rgba(11,15,31,0) 55%);"></div>
         <div style="position:absolute;left:18px;bottom:16px;color:#fff;"><h3 style="margin:0;font-size:18px;font-weight:900;">Mountain Retreats</h3><p style="margin:2px 0 0;font-weight:600;font-size:13px;opacity:0.9;">Cabins and cozy fireplaces</p></div>
       </a>
-      <a href="search-results.html?ai=Desert%20resorts%20with%20pools%20in%20Scottsdale%20Arizona" style="position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
+      <a href="/search-results?ai=Desert%20resorts%20with%20pools%20in%20Scottsdale%20Arizona" style="position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
         <img src="assets/featured-forest.webp" alt="Desert Vibes" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
         <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(11,15,31,0.72) 0%, rgba(11,15,31,0) 55%);"></div>
         <div style="position:absolute;left:18px;bottom:16px;color:#fff;"><h3 style="margin:0;font-size:18px;font-weight:900;">Desert Vibes</h3><p style="margin:2px 0 0;font-weight:600;font-size:13px;opacity:0.9;">Oasis luxury</p></div>
@@ -494,7 +494,7 @@
           <li style="display:flex;gap:9px;align-items:center;"><span style="color:#38b6ff;font-weight:900;">✓</span>Resorts, cruises and condo weeks too</li>
           <li style="display:flex;gap:9px;align-items:center;"><span style="color:#38b6ff;font-weight:900;">✓</span>Cancel anytime — keep what you saved</li>
         </ul>
-        <a href="webinar-optin.html" style="margin-top:auto;width:fit-content;background:#38b6ff;color:#fff;font-weight:800;font-size:15px;padding:12px 24px;border-radius:999px;" style-hover="background:#2da1e6;color:#fff;">Start saving on trips</a>
+        <a href="/webinar-optin" style="margin-top:auto;width:fit-content;background:#38b6ff;color:#fff;font-weight:800;font-size:15px;padding:12px 24px;border-radius:999px;" style-hover="background:#2da1e6;color:#fff;">Start saving on trips</a>
       </div>
       <div style="background:#fff;border-radius:22px;padding:32px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;gap:14px;border-top:5px solid #ff6500;">
         <span style="width:52px;height:52px;border-radius:14px;background:rgba(255,101,0,0.12);color:#ff6500;display:flex;align-items:center;justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1v22M17 5.5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></span>
@@ -505,7 +505,7 @@
           <li style="display:flex;gap:9px;align-items:center;"><span style="color:#ff6500;font-weight:900;">✓</span>The work happens once — post what you saved</li>
           <li style="display:flex;gap:9px;align-items:center;"><span style="color:#ff6500;font-weight:900;">✓</span>A team that picks up the phone when you ask how</li>
         </ul>
-        <a href="webinar-optin-creator.html" style="margin-top:auto;width:fit-content;background:#ff6500;color:#fff;font-weight:800;font-size:15px;padding:12px 24px;border-radius:999px;" style-hover="background:#e65a00;color:#fff;">See how creators earn</a>
+        <a href="/webinar-optin-creator" style="margin-top:auto;width:fit-content;background:#ff6500;color:#fff;font-weight:800;font-size:15px;padding:12px 24px;border-radius:999px;" style-hover="background:#e65a00;color:#fff;">See how creators earn</a>
       </div>
     </div>
   </section>
@@ -596,7 +596,7 @@
     <h2 style="margin:0 auto;font-size:clamp(30px,3.8vw,46px);font-weight:900;color:#0e1556;line-height:1.1;max-width:760px;text-wrap:balance;">Book like a member, not a tourist.</h2>
     <p style="margin:18px auto 0;font-size:17px;font-weight:600;line-height:1.65;color:#52586b;max-width:600px;">Every crossed-out price on this page is a trip you could be taking for less. The walkthrough takes two minutes — watch it, do the math on your next trip, then decide.</p>
     <div style="margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:12px;">
-      <a href="webinar-optin.html" style="background:#ff6500;color:#fff;font-weight:900;font-size:18px;padding:16px 38px;border-radius:999px;box-shadow:0 12px 32px rgba(255,101,0,0.35);" style-hover="background:#e65a00;color:#fff;">Unlock member prices</a>
+      <a href="/webinar-optin" style="background:#ff6500;color:#fff;font-weight:900;font-size:18px;padding:16px 38px;border-radius:999px;box-shadow:0 12px 32px rgba(255,101,0,0.35);" style-hover="background:#e65a00;color:#fff;">Unlock member prices</a>
       <span style="font-size:13px;font-weight:700;color:#9aa0b4;">2-minute signup · Cancel anytime · You join a team, not just a website</span>
     </div>
   </section>
@@ -615,7 +615,7 @@
           <a href="#deals" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">Top deals</a>
           <a href="#weekend" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">Weekend steals</a>
           <a href="#find-your-vibe" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">Find your vibe</a>
-          <a href="webinar-optin-creator.html" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">For creators</a>
+          <a href="/webinar-optin-creator" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">For creators</a>
         </div>
         <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;font-weight:600;">
           <strong style="color:#fff;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.08em;">Support</strong>
@@ -626,8 +626,8 @@
         <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;font-weight:600;">
           <strong style="color:#fff;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.08em;">Company</strong>
           <a href="#" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">About</a>
-          <a href="privacy.html" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">Privacy</a>
-          <a href="terms.html" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">Terms</a>
+          <a href="/privacy" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">Privacy</a>
+          <a href="/terms" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">Terms</a>
         </div>
       </div>
     </div>
@@ -726,7 +726,7 @@ class Component extends DCLogic {
       reviews: h.reviews.toLocaleString(), priceLabel: "US$" + h.price.toLocaleString(),
       memberLabel: "US$" + Math.round(h.price * 0.47).toLocaleString(),
       imgEl: this.imgEl(h.image, h.name),
-      href: "hotel-detail.html?q=" + encodeURIComponent(h.name + " " + h.address)
+      href: "/hotel-detail?q=" + encodeURIComponent(h.name + " " + h.address)
     }));
     const std = mode === 'standard';
     const fly = mode === 'flights';
@@ -744,16 +744,16 @@ class Component extends DCLogic {
       aiToggleBg: this.state.flightsAi ? '#f6f7fb' : '#ff6500',
       aiToggleColor: this.state.flightsAi ? '#0e1556' : '#fff',
       trendingCards: [
-        { city: 'Miami', kicker: 'Best pricing', image: 'assets/weekend-beach.webp', href: 'flight-results.html?ai=' + encodeURIComponent('Cheapest flights to Miami next month') },
-        { city: 'Las Vegas', kicker: 'Weekend party', image: 'assets/weekend-family.webp', href: 'flight-results.html?ai=' + encodeURIComponent('Cheapest flights to Las Vegas this weekend') },
-        { city: 'New York', kicker: 'City breaks', image: 'assets/weekend-adventure.webp', href: 'flight-results.html?ai=' + encodeURIComponent('Cheapest flights to New York next month') },
-        { city: 'Denver', kicker: 'Mountain escapes', image: 'assets/featured-mountain.webp', href: 'flight-results.html?ai=' + encodeURIComponent('Cheapest flights to Denver next month') }
+        { city: 'Miami', kicker: 'Best pricing', image: 'assets/weekend-beach.webp', href: '/flight-results?ai=' + encodeURIComponent('Cheapest flights to Miami next month') },
+        { city: 'Las Vegas', kicker: 'Weekend party', image: 'assets/weekend-family.webp', href: '/flight-results?ai=' + encodeURIComponent('Cheapest flights to Las Vegas this weekend') },
+        { city: 'New York', kicker: 'City breaks', image: 'assets/weekend-adventure.webp', href: '/flight-results?ai=' + encodeURIComponent('Cheapest flights to New York next month') },
+        { city: 'Denver', kicker: 'Mountain escapes', image: 'assets/featured-mountain.webp', href: '/flight-results?ai=' + encodeURIComponent('Cheapest flights to Denver next month') }
       ].map(t => ({ ...t, imgEl: this.imgEl(t.image, t.city, true) })),
       doFlightAiSearch: () => {
         const el = document.getElementById('cg-fly-ai');
         const q = (el && el.value.trim());
         if (!q) return;
-        window.location.href = 'flight-results.html?ai=' + encodeURIComponent(q);
+        window.location.href = '/flight-results?ai=' + encodeURIComponent(q);
       },
       setTripRound: () => this.setState({ trip: 'round' }),
       setTripOneway: () => this.setState({ trip: 'oneway' }),
@@ -777,7 +777,7 @@ class Component extends DCLogic {
           trip: S.trip, nonstop: document.getElementById('cg-nonstop') && document.getElementById('cg-nonstop').checked ? '1' : '0'
         });
         if (S.trip === 'round') p.set('return', S.flyReturn || this.iso(17));
-        window.location.href = 'flight-results.html?' + p.toString();
+        window.location.href = '/flight-results?' + p.toString();
       },
       togglePax: () => this.setState(s => ({ paxOpen: !s.paxOpen, datesOpen: false, guestsOpen: false })),
       closePax: () => { if (this.state.paxOpen) this.setState({ paxOpen: false }); },
@@ -808,7 +808,7 @@ class Component extends DCLogic {
         let u = null;
         try { u = JSON.parse(localStorage.getItem('cg_user') || 'null'); } catch (e) {}
         if (u) { localStorage.removeItem('cg_user'); this.forceUpdate(); }
-        else window.location.href = 'sign-in.html';
+        else window.location.href = '/sign-in';
       },
       doSearch: () => {
         const el = document.getElementById('cg-dest');
@@ -818,7 +818,7 @@ class Component extends DCLogic {
         if (S.destPlaceId) p.set('placeId', S.destPlaceId);
         p.set('checkin', S.stayCheckin || this.iso(1));
         p.set('checkout', S.stayCheckout || this.iso(3));
-        window.location.href = 'search-results.html?' + p.toString();
+        window.location.href = '/search-results?' + p.toString();
       },
       onDestInput: (e) => {
         const q = e.currentTarget.value.trim();
@@ -877,26 +877,26 @@ class Component extends DCLogic {
       searchLabel: std ? 'Destination' : 'AI search',
       searchPlaceholder: std ? 'City or airport' : 'Romantic getaway with spa and late checkout',
       topDeals: withImg([
-        { name: "Downtown Grand Vegas", city: "Las Vegas", image: "assets/weekend-family.webp", priceLabel: "$89", rating: "8.6", href: "hotel-detail.html?hotelId=lp1a278" },
-        { name: "The Wayfarer Seaside", city: "San Diego", image: "assets/quickvibe-poolside.webp", priceLabel: "$112", rating: "8.9", href: "hotel-detail.html?q=" + encodeURIComponent("beachfront hotel San Diego") },
-        { name: "Hotel Lincoln Chicago", city: "Chicago", image: "assets/quickvibe-city.webp", priceLabel: "$104", rating: "8.7", href: "hotel-detail.html?q=" + encodeURIComponent("Hotel Lincoln Chicago") },
-        { name: "French Quarter Inn", city: "New Orleans", image: "assets/weekend-city.webp", priceLabel: "$97", rating: "8.8", href: "hotel-detail.html?q=" + encodeURIComponent("French Quarter hotel New Orleans") },
-        { name: "South Beach Cabana", city: "Miami", image: "assets/weekend-beach.webp", priceLabel: "$118", rating: "9.0", href: "hotel-detail.html?q=" + encodeURIComponent("South Beach hotel Miami") },
-        { name: "Midtown Pod NYC", city: "New York", image: "assets/weekend-adventure.webp", priceLabel: "$139", rating: "8.5", href: "hotel-detail.html?q=" + encodeURIComponent("Midtown Manhattan hotel New York") },
-        { name: "Desert Sky Resort", city: "Phoenix", image: "assets/quickvibe-roadtrip.webp", priceLabel: "$92", rating: "8.8", href: "hotel-detail.html?q=" + encodeURIComponent("resort Phoenix Arizona") },
-        { name: "Harbor Lights Hotel", city: "Seattle", image: "assets/hotel-fallback-sm.webp", priceLabel: "$121", rating: "8.6", href: "hotel-detail.html?q=" + encodeURIComponent("downtown hotel Seattle") }
+        { name: "Downtown Grand Vegas", city: "Las Vegas", image: "assets/weekend-family.webp", priceLabel: "$89", rating: "8.6", href: "/hotel-detail?hotelId=lp1a278" },
+        { name: "The Wayfarer Seaside", city: "San Diego", image: "assets/quickvibe-poolside.webp", priceLabel: "$112", rating: "8.9", href: "/hotel-detail?q=" + encodeURIComponent("beachfront hotel San Diego") },
+        { name: "Hotel Lincoln Chicago", city: "Chicago", image: "assets/quickvibe-city.webp", priceLabel: "$104", rating: "8.7", href: "/hotel-detail?q=" + encodeURIComponent("Hotel Lincoln Chicago") },
+        { name: "French Quarter Inn", city: "New Orleans", image: "assets/weekend-city.webp", priceLabel: "$97", rating: "8.8", href: "/hotel-detail?q=" + encodeURIComponent("French Quarter hotel New Orleans") },
+        { name: "South Beach Cabana", city: "Miami", image: "assets/weekend-beach.webp", priceLabel: "$118", rating: "9.0", href: "/hotel-detail?q=" + encodeURIComponent("South Beach hotel Miami") },
+        { name: "Midtown Pod NYC", city: "New York", image: "assets/weekend-adventure.webp", priceLabel: "$139", rating: "8.5", href: "/hotel-detail?q=" + encodeURIComponent("Midtown Manhattan hotel New York") },
+        { name: "Desert Sky Resort", city: "Phoenix", image: "assets/quickvibe-roadtrip.webp", priceLabel: "$92", rating: "8.8", href: "/hotel-detail?q=" + encodeURIComponent("resort Phoenix Arizona") },
+        { name: "Harbor Lights Hotel", city: "Seattle", image: "assets/hotel-fallback-sm.webp", priceLabel: "$121", rating: "8.6", href: "/hotel-detail?q=" + encodeURIComponent("downtown hotel Seattle") }
       ]),
       vibeCards: withImg([
-        { title: "Romantic Getaway", image: "assets/vibe-beach.webp", href: "search-results.html?ai=" + encodeURIComponent("Romantic adults-only resorts in Cancun") },
-        { title: "Weekend Party", image: "assets/vibe-nightlife.webp", href: "search-results.html?ai=" + encodeURIComponent("Hotels near the Las Vegas Strip nightlife") },
-        { title: "Family Friendly", image: "assets/vibe-hiking.webp", href: "search-results.html?ai=" + encodeURIComponent("Family friendly resorts in Orlando with pools") },
-        { title: "Quiet Luxury", image: "assets/vibe-staycation.webp", href: "search-results.html?ai=" + encodeURIComponent("Quiet luxury boutique hotels in Santa Barbara") }
+        { title: "Romantic Getaway", image: "assets/vibe-beach.webp", href: "/search-results?ai=" + encodeURIComponent("Romantic adults-only resorts in Cancun") },
+        { title: "Weekend Party", image: "assets/vibe-nightlife.webp", href: "/search-results?ai=" + encodeURIComponent("Hotels near the Las Vegas Strip nightlife") },
+        { title: "Family Friendly", image: "assets/vibe-hiking.webp", href: "/search-results?ai=" + encodeURIComponent("Family friendly resorts in Orlando with pools") },
+        { title: "Quiet Luxury", image: "assets/vibe-staycation.webp", href: "/search-results?ai=" + encodeURIComponent("Quiet luxury boutique hotels in Santa Barbara") }
       ], true),
       weekendDeals: withImg([
-        { name: "Downtown Las Vegas Stay", city: "Las Vegas", image: "assets/weekend-family.webp", priceLabel: "$99", href: "hotel-detail.html?hotelId=lp1a278" },
-        { name: "South Beach Escape", city: "Miami", image: "assets/weekend-beach.webp", priceLabel: "$119", href: "hotel-detail.html?hotelId=lp1a7fc" },
-        { name: "Midtown Weekend Pick", city: "New York", image: "assets/weekend-adventure.webp", priceLabel: "$139", href: "hotel-detail.html?hotelId=lp1a88f" },
-        { name: "French Quarter Retreat", city: "New Orleans", image: "assets/weekend-city.webp", priceLabel: "$109", href: "hotel-detail.html?hotelId=lp194b6" }
+        { name: "Downtown Las Vegas Stay", city: "Las Vegas", image: "assets/weekend-family.webp", priceLabel: "$99", href: "/hotel-detail?hotelId=lp1a278" },
+        { name: "South Beach Escape", city: "Miami", image: "assets/weekend-beach.webp", priceLabel: "$119", href: "/hotel-detail?hotelId=lp1a7fc" },
+        { name: "Midtown Weekend Pick", city: "New York", image: "assets/weekend-adventure.webp", priceLabel: "$139", href: "/hotel-detail?hotelId=lp1a88f" },
+        { name: "French Quarter Retreat", city: "New Orleans", image: "assets/weekend-city.webp", priceLabel: "$109", href: "/hotel-detail?hotelId=lp194b6" }
       ])
     };
   }

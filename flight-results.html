@@ -34,7 +34,7 @@
 
 <nav style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(14,21,86,0.08);">
   <div style="max-width:1180px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
-    <a href="index.html" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:34px;display:block;"></a>
+    <a href="/" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:34px;display:block;"></a>
     <div style="display:flex;align-items:center;gap:2px;background:#fff;border:1.5px solid rgba(14,21,86,0.14);border-radius:999px;padding:7px 18px;font-size:13.5px;font-weight:800;color:#0e1556;box-shadow:0 2px 8px rgba(14,21,86,0.04);">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="#0e1556" style="margin-right:9px;"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"></path></svg>
       <span>{{ routeLabel }}</span>
@@ -43,7 +43,7 @@
       <span style="width:1px;height:16px;background:rgba(14,21,86,0.14);margin:0 12px;"></span>
       <span>{{ paxLabel }}</span>
     </div>
-    <a href="webinar-optin.html" class="cg-fr-join" style="background:#ff6500;color:#fff;font-weight:800;font-size:14px;padding:9px 20px;border-radius:999px;box-shadow:0 8px 24px rgba(255,101,0,0.28);" style-hover="background:#e65a00;color:#fff;">Join the club</a>
+    <a href="/webinar-optin" class="cg-fr-join" style="background:#ff6500;color:#fff;font-weight:800;font-size:14px;padding:9px 20px;border-radius:999px;box-shadow:0 8px 24px rgba(255,101,0,0.28);" style-hover="background:#e65a00;color:#fff;">Join the club</a>
   </div>
 </nav>
 
@@ -69,7 +69,7 @@
     <div style="background:#0e1556;border-radius:16px;padding:20px;color:#fff;display:flex;flex-direction:column;gap:10px;">
       <strong style="font-size:14px;font-weight:900;display:flex;align-items:center;gap:7px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38b6ff" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>Bundle &amp; save</strong>
       <p style="margin:0;font-size:12.5px;font-weight:600;line-height:1.55;color:rgba(255,255,255,0.75);">Members who pair a flight with a member-rate hotel save the most per trip.</p>
-      <a href="webinar-optin.html" style="background:#ff6500;color:#fff;text-align:center;font-weight:800;font-size:13px;padding:10px 16px;border-radius:999px;" style-hover="background:#e65a00;color:#fff;">Unlock member prices</a>
+      <a href="/webinar-optin" style="background:#ff6500;color:#fff;text-align:center;font-weight:800;font-size:13px;padding:10px 16px;border-radius:999px;" style-hover="background:#e65a00;color:#fff;">Unlock member prices</a>
     </div>
   </aside>
 
@@ -138,9 +138,9 @@
 <footer style="border-top:1.5px solid rgba(14,21,86,0.08);background:#fff;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
   <img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:26px;">
   <div style="display:flex;gap:22px;font-size:12.5px;font-weight:700;color:#52586b;flex-wrap:wrap;">
-    <a href="index.html" style="color:#52586b;" style-hover="color:#38b6ff;">Home</a>
-    <a href="webinar-optin.html" style="color:#52586b;" style-hover="color:#38b6ff;">Join the club</a>
-    <a href="webinar-optin-creator.html" style="color:#52586b;" style-hover="color:#38b6ff;">For creators</a>
+    <a href="/" style="color:#52586b;" style-hover="color:#38b6ff;">Home</a>
+    <a href="/webinar-optin" style="color:#52586b;" style-hover="color:#38b6ff;">Join the club</a>
+    <a href="/webinar-optin-creator" style="color:#52586b;" style-hover="color:#38b6ff;">For creators</a>
   </div>
   <span style="font-size:12px;font-weight:700;color:#9aa0b4;">© 2026 cheapgetaway.com</span>
 </footer>
@@ -316,7 +316,7 @@ class Component extends DCLogic {
     const cards = offers.map(o => ({
       select: () => {
         try { sessionStorage.setItem('cg_flight_offer', JSON.stringify({ price: o.price, currency: o.currency, legs: o.legs, adults: P.adults, offerId: o.offerId || null })); } catch (e) {}
-        window.location.href = 'flight-checkout.html';
+        window.location.href = '/flight-checkout';
       },
       price: '$' + Math.round(o.price).toLocaleString(),
       legs: o.legs.map(l => ({

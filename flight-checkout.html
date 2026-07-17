@@ -25,14 +25,14 @@
 
 <nav style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);">
   <div style="max-width:1100px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;">
-    <a href="index.html" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:40px;display:block;"></a>
+    <a href="/" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:40px;display:block;"></a>
     <span style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#1d9e55;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1d9e55" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>Secure checkout</span>
   </div>
 </nav>
 
 <main style="max-width:1100px;margin:0 auto;padding:24px 24px 80px;display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;">
   <section style="flex:1.6 1 420px;min-width:0;display:flex;flex-direction:column;gap:18px;">
-    <a href="flight-results.html" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#52586b;width:fit-content;" style-hover="color:#38b6ff;">
+    <a href="/flight-results" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#52586b;width:fit-content;" style-hover="color:#38b6ff;">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><polyline points="14 6 8 12 14 18"></polyline></svg>
       Back to flights
     </a>
@@ -201,7 +201,7 @@ class Component extends DCLogic {
             adults, price: Math.round(O.price), refundable: false,
             guest: fn + ' ' + ln, email, bookedAt: new Date().toISOString() });
           localStorage.setItem('cg_trips', JSON.stringify(trips));
-          window.location.href = 'booking-confirmed.html?bid=' + encodeURIComponent(bookingId);
+          window.location.href = '/booking-confirmed?bid=' + encodeURIComponent(bookingId);
         };
         if (O.offerId) {
           this.api('/flights/book', { method: 'POST', body: JSON.stringify({

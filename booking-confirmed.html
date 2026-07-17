@@ -22,8 +22,8 @@
 
 <nav style="background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);">
   <div style="max-width:900px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;">
-    <a href="index.html" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:40px;display:block;"></a>
-    <a href="my-trips.html" style="font-weight:800;font-size:14px;color:#0e1556;" style-hover="color:#38b6ff;">My trips</a>
+    <a href="/" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:40px;display:block;"></a>
+    <a href="/my-trips" style="font-weight:800;font-size:14px;color:#0e1556;" style-hover="color:#38b6ff;">My trips</a>
   </div>
 </nav>
 
@@ -64,8 +64,8 @@
     </div>
 
     <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
-      <a href="my-trips.html" style="background:#0e1556;color:#fff;font-weight:800;font-size:15px;padding:13px 28px;border-radius:999px;" style-hover="background:#1a2470;color:#fff;">View in My Trips</a>
-      <a href="index.html" style="background:#fff;color:#0e1556;font-weight:800;font-size:15px;padding:13px 28px;border-radius:999px;border:1.5px solid rgba(14,21,86,0.15);" style-hover="border-color:#38b6ff;color:#38b6ff;">Book another stay</a>
+      <a href="/my-trips" style="background:#0e1556;color:#fff;font-weight:800;font-size:15px;padding:13px 28px;border-radius:999px;" style-hover="background:#1a2470;color:#fff;">View in My Trips</a>
+      <a href="/" style="background:#fff;color:#0e1556;font-weight:800;font-size:15px;padding:13px 28px;border-radius:999px;border:1.5px solid rgba(14,21,86,0.15);" style-hover="border-color:#38b6ff;color:#38b6ff;">Book another stay</a>
     </div>
 
     <div style="background:#0e1556;border-radius:20px;padding:24px 28px;color:#fff;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
@@ -73,14 +73,14 @@
         <h3 style="margin:0;font-size:17px;font-weight:900;">Nice booking. Want the next one to cost even less?</h3>
         <p style="margin:6px 0 0;font-size:13.5px;font-weight:600;color:rgba(255,255,255,0.75);line-height:1.55;">There's a members-only rate under prices like this one. A free 2-minute walkthrough shows you how travelers unlock it.</p>
       </div>
-      <a href="webinar-optin.html" style="background:#ff6500;color:#fff;font-weight:800;font-size:14px;padding:12px 24px;border-radius:999px;box-shadow:0 8px 24px rgba(255,101,0,0.35);flex-shrink:0;" style-hover="background:#e65a00;color:#fff;">Show me</a>
+      <a href="/webinar-optin" style="background:#ff6500;color:#fff;font-weight:800;font-size:14px;padding:12px 24px;border-radius:999px;box-shadow:0 8px 24px rgba(255,101,0,0.35);flex-shrink:0;" style-hover="background:#e65a00;color:#fff;">Show me</a>
     </div>
   </sc-if>
 
   <sc-if value="{{ notFound }}" hint-placeholder-val="">
     <div style="background:#fff;border-radius:18px;padding:30px;text-align:center;box-shadow:0 8px 24px rgba(14,21,86,0.06);">
       <p style="margin:0;font-size:15px;font-weight:800;color:#0e1556;">We couldn't find that booking on this device.</p>
-      <a href="my-trips.html" style="display:inline-block;margin-top:16px;background:#38b6ff;color:#fff;font-weight:800;font-size:14px;padding:11px 22px;border-radius:999px;" style-hover="background:#2da1e6;color:#fff;">Go to My Trips</a>
+      <a href="/my-trips" style="display:inline-block;margin-top:16px;background:#38b6ff;color:#fff;font-weight:800;font-size:14px;padding:11px 22px;border-radius:999px;" style-hover="background:#2da1e6;color:#fff;">Go to My Trips</a>
     </div>
   </sc-if>
 </main>

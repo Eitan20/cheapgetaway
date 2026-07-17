@@ -45,7 +45,7 @@
 
 <nav style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(14,21,86,0.08);">
   <div style="max-width:1280px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
-    <a href="index.html" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:34px;display:block;"></a>
+    <a href="/" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:34px;display:block;"></a>
     <form onSubmit="{{ navSearch }}" class="cg-sr-navform" style="display:flex;align-items:center;gap:2px;background:#fff;border:1.5px solid rgba(14,21,86,0.14);border-radius:999px;padding:6px 6px 6px 18px;font-size:13.5px;font-weight:800;color:#0e1556;box-shadow:0 2px 8px rgba(14,21,86,0.04);flex:0 1 460px;">
       <input id="cg-nav-q" type="text" defaultValue="{{ queryVal }}" placeholder="Where to?" class="cg-sr-navq" style="border:none;background:transparent;font-size:13.5px;font-weight:800;color:#0e1556;width:110px;flex:1;">
       <span class="cg-sr-navdiv" style="width:1px;height:16px;background:rgba(14,21,86,0.14);margin:0 12px;"></span>
@@ -54,7 +54,7 @@
       <span class="cg-sr-navseg" style="white-space:nowrap;">{{ guestsLabel }}</span>
       <button type="submit" aria-label="Search" style="margin-left:12px;width:32px;height:32px;border-radius:50%;background:#38b6ff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg></button>
     </form>
-    <a href="webinar-optin.html" class="cg-sr-navjoin" style="background:#ff6500;color:#fff;font-weight:800;font-size:14px;padding:9px 20px;border-radius:999px;box-shadow:0 8px 24px rgba(255,101,0,0.28);" style-hover="background:#e65a00;color:#fff;">Join the club</a>
+    <a href="/webinar-optin" class="cg-sr-navjoin" style="background:#ff6500;color:#fff;font-weight:800;font-size:14px;padding:9px 20px;border-radius:999px;box-shadow:0 8px 24px rgba(255,101,0,0.28);" style-hover="background:#e65a00;color:#fff;">Join the club</a>
   </div>
 </nav>
 
@@ -159,7 +159,7 @@
     <div style="background:#0e1556;border-radius:16px;padding:20px;color:#fff;display:flex;flex-direction:column;gap:10px;">
       <strong style="font-size:14px;font-weight:900;display:flex;align-items:center;gap:7px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38b6ff" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>Member prices</strong>
       <p style="margin:0;font-size:12.5px;font-weight:600;line-height:1.55;color:rgba(255,255,255,0.75);">Club members see these same rooms 40–65% cheaper. The crossed-out price is what everyone else pays.</p>
-      <a href="webinar-optin.html" style="background:#ff6500;color:#fff;text-align:center;font-weight:800;font-size:13px;padding:10px 16px;border-radius:999px;" style-hover="background:#e65a00;color:#fff;">Unlock member prices</a>
+      <a href="/webinar-optin" style="background:#ff6500;color:#fff;text-align:center;font-weight:800;font-size:13px;padding:10px 16px;border-radius:999px;" style-hover="background:#e65a00;color:#fff;">Unlock member prices</a>
     </div>
   </aside>
 
@@ -245,9 +245,9 @@
 <footer style="border-top:1.5px solid rgba(14,21,86,0.08);background:#fff;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
   <img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:26px;">
   <div style="display:flex;gap:22px;font-size:12.5px;font-weight:700;color:#52586b;flex-wrap:wrap;">
-    <a href="index.html" style="color:#52586b;" style-hover="color:#38b6ff;">Home</a>
-    <a href="webinar-optin.html" style="color:#52586b;" style-hover="color:#38b6ff;">Join the club</a>
-    <a href="webinar-optin-creator.html" style="color:#52586b;" style-hover="color:#38b6ff;">For creators</a>
+    <a href="/" style="color:#52586b;" style-hover="color:#38b6ff;">Home</a>
+    <a href="/webinar-optin" style="color:#52586b;" style-hover="color:#38b6ff;">Join the club</a>
+    <a href="/webinar-optin-creator" style="color:#52586b;" style-hover="color:#38b6ff;">For creators</a>
   </div>
   <span style="font-size:12px;font-weight:700;color:#9aa0b4;">© 2026 cheapgetaway.com</span>
 </footer>
@@ -430,7 +430,7 @@ class Component extends DCLogic {
         offPct: off ? off + '%' : '',
         distLabel: r.dist != null ? r.dist.toFixed(1) + ' mi from ' + ((P.q || '').split(',')[0] || 'center') : '',
         stayNote: nights + (nights === 1 ? ' night' : ' nights') + ', 1 room, incl. taxes & fees',
-        href: 'hotel-detail.html?hotelId=' + encodeURIComponent(r.hotelId) + '&checkin=' + P.checkin + '&checkout=' + P.checkout + '&adults=' + P.adults
+        href: '/hotel-detail?hotelId=' + encodeURIComponent(r.hotelId) + '&checkin=' + P.checkin + '&checkout=' + P.checkout + '&adults=' + P.adults
       };
     });
     return {
@@ -440,7 +440,7 @@ class Component extends DCLogic {
       guestsLabel: P.adults + (P.adults === 1 ? ' Guest' : ' Guests'),
       navSearch: (e) => { e.preventDefault(); const el = document.getElementById('cg-nav-q');
         const q = (el && el.value.trim()) || P.q;
-        window.location.href = 'search-results.html?q=' + encodeURIComponent(q) + '&checkin=' + P.checkin + '&checkout=' + P.checkout + '&adults=' + P.adults; },
+        window.location.href = '/search-results?q=' + encodeURIComponent(q) + '&checkin=' + P.checkin + '&checkout=' + P.checkout + '&adults=' + P.adults; },
       resultsTitle: S.loading ? 'Searching ' + P.q + '…' : (P.aiQ ? cards.length + ' properties · ✦ “' + P.aiQ + '”' : cards.length + ' properties in ' + P.q),
       setSort: (e) => this.setState({ sort: e.currentTarget.value }),
       setNameFilter: this.set('fName'), setPriceCap: this.set('fPriceCap'),

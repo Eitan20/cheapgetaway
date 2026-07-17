@@ -37,22 +37,22 @@
 
 <nav style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(14,21,86,0.08);">
   <div class="cg-hd-nav" style="max-width:1240px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;">
-    <a href="index.html" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:34px;display:block;"></a>
+    <a href="/" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:34px;display:block;"></a>
     <div class="cg-hd-searchpill" style="display:flex;align-items:center;gap:2px;background:#fff;border:1.5px solid rgba(14,21,86,0.14);border-radius:999px;padding:7px 8px 7px 18px;font-size:13.5px;font-weight:800;color:#0e1556;box-shadow:0 2px 8px rgba(14,21,86,0.04);">
       <span>{{ navCity }}</span>
       <span style="width:1px;height:16px;background:rgba(14,21,86,0.14);margin:0 12px;"></span>
       <span>{{ navDates }}</span>
       <span style="width:1px;height:16px;background:rgba(14,21,86,0.14);margin:0 12px;"></span>
       <span>{{ guestsLabel }}</span>
-      <a href="index.html" aria-label="Search" style="margin-left:12px;width:32px;height:32px;border-radius:50%;background:#38b6ff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg></a>
+      <a href="/" aria-label="Search" style="margin-left:12px;width:32px;height:32px;border-radius:50%;background:#38b6ff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg></a>
     </div>
-    <a href="webinar-optin.html" class="cg-hd-navjoin" style="background:#ff6500;color:#fff;font-weight:800;font-size:14px;padding:9px 20px;border-radius:999px;box-shadow:0 8px 24px rgba(255,101,0,0.28);" style-hover="background:#e65a00;color:#fff;">Join the club</a>
+    <a href="/webinar-optin" class="cg-hd-navjoin" style="background:#ff6500;color:#fff;font-weight:800;font-size:14px;padding:9px 20px;border-radius:999px;box-shadow:0 8px 24px rgba(255,101,0,0.28);" style-hover="background:#e65a00;color:#fff;">Join the club</a>
   </div>
 </nav>
 
 <main style="max-width:1240px;margin:0 auto;padding:18px 24px 70px;display:flex;flex-direction:column;gap:0;">
 
-  <a href="index.html" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#52586b;padding:6px 0;" style-hover="color:#38b6ff;">
+  <a href="/" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#52586b;padding:6px 0;" style-hover="color:#38b6ff;">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><polyline points="14 6 8 12 14 18"></polyline></svg>
     See all properties
   </a>
@@ -333,9 +333,9 @@
 <footer style="border-top:1.5px solid rgba(14,21,86,0.08);background:#fff;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;max-width:1240px;margin:0 auto;">
   <img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:26px;">
   <div style="display:flex;gap:22px;font-size:12.5px;font-weight:700;color:#52586b;flex-wrap:wrap;">
-    <a href="index.html" style="color:#52586b;" style-hover="color:#38b6ff;">Home</a>
-    <a href="webinar-optin.html" style="color:#52586b;" style-hover="color:#38b6ff;">Join the club</a>
-    <a href="webinar-optin-creator.html" style="color:#52586b;" style-hover="color:#38b6ff;">For creators</a>
+    <a href="/" style="color:#52586b;" style-hover="color:#38b6ff;">Home</a>
+    <a href="/webinar-optin" style="color:#52586b;" style-hover="color:#38b6ff;">Join the club</a>
+    <a href="/webinar-optin-creator" style="color:#52586b;" style-hover="color:#38b6ff;">For creators</a>
   </div>
   <span style="font-size:12px;font-weight:700;color:#9aa0b4;">© 2026 cheapgetaway.com</span>
 </footer>
@@ -564,7 +564,7 @@ class Component extends DCLogic {
         refund: refundable ? 'Free cancellation' : 'Non-refundable',
         refundBg: refundable ? 'rgba(56,182,255,0.12)' : 'rgba(14,21,86,0.06)',
         refundColor: refundable ? '#0e1556' : '#52586b', price: total || '—', strike,
-        href: 'checkout.html?hotelId=' + encodeURIComponent(this._hotelId || '') +
+        href: '/checkout?hotelId=' + encodeURIComponent(this._hotelId || '') +
           '&checkin=' + P.checkin + '&checkout=' + P.checkout + '&adults=' + P.adults +
           '&room=' + encodeURIComponent(r.name || r.roomName || 'Room') +
           '&board=' + encodeURIComponent(r.boardName || 'Room only') +
@@ -581,7 +581,7 @@ class Component extends DCLogic {
         stars: '★★★★★'.slice(0, Math.max(1, Math.min(5, Math.round(Number(hd.stars) || 4)))),
         score: rr ? rr.toFixed(1) : '—', scoreLabel: rr ? this.scoreWord(rr) : '',
         price: p ? 'US$' + Math.round(Number(p)).toLocaleString() : '—',
-        href: 'hotel-detail.html?hotelId=' + encodeURIComponent(x.hotelId) + '&checkin=' + P.checkin + '&checkout=' + P.checkout + '&adults=' + P.adults };
+        href: '/hotel-detail?hotelId=' + encodeURIComponent(x.hotelId) + '&checkin=' + P.checkin + '&checkout=' + P.checkout + '&adults=' + P.adults };
     });
     return {
       ...base,
