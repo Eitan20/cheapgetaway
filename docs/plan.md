@@ -71,3 +71,38 @@ bookings, no fake confirmations.
   iframe render; book-failure path stub-tested. NO live card submission with
   the prod key.
 - [x] **5.4 Merge + push + live smoke** (orchestrator).
+
+## Phase 6 — Live homepage data (2026-07-17)
+
+Goal: every price shown on the homepage is a real, live, bookable LiteAPI rate.
+No invented hotels, prices, ratings, or fake 47% "member price" math. Sections
+that can't be fed real data get flagged to the user for deletion instead.
+
+Feasibility (verified by orchestrator with direct API calls):
+- `GET /data/hotels?countryCode&cityName` → real id/name/address/main_photo/
+  rating/reviewCount (static, safe to bake into the page).
+- `POST /hotels/rates {hotelIds[], checkin, checkout, occupancies, currency,
+  guestNationality}` → live rates; cheapest `retailRate.total` = member price;
+  `retailRate.suggestedSellingPrice` = honest public-price strikethrough (only
+  when meaningfully higher). Availability is spotty per hotel/date → curate
+  ~2x oversupply per section, render only hotels that return rates.
+
+- [x] **6.1 Curate real hotel pools** (researcher): build a JSON registry of
+  real hotels with verified rate availability for next-Friday→Sunday dates.
+  Recommended: ~18 international (Tokyo, Dubai, Paris, London, Rome, Milan);
+  Deals: ~16 US (Las Vegas, Miami, San Diego, Chicago, New Orleans, NYC,
+  Phoenix, Seattle); Weekend: reuse US pool. Fields: id, name, city, address,
+  image (static.cupid.travel), rating, reviewCount. Save to
+  `docs/homepage-hotels.json`. ONLY data/hotels + hotels/rates calls — never
+  prebook/book.
+- [x] **6.2 index.html live data rewrite** (developer): replace all hardcoded
+  hotel arrays with the curated registry + one live `POST /hotels/rates` via
+  cgApiFetch on load (all sections, one call, next Fri–Sun dates, 1h
+  sessionStorage cache). Real per-night price = total/nights; strikethrough
+  only from real suggestedSellingPrice (>3% higher), else no strikethrough;
+  remove `* 0.47` fake member math. Cards link to
+  /hotel-detail?hotelId&checkin&checkout. Loading skeleton; on API failure
+  render cards without price chips (never fake numbers).
+- [x] **6.3 Verify + merge + live smoke** (orchestrator). Flag to user:
+  membership $1,684/$612 card + member-stories savings are illustrative
+  marketing copy, not API data — keep/rewrite/delete is user's call.
