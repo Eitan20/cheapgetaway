@@ -45,33 +45,40 @@ export default async function handler(req, res) {
 
   const ghlApiToken = process.env.GHL_API_TOKEN;
   const ghlLocationId = process.env.GHL_LOCATION_ID;
-  if (ghlApiToken && ghlLocationId) {
-    const ghlApiOk = await postToGhlContactsApi(name, email, source, ghlApiToken, ghlLocationId);
-    if (ghlApiOk) {
+  let hintFields = {};
+  if (!ghlApiToken || !ghlLocationId) {
+    const missing = [];
+    if (!ghlApiToken) missing.push('GHL_API_TOKEN');
+    if (!ghlLocationId) missing.push('GHL_LOCATION_ID');
+    hintFields = { hint: 'ghl-api-not-configured', missing };
+  } else {
+    const ghlApiResult = await postToGhlContactsApi(name, email, source, ghlApiToken, ghlLocationId);
+    if (ghlApiResult.ok) {
       res.status(200).json({ ok: true, via: 'ghl-api' });
       return;
     }
+    hintFields = { hint: 'ghl-api-failed', apiStatus: ghlApiResult.status };
   }
 
   const ghlOk = await postToGhl(name, email, source);
   if (ghlOk) {
-    res.status(200).json({ ok: true, via: 'ghl-webhook' });
+    res.status(200).json({ ok: true, via: 'ghl-webhook', ...hintFields });
     return;
   }
 
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
-    res.status(200).json({ ok: false });
+    res.status(200).json({ ok: false, ...hintFields });
     return;
   }
 
   const resendOk = await runResendFallback(name, email, apiKey);
   if (resendOk) {
-    res.status(200).json({ ok: true, via: 'resend-fallback' });
+    res.status(200).json({ ok: true, via: 'resend-fallback', ...hintFields });
     return;
   }
 
-  res.status(200).json({ ok: false });
+  res.status(200).json({ ok: false, ...hintFields });
 }
 
 async function postToGhlContactsApi(name, email, source, apiToken, locationId) {
@@ -95,13 +102,13 @@ async function postToGhlContactsApi(name, email, source, apiToken, locationId) {
     if (!apiRes.ok) {
       const text = await apiRes.text().catch(() => '');
       console.error('GHL contacts API upsert error', apiRes.status, text);
-      return false;
+      return { ok: false, status: apiRes.status };
     }
 
-    return true;
+    return { ok: true };
   } catch (err) {
     console.error('GHL contacts API upsert fetch failed', err);
-    return false;
+    return { ok: false, status: 'network-error' };
   }
 }
 
