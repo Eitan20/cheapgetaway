@@ -1,0 +1,66 @@
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - img "cheapgetaway.team" [ref=e6]
+  - generic [ref=e7]:
+    - generic [ref=e8]:
+      - generic [ref=e9]: ✓
+      - heading "You're registered, Ralf! Your seat at the free travel workshop is locked in." [level=1] [ref=e10]:
+        - generic [ref=e11]: You're registered, Ralf!
+        - generic [ref=e12]: Your seat at the free travel workshop is locked in.
+      - paragraph [ref=e13]:
+        - text: Your personal join link is on its way to
+        - generic [ref=e14]: ralf.malcolm@dr.com
+        - text: — keep an eye on your inbox. Press play while you wait.
+    - generic [ref=e15]:
+      - generic [ref=e17]:
+        - generic [ref=e18]:
+          - generic "50+ year travel agent — why she chose this club" [ref=e19] [cursor=pointer]
+          - button "Play the video" [ref=e20] [cursor=pointer]
+          - button "Full screen" [ref=e23] [cursor=pointer]
+        - generic [ref=e26]:
+          - generic [ref=e27]: 50+ yr travel agent · top pro worldwide
+          - generic [ref=e28]: Half a century as the world's top travel pro — and this is the club she chose. That should tell you something.
+      - generic [ref=e29]:
+        - generic [ref=e30]:
+          - generic [ref=e31]: Your session
+          - generic [ref=e32]: Thursday, July 16, 2026
+          - generic [ref=e33]: 9:55 PM
+          - generic [ref=e34]: Eastern Daylight Time
+        - generic [ref=e35]:
+          - generic [ref=e36]: Starts in
+          - generic [ref=e37]:
+            - generic [ref=e38]:
+              - generic [ref=e39]: "00"
+              - generic [ref=e40]: Hrs
+            - generic [ref=e41]:
+              - generic [ref=e42]: "59"
+              - generic [ref=e43]: Min
+            - generic [ref=e44]:
+              - generic [ref=e45]: "53"
+              - generic [ref=e46]: Sec
+          - link "Join the live room →" [disabled] [ref=e47]:
+            - /url: "#"
+          - generic [ref=e48]: Your join link unlocks when the countdown ends.
+  - generic [ref=e50]:
+    - heading "Do these 3 things before we go live" [level=2] [ref=e51]
+    - generic [ref=e52]:
+      - generic [ref=e53]:
+        - generic [ref=e54]: "01"
+        - generic [ref=e55]: Mark your calendar
+        - paragraph [ref=e56]: One tap and it's on your schedule — no “I forgot” allowed.
+        - generic [ref=e57]:
+          - link "Add to Google Calendar" [ref=e58] [cursor=pointer]:
+            - /url: https://calendar.google.com/calendar/render?action=TEMPLATE&text=Free%20Travel%20Workshop%20%E2%80%94%20Travel%E2%80%99s%20Biggest%20Secret&dates=20260717T015546Z/20260717T025546Z&details=Your%20personal%20join%20link%20is%20in%20your%20confirmation%20email.
+          - link "Apple / Outlook (.ics)" [ref=e59] [cursor=pointer]:
+            - /url: data:text/calendar;charset=utf-8,…
+      - generic [ref=e60]:
+        - generic [ref=e61]: "02"
+        - generic [ref=e62]: Watch your inbox
+        - paragraph [ref=e63]: Your unique join link arrives by email in the next few minutes. Not there? Check promotions or spam — then drag it to your inbox so the reminders land too.
+      - generic [ref=e64]:
+        - generic [ref=e65]: "03"
+        - generic [ref=e66]: Show up 5 minutes early
+        - paragraph [ref=e67]: Seats are capped and the room fills fast. Arrive early, bring the trip you've been putting off, and we'll price it live.
+  - contentinfo [ref=e68]:
+    - img "cheapgetaway.team" [ref=e69]
+    - paragraph [ref=e70]: This is a free educational workshop operated by an independent team. Expedia, Booking.com and any other brands named are the property of their respective owners and are referenced for comparison only; we are not affiliated with or endorsed by them. Savings vary by destination, dates and availability.

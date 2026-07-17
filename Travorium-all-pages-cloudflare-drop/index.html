@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<script src="./cg-api.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#fff;font-family:'Nunito',sans-serif;color:#0b0f1f;}
+  a{color:#0e1556;text-decoration:none;}
+  a:hover{color:#38b6ff;}
+  *{box-sizing:border-box;}
+  input,select,button{font-family:'Nunito',sans-serif;}
+  input:focus,select:focus{outline:none;}
+</style>
+</helmet>
+
+<nav style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);">
+  <div style="max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+    <a href="#" style="display:flex;align-items:center;"><img id="cg-nav-logo" src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:54px;display:block;transition:height .25s ease;"></a>
+    <div style="display:flex;align-items:center;gap:28px;font-weight:700;font-size:15px;">
+      <a href="#deals" style="color:#0e1556;" style-hover="color:#38b6ff;">Deals</a>
+      <a href="#weekend" style="color:#0e1556;" style-hover="color:#38b6ff;">Weekend</a>
+      <a href="#vibes" style="color:#0e1556;" style-hover="color:#38b6ff;">Vibes</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <sc-if value="{{ signedIn }}" hint-placeholder-val="">
+        <a href="my-trips.html" style="font-weight:700;font-size:15px;color:#0e1556;padding:8px 12px;">My trips</a>
+      </sc-if>
+      <button onClick="{{ authAction }}" style="border:none;background:transparent;cursor:pointer;font-weight:700;font-size:15px;color:#0e1556;padding:8px 12px;" style-hover="color:#38b6ff;">{{ authLabel }}</button>
+      <a href="webinar-optin.html" style="background:#ff6500;color:#fff;font-weight:800;font-size:15px;padding:10px 20px;border-radius:999px;box-shadow:0 8px 24px rgba(255,101,0,0.28);" style-hover="background:#e65a00;color:#fff;">Join the club</a>
+    </div>
+  </div>
+</nav>
+
+<section style="padding:32px 24px 0;">
+  <div style="position:relative;max-width:1200px;margin:0 auto;min-height:620px;border-radius:40px;display:flex;align-items:center;justify-content:center;padding:76px 48px;background-image:linear-gradient(rgba(15,23,42,0.38), rgba(15,23,42,0.38)), url('assets/hero-stays.webp');background-size:cover;background-position:center;">
+  <sc-if value="{{ flightsMode }}" hint-placeholder-val="">
+    <div style="position:absolute;inset:0;border-radius:40px;background-image:linear-gradient(rgba(15,23,42,0.35), rgba(15,23,42,0.35)), url('assets/hero-flights.webp');background-size:cover;background-position:center;"></div>
+  </sc-if>
+  <div style="position:relative;width:100%;max-width:1020px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;">
+    <h1 style="margin:0;color:#fff;font-size:clamp(30px,4.6vw,56px);font-weight:900;line-height:1.15;text-shadow:0 2px 24px rgba(11,15,31,0.35);white-space:nowrap;max-width:100%;">{{ heroTitle }}</h1>
+    <p style="margin:0 0 36px;color:rgba(255,255,255,0.95);font-size:clamp(15px,1.6vw,18px);font-weight:600;text-shadow:0 1px 12px rgba(11,15,31,0.35);">{{ heroSub }}</p>
+
+    <div style="width:100%;display:flex;flex-direction:column;gap:16px;">
+      <div style="display:flex;align-items:center;justify-content:center;position:relative;min-height:46px;">
+        <div style="background:rgba(11,15,31,0.45);backdrop-filter:blur(8px);border-radius:999px;padding:5px;display:flex;gap:4px;">
+          <button onClick="{{ setModeStandard }}" style="display:flex;align-items:center;gap:8px;border:none;cursor:pointer;padding:9px 20px;border-radius:999px;font-weight:800;font-size:14.5px;background:{{ standardChipBg }};color:{{ standardChipColor }};">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M4 18v-3h16v3h2v-6a3 3 0 0 0-3-3h-6V7a2 2 0 0 0-2-2H5a3 3 0 0 0-3 3v10h2z"></path></svg>
+            Stays
+          </button>
+          <button onClick="{{ setModeFlights }}" style="display:flex;align-items:center;gap:8px;border:none;cursor:pointer;padding:9px 20px;border-radius:999px;font-weight:800;font-size:14.5px;background:{{ flightsChipBg }};color:{{ flightsChipColor }};">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"></path></svg>
+            Flights
+          </button>
+        </div>
+        <sc-if value="{{ flightsMode }}" hint-placeholder-val="">
+          <button onClick="{{ toggleFlightsAi }}" style="position:absolute;right:0;display:flex;align-items:center;gap:9px;cursor:pointer;padding:12px 22px;border-radius:999px;font-weight:900;font-size:14px;color:#0e1556;border:1.5px solid transparent;background:linear-gradient(#fff,#fff) padding-box, linear-gradient(100deg,#ff6500,#38b6ff) border-box;box-shadow:0 8px 28px rgba(56,182,255,0.35), 0 2px 10px rgba(255,101,0,0.2);transition:transform .2s, box-shadow .2s;" style-hover="transform:translateY(-1px);box-shadow:0 12px 34px rgba(56,182,255,0.45), 0 4px 14px rgba(255,101,0,0.28);">
+            <sc-if value="{{ flightsAi }}" hint-placeholder-val=""><span style="background:linear-gradient(100deg,#ff6500,#38b6ff);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900;">✕ Close</span></sc-if>
+            <sc-if value="{{ flightsAiOff }}" hint-placeholder-val="{{ true }}">
+              <svg width="17" height="17" viewBox="0 0 24 24"><defs><linearGradient id="cg-ai-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ff6500"></stop><stop offset="100%" stop-color="#38b6ff"></stop></linearGradient></defs><path fill="url(#cg-ai-grad)" d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"></path><path fill="url(#cg-ai-grad)" d="M19 14l0.9 3.1L23 18l-3.1 0.9L19 22l-0.9-3.1L15 18l3.1-0.9L19 14z" opacity="0.85"></path></svg>
+              <span style="background:linear-gradient(100deg,#ff6500,#38b6ff);-webkit-background-clip:text;background-clip:text;color:transparent;">Ask AI</span>
+            </sc-if>
+          </button>
+        </sc-if>
+      </div>
+
+      <sc-if value="{{ flightsAiMode }}" hint-placeholder-val="">
+        <div style="background:#fff;border-radius:999px;box-shadow:0 24px 64px rgba(14,21,86,0.22);padding:8px;display:flex;align-items:center;gap:10px;">
+          <div style="flex:1;display:flex;align-items:center;gap:12px;border:2px solid #38b6ff;border-radius:999px;padding:6px 8px 6px 20px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#ff6500" style="flex-shrink:0;"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"></path></svg>
+            <input id="cg-fly-ai" type="text" placeholder="e.g. Flights from London to Barcelona next weekend" style="flex:1;border:none;background:transparent;font-size:16px;font-weight:700;color:#0b0f1f;min-height:44px;">
+          </div>
+          <button onClick="{{ doFlightAiSearch }}" style="background:#ff6500;color:#fff;border:none;cursor:pointer;font-weight:900;font-size:15px;padding:15px 28px;border-radius:999px;flex-shrink:0;" style-hover="background:#e65a00;">Find flights</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ flightsFormMode }}" hint-placeholder-val="">
+        <div style="background:#fff;border-radius:32px;box-shadow:0 24px 64px rgba(14,21,86,0.22);padding:16px;display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <button onClick="{{ setTripRound }}" style="display:flex;align-items:center;gap:8px;border:1.5px solid {{ roundChipBorder }};background:{{ roundChipBg }};color:{{ roundChipColor }};font-weight:800;font-size:13.5px;padding:9px 18px;border-radius:999px;cursor:pointer;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><polyline points="21 3 21 8 16 8"></polyline><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path><polyline points="3 21 3 16 8 16"></polyline></svg>
+              Round trip
+            </button>
+            <button onClick="{{ setTripOneway }}" style="display:flex;align-items:center;gap:8px;border:1.5px solid {{ onewayChipBorder }};background:{{ onewayChipBg }};color:{{ onewayChipColor }};font-weight:800;font-size:13.5px;padding:9px 18px;border-radius:999px;cursor:pointer;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="4" y1="12" x2="20" y2="12"></line><polyline points="14 6 20 12 14 18"></polyline></svg>
+              One way
+            </button>
+            <span style="width:1.5px;height:24px;background:rgba(14,21,86,0.12);margin:0 4px;"></span>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:800;color:#52586b;cursor:pointer;"><input id="cg-nonstop" type="checkbox" style="width:17px;height:17px;accent-color:#38b6ff;">Non-stop only</label>
+          </div>
+          <div style="display:flex;align-items:stretch;gap:10px;flex-wrap:wrap;">
+            <div style="flex:1 1 100%;display:flex;align-items:stretch;border:1.5px solid rgba(14,21,86,0.12);border-radius:999px;padding:4px;">
+              <div data-cg-pop="" style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:10px 16px;text-align:left;">
+                <label style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">From</label>
+                <input id="cg-fly-from" type="text" placeholder="New York (JFK)" autocomplete="off" onFocus="{{ closePax }}" onInput="{{ onFlyFromInput }}" style="border:none;width:100%;font-size:14.5px;font-weight:700;color:#0b0f1f;background:transparent;">
+                <sc-if value="{{ hasFlyFromSugs }}" hint-placeholder-val="">
+                  <div style="position:absolute;top:calc(100% + 18px);left:0;z-index:60;width:300px;background:#fff;border-radius:18px;box-shadow:0 24px 64px rgba(11,15,31,0.3);padding:8px;display:flex;flex-direction:column;text-align:left;">
+                    <sc-for list="{{ flyFromSugs }}" as="s" hint-placeholder-count="4">
+                      <button onClick="{{ s.pick }}" style="display:flex;align-items:center;gap:11px;border:none;background:transparent;cursor:pointer;padding:10px 14px;border-radius:12px;text-align:left;width:100%;" style-hover="background:#f6f7fb;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="#52586b" style="flex-shrink:0;"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"></path></svg>
+                        <span style="display:flex;flex-direction:column;min-width:0;"><strong style="font-size:14px;color:#0b0f1f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ s.label }}</strong><span style="font-size:12px;color:#52586b;font-weight:600;">{{ s.sub }}</span></span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              <button onClick="{{ swapAirports }}" aria-label="Swap" style="align-self:center;flex-shrink:0;width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.14);background:#fff;color:#0e1556;cursor:pointer;display:flex;align-items:center;justify-content:center;" style-hover="border-color:#38b6ff;color:#38b6ff;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 4 21 8 17 12"></polyline><line x1="21" y1="8" x2="7" y2="8"></line><polyline points="7 12 3 16 7 20"></polyline><line x1="3" y1="16" x2="17" y2="16"></line></svg>
+              </button>
+              <div data-cg-pop="" style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:10px 16px;text-align:left;border-right:1.5px solid rgba(14,21,86,0.1);">
+                <label style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">To</label>
+                <input id="cg-fly-to" type="text" placeholder="Miami (MIA)" autocomplete="off" onFocus="{{ closePax }}" onInput="{{ onFlyToInput }}" style="border:none;width:100%;font-size:14.5px;font-weight:700;color:#0b0f1f;background:transparent;">
+                <sc-if value="{{ hasFlyToSugs }}" hint-placeholder-val="">
+                  <div style="position:absolute;top:calc(100% + 18px);left:0;z-index:60;width:300px;background:#fff;border-radius:18px;box-shadow:0 24px 64px rgba(11,15,31,0.3);padding:8px;display:flex;flex-direction:column;text-align:left;">
+                    <sc-for list="{{ flyToSugs }}" as="s" hint-placeholder-count="4">
+                      <button onClick="{{ s.pick }}" style="display:flex;align-items:center;gap:11px;border:none;background:transparent;cursor:pointer;padding:10px 14px;border-radius:12px;text-align:left;width:100%;" style-hover="background:#f6f7fb;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="#52586b" style="flex-shrink:0;"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"></path></svg>
+                        <span style="display:flex;flex-direction:column;min-width:0;"><strong style="font-size:14px;color:#0b0f1f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ s.label }}</strong><span style="font-size:12px;color:#52586b;font-weight:600;">{{ s.sub }}</span></span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              <div data-cg-pop="" style="position:relative;flex:1;min-width:150px;display:flex;flex-direction:column;justify-content:center;border-right:1.5px solid rgba(14,21,86,0.1);">
+                <button onClick="{{ toggleFlyDates }}" style="border:none;background:transparent;cursor:pointer;display:flex;flex-direction:column;gap:2px;padding:10px 16px;text-align:left;width:100%;">
+                  <span style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">{{ flyDatesTitle }}</span>
+                  <span style="font-size:13.5px;font-weight:700;color:#0b0f1f;white-space:nowrap;">{{ flyDatesLabel }}</span>
+                </button>
+                <sc-if value="{{ flyDatesOpen }}" hint-placeholder-val="">
+                  <div style="position:absolute;top:calc(100% + 18px);left:0;z-index:60;width:320px;background:#fff;border-radius:22px;box-shadow:0 24px 64px rgba(11,15,31,0.3);padding:22px;display:flex;flex-direction:column;gap:14px;text-align:left;">
+                    <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Depart
+                      <input type="date" defaultValue="{{ flyDepartVal }}" onChange="{{ setFlyDepart }}" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:11px 14px;font-size:14.5px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+                    </label>
+                    <sc-if value="{{ roundTrip }}" hint-placeholder-val="{{ true }}">
+                      <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Return
+                        <input type="date" defaultValue="{{ flyReturnVal }}" onChange="{{ setFlyReturn }}" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:11px 14px;font-size:14.5px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+                      </label>
+                    </sc-if>
+                    <button onClick="{{ toggleFlyDates }}" style="align-self:flex-end;background:#0e1556;color:#fff;border:none;cursor:pointer;font-weight:800;font-size:13.5px;padding:10px 24px;border-radius:999px;" style-hover="background:#1a2470;">Done</button>
+                  </div>
+                </sc-if>
+              </div>
+              <div data-cg-pop="" style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;">
+                <button onClick="{{ togglePax }}" style="border:none;background:transparent;cursor:pointer;display:flex;flex-direction:column;gap:2px;padding:10px 16px;text-align:left;width:100%;">
+                  <span style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;white-space:nowrap;">Passengers</span>
+                  <span style="font-size:13.5px;font-weight:700;color:#0b0f1f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;">{{ paxSummary }}</span>
+                </button>
+                <sc-if value="{{ paxOpen }}" hint-placeholder-val="">
+                  <div style="position:absolute;top:calc(100% + 14px);right:0;z-index:60;width:340px;background:#fff;border-radius:24px;box-shadow:0 24px 64px rgba(11,15,31,0.3);padding:24px;display:flex;flex-direction:column;gap:16px;text-align:left;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                      <span style="font-size:16px;font-weight:900;color:#0b0f1f;">Adults</span>
+                      <span style="display:flex;align-items:center;gap:12px;">
+                        <button onClick="{{ adultsMinus }}" style="width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.15);background:#fff;color:#52586b;font-size:17px;font-weight:800;cursor:pointer;" style-hover="border-color:#38b6ff;color:#38b6ff;">−</button>
+                        <span style="min-width:20px;text-align:center;font-size:16px;font-weight:900;color:#0b0f1f;">{{ adults }}</span>
+                        <button onClick="{{ adultsPlus }}" style="width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.15);background:#fff;color:#52586b;font-size:17px;font-weight:800;cursor:pointer;" style-hover="border-color:#38b6ff;color:#38b6ff;">+</button>
+                      </span>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                      <span style="font-size:16px;font-weight:900;color:#0b0f1f;">Children <span style="font-weight:600;color:#52586b;font-size:14px;">Ages 2-11</span></span>
+                      <span style="display:flex;align-items:center;gap:12px;">
+                        <button onClick="{{ childrenMinus }}" style="width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.15);background:#fff;color:#52586b;font-size:17px;font-weight:800;cursor:pointer;" style-hover="border-color:#38b6ff;color:#38b6ff;">−</button>
+                        <span style="min-width:20px;text-align:center;font-size:16px;font-weight:900;color:#0b0f1f;">{{ childrenCount }}</span>
+                        <button onClick="{{ childrenPlus }}" style="width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.15);background:#fff;color:#52586b;font-size:17px;font-weight:800;cursor:pointer;" style-hover="border-color:#38b6ff;color:#38b6ff;">+</button>
+                      </span>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                      <span style="font-size:16px;font-weight:900;color:#0b0f1f;">Infants <span style="font-weight:600;color:#52586b;font-size:14px;">Under 2</span></span>
+                      <span style="display:flex;align-items:center;gap:12px;">
+                        <button onClick="{{ infantsMinus }}" style="width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.15);background:#fff;color:#52586b;font-size:17px;font-weight:800;cursor:pointer;" style-hover="border-color:#38b6ff;color:#38b6ff;">−</button>
+                        <span style="min-width:20px;text-align:center;font-size:16px;font-weight:900;color:#0b0f1f;">{{ infants }}</span>
+                        <button onClick="{{ infantsPlus }}" style="width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.15);background:#fff;color:#52586b;font-size:17px;font-weight:800;cursor:pointer;" style-hover="border-color:#38b6ff;color:#38b6ff;">+</button>
+                      </span>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:10px;">
+                      <span style="font-size:14px;font-weight:900;color:#0b0f1f;">Cabin class</span>
+                      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <sc-for list="{{ cabinChips }}" as="c" hint-placeholder-count="4">
+                          <button onClick="{{ c.pick }}" style="border:1.5px solid {{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-weight:800;font-size:13.5px;padding:9px 18px;border-radius:999px;cursor:pointer;">{{ c.label }}</button>
+                        </sc-for>
+                      </div>
+                    </div>
+                    <button onClick="{{ togglePax }}" style="align-self:flex-end;background:#0e1556;color:#fff;border:none;cursor:pointer;font-weight:800;font-size:13.5px;padding:10px 24px;border-radius:999px;" style-hover="background:#1a2470;">Done</button>
+                  </div>
+                </sc-if>
+              </div>
+              <button onClick="{{ doFlightSearch }}" aria-label="Search flights" style="flex-shrink:0;align-self:center;margin:0 8px;width:48px;height:48px;border-radius:50%;background:#38b6ff;color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(56,182,255,0.4);" style-hover="background:#2da1e6;">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ staysMode }}" hint-placeholder-val="{{ true }}">
+      <div style="background:#fff;border-radius:999px;box-shadow:0 24px 64px rgba(14,21,86,0.22);padding:6px;display:flex;align-items:stretch;gap:0;flex-wrap:wrap;">
+        <div data-cg-pop="" style="position:relative;flex:2 1 240px;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:10px 14px 10px 22px;text-align:left;border-right:1.5px solid rgba(14,21,86,0.1);">
+          <label style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">{{ searchLabel }}</label>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#52586b" stroke-width="2.2" stroke-linecap="round" style="flex-shrink:0;"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+            <input id="cg-dest" type="text" placeholder="{{ searchPlaceholder }}" autocomplete="off" onInput="{{ onDestInput }}" style="border:none;width:100%;font-size:16px;font-weight:700;color:#0b0f1f;background:transparent;">
+          </div>
+          <sc-if value="{{ hasDestSugs }}" hint-placeholder-val="">
+            <div style="position:absolute;top:calc(100% + 16px);left:0;z-index:60;width:340px;background:#fff;border-radius:18px;box-shadow:0 24px 64px rgba(11,15,31,0.3);padding:8px;display:flex;flex-direction:column;text-align:left;">
+              <sc-for list="{{ destSugs }}" as="s" hint-placeholder-count="4">
+                <button onClick="{{ s.pick }}" style="display:flex;align-items:center;gap:11px;border:none;background:transparent;cursor:pointer;padding:11px 14px;border-radius:12px;text-align:left;width:100%;" style-hover="background:#f6f7fb;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#52586b" stroke-width="2.2" style="flex-shrink:0;"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+                  <span style="display:flex;flex-direction:column;min-width:0;"><strong style="font-size:14.5px;color:#0b0f1f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ s.label }}</strong><span style="font-size:12px;color:#52586b;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ s.sub }}</span></span>
+                </button>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+        <div data-cg-pop="" style="position:relative;flex:1.6 1 220px;display:flex;flex-direction:column;justify-content:center;border-right:1.5px solid rgba(14,21,86,0.1);">
+          <button onClick="{{ toggleDates }}" style="border:none;background:transparent;cursor:pointer;display:flex;flex-direction:column;gap:2px;padding:12px 18px;text-align:left;width:100%;">
+            <span style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Dates</span>
+            <span style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:#0b0f1f;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#52586b" stroke-width="2.2" stroke-linecap="round" style="flex-shrink:0;"><rect x="3" y="5" width="18" height="16" rx="2"></rect><line x1="3" y1="10" x2="21" y2="10"></line><line x1="8" y1="3" x2="8" y2="7"></line><line x1="16" y1="3" x2="16" y2="7"></line></svg>
+              {{ stayDatesLabel }}
+            </span>
+          </button>
+          <sc-if value="{{ datesOpen }}" hint-placeholder-val="">
+            <div style="position:absolute;top:calc(100% + 16px);left:0;z-index:60;width:320px;background:#fff;border-radius:22px;box-shadow:0 24px 64px rgba(11,15,31,0.3);padding:22px;display:flex;flex-direction:column;gap:14px;text-align:left;">
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Check-in
+                <input type="date" defaultValue="{{ stayCheckin }}" onChange="{{ setStayCheckin }}" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:11px 14px;font-size:14.5px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+              </label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Check-out
+                <input type="date" defaultValue="{{ stayCheckout }}" onChange="{{ setStayCheckout }}" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:11px 14px;font-size:14.5px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+              </label>
+              <button onClick="{{ toggleDates }}" style="align-self:flex-end;background:#0e1556;color:#fff;border:none;cursor:pointer;font-weight:800;font-size:13.5px;padding:10px 24px;border-radius:999px;" style-hover="background:#1a2470;">Done</button>
+            </div>
+          </sc-if>
+        </div>
+        <div data-cg-pop="" style="position:relative;flex:1 1 130px;display:flex;flex-direction:column;justify-content:center;">
+          <button onClick="{{ toggleGuests }}" style="border:none;background:transparent;cursor:pointer;display:flex;flex-direction:column;gap:2px;padding:12px 18px;text-align:left;width:100%;">
+            <span style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Guests</span>
+            <span style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:#0b0f1f;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#52586b" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"></path></svg>
+              {{ stayGuestsLabel }}
+            </span>
+          </button>
+          <sc-if value="{{ guestsOpen }}" hint-placeholder-val="">
+            <div style="position:absolute;top:calc(100% + 16px);right:0;z-index:60;width:280px;background:#fff;border-radius:22px;box-shadow:0 24px 64px rgba(11,15,31,0.3);padding:22px;display:flex;flex-direction:column;gap:16px;text-align:left;">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                <span style="font-size:16px;font-weight:900;color:#0b0f1f;">Guests</span>
+                <span style="display:flex;align-items:center;gap:12px;">
+                  <button onClick="{{ stayGuestsMinus }}" style="width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.15);background:#fff;color:#52586b;font-size:17px;font-weight:800;cursor:pointer;" style-hover="border-color:#38b6ff;color:#38b6ff;">−</button>
+                  <span style="min-width:20px;text-align:center;font-size:16px;font-weight:900;color:#0b0f1f;">{{ stayGuests }}</span>
+                  <button onClick="{{ stayGuestsPlus }}" style="width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.15);background:#fff;color:#52586b;font-size:17px;font-weight:800;cursor:pointer;" style-hover="border-color:#38b6ff;color:#38b6ff;">+</button>
+                </span>
+              </div>
+              <button onClick="{{ toggleGuests }}" style="align-self:flex-end;background:#0e1556;color:#fff;border:none;cursor:pointer;font-weight:800;font-size:13.5px;padding:10px 24px;border-radius:999px;" style-hover="background:#1a2470;">Done</button>
+            </div>
+          </sc-if>
+        </div>
+        <button onClick="{{ doSearch }}" aria-label="Search" style="flex:0 0 auto;align-self:center;width:52px;height:52px;border-radius:50%;background:#38b6ff;color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(56,182,255,0.4);" style-hover="background:#2da1e6;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+        </button>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ staysMode }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+        <button style="border:none;background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);color:#0e1556;font-weight:700;font-size:13px;padding:8px 16px;border-radius:999px;cursor:pointer;box-shadow:0 4px 14px rgba(11,15,31,0.18);" style-hover="background:#fff;color:#38b6ff;">This weekend</button>
+        <button style="border:none;background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);color:#0e1556;font-weight:700;font-size:13px;padding:8px 16px;border-radius:999px;cursor:pointer;box-shadow:0 4px 14px rgba(11,15,31,0.18);" style-hover="background:#fff;color:#38b6ff;">Under $120/night</button>
+        <a href="webinar-optin.html" style="display:flex;align-items:center;gap:7px;font-weight:800;font-size:13px;color:#ff6500;background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);padding:8px 16px;border-radius:999px;box-shadow:0 4px 14px rgba(11,15,31,0.18);" style-hover="color:#e65a00;background:#fff;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>
+          Members see lower prices →
+        </a>
+      </div>
+      </sc-if>
+    </div>
+  </div>
+  </div>
+</section>
+
+<main style="max-width:1200px;margin:0 auto;padding:0 24px 80px;display:flex;flex-direction:column;gap:88px;">
+
+  <sc-if value="{{ flightsMode }}" hint-placeholder-val="">
+    <section id="trending" style="margin-top:64px;">
+      <div style="margin-bottom:22px;">
+        <h2 style="margin:0 0 6px;font-size:30px;font-weight:900;color:#0e1556;">Trending destinations</h2>
+        <p style="margin:0;color:#52586b;font-weight:600;font-size:16px;">Where everyone's flying right now — tap a card to see live fares.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;">
+        <sc-for list="{{ trendingCards }}" as="t" hint-placeholder-count="4">
+          <a href="{{ t.href }}" style="position:relative;height:340px;border-radius:20px;overflow:hidden;display:flex;align-items:flex-end;padding:20px;color:#fff;transition:transform .25s cubic-bezier(0.22,1,0.36,1);" style-hover="transform:translateY(-4px);color:#fff;">
+            {{ t.imgEl }}
+            <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(11,15,31,0.72) 0%, rgba(11,15,31,0.05) 55%);"></div>
+            <div style="position:relative;display:flex;flex-direction:column;gap:2px;">
+              <span style="font-size:13px;font-weight:700;opacity:0.85;">{{ t.kicker }}</span>
+              <h3 style="margin:0;font-size:22px;font-weight:900;">{{ t.city }}</h3>
+            </div>
+            <span style="position:absolute;right:16px;bottom:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.92);color:#0e1556;display:flex;align-items:center;justify-content:center;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="6" y1="18" x2="18" y2="6"></line><polyline points="9 6 18 6 18 15"></polyline></svg>
+            </span>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ staysMode }}" hint-placeholder-val="{{ true }}">
+  <section id="recommended" style="margin-top:64px;">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px;">
+      <h2 style="margin:0;font-size:30px;font-weight:900;color:#0e1556;">Recommended hotels</h2>
+      <div style="display:flex;gap:8px;">
+        <button onClick="{{ recPrev }}" aria-label="Previous" style="width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.15);background:#fff;color:{{ recPrevColor }};cursor:pointer;display:flex;align-items:center;justify-content:center;" style-hover="border-color:#38b6ff;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="14 6 8 12 14 18"></polyline></svg>
+        </button>
+        <button onClick="{{ recNext }}" aria-label="Next" style="width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.15);background:#fff;color:{{ recNextColor }};cursor:pointer;display:flex;align-items:center;justify-content:center;" style-hover="border-color:#38b6ff;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="10 6 16 12 10 18"></polyline></svg>
+        </button>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;">
+      <sc-for list="{{ recVisible }}" as="hotel" hint-placeholder-count="3">
+        <a href="{{ hotel.href }}" style="background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;color:inherit;transition:transform .25s cubic-bezier(0.22,1,0.36,1), box-shadow .25s;" style-hover="transform:translateY(-4px);box-shadow:0 16px 48px rgba(14,21,86,0.12);color:inherit;">
+          <div style="height:190px;overflow:hidden;background:#e8eaf2;">{{ hotel.imgEl }}</div>
+          <div style="padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1;">
+            <div style="color:#ffb400;font-size:13px;letter-spacing:2px;">★★★★★</div>
+            <h3 style="margin:0;font-size:17px;font-weight:800;color:#0b0f1f;line-height:1.3;">{{ hotel.name }}</h3>
+            <p style="margin:0;font-size:13px;color:#52586b;font-weight:600;display:flex;gap:6px;align-items:flex-start;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#52586b" stroke-width="2.2" style="flex-shrink:0;margin-top:2px;"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+              <span>{{ hotel.address }}</span>
+            </p>
+            <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding-top:10px;">
+              <div style="display:flex;align-items:center;gap:9px;">
+                <span style="background:#0e1556;color:#fff;font-weight:800;font-size:14px;padding:6px 9px;border-radius:10px 10px 10px 2px;">{{ hotel.score }}</span>
+                <span style="display:flex;flex-direction:column;font-size:12px;line-height:1.35;"><strong style="color:#0b0f1f;">{{ hotel.label }}</strong><span style="color:#52586b;font-weight:600;">{{ hotel.reviews }} reviews</span></span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end;font-size:11px;color:#52586b;font-weight:600;line-height:1.4;">
+                <span style="text-decoration:line-through;color:#9aa0b4;font-size:14px;font-weight:700;">{{ hotel.priceLabel }}</span>
+                <strong style="font-size:19px;color:#ff6500;font-weight:900;display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>{{ hotel.memberLabel }}</strong>
+                <span>member price · incl. taxes</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+  </sc-if>
+
+  <section id="membership" style="background:#0e1556;border-radius:28px;padding:52px 40px;color:#fff;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-80px;right:-80px;width:320px;height:320px;border-radius:50%;background:rgba(56,182,255,0.15);"></div>
+    <div style="position:relative;display:flex;gap:48px;flex-wrap:wrap;align-items:center;">
+      <div style="flex:1.4 1 380px;display:flex;flex-direction:column;gap:16px;">
+        <span style="width:fit-content;background:rgba(56,182,255,0.18);color:#38b6ff;font-weight:800;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;padding:6px 14px;border-radius:999px;">Why prices are crossed out</span>
+        <h2 style="margin:0;font-size:clamp(28px,3.2vw,40px);font-weight:900;line-height:1.12;text-wrap:balance;">The price you see isn't the price members pay.</h2>
+        <p style="margin:0;font-size:17px;font-weight:600;line-height:1.65;color:rgba(255,255,255,0.85);max-width:560px;">Hotels can't publish their lowest rates — public sites would revolt. So they release them inside closed clubs instead. Our club taps those rates. Same room, same dates, no coupon hunting. Members routinely knock 40–65% off the public price.</p>
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:6px;">
+          <a href="webinar-optin.html" style="background:#ff6500;color:#fff;font-weight:900;font-size:16px;padding:14px 28px;border-radius:999px;box-shadow:0 8px 24px rgba(255,101,0,0.35);" style-hover="background:#e65a00;color:#fff;">See how the club works</a>
+          <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.6);">Free walkthrough · 2 minutes · No card needed</span>
+        </div>
+      </div>
+      <div style="flex:1 1 300px;background:#fff;border-radius:20px;padding:24px;color:#0b0f1f;box-shadow:0 24px 64px rgba(0,0,0,0.25);">
+        <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:#52586b;margin-bottom:14px;">Real example · 5★ Cancún, 4 nights</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#f6f7fb;border-radius:12px;">
+            <span style="font-weight:700;font-size:14px;color:#52586b;">Public price</span>
+            <span style="font-weight:800;font-size:18px;color:#9aa0b4;text-decoration:line-through;">$1,684</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:rgba(255,101,0,0.08);border:1.5px solid rgba(255,101,0,0.35);border-radius:12px;">
+            <span style="font-weight:800;font-size:14px;color:#ff6500;display:flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>Member price</span>
+            <span style="font-weight:900;font-size:22px;color:#ff6500;">$612</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:rgba(56,182,255,0.1);border-radius:12px;">
+            <span style="font-weight:800;font-size:14px;color:#0e1556;">You keep</span>
+            <span style="font-weight:900;font-size:20px;color:#0e1556;">$1,072</span>
+          </div>
+        </div>
+        <p style="margin:14px 0 0;font-size:12px;font-weight:600;color:#52586b;line-height:1.5;">One trip like this covers years of membership. That's the whole pitch.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="vibes">
+    <div style="margin-bottom:22px;">
+      <h2 style="margin:0 0 6px;font-size:30px;font-weight:900;color:#0e1556;">Featured collections</h2>
+      <p style="margin:0;color:#52586b;font-weight:600;font-size:16px;">Curated trips for whatever vibe you're chasing.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:220px 220px;gap:18px;">
+      <a href="search-results.html?ai=Beachfront%20resorts%20in%20Miami%20with%20pools" style="grid-column:span 2;grid-row:span 2;position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
+        <img src="assets/featured-beach.webp" alt="Beach Escapes" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(11,15,31,0.72) 0%, rgba(11,15,31,0) 55%);"></div>
+        <div style="position:absolute;left:22px;bottom:20px;color:#fff;"><h3 style="margin:0;font-size:24px;font-weight:900;">Beach Escapes</h3><p style="margin:2px 0 0;font-weight:600;opacity:0.9;">Sun, sand, and savings</p></div>
+      </a>
+      <a href="search-results.html?ai=Top-rated%20hotels%20near%20Times%20Square%20New%20York" style="grid-column:span 2;position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
+        <img src="assets/featured-roadtrip.webp" alt="City Breaks" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(11,15,31,0.72) 0%, rgba(11,15,31,0) 55%);"></div>
+        <div style="position:absolute;left:22px;bottom:20px;color:#fff;"><h3 style="margin:0;font-size:22px;font-weight:900;">City Breaks</h3><p style="margin:2px 0 0;font-weight:600;opacity:0.9;">Neon lights and late nights</p></div>
+      </a>
+      <a href="search-results.html?ai=Mountain%20cabin%20resorts%20near%20Denver%20Colorado" style="position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
+        <img src="assets/featured-mountain.webp" alt="Mountain Retreats" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(11,15,31,0.72) 0%, rgba(11,15,31,0) 55%);"></div>
+        <div style="position:absolute;left:18px;bottom:16px;color:#fff;"><h3 style="margin:0;font-size:18px;font-weight:900;">Mountain Retreats</h3><p style="margin:2px 0 0;font-weight:600;font-size:13px;opacity:0.9;">Cabins and cozy fireplaces</p></div>
+      </a>
+      <a href="search-results.html?ai=Desert%20resorts%20with%20pools%20in%20Scottsdale%20Arizona" style="position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
+        <img src="assets/featured-forest.webp" alt="Desert Vibes" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(11,15,31,0.72) 0%, rgba(11,15,31,0) 55%);"></div>
+        <div style="position:absolute;left:18px;bottom:16px;color:#fff;"><h3 style="margin:0;font-size:18px;font-weight:900;">Desert Vibes</h3><p style="margin:2px 0 0;font-weight:600;font-size:13px;opacity:0.9;">Oasis luxury</p></div>
+      </a>
+    </div>
+  </section>
+
+  <section id="deals">
+    <div style="margin-bottom:22px;">
+      <h2 style="margin:0 0 6px;font-size:30px;font-weight:900;color:#0e1556;">Top deals right now</h2>
+      <p style="margin:0;color:#52586b;font-weight:600;font-size:16px;">Hand-picked stays offering incredible value.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;">
+      <sc-for list="{{ topDeals }}" as="deal" hint-placeholder-count="8">
+        <a href="{{ deal.href }}" style="background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;color:inherit;transition:transform .25s cubic-bezier(0.22,1,0.36,1), box-shadow .25s;" style-hover="transform:translateY(-4px);box-shadow:0 16px 48px rgba(14,21,86,0.12);color:inherit;">
+          <div style="position:relative;height:150px;background:#e8eaf2;">
+            {{ deal.imgEl }}
+            <span style="position:absolute;top:10px;left:10px;background:rgba(255,255,255,0.92);backdrop-filter:blur(6px);color:#0e1556;font-weight:800;font-size:12px;padding:4px 9px;border-radius:999px;">★ {{ deal.rating }}</span>
+          </div>
+          <div style="padding:14px 16px 16px;display:flex;flex-direction:column;gap:3px;flex:1;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;">
+              <h3 style="margin:0;font-size:15px;font-weight:800;color:#0b0f1f;line-height:1.3;">{{ deal.name }}</h3>
+              <span style="white-space:nowrap;"><strong style="font-size:17px;color:#ff6500;font-weight:900;">{{ deal.priceLabel }}</strong><span style="font-size:12px;color:#52586b;font-weight:600;">/night</span></span>
+            </div>
+            <p style="margin:0;font-size:13px;color:#52586b;font-weight:600;">{{ deal.city }}</p>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="two-doors">
+    <div style="margin-bottom:26px;text-align:center;">
+      <h2 style="margin:0 0 6px;font-size:30px;font-weight:900;color:#0e1556;">Two ways to use the club</h2>
+      <p style="margin:0;color:#52586b;font-weight:600;font-size:16px;">Most people join for the prices. Some turn it into a paycheck. Pick your door.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px;">
+      <div style="background:#fff;border-radius:22px;padding:32px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;gap:14px;border-top:5px solid #38b6ff;">
+        <span style="width:52px;height:52px;border-radius:14px;background:rgba(56,182,255,0.14);color:#38b6ff;display:flex;align-items:center;justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"></path><path d="M2 12h20M12 2c2.5 2.7 4 6.2 4 10s-1.5 7.3-4 10c-2.5-2.7-4-6.2-4-10s1.5-7.3 4-10z"></path></svg></span>
+        <h3 style="margin:0;font-size:22px;font-weight:900;color:#0e1556;">Door #1: Just travel cheaper</h3>
+        <p style="margin:0;font-size:15px;font-weight:600;line-height:1.65;color:#52586b;">You don't have to sell anything, post anything, or talk to anyone. Book the same hotels you'd book anyway — at member rates. Our members' average first booking saves more than the membership costs. After that, every trip is pure discount.</p>
+        <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px;font-size:14px;font-weight:700;color:#0b0f1f;">
+          <li style="display:flex;gap:9px;align-items:center;"><span style="color:#38b6ff;font-weight:900;">✓</span>40–65% off public hotel rates</li>
+          <li style="display:flex;gap:9px;align-items:center;"><span style="color:#38b6ff;font-weight:900;">✓</span>Resorts, cruises and condo weeks too</li>
+          <li style="display:flex;gap:9px;align-items:center;"><span style="color:#38b6ff;font-weight:900;">✓</span>Cancel anytime — keep what you saved</li>
+        </ul>
+        <a href="webinar-optin.html" style="margin-top:auto;width:fit-content;background:#38b6ff;color:#fff;font-weight:800;font-size:15px;padding:12px 24px;border-radius:999px;" style-hover="background:#2da1e6;color:#fff;">Start saving on trips</a>
+      </div>
+      <div style="background:#fff;border-radius:22px;padding:32px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;gap:14px;border-top:5px solid #ff6500;">
+        <span style="width:52px;height:52px;border-radius:14px;background:rgba(255,101,0,0.12);color:#ff6500;display:flex;align-items:center;justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1v22M17 5.5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></span>
+        <h3 style="margin:0;font-size:22px;font-weight:900;color:#0e1556;">Door #2: Get paid to talk about it</h3>
+        <p style="margin:0;font-size:15px;font-weight:600;line-height:1.65;color:#52586b;">You already post your trips. What if the "how did you afford that?" comments paid you? Refer people to the club and earn recurring income on every membership — no products to ship, no inventory, nothing to peddle. Just a membership people keep using, like Netflix.</p>
+        <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px;font-size:14px;font-weight:700;color:#0b0f1f;">
+          <li style="display:flex;gap:9px;align-items:center;"><span style="color:#ff6500;font-weight:900;">✓</span>Recurring referral income, month after month</li>
+          <li style="display:flex;gap:9px;align-items:center;"><span style="color:#ff6500;font-weight:900;">✓</span>The work happens once — post what you saved</li>
+          <li style="display:flex;gap:9px;align-items:center;"><span style="color:#ff6500;font-weight:900;">✓</span>A team that picks up the phone when you ask how</li>
+        </ul>
+        <a href="webinar-optin-creator.html" style="margin-top:auto;width:fit-content;background:#ff6500;color:#fff;font-weight:800;font-size:15px;padding:12px 24px;border-radius:999px;" style-hover="background:#e65a00;color:#fff;">See how creators earn</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="find-your-vibe">
+    <div style="margin-bottom:22px;">
+      <h2 style="margin:0 0 6px;font-size:30px;font-weight:900;color:#0e1556;">Find your vibe</h2>
+      <p style="margin:0;color:#52586b;font-weight:600;font-size:16px;">AI-powered searches matching exactly what you're feeling.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;">
+      <sc-for list="{{ vibeCards }}" as="vibe" hint-placeholder-count="4">
+        <a href="{{ vibe.href }}" style="position:relative;height:280px;border-radius:20px;overflow:hidden;display:flex;align-items:flex-end;padding:20px;color:#fff;transition:transform .25s cubic-bezier(0.22,1,0.36,1);" style-hover="transform:translateY(-4px);color:#fff;">
+          {{ vibe.imgEl }}
+          <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(11,15,31,0.75) 0%, rgba(11,15,31,0.05) 60%);"></div>
+          <h3 style="position:relative;margin:0;font-size:20px;font-weight:900;">{{ vibe.title }}</h3>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="weekend">
+    <div style="margin-bottom:22px;">
+      <h2 style="margin:0 0 6px;font-size:30px;font-weight:900;color:#0e1556;">Weekend steals</h2>
+      <p style="margin:0;color:#52586b;font-weight:600;font-size:16px;">Prices just dropped for this upcoming weekend.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;">
+      <sc-for list="{{ weekendDeals }}" as="deal" hint-placeholder-count="4">
+        <a href="{{ deal.href }}" style="background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;color:inherit;transition:transform .25s cubic-bezier(0.22,1,0.36,1), box-shadow .25s;" style-hover="transform:translateY(-4px);box-shadow:0 16px 48px rgba(14,21,86,0.12);color:inherit;">
+          <div style="position:relative;height:160px;background:#e8eaf2;">
+            {{ deal.imgEl }}
+            <span style="position:absolute;bottom:10px;left:10px;background:rgba(255,255,255,0.92);backdrop-filter:blur(6px);border-radius:999px;padding:5px 11px;"><strong style="color:#0e1556;font-weight:900;font-size:15px;">{{ deal.priceLabel }}</strong><span style="font-size:12px;color:#52586b;font-weight:600;">/night</span></span>
+          </div>
+          <div style="padding:14px 16px 16px;">
+            <h3 style="margin:0 0 2px;font-size:15px;font-weight:800;color:#0b0f1f;">{{ deal.name }}</h3>
+            <p style="margin:0;font-size:13px;color:#52586b;font-weight:600;">{{ deal.city }}</p>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="member-stories">
+    <div style="margin-bottom:26px;">
+      <h2 style="margin:0 0 6px;font-size:30px;font-weight:900;color:#0e1556;">Members keep the receipts</h2>
+      <p style="margin:0;color:#52586b;font-weight:600;font-size:16px;">Hundreds send in their trips — what they saved, in their own words.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
+      <div style="background:#fff;border-radius:20px;padding:26px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;gap:12px;">
+        <span style="width:fit-content;background:rgba(56,182,255,0.12);color:#0e1556;font-weight:900;font-size:15px;padding:6px 14px;border-radius:999px;">Saved $1,072</span>
+        <p style="margin:0;font-size:15px;font-weight:600;line-height:1.6;color:#0b0f1f;">"Booked the same all-inclusive my sister paid full price for in March. Four nights, oceanfront. She still brings it up."</p>
+        <span style="margin-top:auto;font-size:13px;font-weight:800;color:#52586b;">Dana R. · Cancún, 4 nights</span>
+      </div>
+      <div style="background:#fff;border-radius:20px;padding:26px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;gap:12px;">
+        <span style="width:fit-content;background:rgba(56,182,255,0.12);color:#0e1556;font-weight:900;font-size:15px;padding:6px 14px;border-radius:999px;">Saved $438</span>
+        <p style="margin:0;font-size:15px;font-weight:600;line-height:1.6;color:#0b0f1f;">"First booking paid for the membership twice over. Vegas strip hotel, weekend rate cheaper than my usual midweek one."</p>
+        <span style="margin-top:auto;font-size:13px;font-weight:800;color:#52586b;">Marcus T. · Las Vegas, 2 nights</span>
+      </div>
+      <div style="background:#fff;border-radius:20px;padding:26px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;gap:12px;">
+        <span style="width:fit-content;background:rgba(255,101,0,0.12);color:#ff6500;font-weight:900;font-size:15px;padding:6px 14px;border-radius:999px;">Earns monthly</span>
+        <p style="margin:0;font-size:15px;font-weight:600;line-height:1.6;color:#0b0f1f;">"I posted one reel about our Paris trip and the savings. Eleven people joined through my link. That reel still pays me."</p>
+        <span style="margin-top:auto;font-size:13px;font-weight:800;color:#52586b;">Yulia K. · Member since 2024</span>
+      </div>
+    </div>
+    <p style="margin:14px 4px 0;font-size:12px;font-weight:600;color:#9aa0b4;">Savings and earnings are self-reported by individual members and are not typical or guaranteed.</p>
+  </section>
+
+  <section style="background:#fff;border-radius:24px;box-shadow:0 8px 24px rgba(14,21,86,0.06);padding:44px 32px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:32px;text-align:center;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+        <span style="width:56px;height:56px;border-radius:16px;background:rgba(56,182,255,0.14);color:#38b6ff;display:flex;align-items:center;justify-content:center;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15.5 14"></polyline></svg></span>
+        <h3 style="margin:0;font-size:18px;font-weight:800;color:#0e1556;">Real-time pricing</h3>
+        <p style="margin:0;color:#52586b;font-weight:600;font-size:14px;">Live rates direct from global suppliers.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+        <span style="width:56px;height:56px;border-radius:16px;background:rgba(56,182,255,0.14);color:#38b6ff;display:flex;align-items:center;justify-content:center;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z"></path><polyline points="8.5 12 11 14.5 15.5 9.5"></polyline></svg></span>
+        <h3 style="margin:0;font-size:18px;font-weight:800;color:#0e1556;">Instant confirmation</h3>
+        <p style="margin:0;color:#52586b;font-weight:600;font-size:14px;">No waiting around. Guaranteed rooms.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+        <span style="width:56px;height:56px;border-radius:16px;background:rgba(56,182,255,0.14);color:#38b6ff;display:flex;align-items:center;justify-content:center;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"></rect><line x1="2.5" y1="10" x2="21.5" y2="10"></line></svg></span>
+        <h3 style="margin:0;font-size:18px;font-weight:800;color:#0e1556;">Zero hidden fees</h3>
+        <p style="margin:0;color:#52586b;font-weight:600;font-size:14px;">What you see is exactly what you pay.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="text-align:center;padding:24px 0 0;">
+    <h2 style="margin:0 auto;font-size:clamp(30px,3.8vw,46px);font-weight:900;color:#0e1556;line-height:1.1;max-width:760px;text-wrap:balance;">Book like a member, not a tourist.</h2>
+    <p style="margin:18px auto 0;font-size:17px;font-weight:600;line-height:1.65;color:#52586b;max-width:600px;">Every crossed-out price on this page is a trip you could be taking for less. The walkthrough takes two minutes — watch it, do the math on your next trip, then decide.</p>
+    <div style="margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:12px;">
+      <a href="webinar-optin.html" style="background:#ff6500;color:#fff;font-weight:900;font-size:18px;padding:16px 38px;border-radius:999px;box-shadow:0 12px 32px rgba(255,101,0,0.35);" style-hover="background:#e65a00;color:#fff;">Unlock member prices</a>
+      <span style="font-size:13px;font-weight:700;color:#9aa0b4;">2-minute signup · Cancel anytime · You join a team, not just a website</span>
+    </div>
+  </section>
+</main>
+
+<footer style="background:#0e1556;color:rgba(255,255,255,0.85);padding:52px 24px 32px;">
+  <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:36px;">
+    <div style="display:flex;flex-wrap:wrap;gap:48px;justify-content:space-between;">
+      <div style="max-width:300px;display:flex;flex-direction:column;gap:12px;">
+        <img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:34px;width:fit-content;background:#fff;border-radius:10px;padding:6px 12px;">
+        <p style="margin:0;font-size:14px;font-weight:600;line-height:1.6;color:rgba(255,255,255,0.7);">Seriously good stays at seriously low prices. Real-time rates from suppliers worldwide.</p>
+      </div>
+      <div style="display:flex;gap:64px;flex-wrap:wrap;">
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;font-weight:600;">
+          <strong style="color:#fff;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.08em;">Explore</strong>
+          <a href="#deals" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">Top deals</a>
+          <a href="#weekend" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">Weekend steals</a>
+          <a href="#find-your-vibe" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">Find your vibe</a>
+          <a href="webinar-optin-creator.html" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">For creators</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;font-weight:600;">
+          <strong style="color:#fff;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.08em;">Support</strong>
+          <a href="#" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">Help center</a>
+          <a href="#" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">Manage booking</a>
+          <a href="#" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">Contact us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;font-weight:600;">
+          <strong style="color:#fff;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.08em;">Company</strong>
+          <a href="#" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">About</a>
+          <a href="privacy.html" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">Privacy</a>
+          <a href="terms.html" style="color:rgba(255,255,255,0.75);" style-hover="color:#38b6ff;">Terms</a>
+        </div>
+      </div>
+    </div>
+    <p style="margin:0;padding-top:24px;border-top:1px solid rgba(255,255,255,0.12);font-size:13px;font-weight:600;color:rgba(255,255,255,0.5);">© 2026 cheapgetaway.com — All rights reserved.</p>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { recPage: 0, mode: 'standard', trip: 'round', flightsAi: false,
+    paxOpen: false, adults: 1, children: 0, infants: 0, cabin: 'all',
+    datesOpen: false, guestsOpen: false, stayCheckin: '', stayCheckout: '', stayGuests: 2,
+    flyDatesOpen: false, flyDepart: '', flyReturn: '',
+    destSugs: [], flyFromSugs: [], flyToSugs: [], destPlaceId: '' };
+  async apiGet(path) {
+    const res = await cgApiFetch(path, { headers: { 'accept': 'application/json' } });
+    if (!res.ok) throw new Error('API ' + res.status);
+    return res.json();
+  }
+  async loadIata() {
+    if (this._iata) return this._iata;
+    try {
+      const r = await this.apiGet('/data/iataCodes');
+      this._iata = (r.data || []).map(x => ({ code: x.code || x.iataCode || x.iata, name: x.name || x.airportName || x.city || '' })).filter(x => x.code);
+    } catch (e) { this._iata = []; }
+    return this._iata;
+  }
+  airportSugs(q, inputId, key) {
+    const ql = q.toLowerCase();
+    return (this._iata || [])
+      .filter(a => a.code.toLowerCase().startsWith(ql) || a.name.toLowerCase().includes(ql))
+      .slice(0, 6)
+      .map(a => ({ label: a.name || a.code, sub: a.code,
+        pick: () => {
+          const el = document.getElementById(inputId);
+          if (el) el.value = (a.name ? a.name + ' ' : '') + '(' + a.code + ')';
+          this.setState({ [key]: [] });
+        } }));
+  }
+  onAirportInput(inputId, key) {
+    return (e) => {
+      const q = e.currentTarget.value.trim();
+      if (q.length < 2) { this.setState({ [key]: [] }); return; }
+      this.loadIata().then(() => this.setState({ [key]: this.airportSugs(q, inputId, key) }));
+    };
+  }
+  step(k, d, min, max) { return () => this.setState(s => ({ [k]: Math.max(min, Math.min(max, s[k] + d)) })); }
+  iso(offsetDays) { const d = new Date(); d.setDate(d.getDate() + offsetDays); return d.toISOString().split('T')[0]; }
+  imgEl(src, alt, abs) { return React.createElement('img', { src, alt: alt || '', style: abs ? { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' } : { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }); }
+  hotels = [
+    { name: "Tokyo Bay Shiomi Prince Hotel", address: "Tokyo, 2-8-16 Shiomi, Koto City", image: "https://static.cupid.travel/hotels/117744158.jpg", score: 9.1, reviews: 1248, price: 286 },
+    { name: "Sofitel Dubai Jumeirah Beach", address: "Dubai, Jumeirah Beach Residence, The Walk", image: "https://static.cupid.travel/hotels/ex_ca3a9677_z.jpg", score: 9.2, reviews: 827, price: 382 },
+    { name: "Pullman Paris Tour Eiffel", address: "Paris, 18 avenue de Suffren", image: "https://static.cupid.travel/hotels/428663598.jpg", score: 8.9, reviews: 1394, price: 468 },
+    { name: "The Royal Park Hotel Iconic Tokyo Shiodome", address: "Tokyo, 1-6-3 Higashishimbashi, Minato City", image: "https://static.cupid.travel/hotels/287763048.jpg", score: 9.1, reviews: 684, price: 412 },
+    { name: "St. James' Court, A Taj Hotel, London", address: "London, 54 Buckingham Gate, Westminster", image: "https://static.cupid.travel/hotels/177109798.jpg", score: 9.0, reviews: 948, price: 514 },
+    { name: "UNA Hotels Galles Milano", address: "Milan, Piazza Lima 2", image: "https://static.cupid.travel/hotels/31473350.jpg", score: 8.7, reviews: 1312, price: 318 },
+    { name: "Rome Cavalieri, A Waldorf Astoria Hotel", address: "Rome, Via Alberto Cadlolo 101", image: "https://static.cupid.travel/hotels/506518250.jpg", score: 9.3, reviews: 672, price: 921 },
+    { name: "The Prince Park Tower Tokyo", address: "Tokyo, 4-8-1 Shibakoen, Minato City", image: "https://static.cupid.travel/hotels/619238700.jpg", score: 9.3, reviews: 763, price: 529 },
+    { name: "Novotel Paris Les Halles", address: "Paris, 8 Place Marguerite de Navarre", image: "https://static.cupid.travel/hotels/ex_7cc26002_z.jpg", score: 8.8, reviews: 2104, price: 354 }
+  ];
+  label(s) { return s >= 9.5 ? "Exceptional" : s >= 9 ? "Wonderful" : s >= 8.5 ? "Excellent" : "Very good"; }
+  componentDidMount() {
+    this._navHandler = (e) => {
+      const a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+      if (!a) return;
+      const href = a.getAttribute('href') || '';
+      if (href.indexOf('.dc.html') === -1) return;
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.href = href;
+    };
+    document.addEventListener('click', this._navHandler, true);
+    this._popHandler = (e) => {
+      if (e.target && e.target.closest && e.target.closest('[data-cg-pop]')) return;
+      const S = this.state;
+      if (S.paxOpen || S.datesOpen || S.guestsOpen || S.flyDatesOpen || S.destSugs.length || S.flyFromSugs.length || S.flyToSugs.length)
+        this.setState({ paxOpen: false, datesOpen: false, guestsOpen: false, flyDatesOpen: false, destSugs: [], flyFromSugs: [], flyToSugs: [] });
+    };
+    document.addEventListener('click', this._popHandler);
+    this._scrollHandler = () => {
+      const logo = document.getElementById('cg-nav-logo');
+      if (logo) logo.style.height = window.scrollY > 40 ? '36px' : '54px';
+    };
+    window.addEventListener('scroll', this._scrollHandler, { passive: true });
+  }
+  componentWillUnmount() {
+    document.removeEventListener('click', this._navHandler, true);
+    document.removeEventListener('click', this._popHandler);
+    window.removeEventListener('scroll', this._scrollHandler);
+  }
+  renderVals() {
+    const { recPage, mode } = this.state;
+    const pageSize = 3, pageCount = Math.ceil(this.hotels.length / pageSize);
+    const recVisible = this.hotels.slice(recPage * pageSize, recPage * pageSize + pageSize).map(h => ({
+      ...h, score: h.score.toFixed(1), label: this.label(h.score),
+      reviews: h.reviews.toLocaleString(), priceLabel: "US$" + h.price.toLocaleString(),
+      memberLabel: "US$" + Math.round(h.price * 0.47).toLocaleString(),
+      imgEl: this.imgEl(h.image, h.name),
+      href: "hotel-detail.html?q=" + encodeURIComponent(h.name + " " + h.address)
+    }));
+    const std = mode === 'standard';
+    const fly = mode === 'flights';
+    const withImg = (arr, abs) => arr.map(x => ({ ...x, imgEl: this.imgEl(x.image, x.name || x.title, abs) }));
+    return {
+      staysMode: !fly, flightsMode: fly, roundTrip: this.state.trip === 'round',
+      heroTitle: fly ? 'Search hundreds of airlines at once.' : 'Same Stays. Better Prices.',
+      heroSub: fly ? 'Find the cheapest flights for any route, any date.' : '2 Million Hotels Worldwide',
+      departDefault: this.iso(14), returnDefault: this.iso(17),
+      setModeFlights: () => this.setState({ mode: 'flights' }),
+      flightsChipBg: fly ? '#fff' : 'transparent', flightsChipColor: fly ? '#0e1556' : 'rgba(255,255,255,0.85)',
+      flightsAi: this.state.flightsAi, flightsAiOff: !this.state.flightsAi,
+      flightsAiMode: fly && this.state.flightsAi, flightsFormMode: fly && !this.state.flightsAi,
+      toggleFlightsAi: () => this.setState(s => ({ flightsAi: !s.flightsAi })),
+      aiToggleBg: this.state.flightsAi ? '#f6f7fb' : '#ff6500',
+      aiToggleColor: this.state.flightsAi ? '#0e1556' : '#fff',
+      trendingCards: [
+        { city: 'Miami', kicker: 'Best pricing', image: 'assets/weekend-beach.webp', href: 'flight-results.html?ai=' + encodeURIComponent('Cheapest flights to Miami next month') },
+        { city: 'Las Vegas', kicker: 'Weekend party', image: 'assets/weekend-family.webp', href: 'flight-results.html?ai=' + encodeURIComponent('Cheapest flights to Las Vegas this weekend') },
+        { city: 'New York', kicker: 'City breaks', image: 'assets/weekend-adventure.webp', href: 'flight-results.html?ai=' + encodeURIComponent('Cheapest flights to New York next month') },
+        { city: 'Denver', kicker: 'Mountain escapes', image: 'assets/featured-mountain.webp', href: 'flight-results.html?ai=' + encodeURIComponent('Cheapest flights to Denver next month') }
+      ].map(t => ({ ...t, imgEl: this.imgEl(t.image, t.city, true) })),
+      doFlightAiSearch: () => {
+        const el = document.getElementById('cg-fly-ai');
+        const q = (el && el.value.trim());
+        if (!q) return;
+        window.location.href = 'flight-results.html?ai=' + encodeURIComponent(q);
+      },
+      setTripRound: () => this.setState({ trip: 'round' }),
+      setTripOneway: () => this.setState({ trip: 'oneway' }),
+      roundChipBg: this.state.trip === 'round' ? 'rgba(56,182,255,0.14)' : '#fff',
+      roundChipColor: this.state.trip === 'round' ? '#0e8de0' : '#52586b',
+      roundChipBorder: this.state.trip === 'round' ? 'rgba(56,182,255,0.6)' : 'rgba(14,21,86,0.15)',
+      onewayChipBg: this.state.trip === 'oneway' ? 'rgba(56,182,255,0.14)' : '#fff',
+      onewayChipColor: this.state.trip === 'oneway' ? '#0e8de0' : '#52586b',
+      onewayChipBorder: this.state.trip === 'oneway' ? 'rgba(56,182,255,0.6)' : 'rgba(14,21,86,0.15)',
+      swapAirports: () => {
+        const a = document.getElementById('cg-fly-from'), b = document.getElementById('cg-fly-to');
+        if (a && b) { const t = a.value; a.value = b.value; b.value = t; }
+      },
+      doFlightSearch: () => {
+        const v = (id, dflt) => { const el = document.getElementById(id); return (el && el.value.trim()) || dflt; };
+        const S = this.state;
+        const p = new URLSearchParams({
+          from: v('cg-fly-from', 'JFK'), to: v('cg-fly-to', 'MIA'),
+          depart: S.flyDepart || this.iso(14),
+          adults: String(S.adults), children: String(S.children), infants: String(S.infants), cabin: S.cabin,
+          trip: S.trip, nonstop: document.getElementById('cg-nonstop') && document.getElementById('cg-nonstop').checked ? '1' : '0'
+        });
+        if (S.trip === 'round') p.set('return', S.flyReturn || this.iso(17));
+        window.location.href = 'flight-results.html?' + p.toString();
+      },
+      togglePax: () => this.setState(s => ({ paxOpen: !s.paxOpen, datesOpen: false, guestsOpen: false })),
+      closePax: () => { if (this.state.paxOpen) this.setState({ paxOpen: false }); },
+      paxOpen: this.state.paxOpen,
+      adults: this.state.adults, childrenCount: this.state.children, infants: this.state.infants,
+      adultsMinus: this.step('adults', -1, 1, 9), adultsPlus: this.step('adults', 1, 1, 9),
+      childrenMinus: this.step('children', -1, 0, 8), childrenPlus: this.step('children', 1, 0, 8),
+      infantsMinus: this.step('infants', -1, 0, 4), infantsPlus: this.step('infants', 1, 0, 4),
+      paxSummary: (() => {
+        const S = this.state, n = S.adults + S.children + S.infants;
+        const cab = { all: 'All cabins', economy: 'Economy', business: 'Business', first: 'First class' }[S.cabin];
+        return n + (n === 1 ? ' Passenger' : ' Passengers') + ' · ' + cab;
+      })(),
+      cabinChips: [['all', 'All cabins'], ['economy', 'Economy'], ['business', 'Business'], ['first', 'First class']].map(([id, label]) => ({
+        label, pick: () => this.setState({ cabin: id }),
+        bg: this.state.cabin === id ? 'rgba(56,182,255,0.14)' : '#fff',
+        color: this.state.cabin === id ? '#0e8de0' : '#52586b',
+        border: this.state.cabin === id ? 'rgba(56,182,255,0.6)' : 'rgba(14,21,86,0.15)'
+      })),
+      recVisible,
+      recPrev: () => this.setState(s => ({ recPage: Math.max(0, s.recPage - 1) })),
+      recNext: () => this.setState(s => ({ recPage: Math.min(pageCount - 1, s.recPage + 1) })),
+      recPrevColor: recPage > 0 ? '#0e1556' : 'rgba(14,21,86,0.25)',
+      recNextColor: recPage < pageCount - 1 ? '#0e1556' : 'rgba(14,21,86,0.25)',
+      signedIn: (() => { try { return !!JSON.parse(localStorage.getItem('cg_user') || 'null'); } catch (e) { return false; } })(),
+      authLabel: (() => { try { const u = JSON.parse(localStorage.getItem('cg_user') || 'null'); return u ? 'Log out' : 'Sign in'; } catch (e) { return 'Sign in'; } })(),
+      authAction: () => {
+        let u = null;
+        try { u = JSON.parse(localStorage.getItem('cg_user') || 'null'); } catch (e) {}
+        if (u) { localStorage.removeItem('cg_user'); this.forceUpdate(); }
+        else window.location.href = 'sign-in.html';
+      },
+      doSearch: () => {
+        const el = document.getElementById('cg-dest');
+        const q = (el && el.value.trim()) || 'Las Vegas';
+        const S = this.state;
+        const p = new URLSearchParams({ q, adults: String(S.stayGuests) });
+        if (S.destPlaceId) p.set('placeId', S.destPlaceId);
+        p.set('checkin', S.stayCheckin || this.iso(1));
+        p.set('checkout', S.stayCheckout || this.iso(3));
+        window.location.href = 'search-results.html?' + p.toString();
+      },
+      onDestInput: (e) => {
+        const q = e.currentTarget.value.trim();
+        this.setState({ destPlaceId: '' });
+        clearTimeout(this._destTimer);
+        if (q.length < 2) { this.setState({ destSugs: [] }); return; }
+        this._destTimer = setTimeout(() => {
+          this.apiGet('/data/places?textQuery=' + encodeURIComponent(q) + '&language=en').then(r => {
+            const sugs = (r.data || []).slice(0, 6).map(p => {
+              const label = p.displayName || p.name || p.description || '';
+              const placeId = p.placeId || p.place_id || p.id || '';
+              return { label, sub: p.formattedAddress || p.address || p.type || '',
+                pick: () => {
+                  const el = document.getElementById('cg-dest');
+                  if (el) el.value = label;
+                  this.setState({ destSugs: [], destPlaceId: placeId });
+                } };
+            }).filter(s => s.label);
+            this.setState({ destSugs: sugs });
+          }).catch(() => this.setState({ destSugs: [] }));
+        }, 280);
+      },
+      hasDestSugs: this.state.destSugs.length > 0, destSugs: this.state.destSugs,
+      onFlyFromInput: this.onAirportInput('cg-fly-from', 'flyFromSugs'),
+      onFlyToInput: this.onAirportInput('cg-fly-to', 'flyToSugs'),
+      hasFlyFromSugs: this.state.flyFromSugs.length > 0, flyFromSugs: this.state.flyFromSugs,
+      hasFlyToSugs: this.state.flyToSugs.length > 0, flyToSugs: this.state.flyToSugs,
+      toggleFlyDates: () => this.setState(s => ({ flyDatesOpen: !s.flyDatesOpen, paxOpen: false })),
+      flyDatesOpen: this.state.flyDatesOpen,
+      flyDatesTitle: this.state.trip === 'round' ? 'Depart & return' : 'Depart',
+      flyDepartVal: this.state.flyDepart || this.iso(14), flyReturnVal: this.state.flyReturn || this.iso(17),
+      setFlyDepart: (e) => this.setState({ flyDepart: e.currentTarget.value }),
+      setFlyReturn: (e) => this.setState({ flyReturn: e.currentTarget.value }),
+      flyDatesLabel: (() => {
+        const f = (s) => { try { return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(new Date(s + 'T12:00:00')); } catch (e) { return s; } };
+        const dep = f(this.state.flyDepart || this.iso(14));
+        return this.state.trip === 'round' ? dep + ' – ' + f(this.state.flyReturn || this.iso(17)) : dep;
+      })(),
+      toggleDates: () => this.setState(s => ({ datesOpen: !s.datesOpen, guestsOpen: false, paxOpen: false })),
+      toggleGuests: () => this.setState(s => ({ guestsOpen: !s.guestsOpen, datesOpen: false, paxOpen: false })),
+      datesOpen: this.state.datesOpen, guestsOpen: this.state.guestsOpen,
+      stayCheckin: this.state.stayCheckin || this.iso(1), stayCheckout: this.state.stayCheckout || this.iso(3),
+      setStayCheckin: (e) => this.setState({ stayCheckin: e.currentTarget.value }),
+      setStayCheckout: (e) => this.setState({ stayCheckout: e.currentTarget.value }),
+      stayDatesLabel: (() => {
+        const f = (s) => { try { return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(new Date(s + 'T12:00:00')); } catch (e) { return s; } };
+        return f(this.state.stayCheckin || this.iso(1)) + ' – ' + f(this.state.stayCheckout || this.iso(3));
+      })(),
+      stayGuests: this.state.stayGuests,
+      stayGuestsLabel: this.state.stayGuests + (this.state.stayGuests === 1 ? ' Guest' : ' Guests'),
+      stayGuestsMinus: this.step('stayGuests', -1, 1, 8), stayGuestsPlus: this.step('stayGuests', 1, 1, 8),
+      setModeStandard: () => this.setState({ mode: 'standard' }),
+      setModeAi: () => this.setState({ mode: 'ai' }),
+      standardChipBg: std ? '#fff' : 'transparent', standardChipColor: std ? '#0e1556' : 'rgba(255,255,255,0.85)',
+      aiChipBg: std ? '#f6f7fb' : '#0e1556', aiChipColor: std ? '#0e1556' : '#fff',
+      searchLabel: std ? 'Destination' : 'AI search',
+      searchPlaceholder: std ? 'City or airport' : 'Romantic getaway with spa and late checkout',
+      topDeals: withImg([
+        { name: "Downtown Grand Vegas", city: "Las Vegas", image: "assets/weekend-family.webp", priceLabel: "$89", rating: "8.6", href: "hotel-detail.html?hotelId=lp1a278" },
+        { name: "The Wayfarer Seaside", city: "San Diego", image: "assets/quickvibe-poolside.webp", priceLabel: "$112", rating: "8.9", href: "hotel-detail.html?q=" + encodeURIComponent("beachfront hotel San Diego") },
+        { name: "Hotel Lincoln Chicago", city: "Chicago", image: "assets/quickvibe-city.webp", priceLabel: "$104", rating: "8.7", href: "hotel-detail.html?q=" + encodeURIComponent("Hotel Lincoln Chicago") },
+        { name: "French Quarter Inn", city: "New Orleans", image: "assets/weekend-city.webp", priceLabel: "$97", rating: "8.8", href: "hotel-detail.html?q=" + encodeURIComponent("French Quarter hotel New Orleans") },
+        { name: "South Beach Cabana", city: "Miami", image: "assets/weekend-beach.webp", priceLabel: "$118", rating: "9.0", href: "hotel-detail.html?q=" + encodeURIComponent("South Beach hotel Miami") },
+        { name: "Midtown Pod NYC", city: "New York", image: "assets/weekend-adventure.webp", priceLabel: "$139", rating: "8.5", href: "hotel-detail.html?q=" + encodeURIComponent("Midtown Manhattan hotel New York") },
+        { name: "Desert Sky Resort", city: "Phoenix", image: "assets/quickvibe-roadtrip.webp", priceLabel: "$92", rating: "8.8", href: "hotel-detail.html?q=" + encodeURIComponent("resort Phoenix Arizona") },
+        { name: "Harbor Lights Hotel", city: "Seattle", image: "assets/hotel-fallback-sm.webp", priceLabel: "$121", rating: "8.6", href: "hotel-detail.html?q=" + encodeURIComponent("downtown hotel Seattle") }
+      ]),
+      vibeCards: withImg([
+        { title: "Romantic Getaway", image: "assets/vibe-beach.webp", href: "search-results.html?ai=" + encodeURIComponent("Romantic adults-only resorts in Cancun") },
+        { title: "Weekend Party", image: "assets/vibe-nightlife.webp", href: "search-results.html?ai=" + encodeURIComponent("Hotels near the Las Vegas Strip nightlife") },
+        { title: "Family Friendly", image: "assets/vibe-hiking.webp", href: "search-results.html?ai=" + encodeURIComponent("Family friendly resorts in Orlando with pools") },
+        { title: "Quiet Luxury", image: "assets/vibe-staycation.webp", href: "search-results.html?ai=" + encodeURIComponent("Quiet luxury boutique hotels in Santa Barbara") }
+      ], true),
+      weekendDeals: withImg([
+        { name: "Downtown Las Vegas Stay", city: "Las Vegas", image: "assets/weekend-family.webp", priceLabel: "$99", href: "hotel-detail.html?hotelId=lp1a278" },
+        { name: "South Beach Escape", city: "Miami", image: "assets/weekend-beach.webp", priceLabel: "$119", href: "hotel-detail.html?hotelId=lp1a7fc" },
+        { name: "Midtown Weekend Pick", city: "New York", image: "assets/weekend-adventure.webp", priceLabel: "$139", href: "hotel-detail.html?hotelId=lp1a88f" },
+        { name: "French Quarter Retreat", city: "New Orleans", image: "assets/weekend-city.webp", priceLabel: "$109", href: "hotel-detail.html?hotelId=lp194b6" }
+      ])
+    };
+  }
+}
+</script>
+</body>
+</html>

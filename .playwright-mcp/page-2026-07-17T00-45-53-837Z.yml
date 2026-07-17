@@ -1,0 +1,83 @@
+- generic [ref=f9e3]:
+  - navigation [ref=f9e4]:
+    - generic [ref=f9e5]:
+      - link [ref=f9e6] [cursor=pointer]:
+        - /url: index.html
+        - img "cheapgetaway.com" [ref=f9e7]
+      - generic [ref=f9e8]: Secure checkout
+  - main [ref=f9e13]:
+    - generic [ref=f9e14]:
+      - link "Back to hotel" [ref=f9e15] [cursor=pointer]:
+        - /url: hotel-detail.html?hotelId=lp43826&checkin=2026-08-14&checkout=2026-08-17&adults=2
+      - heading "Complete your booking" [level=1] [ref=f9e18]
+      - generic [ref=f9e19]: Locking your price with the supplier…
+      - generic [ref=f9e20]:
+        - heading "Guest details" [level=2] [ref=f9e21]
+        - generic [ref=f9e22]:
+          - generic [ref=f9e23]:
+            - text: First name
+            - textbox "First name" [ref=f9e24]
+          - generic [ref=f9e25]:
+            - text: Last name
+            - textbox "Last name" [ref=f9e26]
+        - generic [ref=f9e27]:
+          - text: Email — your confirmation goes here
+          - textbox "Email — your confirmation goes here" [ref=f9e28]:
+            - /placeholder: you@email.com
+        - generic [ref=f9e29]:
+          - text: Phone (optional)
+          - textbox "Phone (optional)" [ref=f9e30]:
+            - /placeholder: +1 555 000 0000
+      - generic [ref=f9e31]:
+        - generic [ref=f9e32]:
+          - heading "Payment" [level=2] [ref=f9e33]
+          - generic [ref=f9e34]:
+            - generic [ref=f9e35]: VISA
+            - generic [ref=f9e36]: MC
+            - generic [ref=f9e37]: AMEX
+        - generic [ref=f9e38]:
+          - text: Card number
+          - textbox "Card number" [ref=f9e39]:
+            - /placeholder: 4242 4242 4242 4242
+        - generic [ref=f9e40]:
+          - generic [ref=f9e41]:
+            - text: Expiry
+            - textbox "Expiry" [ref=f9e42]:
+              - /placeholder: MM / YY
+          - generic [ref=f9e43]:
+            - text: CVC
+            - textbox "CVC" [ref=f9e44]:
+              - /placeholder: "123"
+        - paragraph [ref=f9e45]: Prototype payment — no card is charged. In production this connects to the LiteAPI book step with your payment processing.
+      - button "Confirm & book" [ref=f9e46] [cursor=pointer]
+    - complementary [ref=f9e47]:
+      - generic [ref=f9e48]:
+        - img "Hotel" [ref=f9e50]
+        - generic [ref=f9e51]:
+          - generic [ref=f9e52]:
+            - generic [ref=f9e53]: ★★★★
+            - heading "Loading…" [level=3] [ref=f9e54]
+            - paragraph
+          - generic [ref=f9e55]:
+            - generic [ref=f9e56]:
+              - generic [ref=f9e57]: Room
+              - generic [ref=f9e58]: 1 KING BED NONSMOKING
+            - generic [ref=f9e59]:
+              - generic [ref=f9e60]: Board
+              - generic [ref=f9e61]: Breakfast Included
+            - generic [ref=f9e62]:
+              - generic [ref=f9e63]: Check-in
+              - generic [ref=f9e64]: Fri, Aug 14
+            - generic [ref=f9e65]:
+              - generic [ref=f9e66]: Check-out
+              - generic [ref=f9e67]: Mon, Aug 17
+            - generic [ref=f9e68]:
+              - generic [ref=f9e69]: Guests
+              - generic [ref=f9e70]: 2 adults
+            - generic [ref=f9e71]:
+              - generic [ref=f9e72]: Policy
+              - generic [ref=f9e73]: Non-refundable
+          - generic [ref=f9e74]:
+            - generic [ref=f9e75]: Total incl. taxes
+            - strong [ref=f9e76]: $358
+      - generic [ref=f9e77]: ✓ Instant confirmation — your room is guaranteed the moment you book.

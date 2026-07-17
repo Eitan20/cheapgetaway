@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You're Registered — Free Travel Workshop</title>
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #FDF6E3; -webkit-font-smoothing: antialiased; }
+  a { color: #1A2258; text-decoration: none; }
+  a:hover { color: #3FA9F5; }
+  ::selection { background: #1A2258; color: #FFD976; }
+  @keyframes cg-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+  @keyframes cg-cloud { 0% { transform: translateX(-6vw); } 100% { transform: translateX(106vw); } }
+  @keyframes cg-pop { 0%,100% { box-shadow: 6px 6px 0 #1A2258; transform: translate(0,0); } 50% { box-shadow: 10px 10px 0 #1A2258; transform: translate(-3px,-3px); } }
+  /* Fullscreen video: fill the screen instead of showing the card chrome (border/
+     shadow/rounded corners) blown up, and letterbox with black instead of cropping. */
+  :fullscreen, :-webkit-full-screen { display: flex !important; align-items: center; justify-content: center; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; background: #000000 !important; }
+  :fullscreen video, :-webkit-full-screen video { width: 100% !important; height: 100% !important; object-fit: contain !important; background: #000000 !important; }
+</style>
+</helmet>
+
+<div data-screen-label="Registration confirmed" style="font-family: 'Nunito', sans-serif; background: #FDF6E3; color: #1A2258; overflow-x: hidden; position: relative;">
+
+  <!-- ============ HEADER ============ -->
+  <header style="position: relative; z-index: 6; background: #FFD976; display: flex; justify-content: center; padding: 24px min(6vw, 72px) 22px; border-bottom: 3px solid #1A2258;">
+    <img src="assets/logo-cheapgetaway.png" alt="cheapgetaway.team" style="height: clamp(38px, 4.4vw, 54px); display: block; max-width: 82vw; object-fit: contain;">
+  </header>
+
+  <!-- ============ CONFIRMATION HERO ============ -->
+  <section data-screen-label="Confirmed" style="position: relative; overflow: hidden; padding: clamp(48px, 6vw, 88px) min(6vw, 72px) clamp(40px, 5vw, 70px);">
+    {{ clouds }}
+    <div style="position: relative; z-index: 3; max-width: 820px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center;">
+      <span style="display: flex; align-items: center; justify-content: center; width: clamp(70px, 8vw, 92px); height: clamp(70px, 8vw, 92px); border-radius: 50%; background: #58B368; border: 4px solid #1A2258; box-shadow: 6px 6px 0 #1A2258; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(36px, 4.4vw, 48px); color: #FFFFFF;">✓</span>
+      <h1 style="font-family: 'Fredoka', sans-serif; font-weight: 700; letter-spacing: -0.02em; line-height: 1.04; margin: 24px 0 0;">
+        <span style="font-size: clamp(34px, 4.8vw, 64px); display: block;">You're registered{{ nameSuffix }}!</span>
+        <span style="display: block; font-size: clamp(18px, 2vw, 26px); color: rgba(26,34,88,0.72); font-weight: 600; margin-top: 14px;">Your seat at the free travel workshop is locked in.</span>
+      </h1>
+      <p style="font-size: clamp(15px, 1.3vw, 19px); line-height: 1.6; font-weight: 700; max-width: 620px; margin: 20px auto 0; background: rgba(255,255,255,0.72); backdrop-filter: blur(8px); border-radius: 20px; padding: 14px 22px;">
+        Your personal join link is on its way to <span style="color: #3FA9F5;">{{ emailDisplay }}</span> — keep an eye on your inbox. Press play while you wait.
+      </p>
+    </div>
+
+    <!-- video + session card -->
+    <div style="position: relative; z-index: 3; max-width: 1080px; margin: clamp(36px, 4vw, 54px) auto 0; display: flex; flex-wrap: wrap; gap: clamp(24px, 3vw, 40px); align-items: stretch; justify-content: center;">
+      <div style="flex: 1 1 380px; min-width: 0; max-width: 560px; display: flex;">
+        <div style="width: 100%; align-self: center; background: #FFFFFF; border: 4px solid #1A2258; border-radius: 24px; overflow: hidden; box-shadow: 14px 14px 0 #FF6B8A;">
+          <div style="position: relative; background: #000000;">
+            <video onClick="{{ toggleVideo }}" src="https://video.wixstatic.com/video/2af71f_9bdbb6be6c4c4c42b528c42f082bf121/1080p/mp4/file.mp4#t=0.5" playsinline preload="metadata" aria-label="50+ year travel agent — why she chose this club" style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #000000; display: block; cursor: pointer;"></video>
+            <button onClick="{{ toggleVideo }}" data-play-overlay="" aria-label="Play the video" style="position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; background: rgba(26,34,88,0.28); border: 0; padding: 0; cursor: pointer; transition: opacity 0.25s ease;">
+              <span style="display: flex; align-items: center; justify-content: center; width: clamp(62px, 8vw, 84px); height: clamp(62px, 8vw, 84px); border-radius: 50%; background: #FF6B8A; border: 4px solid #FFFFFF; box-shadow: 0 8px 22px rgba(26,34,88,0.5);">
+                <span style="display: block; width: 0; height: 0; border-top: 14px solid transparent; border-bottom: 14px solid transparent; border-left: 22px solid #FFFFFF; margin-left: 5px;"></span>
+              </span>
+            </button>
+            <button onClick="{{ goFullscreen }}" aria-label="Full screen" style="position: absolute; bottom: 12px; right: 12px; z-index: 2; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 10px; background: rgba(0,0,0,0.45); border: 0; padding: 0; cursor: pointer;" style-hover="background: rgba(0,0,0,0.65);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg>
+            </button>
+          </div>
+          <div style="padding: clamp(18px, 2.2vw, 26px); border-top: 4px solid #1A2258; text-align: left;">
+            <span style="display: inline-block; background: #FFD976; border: 2px solid #1A2258; border-radius: 999px; padding: 7px 16px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(11px, 1.05vw, 13px); letter-spacing: 0.06em; text-transform: uppercase; color: #1A2258;">50+ yr travel agent · top pro worldwide</span>
+            <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(18px, 1.9vw, 24px); line-height: 1.2; letter-spacing: -0.01em; color: #1A2258; margin-top: 14px; text-wrap: pretty;">Half a century as the world's top travel pro — and this is the club she chose. That should tell you something.</div>
+          </div>
+        </div>
+      </div>
+      <!-- session card -->
+      <div style="flex: 1 1 380px; min-width: 0; max-width: 480px; background: #FFFFFF; border: 4px solid #1A2258; border-radius: 26px; box-shadow: 14px 14px 0 #3EC6D0; padding: clamp(26px, 3vw, 38px); box-sizing: border-box; display: flex; flex-direction: column; gap: clamp(20px, 2.4vw, 28px); align-items: center; text-align: center; justify-content: center;">
+        <div style="width: 100%;">
+          <div style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #E2554F;">Your session</div>
+          <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(24px, 2.8vw, 38px); line-height: 1.15; letter-spacing: -0.01em; margin-top: 10px;">{{ sessionDate }}</div>
+          <div style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(18px, 2vw, 26px); color: #FF6B8A; margin-top: 6px;">{{ sessionTime }}</div>
+          <div style="font-size: 13px; font-weight: 800; color: rgba(26,34,88,0.55); margin-top: 6px;">{{ tzName }}</div>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
+          <sc-if value="{{ notLive }}" hint-placeholder-val="{{ true }}">
+            <div style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(26,34,88,0.65);">Starts in</div>
+            <div style="display: flex; gap: 12px;">
+              <div style="background: #FDF6E3; border: 3px solid #1A2258; border-radius: 16px; padding: 12px 18px; box-shadow: 5px 5px 0 #FFD976; min-width: 66px; box-sizing: border-box; text-align: center;">
+                <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 38px); line-height: 1; font-variant-numeric: tabular-nums;">{{ cdH }}</div>
+                <div style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.6); margin-top: 6px;">Hrs</div>
+              </div>
+              <div style="background: #FDF6E3; border: 3px solid #1A2258; border-radius: 16px; padding: 12px 18px; box-shadow: 5px 5px 0 #FF6B8A; min-width: 66px; box-sizing: border-box; text-align: center;">
+                <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 38px); line-height: 1; font-variant-numeric: tabular-nums;">{{ cdM }}</div>
+                <div style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.6); margin-top: 6px;">Min</div>
+              </div>
+              <div style="background: #FDF6E3; border: 3px solid #1A2258; border-radius: 16px; padding: 12px 18px; box-shadow: 5px 5px 0 #3EC6D0; min-width: 66px; box-sizing: border-box; text-align: center;">
+                <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 38px); line-height: 1; font-variant-numeric: tabular-nums;">{{ cdS }}</div>
+                <div style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.6); margin-top: 6px;">Sec</div>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isLive }}" hint-placeholder-val="">
+            <div style="display: inline-flex; align-items: center; gap: 10px; background: #FF6B8A; color: #FFFFFF; border: 3px solid #1A2258; border-radius: 999px; padding: 10px 22px; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 18px; box-shadow: 5px 5px 0 #1A2258;"><span style="width: 10px; height: 10px; border-radius: 50%; background: #FFFFFF; animation: cg-pop 1.2s ease-in-out infinite;"></span> We're live right now</div>
+          </sc-if>
+          <sc-if value="{{ isLive }}" hint-placeholder-val="">
+            <a href="{{ joinHref }}" target="_blank" rel="noopener" style="background: #FF6B8A; color: #FFFFFF; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(16px, 1.5vw, 20px); padding: 15px 34px; border-radius: 999px; border: 3px solid #1A2258; animation: cg-pop 2.4s ease-in-out infinite; display: inline-block;" style-hover="background: #FF87A1; color: #FFFFFF;">{{ joinCta }} →</a>
+          </sc-if>
+          <sc-if value="{{ notLive }}" hint-placeholder-val="{{ true }}">
+            <a aria-disabled="true" tabindex="-1" onClick="{{ blockJoin }}" style="background: rgba(26,34,88,0.18); color: rgba(26,34,88,0.45); font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(16px, 1.5vw, 20px); padding: 15px 34px; border-radius: 999px; border: 3px solid rgba(26,34,88,0.3); cursor: not-allowed; display: inline-block;">{{ joinCta }} →</a>
+          </sc-if>
+          <span style="font-size: 12px; font-weight: 700; color: rgba(26,34,88,0.55); text-align: center; max-width: 260px;">The same link lands in your inbox — either one gets you in.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NEXT STEPS ============ -->
+  <section data-screen-label="Next steps" style="position: relative; background: #FFFFFF; border-top: 4px solid #1A2258; border-bottom: 4px solid #1A2258; padding: clamp(56px, 7vw, 96px) min(6vw, 72px);">
+    <div style="max-width: 1000px; margin: 0 auto;">
+      <h2 style="font-family: 'Fredoka', sans-serif; font-size: clamp(26px, 3.2vw, 46px); font-weight: 700; letter-spacing: -0.02em; text-align: center; margin: 0;">Do these 3 things before we go live</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-top: clamp(34px, 4vw, 50px);">
+        <div style="background: #FDF6E3; border: 3px solid #1A2258; border-radius: 22px; padding: 26px; box-shadow: 8px 8px 0 #FFD976; transform: rotate(-0.7deg); display: flex; flex-direction: column; align-items: flex-start;">
+          <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 40px); color: #FFD976; -webkit-text-stroke: 2px #1A2258; text-shadow: 3px 3px 0 #1A2258;">01</div>
+          <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 20px; margin: 12px 0 8px;">Mark your calendar</div>
+          <p style="font-size: 15px; line-height: 1.55; font-weight: 600; color: rgba(26,34,88,0.78); margin: 0 0 16px;">One tap and it's on your schedule — no “I forgot” allowed.</p>
+          <div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto; width: 100%;">
+            <a href="{{ gcalHref }}" target="_blank" rel="noopener" style="text-align: center; background: #1A2258; color: #FDF6E3; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 14px; padding: 11px 18px; border-radius: 999px; border: 3px solid #1A2258;" style-hover="background: #2A3474; color: #FDF6E3;">Add to Google Calendar</a>
+            <a href="{{ icsHref }}" download="travel-workshop.ics" style="text-align: center; background: #FFFFFF; color: #1A2258; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 14px; padding: 11px 18px; border-radius: 999px; border: 3px solid #1A2258;" style-hover="background: #FFD976; color: #1A2258;">Apple / Outlook (.ics)</a>
+          </div>
+        </div>
+        <div style="background: #FDF6E3; border: 3px solid #1A2258; border-radius: 22px; padding: 26px; box-shadow: 8px 8px 0 #3EC6D0; transform: rotate(0.6deg);">
+          <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 40px); color: #3EC6D0; -webkit-text-stroke: 2px #1A2258; text-shadow: 3px 3px 0 #1A2258;">02</div>
+          <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 20px; margin: 12px 0 8px;">Watch your inbox</div>
+          <p style="font-size: 15px; line-height: 1.55; font-weight: 600; color: rgba(26,34,88,0.78); margin: 0;">Your unique join link arrives by email in the next few minutes. Not there? Check promotions or spam — then drag it to your inbox so the reminders land too.</p>
+        </div>
+        <div style="background: #FDF6E3; border: 3px solid #1A2258; border-radius: 22px; padding: 26px; box-shadow: 8px 8px 0 #FF6B8A; transform: rotate(-0.5deg);">
+          <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 40px); color: #FF6B8A; -webkit-text-stroke: 2px #1A2258; text-shadow: 3px 3px 0 #1A2258;">03</div>
+          <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 20px; margin: 12px 0 8px;">Show up 5 minutes early</div>
+          <p style="font-size: 15px; line-height: 1.55; font-weight: 600; color: rgba(26,34,88,0.78); margin: 0;">Seats are capped and the room fills fast. Arrive early, bring the trip you've been putting off, and we'll price it live.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="border-top: 4px solid #1A2258; background: #FFFFFF; padding: 34px min(6vw, 72px) 44px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center;">
+    <img src="assets/logo-cheapgetaway.png" alt="cheapgetaway.team" style="height: 34px; display: block; max-width: 80vw; object-fit: contain;">
+    <p style="font-size: 12px; font-weight: 600; line-height: 1.6; color: rgba(26,34,88,0.55); max-width: 640px; margin: 0;">
+      This is a free educational workshop operated by an independent team. Expedia, Booking.com and any other brands named are the property of their respective owners and are referenced for comparison only; we are not affiliated with or endorsed by them. Savings vary by destination, dates and availability.
+    </p>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1280, &quot;height&quot;: 900 },
+  &quot;joinUrl&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://www.webinarwiz.com/w/travel-secrets-y89ib6i&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Webinar&quot; },
+  &quot;joinCta&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Join the live room&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Webinar&quot; },
+  &quot;durationMin&quot;: { &quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 60, &quot;min&quot;: 15, &quot;max&quot;: 240, &quot;unit&quot;: &quot;min&quot;, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Webinar&quot; }
+}">
+class Component extends DCLogic {
+  state = { now: Date.now() };
+
+  constructor(props) {
+    super(props);
+
+    const q = new URLSearchParams(window.location.search);
+    this._name = (q.get('name') || '').trim();
+    this._email = (q.get('email') || '').trim();
+    let ts = parseInt(q.get('ts') || '', 10);
+    if (!ts || isNaN(ts)) {
+      try {
+        const saved = JSON.parse(localStorage.getItem('cg_webinar_signup') || 'null');
+        if (saved && !this._name) this._name = saved.name || '';
+        if (saved && !this._email) this._email = saved.email || '';
+      } catch (err) {}
+      ts = Math.ceil((Date.now() + 1000) / 900000) * 900000;
+    }
+    this._ts = ts;
+
+    const puff = (w, h, top, left) => React.createElement('span', {
+      key: 'p' + top + left + w,
+      style: { position: 'absolute', width: w, height: h, top: top, left: left, background: '#FFFFFF', borderRadius: '50%', filter: 'blur(1px)' }
+    });
+    const cloud = (key, scale, top, dur, delay, opacity) => React.createElement('div', {
+      key: key,
+      style: {
+        position: 'absolute', top: top, left: 0, width: 180 * scale + 'px', height: 70 * scale + 'px',
+        opacity: opacity, zIndex: 1, pointerEvents: 'none',
+        animation: 'cg-cloud ' + dur + 's linear ' + delay + 's infinite',
+        filter: 'drop-shadow(0 ' + 14 * scale + 'px 10px rgba(26,34,88,0.12))'
+      }
+    },
+      puff(90 * scale + 'px', 60 * scale + 'px', 10 * scale + 'px', 0),
+      puff(70 * scale + 'px', 70 * scale + 'px', -8 * scale + 'px', 50 * scale + 'px'),
+      puff(80 * scale + 'px', 55 * scale + 'px', 12 * scale + 'px', 100 * scale + 'px')
+    );
+    this._clouds = React.createElement('div', { style: { position: 'absolute', inset: 0, overflow: 'hidden', zIndex: 1, pointerEvents: 'none' } },
+      cloud('c1', 0.7, '8%', 80, -12, 0.8),
+      cloud('c2', 0.5, '48%', 100, -52, 0.7),
+      cloud('c3', 0.9, '78%', 124, -76, 0.6)
+    );
+  }
+
+  componentDidMount() {
+    this._timer = setInterval(() => this.setState({ now: Date.now() }), 1000);
+    // Fullscreen may auto-lock portrait for vertical videos (see goFullscreen); always
+    // unlock again on exit so the rest of the page isn't stuck rotated.
+    this._onFsChange = () => {
+      const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+      if (!fsEl) {
+        try { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); } catch (err) {}
+      }
+    };
+    document.addEventListener('fullscreenchange', this._onFsChange);
+    document.addEventListener('webkitfullscreenchange', this._onFsChange);
+  }
+
+  blockJoin = (e) => {
+    e.preventDefault();
+  };
+
+  toggleVideo = (e) => {
+    const wrap = e.currentTarget.parentElement;
+    if (!wrap) return;
+    const video = wrap.querySelector('video');
+    const overlay = wrap.querySelector('[data-play-overlay]');
+    if (!video) return;
+    if (video.paused) {
+      const p = video.play();
+      if (p && p.catch) p.catch(() => {});
+      if (overlay) { overlay.style.opacity = '0'; overlay.style.pointerEvents = 'none'; }
+    } else {
+      video.pause();
+      if (overlay) { overlay.style.opacity = '1'; overlay.style.pointerEvents = 'auto'; }
+    }
+  };
+
+  _isIOS() {
+    const ua = navigator.userAgent || '';
+    return /iP(hone|ad|od)/.test(ua) || (/Macintosh/.test(ua) && 'ontouchend' in document);
+  }
+
+  // Vertical (9:16) videos default to a pillarboxed landscape fullscreen on
+  // Android/desktop unless we lock the screen to portrait. iOS Safari has no
+  // screen.orientation.lock() API at all, so this is a no-op there (handled by
+  // the native webkitEnterFullscreen player, which is not under our control).
+  _lockPortraitIfVertical(video) {
+    const tryLock = () => {
+      if (!(video.videoWidth && video.videoHeight && video.videoWidth < video.videoHeight)) return;
+      try {
+        if (screen.orientation && screen.orientation.lock) {
+          const p = screen.orientation.lock('portrait');
+          if (p && p.catch) p.catch(() => {});
+        }
+      } catch (err) {}
+    };
+    if (video.readyState >= 1 && video.videoWidth) {
+      tryLock();
+    } else {
+      video.addEventListener('loadedmetadata', function once() {
+        video.removeEventListener('loadedmetadata', once);
+        tryLock();
+      });
+    }
+  }
+
+  goFullscreen = (e) => {
+    const wrap = e.currentTarget.parentElement;
+    const video = wrap && wrap.querySelector('video');
+    if (!video) return;
+
+    const d = document;
+    const cur = d.fullscreenElement || d.webkitFullscreenElement;
+    if (cur) {
+      const exit = d.exitFullscreen || d.webkitExitFullscreen;
+      if (exit) try { exit.call(d); } catch (err) {}
+      return;
+    }
+
+    // iOS only ever fullscreens a raw <video> via webkitEnterFullscreen — it ignores
+    // wrapper elements, uses its own native chrome, and has no orientation.lock() API,
+    // so vertical video there degrades to whatever iOS's player decides (no pillarbox
+    // fix applied by us). Must run synchronously in this click handler.
+    if (this._isIOS() && video.webkitEnterFullscreen) {
+      try { video.webkitEnterFullscreen(); } catch (err) {}
+      return;
+    }
+
+    // Desktop / Android: fullscreen the wrapper (not the bare video) so the black
+    // background + object-fit:contain CSS applies, then lock portrait if vertical.
+    const req = wrap.requestFullscreen || wrap.webkitRequestFullscreen || wrap.msRequestFullscreen;
+    if (req) {
+      try {
+        const p = req.call(wrap);
+        if (p && p.then) p.then(() => this._lockPortraitIfVertical(video)).catch(() => {});
+        else this._lockPortraitIfVertical(video);
+      } catch (err) {}
+      return;
+    }
+
+    // Fallback for browsers without Element fullscreen support.
+    const vreq = video.requestFullscreen || video.webkitRequestFullscreen || video.webkitEnterFullscreen || video.msRequestFullscreen;
+    if (vreq) {
+      try {
+        const p = vreq.call(video);
+        if (p && p.then) p.then(() => this._lockPortraitIfVertical(video)).catch(() => {});
+        else this._lockPortraitIfVertical(video);
+      } catch (err) {}
+    }
+  };
+
+  componentWillUnmount() {
+    if (this._timer) clearInterval(this._timer);
+    document.removeEventListener('fullscreenchange', this._onFsChange);
+    document.removeEventListener('webkitfullscreenchange', this._onFsChange);
+  }
+
+  renderVals() {
+    const ts = this._ts;
+    const d = new Date(ts);
+    const diff = Math.max(0, ts - this.state.now);
+    const pad = (n) => String(n).padStart(2, '0');
+    let tzName = '';
+    try {
+      const part = new Intl.DateTimeFormat(undefined, { timeZoneName: 'long' }).formatToParts(d).find((p) => p.type === 'timeZoneName');
+      tzName = part ? part.value : '';
+    } catch (err) {}
+    const firstName = this._name ? this._name.split(/\s+/)[0] : '';
+    const fmtCal = (t) => new Date(t).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+    const durMin = this.props.durationMin ?? 60;
+    const end = ts + durMin * 60000;
+    const title = 'Free Travel Workshop \u2014 Travel\u2019s Biggest Secret';
+    const details = 'Your personal join link is in your confirmation email.';
+    const gcalHref = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(title) + '&dates=' + fmtCal(ts) + '/' + fmtCal(end) + '&details=' + encodeURIComponent(details);
+    const ics = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//cheapgetaway//workshop//EN\r\nBEGIN:VEVENT\r\nUID:' + ts + '@cheapgetaway.team\r\nDTSTAMP:' + fmtCal(Date.now()) + '\r\nDTSTART:' + fmtCal(ts) + '\r\nDTEND:' + fmtCal(end) + '\r\nSUMMARY:' + title.replace(/\u2014/g, '-') + '\r\nDESCRIPTION:' + details + '\r\nEND:VEVENT\r\nEND:VCALENDAR';
+    const joinUrl = (this.props.joinUrl ?? '').trim();
+    let joinHref = joinUrl || '#';
+    if (joinUrl && firstName.trim()) {
+      const sep = joinUrl.indexOf('?') === -1 ? '?' : '&';
+      joinHref = joinUrl + sep + 'name=' + encodeURIComponent(firstName);
+    }
+    return {
+      clouds: this._clouds,
+      toggleVideo: this.toggleVideo,
+      goFullscreen: this.goFullscreen,
+      blockJoin: this.blockJoin,
+      nameSuffix: firstName ? ', ' + firstName : '',
+      emailDisplay: this._email || 'your inbox',
+      sessionDate: d.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }),
+      sessionTime: d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }),
+      tzName: tzName,
+      cdH: pad(Math.floor(diff / 3600000)),
+      cdM: pad(Math.floor(diff / 60000) % 60),
+      cdS: pad(Math.floor(diff / 1000) % 60),
+      notLive: diff > 0,
+      isLive: diff === 0,
+      gcalHref: gcalHref,
+      icsHref: 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics),
+      joinHref: joinHref,
+      joinCta: this.props.joinCta ?? 'Join the live room'
+    };
+  }
+}
+</script>
+</body>
+</html>

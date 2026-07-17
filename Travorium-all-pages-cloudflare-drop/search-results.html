@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<script src="./cg-api.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Search hotels — cheapgetaway.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#f6f7fb;font-family:'Nunito',sans-serif;color:#0b0f1f;}
+  a{color:#0e1556;text-decoration:none;}
+  a:hover{color:#38b6ff;}
+  *{box-sizing:border-box;}
+  input,select,button{font-family:'Nunito',sans-serif;}
+  input:focus,select:focus{outline:none;}
+  @keyframes cg-shimmer{0%{background-position:-400px 0;}100%{background-position:400px 0;}}
+  input[type=range]{accent-color:#38b6ff;}
+</style>
+</helmet>
+
+<nav style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(14,21,86,0.08);">
+  <div style="max-width:1280px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+    <a href="index.html" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:34px;display:block;"></a>
+    <form onSubmit="{{ navSearch }}" style="display:flex;align-items:center;gap:2px;background:#fff;border:1.5px solid rgba(14,21,86,0.14);border-radius:999px;padding:6px 6px 6px 18px;font-size:13.5px;font-weight:800;color:#0e1556;box-shadow:0 2px 8px rgba(14,21,86,0.04);flex:0 1 460px;">
+      <input id="cg-nav-q" type="text" defaultValue="{{ queryVal }}" placeholder="Where to?" style="border:none;background:transparent;font-size:13.5px;font-weight:800;color:#0e1556;width:110px;flex:1;">
+      <span style="width:1px;height:16px;background:rgba(14,21,86,0.14);margin:0 12px;"></span>
+      <span style="white-space:nowrap;">{{ navDates }}</span>
+      <span style="width:1px;height:16px;background:rgba(14,21,86,0.14);margin:0 12px;"></span>
+      <span style="white-space:nowrap;">{{ guestsLabel }}</span>
+      <button type="submit" aria-label="Search" style="margin-left:12px;width:32px;height:32px;border-radius:50%;background:#38b6ff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg></button>
+    </form>
+    <a href="webinar-optin.html" style="background:#ff6500;color:#fff;font-weight:800;font-size:14px;padding:9px 20px;border-radius:999px;box-shadow:0 8px 24px rgba(255,101,0,0.28);" style-hover="background:#e65a00;color:#fff;">Join the club</a>
+  </div>
+</nav>
+
+<main style="max-width:1280px;margin:0 auto;padding:20px 24px 70px;display:flex;gap:24px;align-items:flex-start;">
+
+  <aside style="flex:0 0 250px;display:flex;flex-direction:column;gap:16px;position:sticky;top:76px;">
+    <div style="background:#fff;border-radius:16px;padding:20px;box-shadow:0 2px 8px rgba(14,21,86,0.04);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <strong style="font-size:15px;font-weight:900;color:#0e1556;">Filters</strong>
+        <button onClick="{{ clearFilters }}" style="background:none;border:1.5px solid rgba(14,21,86,0.14);border-radius:999px;padding:5px 12px;font-size:11.5px;font-weight:800;color:#52586b;cursor:pointer;" style-hover="border-color:#38b6ff;color:#38b6ff;">Clear filters</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <div>
+          <div style="font-size:12.5px;font-weight:900;color:#0e1556;margin-bottom:8px;">Property name</div>
+          <input type="text" placeholder="For example: Hilton" onInput="{{ setNameFilter }}" style="width:100%;border:1.5px solid rgba(14,21,86,0.14);border-radius:10px;padding:9px 12px;font-size:13px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+        </div>
+        <div>
+          <div style="font-size:12.5px;font-weight:900;color:#0e1556;margin-bottom:8px;">Price per night · up to {{ priceCapLabel }}</div>
+          <input type="range" min="50" max="1000" step="25" defaultValue="1000" onInput="{{ setPriceCap }}" style="width:100%;">
+        </div>
+        <div>
+          <div style="font-size:13.5px;font-weight:900;color:#0e1556;margin-bottom:12px;">Popular filters</div>
+          <div style="display:flex;flex-direction:column;gap:2px;">
+            <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleRefundable }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Free cancellation</label>
+            <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleParking }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Parking</label>
+            <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleBreakfast }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Breakfast included</label>
+            <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ togglePool }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Swimming pool</label>
+            <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleFitness }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Fitness center</label>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:13.5px;font-weight:900;color:#0e1556;margin-bottom:12px;">Distance from the center of {{ cityName }}</div>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="radio" name="cg-dist" value="any" defaultChecked onChange="{{ setDistance }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Any distance</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="radio" name="cg-dist" value="1" onChange="{{ setDistance }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Less than 1 mile</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="radio" name="cg-dist" value="3" onChange="{{ setDistance }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Less than 3 miles</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="radio" name="cg-dist" value="5" onChange="{{ setDistance }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Less than 5 miles</label>
+        </div>
+        <div>
+          <div style="font-size:13.5px;font-weight:900;color:#0e1556;margin-bottom:12px;">Reservation policy</div>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="radio" name="cg-policy" value="any" defaultChecked onChange="{{ setPolicy }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Any policy</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="radio" name="cg-policy" value="rfn" onChange="{{ setPolicy }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Free cancellation</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="radio" name="cg-policy" value="nrfn" onChange="{{ setPolicy }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Non-refundable</label>
+        </div>
+        <sc-if value="{{ hasBrands }}" hint-placeholder-val="">
+          <div>
+            <div style="font-size:13.5px;font-weight:900;color:#0e1556;margin-bottom:12px;">Brand</div>
+            <sc-for list="{{ brandOpts }}" as="b" hint-placeholder-count="3">
+              <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" checked="{{ b.on }}" onChange="{{ b.toggle }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;"><span style="flex:1;">{{ b.name }}</span><span style="font-size:12px;color:#9aa0b4;font-weight:700;">{{ b.count }}</span></label>
+            </sc-for>
+          </div>
+        </sc-if>
+        <div>
+          <div style="font-size:13.5px;font-weight:900;color:#0e1556;margin-bottom:12px;">Property type</div>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleTypeHotel }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Hotels</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleTypeApartment }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Apartments</label>
+        </div>
+        <div>
+          <div style="font-size:13.5px;font-weight:900;color:#0e1556;margin-bottom:12px;">Star rating</div>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleStar5 }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">5 stars</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleStar4 }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">4 stars</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleStar3 }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">3 stars or less</label>
+        </div>
+        <div>
+          <div style="font-size:13.5px;font-weight:900;color:#0e1556;margin-bottom:12px;">Meal plans</div>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="radio" name="cg-meal" value="any" defaultChecked onChange="{{ setMeal }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Any meal plan</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="radio" name="cg-meal" value="BI" onChange="{{ setMeal }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Breakfast included</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="radio" name="cg-meal" value="HB" onChange="{{ setMeal }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Half board</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="radio" name="cg-meal" value="FB" onChange="{{ setMeal }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Full board</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="radio" name="cg-meal" value="AI" onChange="{{ setMeal }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">All inclusive</label>
+        </div>
+        <div>
+          <div style="font-size:13.5px;font-weight:900;color:#0e1556;margin-bottom:12px;">Guest rating</div>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleRating9 }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Wonderful: 9+</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleRating8 }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Very good: 8+</label>
+        </div>
+        <div>
+          <div style="font-size:13.5px;font-weight:900;color:#0e1556;margin-bottom:12px;">Room amenities</div>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleAmenAc }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Air conditioning</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleAmenKitchen }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Kitchen facilities</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleAmenBalcony }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Balcony or terrace</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleAmenWasher }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Laundry / washer</label>
+        </div>
+        <div>
+          <div style="font-size:13.5px;font-weight:900;color:#0e1556;margin-bottom:12px;">Facilities</div>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleFacWifi }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Free WiFi</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleFacSpa }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Spa &amp; wellness</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleFacRestaurant }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Restaurant</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleFacBar }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Bar</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleFacPets }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Pet friendly</label>
+          <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" onChange="{{ toggleFacShuttle }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;">Airport shuttle</label>
+        </div>
+        <sc-if value="{{ hasHoods }}" hint-placeholder-val="">
+          <div>
+            <div style="font-size:13.5px;font-weight:900;color:#0e1556;margin-bottom:12px;">Neighborhood</div>
+            <sc-for list="{{ hoodOpts }}" as="nb" hint-placeholder-count="3">
+              <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" checked="{{ nb.on }}" onChange="{{ nb.toggle }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;"><span style="flex:1;">{{ nb.name }}</span><span style="font-size:12px;color:#9aa0b4;font-weight:700;">{{ nb.count }}</span></label>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+    <div style="background:#0e1556;border-radius:16px;padding:20px;color:#fff;display:flex;flex-direction:column;gap:10px;">
+      <strong style="font-size:14px;font-weight:900;display:flex;align-items:center;gap:7px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38b6ff" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>Member prices</strong>
+      <p style="margin:0;font-size:12.5px;font-weight:600;line-height:1.55;color:rgba(255,255,255,0.75);">Club members see these same rooms 40–65% cheaper. The crossed-out price is what everyone else pays.</p>
+      <a href="webinar-optin.html" style="background:#ff6500;color:#fff;text-align:center;font-weight:800;font-size:13px;padding:10px 16px;border-radius:999px;" style-hover="background:#e65a00;color:#fff;">Unlock member prices</a>
+    </div>
+  </aside>
+
+  <section style="flex:1;min-width:0;display:flex;flex-direction:column;gap:14px;">
+    <sc-if value="{{ demoBanner }}" hint-placeholder-val="">
+      <div style="background:rgba(56,182,255,0.1);border:1.5px solid rgba(56,182,255,0.35);border-radius:12px;padding:10px 16px;font-size:13px;font-weight:700;color:#0e1556;">{{ demoBanner }}</div>
+    </sc-if>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+      <h1 style="margin:0;font-size:18px;font-weight:900;color:#0e1556;">{{ resultsTitle }}</h1>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#52586b;">
+        Sort by
+        <select onChange="{{ setSort }}" style="border:1.5px solid rgba(14,21,86,0.14);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:800;color:#0e1556;background:#fff;cursor:pointer;">
+          <option value="top">Our top picks</option>
+          <option value="priceAsc">Price: low to high</option>
+          <option value="priceDesc">Price: high to low</option>
+          <option value="rating">Guest rating</option>
+        </select>
+      </label>
+    </div>
+
+    <sc-if value="{{ loading }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="height:200px;border-radius:18px;background:linear-gradient(90deg,#eef0f6 25%,#fff 50%,#eef0f6 75%);background-size:800px 100%;animation:cg-shimmer 1.4s linear infinite;"></div>
+        <div style="height:200px;border-radius:18px;background:linear-gradient(90deg,#eef0f6 25%,#fff 50%,#eef0f6 75%);background-size:800px 100%;animation:cg-shimmer 1.4s linear infinite;"></div>
+        <div style="height:200px;border-radius:18px;background:linear-gradient(90deg,#eef0f6 25%,#fff 50%,#eef0f6 75%);background-size:800px 100%;animation:cg-shimmer 1.4s linear infinite;"></div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ noResults }}" hint-placeholder-val="">
+      <div style="background:#fff;border-radius:18px;padding:30px;text-align:center;">
+        <p style="margin:0;font-size:15px;font-weight:800;color:#0e1556;">{{ noResults }}</p>
+      </div>
+    </sc-if>
+
+    <sc-for list="{{ cards }}" as="h" hint-placeholder-count="4">
+      <article style="background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 2px 8px rgba(14,21,86,0.04);display:flex;min-height:210px;">
+        <a href="{{ h.href }}" style="flex:0 0 240px;background:#eef0f6;display:block;">{{ h.imgEl }}</a>
+        <div style="flex:1;min-width:0;padding:18px 22px;display:flex;gap:18px;">
+          <div style="flex:1.4;min-width:0;display:flex;flex-direction:column;gap:6px;">
+            <span style="color:#ffb400;font-size:12px;letter-spacing:1.5px;">{{ h.stars }}</span>
+            <a href="{{ h.href }}" style="font-size:17px;font-weight:900;color:#0e1556;line-height:1.25;" style-hover="color:#38b6ff;">{{ h.name }}</a>
+            <span style="font-size:12.5px;color:#52586b;font-weight:600;display:flex;gap:6px;align-items:center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#52586b" stroke-width="2.2" style="flex-shrink:0;"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+              {{ h.address }}
+            </span>
+            <sc-if value="{{ h.distLabel }}" hint-placeholder-val="">
+              <span style="font-size:12.5px;color:#52586b;font-weight:700;display:flex;gap:6px;align-items:center;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#52586b" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="5" r="2.2"></circle><path d="M12 7.5v5M9 21l2-6 3-2 1.5 3H19"></path><path d="M9 12l-2 2"></path></svg>
+                {{ h.distLabel }}
+              </span>
+            </sc-if>
+            <sc-if value="{{ h.refundable }}" hint-placeholder-val="">
+              <span style="font-size:12.5px;color:#1d9e55;font-weight:800;display:flex;gap:6px;align-items:center;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1d9e55" stroke-width="2.4" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"></rect><line x1="3" y1="10" x2="21" y2="10"></line><polyline points="9 15 11 17 15 13"></polyline></svg>
+                Free cancellation
+              </span>
+            </sc-if>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:10px;">
+            <div style="display:flex;align-items:center;gap:9px;">
+              <span style="display:flex;flex-direction:column;align-items:flex-end;font-size:11.5px;line-height:1.35;"><strong style="font-size:13px;color:#0b0f1f;">{{ h.scoreLabel }}</strong><span style="color:#52586b;font-weight:600;">{{ h.reviews }}</span></span>
+              <span style="background:#0e1556;color:#fff;font-weight:900;font-size:14px;padding:7px 10px;border-radius:11px 11px 11px 2px;">{{ h.score }}</span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px;">
+              <sc-if value="{{ h.offPct }}" hint-placeholder-val="">
+                <span style="background:#1d9e55;color:#fff;font-weight:900;font-size:11.5px;padding:4px 10px;border-radius:999px;margin-bottom:4px;">{{ h.offPct }} off</span>
+              </sc-if>
+              <span style="display:flex;align-items:baseline;gap:8px;">
+                <sc-if value="{{ h.strike }}" hint-placeholder-val=""><span style="text-decoration:line-through;color:#9aa0b4;font-size:13px;font-weight:700;">{{ h.strike }}</span></sc-if>
+                <strong style="font-size:21px;color:#0e1556;font-weight:900;">{{ h.price }}</strong>
+                <span style="font-size:11.5px;color:#52586b;font-weight:600;">/ night</span>
+              </span>
+              <span style="font-size:11px;color:#52586b;font-weight:600;">{{ h.stayNote }}</span>
+              <a href="{{ h.href }}" style="margin-top:8px;background:#38b6ff;color:#fff;font-weight:800;font-size:13px;padding:9px 20px;border-radius:999px;display:flex;align-items:center;gap:7px;" style-hover="background:#2da1e6;color:#fff;">See availability <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"><polyline points="9 5 16 12 9 19"></polyline></svg></a>
+            </div>
+          </div>
+        </div>
+      </article>
+    </sc-for>
+  </section>
+</main>
+
+<footer style="border-top:1.5px solid rgba(14,21,86,0.08);background:#fff;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+  <img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:26px;">
+  <div style="display:flex;gap:22px;font-size:12.5px;font-weight:700;color:#52586b;flex-wrap:wrap;">
+    <a href="index.html" style="color:#52586b;" style-hover="color:#38b6ff;">Home</a>
+    <a href="webinar-optin.html" style="color:#52586b;" style-hover="color:#38b6ff;">Join the club</a>
+    <a href="webinar-optin-creator.html" style="color:#52586b;" style-hover="color:#38b6ff;">For creators</a>
+  </div>
+  <span style="font-size:12px;font-weight:700;color:#9aa0b4;">© 2026 cheapgetaway.com</span>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { loading: true, results: [], demo: false, sort: 'top',
+    fName: '', fPriceCap: 1000, fRefundable: false, fStar5: false, fStar4: false, fStar3: false, fRating9: false, fRating8: false,
+    fParking: false, fBreakfast: false, fPool: false, fFitness: false, fTypeHotel: false, fTypeApartment: false,
+    fDistance: 'any', fPolicy: 'any', fMeal: 'any', fBrands: {}, fHoods: {},
+    fAmenAc: false, fAmenKitchen: false, fAmenBalcony: false, fAmenWasher: false,
+    fFacWifi: false, fFacSpa: false, fFacRestaurant: false, fFacBar: false, fFacPets: false, fFacShuttle: false };
+  facMap = {}; typeMap = {};
+
+  params() {
+    const p = new URLSearchParams(window.location.search);
+    const iso = (d) => d.toISOString().split('T')[0];
+    const ci = new Date(); ci.setDate(ci.getDate() + 14);
+    const co = new Date(ci); co.setDate(co.getDate() + 3);
+    return {
+      aiQ: p.get('ai') || '',
+      q: p.get('q') || p.get('aiQuery') || p.get('placeName') || p.get('ai') || 'Las Vegas',
+      placeId: p.get('placeId') || '',
+      checkin: p.get('checkin') || iso(ci), checkout: p.get('checkout') || iso(co),
+      adults: Number(p.get('adults') || 2)
+    };
+  }
+  nights(P) { return Math.max(1, Math.round((new Date(P.checkout) - new Date(P.checkin)) / 86400000)); }
+
+  async api(path, opts) {
+    const res = await cgApiFetch(path, { ...opts,
+      headers: { 'accept': 'application/json', ...(opts && opts.body ? { 'content-type': 'application/json' } : {}) } });
+    if (!res.ok) throw new Error('API ' + res.status);
+    return res.json();
+  }
+
+  async componentDidMount() {
+    this._navHandler = (e) => {
+      const a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+      if (!a) return;
+      const href = a.getAttribute('href') || '';
+      if (href.indexOf('.dc.html') === -1) return;
+      e.preventDefault(); e.stopPropagation();
+      window.location.href = href;
+    };
+    document.addEventListener('click', this._navHandler, true);
+    const P = this.params(); this._P = P;
+    this.api('/data/facilities').then(r => {
+      (r.data || []).forEach(f => { this.facMap[String(f.facility || f.name || '').toLowerCase()] = f.facility_id || f.facilityId || f.id; });
+    }).catch(() => {});
+    this.api('/data/hotelTypes').then(r => {
+      (r.data || []).forEach(t => { this.typeMap[String(t.type || t.name || '').toLowerCase()] = t.hotel_type_id || t.hotelTypeId || t.id; });
+    }).catch(() => {});
+    this.refetch();
+  }
+
+  facIds(words) {
+    const ids = [];
+    Object.entries(this.facMap).forEach(([name, id]) => { if (words.some(w => name.includes(w))) ids.push(id); });
+    return ids;
+  }
+
+  async refetch() {
+    const P = this._P || this.params(); const S = this.state;
+    this.setState({ loading: true });
+    try {
+      const body = { checkin: P.checkin, checkout: P.checkout, occupancies: [{ adults: P.adults }],
+        currency: 'USD', guestNationality: 'US', maxRatesPerHotel: 1, includeHotelData: true, limit: 25 };
+      if (P.aiQ) body.aiSearch = P.aiQ;
+      else if (P.placeId) body.placeId = P.placeId;
+      else body.aiSearch = 'hotels in ' + P.q;
+      let fac = [];
+      if (S.fParking) fac = fac.concat(this.facIds(['parking']));
+      if (S.fPool) fac = fac.concat(this.facIds(['swimming pool', 'pool']));
+      if (S.fFitness) fac = fac.concat(this.facIds(['fitness', 'gym']));
+      if (S.fAmenAc) fac = fac.concat(this.facIds(['air conditioning']));
+      if (S.fAmenKitchen) fac = fac.concat(this.facIds(['kitchen', 'kitchenette']));
+      if (S.fAmenBalcony) fac = fac.concat(this.facIds(['balcony', 'terrace']));
+      if (S.fAmenWasher) fac = fac.concat(this.facIds(['washing machine', 'laundry']));
+      if (S.fFacWifi) fac = fac.concat(this.facIds(['wifi', 'internet']));
+      if (S.fFacSpa) fac = fac.concat(this.facIds(['spa']));
+      if (S.fFacRestaurant) fac = fac.concat(this.facIds(['restaurant']));
+      if (S.fFacBar) fac = fac.concat(this.facIds(['bar']));
+      if (S.fFacPets) fac = fac.concat(this.facIds(['pets allowed', 'pet friendly']));
+      if (S.fFacShuttle) fac = fac.concat(this.facIds(['airport shuttle', 'shuttle']));
+      if (fac.length) body.facilities = [...new Set(fac)].slice(0, 30);
+      const types = [];
+      if (S.fTypeHotel && this.typeMap['hotel']) types.push(this.typeMap['hotel']);
+      if (S.fTypeApartment) ['apartment', 'aparthotel', 'apart-hotel'].forEach(k => { if (this.typeMap[k]) types.push(this.typeMap[k]); });
+      if (types.length) body.hotelTypeIds = [...new Set(types)];
+      if (S.fMeal !== 'any') body.boardType = S.fMeal;
+      else if (S.fBreakfast) body.boardType = 'BI';
+      const r = await this.api('/hotels/rates', { method: 'POST', body: JSON.stringify(body) });
+      const hotels = r.hotels || [];
+      const rows = (r.data || []).map(x => ({ ...x, hotelData: x.hotelData || hotels.find(h => h.id === x.hotelId) || {} }));
+      this.setState({ loading: false, demo: false, results: rows });
+    } catch (e) {
+      this.setState({ loading: false, demo: true, results: this.demoResults() });
+    }
+  }
+  componentWillUnmount() { document.removeEventListener('click', this._navHandler, true); }
+
+  demoResults() {
+    const mk = (id, name, address, city, img, rating, stars, reviews, total, ssp, rfn) => ({
+      hotelId: id, hotelData: { name, address, city_name: city, main_photo: img, rating, stars, review_count: reviews },
+      roomTypes: [{ rates: [{ retailRate: { total: [{ amount: total, currency: 'USD' }], suggestedSellingPrice: [{ amount: ssp, currency: 'USD' }] }, cancellationPolicies: { refundableTag: rfn ? 'RFN' : 'NRFN' } }] }]
+    });
+    return [
+      mk('lp1a278', 'Downtown Grand Hotel & Casino', '206 N 3rd St', 'Las Vegas', 'assets/weekend-family.webp', 8.6, 4, 2418, 267, 402, true),
+      mk('lp1a7fc', 'The Strip Skyline Resort', 'Las Vegas Blvd S', 'Las Vegas', 'assets/quickvibe-poolside.webp', 9.1, 5, 1104, 341, 512, true),
+      mk('lp1a88f', 'Fremont Corner Stay', 'Fremont St', 'Las Vegas', 'assets/quickvibe-city.webp', 8.2, 3, 664, 129, 188, false),
+      mk('lp194b6', 'Oasis Pool Suites', 'Paradise Rd', 'Las Vegas', 'assets/quickvibe-romantic.webp', 9.4, 5, 351, 428, 655, true)
+    ];
+  }
+
+  scoreWord(r) { return r >= 9.5 ? 'Exceptional' : r >= 9 ? 'Wonderful' : r >= 8.5 ? 'Fabulous' : r >= 8 ? 'Very good' : r >= 7 ? 'Good' : 'Pleasant'; }
+  fmtDate(s) { try { return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(new Date(s + 'T12:00:00')); } catch (e) { return s || ''; } }
+  set(k) { return (e) => this.setState({ [k]: e.currentTarget.type === 'checkbox' ? e.currentTarget.checked : e.currentTarget.value }); }
+  setAndFetch(k) { return (e) => this.setState({ [k]: e.currentTarget.checked }, () => this.refetch()); }
+  miles(lat1, lon1, lat2, lon2) {
+    const rad = Math.PI / 180, dLat = (lat2 - lat1) * rad, dLon = (lon2 - lon1) * rad;
+    const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * rad) * Math.cos(lat2 * rad) * Math.sin(dLon / 2) ** 2;
+    return 3958.8 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+  toggleIn(obj, key) { return () => this.setState(s => ({ [obj]: { ...s[obj], [key]: !s[obj][key] } })); }
+  opts(rows, key) {
+    const counts = {};
+    rows.forEach(r => { const v = r[key]; if (v) counts[v] = (counts[v] || 0) + 1; });
+    return Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 6);
+  }
+
+  renderVals() {
+    const S = this.state, P = this._P || this.params(), nights = this.nights(P);
+    const rows = S.results.map(x => {
+      const hd = x.hotelData || {};
+      const rate = (x.roomTypes && x.roomTypes[0] && x.roomTypes[0].rates && x.roomTypes[0].rates[0]) || null;
+      const totalObj = rate && rate.retailRate && rate.retailRate.total && rate.retailRate.total[0];
+      const total = totalObj ? Number(totalObj.amount) : 0;
+      const ssp = rate && rate.retailRate && rate.retailRate.suggestedSellingPrice && rate.retailRate.suggestedSellingPrice[0];
+      const sspAmt = ssp ? Number(ssp.amount) : 0;
+      const refundable = rate && (!rate.cancellationPolicies || rate.cancellationPolicies.refundableTag !== 'NRFN');
+      const board = String((rate && rate.boardName) || '').toLowerCase();
+      return { hd, total, sspAmt, refundable, perNight: total / nights, board,
+        lat: Number(hd.latitude || hd.lat) || null, lng: Number(hd.longitude || hd.lng || hd.lon) || null,
+        brand: hd.chain || hd.chain_name || '', hood: hd.district || hd.zone || hd.neighborhood || '',
+        rating: Number(hd.rating) || 0, stars: Math.max(1, Math.min(5, Math.round(Number(hd.stars) || 4))),
+        name: hd.name || 'Hotel', hotelId: x.hotelId };
+    }).filter(r => r.total > 0);
+    const geo = rows.filter(r => r.lat && r.lng);
+    const ctr = geo.length ? { lat: geo.reduce((a, r) => a + r.lat, 0) / geo.length, lng: geo.reduce((a, r) => a + r.lng, 0) / geo.length } : null;
+    rows.forEach(r => { r.dist = ctr && r.lat && r.lng ? this.miles(ctr.lat, ctr.lng, r.lat, r.lng) : null; });
+    const activeBrands = Object.keys(S.fBrands).filter(k => S.fBrands[k]);
+    const activeHoods = Object.keys(S.fHoods).filter(k => S.fHoods[k]);
+    let f = rows.filter(r =>
+      (!S.fName || r.name.toLowerCase().includes(S.fName.toLowerCase())) &&
+      r.perNight <= Number(S.fPriceCap) &&
+      (!S.fRefundable || r.refundable) &&
+      ((!S.fStar5 && !S.fStar4 && !S.fStar3) || (S.fStar5 && r.stars === 5) || (S.fStar4 && r.stars === 4) || (S.fStar3 && r.stars <= 3)) &&
+      ((!S.fRating9 && !S.fRating8) || (S.fRating9 && r.rating >= 9) || (S.fRating8 && r.rating >= 8)) &&
+      (S.fDistance === 'any' || (r.dist != null && r.dist <= Number(S.fDistance))) &&
+      (S.fPolicy === 'any' || (S.fPolicy === 'rfn' ? r.refundable : !r.refundable)) &&
+      (activeBrands.length === 0 || activeBrands.includes(r.brand)) &&
+      (activeHoods.length === 0 || activeHoods.includes(r.hood))
+    );
+    if (S.sort === 'priceAsc') f = f.slice().sort((a, b) => a.perNight - b.perNight);
+    else if (S.sort === 'priceDesc') f = f.slice().sort((a, b) => b.perNight - a.perNight);
+    else if (S.sort === 'rating') f = f.slice().sort((a, b) => b.rating - a.rating);
+    const cards = f.map(r => {
+      const img = r.hd.main_photo || r.hd.thumbnail || (r.hd.images && r.hd.images[0] && r.hd.images[0].url) || 'assets/hotel-fallback-sm.webp';
+      const off = r.sspAmt > r.total * 1.02 ? Math.round((1 - r.total / r.sspAmt) * 100) : 0;
+      return {
+        name: r.name, stars: '★★★★★'.slice(0, r.stars),
+        address: [r.hd.address, r.hd.city || r.hd.city_name].filter(Boolean).join(', '),
+        imgEl: React.createElement('img', { src: img, alt: r.name, style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
+        refundable: r.refundable,
+        score: r.rating ? r.rating.toFixed(1) : '—', scoreLabel: r.rating ? this.scoreWord(r.rating) : '',
+        reviews: r.hd.review_count ? Number(r.hd.review_count).toLocaleString() + ' reviews' : '',
+        price: 'US$' + Math.round(r.perNight).toLocaleString(),
+        strike: r.sspAmt > r.total * 1.02 ? 'US$' + Math.round(r.sspAmt / nights).toLocaleString() : '',
+        offPct: off ? off + '%' : '',
+        distLabel: r.dist != null ? r.dist.toFixed(1) + ' mi from ' + ((P.q || '').split(',')[0] || 'center') : '',
+        stayNote: nights + (nights === 1 ? ' night' : ' nights') + ', 1 room, incl. taxes & fees',
+        href: 'hotel-detail.html?hotelId=' + encodeURIComponent(r.hotelId) + '&checkin=' + P.checkin + '&checkout=' + P.checkout + '&adults=' + P.adults
+      };
+    });
+    return {
+      loading: S.loading,
+      demoBanner: S.demo ? 'Demo results shown — live LiteAPI results load automatically when the API is reachable.' : '',
+      queryVal: P.q, navDates: this.fmtDate(P.checkin) + ' – ' + this.fmtDate(P.checkout),
+      guestsLabel: P.adults + (P.adults === 1 ? ' Guest' : ' Guests'),
+      navSearch: (e) => { e.preventDefault(); const el = document.getElementById('cg-nav-q');
+        const q = (el && el.value.trim()) || P.q;
+        window.location.href = 'search-results.html?q=' + encodeURIComponent(q) + '&checkin=' + P.checkin + '&checkout=' + P.checkout + '&adults=' + P.adults; },
+      resultsTitle: S.loading ? 'Searching ' + P.q + '…' : (P.aiQ ? cards.length + ' properties · ✦ “' + P.aiQ + '”' : cards.length + ' properties in ' + P.q),
+      setSort: (e) => this.setState({ sort: e.currentTarget.value }),
+      setNameFilter: this.set('fName'), setPriceCap: this.set('fPriceCap'),
+      priceCapLabel: Number(S.fPriceCap) >= 1000 ? '$1000+' : '$' + S.fPriceCap,
+      toggleRefundable: this.set('fRefundable'),
+      toggleParking: this.setAndFetch('fParking'), toggleBreakfast: this.setAndFetch('fBreakfast'),
+      togglePool: this.setAndFetch('fPool'), toggleFitness: this.setAndFetch('fFitness'),
+      toggleTypeHotel: this.setAndFetch('fTypeHotel'), toggleTypeApartment: this.setAndFetch('fTypeApartment'),
+      setDistance: (e) => this.setState({ fDistance: e.currentTarget.value }),
+      setPolicy: (e) => this.setState({ fPolicy: e.currentTarget.value }),
+      setMeal: (e) => this.setState({ fMeal: e.currentTarget.value }, () => this.refetch()),
+      toggleAmenAc: this.setAndFetch('fAmenAc'), toggleAmenKitchen: this.setAndFetch('fAmenKitchen'),
+      toggleAmenBalcony: this.setAndFetch('fAmenBalcony'), toggleAmenWasher: this.setAndFetch('fAmenWasher'),
+      toggleFacWifi: this.setAndFetch('fFacWifi'), toggleFacSpa: this.setAndFetch('fFacSpa'),
+      toggleFacRestaurant: this.setAndFetch('fFacRestaurant'), toggleFacBar: this.setAndFetch('fFacBar'),
+      toggleFacPets: this.setAndFetch('fFacPets'), toggleFacShuttle: this.setAndFetch('fFacShuttle'),
+      cityName: (P.q || '').split(',')[0],
+      hasBrands: this.opts(rows, 'brand').length > 0,
+      brandOpts: this.opts(rows, 'brand').map(([name, count]) => ({ name, count, on: !!S.fBrands[name], toggle: this.toggleIn('fBrands', name) })),
+      hasHoods: this.opts(rows, 'hood').length > 0,
+      hoodOpts: this.opts(rows, 'hood').map(([name, count]) => ({ name, count, on: !!S.fHoods[name], toggle: this.toggleIn('fHoods', name) })),
+      toggleStar5: this.set('fStar5'), toggleStar4: this.set('fStar4'), toggleStar3: this.set('fStar3'),
+      toggleRating9: this.set('fRating9'), toggleRating8: this.set('fRating8'),
+      clearFilters: () => { this.setState({ fName: '', fPriceCap: 1000, fRefundable: false, fStar5: false, fStar4: false, fStar3: false, fRating9: false, fRating8: false,
+          fParking: false, fBreakfast: false, fPool: false, fFitness: false, fTypeHotel: false, fTypeApartment: false,
+          fDistance: 'any', fPolicy: 'any', fMeal: 'any', fBrands: {}, fHoods: {},
+          fAmenAc: false, fAmenKitchen: false, fAmenBalcony: false, fAmenWasher: false,
+          fFacWifi: false, fFacSpa: false, fFacRestaurant: false, fFacBar: false, fFacPets: false, fFacShuttle: false }, () => this.refetch());
+        document.querySelectorAll('aside input[type=checkbox]').forEach(c => { c.checked = false; });
+        document.querySelectorAll('aside input[type=radio]').forEach(r => { r.checked = r.value === 'any'; });
+        document.querySelectorAll('aside input[type=text]').forEach(c => { c.value = ''; });
+        document.querySelectorAll('aside input[type=range]').forEach(c => { c.value = 1000; }); },
+      cards,
+      noResults: !S.loading && cards.length === 0 ? 'No properties match your filters — try clearing a filter or changing dates.' : ''
+    };
+  }
+}
+</script>
+</body>
+</html>

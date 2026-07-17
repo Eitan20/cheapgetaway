@@ -1,0 +1,144 @@
+- generic [ref=f5e4]:
+  - banner [ref=f5e5]:
+    - img "cheapgetaway.team" [ref=f5e6]
+  - generic [ref=f5e7]:
+    - generic [ref=f5e8]:
+      - generic [ref=f5e9]: Free virtual workshop · open to everyone
+      - heading "The trips you’re already planning… could cost about half as much." [level=1] [ref=f5e12]:
+        - generic [ref=f5e13]: The trips you’re already planning…
+        - generic [ref=f5e14]: could cost about half as much.
+      - paragraph [ref=f5e15]: There’s a members-only layer of hotel pricing the public sites never show you. On this free workshop we pull it up live — the same rooms, the same dates, at rates 40–70% lower. No timeshare pitch, no points to juggle, no catch hiding in the fine print.
+      - generic [ref=f5e16]: One member, Dana, kept $1,072 on a single Cancún trip — same resort her sister paid full price for in March.
+    - generic [ref=f5e17]:
+      - generic [ref=f5e19]:
+        - generic "Member reel" [ref=f5e20] [cursor=pointer]
+        - button "Play the video" [ref=f5e21] [cursor=pointer]
+        - button "Full screen" [ref=f5e24] [cursor=pointer]
+      - generic [ref=f5e28]:
+        - generic [ref=f5e29]: Save your seat — free.
+        - paragraph [ref=f5e30]: Drop your name and email and we'll send your personal join link for the next live session.
+        - generic [ref=f5e31]:
+          - generic [ref=f5e32]:
+            - text: First name
+            - textbox "First name" [ref=f5e33]:
+              - /placeholder: Your first name
+          - generic [ref=f5e34]:
+            - text: Email
+            - textbox "Email" [ref=f5e35]:
+              - /placeholder: you@email.com
+          - button "Save my free seat →" [ref=f5e36] [cursor=pointer]
+          - generic [ref=f5e37]: By saving a seat you agree to receive workshop emails. No spam — unsubscribe anytime.
+    - generic [ref=f5e38]:
+      - generic [ref=f5e39]: The next workshop starts in…
+      - generic [ref=f5e40]:
+        - generic [ref=f5e41]:
+          - generic [ref=f5e42]: "00"
+          - generic [ref=f5e43]: Hours
+        - generic [ref=f5e44]:
+          - generic [ref=f5e45]: "00"
+          - generic [ref=f5e46]: Minutes
+        - generic [ref=f5e47]:
+          - generic [ref=f5e48]: "17"
+          - generic [ref=f5e49]: Seconds
+      - button "Save my free seat →" [ref=f5e50] [cursor=pointer]
+  - generic [ref=f5e52]:
+    - generic [ref=f5e53]: Members-only rates
+    - generic [ref=f5e54]: ✦
+    - generic [ref=f5e55]: Same rooms, same dates
+    - generic [ref=f5e56]: ✦
+    - generic [ref=f5e57]: Up to 70% off
+    - generic [ref=f5e58]: ✦
+    - generic [ref=f5e59]: Hotels · resorts · cruises
+    - generic [ref=f5e60]: ✦
+    - generic [ref=f5e61]: No coupon hunting
+    - generic [ref=f5e62]: ✦
+    - generic [ref=f5e63]: Cancel anytime
+    - generic [ref=f5e64]: ✦
+    - generic [ref=f5e65]: Members-only rates
+    - generic [ref=f5e66]: ✦
+    - generic [ref=f5e67]: Same rooms, same dates
+    - generic [ref=f5e68]: ✦
+    - generic [ref=f5e69]: Up to 70% off
+    - generic [ref=f5e70]: ✦
+    - generic [ref=f5e71]: Hotels · resorts · cruises
+    - generic [ref=f5e72]: ✦
+    - generic [ref=f5e73]: No coupon hunting
+    - generic [ref=f5e74]: ✦
+    - generic [ref=f5e75]: Cancel anytime
+    - generic [ref=f5e76]: ✦
+  - generic [ref=f5e78]:
+    - generic [ref=f5e79]:
+      - generic [ref=f5e80]: Real members · real trips
+      - heading "This is what booking as a member looks like" [level=2] [ref=f5e81]
+      - paragraph [ref=f5e82]: Everyday people — parents, couples, first-timers — taking the same trips they always wanted, for a fraction of the public price.
+    - generic [ref=f5e84]:
+      - generic [ref=f5e85]:
+        - generic [ref=f5e86]:
+          - generic "A dad shares his family trip from California to Hawaii" [ref=f5e87] [cursor=pointer]
+          - button "Play video" [ref=f5e88] [cursor=pointer]
+          - button "Full screen" [ref=f5e91] [cursor=pointer]
+        - generic [ref=f5e94]: California → Hawaii, on the family plan
+      - generic [ref=f5e95]:
+        - generic [ref=f5e96]:
+          - generic "Member reel — the deal in action" [ref=f5e97] [cursor=pointer]
+          - button "Play video" [ref=f5e98] [cursor=pointer]
+          - button "Full screen" [ref=f5e101] [cursor=pointer]
+        - generic [ref=f5e104]: The reel that started it all
+      - generic [ref=f5e105]:
+        - generic [ref=f5e106]:
+          - generic "Member reel — world tour" [ref=f5e107] [cursor=pointer]
+          - button "Play video" [ref=f5e108] [cursor=pointer]
+          - button "Full screen" [ref=f5e111] [cursor=pointer]
+        - generic [ref=f5e114]: A member's world tour
+  - generic [ref=f5e116]:
+    - generic [ref=f5e117]:
+      - generic [ref=f5e118]: $0
+      - generic [ref=f5e119]: to attend — and no card to see how it works
+    - generic [ref=f5e120]:
+      - generic [ref=f5e121]: 70%
+      - generic [ref=f5e122]: the kind of savings members share vs. public sites
+    - generic [ref=f5e123]:
+      - generic [ref=f5e124]: Any
+      - generic [ref=f5e125]: trip works — hotels, resorts, cruises, condo weeks
+    - generic [ref=f5e126]:
+      - generic [ref=f5e127]: 5–10min
+      - generic [ref=f5e128]: is all it takes to do the math on your next trip
+  - generic [ref=f5e129]:
+    - generic [ref=f5e130]:
+      - generic [ref=f5e131]: Why the deals are real
+      - heading "The prices you see online are set by just two companies." [level=2] [ref=f5e132]
+      - paragraph [ref=f5e133]:
+        - text: According to the non-profit Consumer's Checkbook, Expedia and Booking Holdings own
+        - strong [ref=f5e134]: 95% of third-party booking sites.
+        - text: That's why “shopping around” rarely helps — and why the members-only rates look almost too good to be true. They're the layer underneath the public price.
+      - generic [ref=f5e135]:
+        - generic [ref=f5e136]: 95%
+        - generic [ref=f5e138]:
+          - generic [ref=f5e139]: of third-party booking sites are owned by just Expedia & Booking Holdings
+          - generic [ref=f5e140]: "Source: Consumer's Checkbook"
+    - generic [ref=f5e141]:
+      - generic "Travel's biggest secret" [ref=f5e142] [cursor=pointer]
+      - button "Play video" [ref=f5e143] [cursor=pointer]
+      - button "Full screen" [ref=f5e146] [cursor=pointer]
+    - generic [ref=f5e149]:
+      - generic [ref=f5e150]:
+        - generic [ref=f5e151]: "01"
+        - generic [ref=f5e152]: Watch the walkthrough
+        - paragraph [ref=f5e153]: Five to ten minutes, live — the member portal on screen, real price comparisons side by side.
+      - generic [ref=f5e154]:
+        - generic [ref=f5e155]: "02"
+        - generic [ref=f5e156]: Compare a real trip
+        - paragraph [ref=f5e157]: Pull up a trip you’d actually take and check the member rate on the same hotel, same dates.
+      - generic [ref=f5e158]:
+        - generic [ref=f5e159]: "03"
+        - generic [ref=f5e160]: Book it for less
+        - paragraph [ref=f5e161]: If the math works — and it usually does — join and keep the difference on every trip after.
+  - generic [ref=f5e163]:
+    - heading "Stop paying the tourist price." [level=2] [ref=f5e164]
+    - paragraph [ref=f5e165]: Save your seat, watch the workshop, and do the math on your own next trip — it takes about 5–10 minutes to know if it’s for you.
+    - generic [ref=f5e166]:
+      - button "Save my free seat →" [ref=f5e167] [cursor=pointer]
+      - generic [ref=f5e168]: Free · takes 20 seconds · no card, no catch
+  - contentinfo [ref=f5e169]:
+    - img "cheapgetaway.team" [ref=f5e170]
+    - paragraph [ref=f5e171]: This is a free educational workshop operated by an independent team. Individual results vary and are not typical or guaranteed; savings depend on destination, dates and availability. Expedia, Booking.com and any other brands named are the property of their respective owners and are referenced for comparison only; we are not affiliated with or endorsed by them. Savings vary by destination, dates and availability.

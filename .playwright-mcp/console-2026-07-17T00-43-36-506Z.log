@@ -1,0 +1,3 @@
+[     110ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8737/api/liteapi/data/facilities:0
+[     110ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8737/api/liteapi/data/hotelTypes:0
+[     111ms] [ERROR] Failed to load resource: the server responded with a status of 501 (Unsupported method ('POST')) @ http://localhost:8737/api/liteapi/hotels/rates:0

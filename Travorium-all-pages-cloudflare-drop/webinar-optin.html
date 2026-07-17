@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unlock Members-Only Hotel Prices — Free Workshop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #FDF6E3; -webkit-font-smoothing: antialiased; }
+  a { color: #1A2258; text-decoration: none; }
+  a:hover { color: #3FA9F5; }
+  ::selection { background: #1A2258; color: #FFD976; }
+  @keyframes cg-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+  @keyframes cg-cloud { 0% { transform: translateX(-6vw); } 100% { transform: translateX(106vw); } }
+  @keyframes cg-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes cg-pop { 0%,100% { box-shadow: 6px 6px 0 #1A2258; transform: translate(0,0); } 50% { box-shadow: 10px 10px 0 #1A2258; transform: translate(-3px,-3px); } }
+  input::placeholder { color: rgba(26,34,88,0.4); }
+  .cg-reelrow { scrollbar-width: none; -ms-overflow-style: none; }
+  .cg-reelrow::-webkit-scrollbar { display: none; }
+  @media (max-width: 480px) {
+    [data-secret-badge] { flex-direction: column; align-items: stretch !important; }
+    [data-secret-badge] > div:last-child { text-align: center !important; max-width: none !important; }
+  }
+</style>
+</helmet>
+
+<div data-screen-label="General opt-in" style="font-family: 'Nunito', sans-serif; background: #FDF6E3; color: #1A2258; overflow-x: hidden; position: relative;">
+
+  <!-- ============ HEADER ============ -->
+  <header style="position: relative; z-index: 6; background: #FFD976; display: flex; justify-content: center; padding: 24px min(6vw, 72px) 22px; border-bottom: 3px solid #1A2258;">
+    <img src="assets/logo-cheapgetaway.png" alt="cheapgetaway.team" style="height: clamp(38px, 4.4vw, 54px); display: block; max-width: 82vw; object-fit: contain;">
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section data-screen-label="Hero" style="position: relative; overflow: hidden; padding: clamp(40px, 6vw, 80px) min(6vw, 72px) clamp(20px, 3vw, 40px);">
+    {{ clouds }}
+    <div style="position: relative; z-index: 3; max-width: 920px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center;">
+      <div style="display: inline-flex; align-items: center; gap: 9px; background: #FFFFFF; border: 3px solid #1A2258; border-radius: 999px; padding: 8px 18px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(11px, 1.1vw, 13px); letter-spacing: 0.06em; text-transform: uppercase; box-shadow: 5px 5px 0 #1A2258;">
+        <span style="width: 9px; height: 9px; border-radius: 50%; background: #FF6B8A; flex-shrink: 0;"></span>
+        {{ eyebrow }}
+      </div>
+      <h1 style="font-family: 'Fredoka', sans-serif; font-weight: 700; letter-spacing: -0.02em; line-height: 1.02; margin: 22px 0 0;">
+        <span style="display: block; font-size: clamp(20px, 2.4vw, 30px); color: rgba(26,34,88,0.72); font-weight: 600; letter-spacing: 0; margin-bottom: 10px;">The trips you’re already planning…</span>
+        <span style="font-size: clamp(34px, 5vw, 66px); display: block;">could cost <span style="color: #FFFFFF; text-shadow: 4px 4px 0 #1A2258; -webkit-text-stroke: 2px #1A2258;">about half as much.</span></span>
+      </h1>
+      <p style="font-size: clamp(16px, 1.35vw, 20px); line-height: 1.6; font-weight: 700; max-width: 700px; margin: 22px auto 0; background: rgba(255,255,255,0.72); backdrop-filter: blur(8px); border-radius: 20px; padding: 16px 24px;">
+        There’s a members-only layer of hotel pricing the public sites never show you. On this free workshop we pull it up live — the same rooms, the same dates, at rates 40–70% lower. No timeshare pitch, no points to juggle, no catch hiding in the fine print.
+      </p>
+      <div style="max-width: 680px; margin: 18px auto 0; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(16px, 1.5vw, 21px); line-height: 1.45; color: #1A2258;">
+        One member, Dana, kept <span style="background: #FFD976; padding: 0 8px; border-radius: 8px; box-shadow: 3px 3px 0 #1A2258; white-space: nowrap;">$1,072 on a single Cancún trip</span> — same resort her sister paid full price for in March.
+      </div>
+    </div>
+
+    <!-- video + form row -->
+    <div style="position: relative; z-index: 3; display: flex; flex-wrap: wrap; gap: clamp(26px, 3vw, 44px); justify-content: center; align-items: center; max-width: 1080px; margin: clamp(36px, 4vw, 56px) auto 0;">
+
+      <!-- VIDEO -->
+      <div style="flex: 0 1 360px; min-width: 0; max-width: 360px; display: flex; flex-direction: column;">
+        <div style="position: relative; width: 100%; background: #000000; border: 4px solid #1A2258; border-radius: 24px; overflow: hidden; box-shadow: 14px 14px 0 #3EC6D0;">
+          <video onClick="{{ toggleVideo }}" data-training-video="" src="https://pub-54b940016abb48e8954b15df69868e4c.r2.dev/cheapgetaway/feed-06__fb-1139331880552685.mp4#t=0.5" playsinline preload="metadata" aria-label="Member reel" style="width: 100%; aspect-ratio: 9 / 16; object-fit: cover; background: #000000; display: block; cursor: pointer;"></video>
+          <button onClick="{{ toggleVideo }}" data-play-overlay="" aria-label="Play the video" style="position: absolute; inset: 0; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; background: rgba(26,34,88,0.28); border: 0; padding: 0; cursor: pointer; transition: opacity 0.25s ease;">
+            <span style="display: flex; align-items: center; justify-content: center; width: clamp(66px, 9vw, 92px); height: clamp(66px, 9vw, 92px); border-radius: 50%; background: #FF6B8A; border: 4px solid #FFFFFF; box-shadow: 0 8px 22px rgba(26,34,88,0.5);">
+              <span style="display: block; width: 0; height: 0; border-top: 15px solid transparent; border-bottom: 15px solid transparent; border-left: 24px solid #FFFFFF; margin-left: 6px;"></span>
+            </span>
+          </button>
+          <button onClick="{{ goFullscreen }}" aria-label="Full screen" style="position: absolute; bottom: 12px; right: 12px; z-index: 2; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 10px; background: rgba(0,0,0,0.45); border: 0; padding: 0; cursor: pointer;" style-hover="background: rgba(0,0,0,0.65);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- FORM -->
+      <div data-signup-form="" style="flex: 1 1 340px; min-width: 0; max-width: 420px; display: flex;">
+        <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
+          <div style="width: 100%; background: #FFFFFF; border: 4px solid #1A2258; border-radius: 24px; box-shadow: 14px 14px 0 #FF6B8A; padding: clamp(24px, 2.6vw, 34px); box-sizing: border-box; display: flex; flex-direction: column;">
+            <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(22px, 2.2vw, 28px); line-height: 1.1; letter-spacing: -0.01em;">Save your seat — free.</div>
+            <p style="font-size: 15px; line-height: 1.55; font-weight: 600; color: rgba(26,34,88,0.72); margin: 12px 0 22px;">Drop your name and email and we'll send your personal join link for the next live session.</p>
+            <form onSubmit="{{ handleSubmit }}" novalidate="{{ true }}" style="display: flex; flex-direction: column; gap: 14px;">
+              <label style="display: flex; flex-direction: column; gap: 7px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; color: #1A2258;">
+                First name
+                <input name="firstName" type="text" autocomplete="given-name" placeholder="Your first name" style="font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 16px; color: #1A2258; background: #FDF6E3; border: 3px solid #1A2258; border-radius: 14px; padding: 13px 16px; outline: none;" style-focus="border-color: #3FA9F5; background: #FFFFFF;">
+              </label>
+              <label style="display: flex; flex-direction: column; gap: 7px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; color: #1A2258;">
+                Email
+                <input name="email" type="email" autocomplete="email" placeholder="you@email.com" style="font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 16px; color: #1A2258; background: #FDF6E3; border: 3px solid #1A2258; border-radius: 14px; padding: 13px 16px; outline: none;" style-focus="border-color: #3FA9F5; background: #FFFFFF;">
+              </label>
+              <sc-if value="{{ errorMsg }}" hint-placeholder-val="">
+                <div style="font-size: 13px; font-weight: 800; color: #E2554F;">{{ errorMsg }}</div>
+              </sc-if>
+              <button type="submit" style="margin-top: 4px; background: #FF6B8A; color: #FFFFFF; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(17px, 1.5vw, 20px); padding: 16px 24px; border-radius: 999px; border: 3px solid #1A2258; cursor: pointer; animation: cg-pop 2.4s ease-in-out infinite;" style-hover="background: #FF87A1;">{{ formCta }} →</button>
+              <span style="text-align: center; font-size: 12px; font-weight: 700; color: rgba(26,34,88,0.55); line-height: 1.4;">By saving a seat you agree to receive workshop emails. No spam — unsubscribe anytime.</span>
+            </form>
+          </div>
+        </sc-if>
+        <sc-if value="{{ showSuccess }}" hint-placeholder-val="">
+          <div style="width: 100%; background: #58B368; border: 4px solid #1A2258; border-radius: 24px; box-shadow: 14px 14px 0 #FFD976; padding: clamp(26px, 3vw, 38px); box-sizing: border-box; display: flex; flex-direction: column; align-items: center; text-align: center; justify-content: center;">
+            <span style="display: flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 50%; background: #FFFFFF; border: 4px solid #1A2258; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 32px; color: #58B368;">✓</span>
+            <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(24px, 2.4vw, 30px); color: #FFFFFF; margin-top: 18px; line-height: 1.1;">You're on the list, {{ firstName }}!</div>
+            <p style="font-size: 15.5px; line-height: 1.6; font-weight: 700; color: rgba(255,255,255,0.92); margin: 14px 0 0;">Your join link is on its way to your inbox. While you wait — press play and watch how it works.</p>
+            <div style="margin-top: 20px; background: #FFFFFF; border: 3px solid #1A2258; border-radius: 14px; padding: 10px 16px; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 14px; color: #1A2258; max-width: 100%; overflow: hidden; text-overflow: ellipsis;">{{ email }}</div>
+          </div>
+        </sc-if>
+      </div>
+
+    </div>
+
+    <!-- countdown -->
+    <div style="position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 20px; max-width: 1080px; margin: clamp(48px, 5vw, 72px) auto 0; text-align: center;">
+      <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-style: italic; font-size: clamp(22px, 2.4vw, 34px); letter-spacing: -0.01em;">The next workshop starts in…</div>
+      <div style="display: flex; gap: clamp(12px, 1.6vw, 20px);">
+        <div style="background: #FFFFFF; border: 3px solid #1A2258; border-radius: 20px; padding: 16px clamp(16px, 2.4vw, 30px); box-shadow: 7px 7px 0 #3EC6D0; min-width: clamp(72px, 8vw, 100px); box-sizing: border-box;">
+          <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(34px, 4vw, 54px); line-height: 1; font-variant-numeric: tabular-nums;">{{ cdH }}</div>
+          <div style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.6); margin-top: 8px;">Hours</div>
+        </div>
+        <div style="background: #FFFFFF; border: 3px solid #1A2258; border-radius: 20px; padding: 16px clamp(16px, 2.4vw, 30px); box-shadow: 7px 7px 0 #FF6B8A; min-width: clamp(72px, 8vw, 100px); box-sizing: border-box;">
+          <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(34px, 4vw, 54px); line-height: 1; font-variant-numeric: tabular-nums;">{{ cdM }}</div>
+          <div style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.6); margin-top: 8px;">Minutes</div>
+        </div>
+        <div style="background: #FFFFFF; border: 3px solid #1A2258; border-radius: 20px; padding: 16px clamp(16px, 2.4vw, 30px); box-shadow: 7px 7px 0 #FFD976; min-width: clamp(72px, 8vw, 100px); box-sizing: border-box;">
+          <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(34px, 4vw, 54px); line-height: 1; font-variant-numeric: tabular-nums;">{{ cdS }}</div>
+          <div style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.6); margin-top: 8px;">Seconds</div>
+        </div>
+      </div>
+      <button onClick="{{ focusForm }}" style="background: #FF6B8A; color: #FFFFFF; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(17px, 1.5vw, 21px); padding: 16px 36px; border-radius: 999px; border: 3px solid #1A2258; cursor: pointer; animation: cg-pop 2.4s ease-in-out infinite;" style-hover="background: #FF87A1;">{{ formCta }} →</button>
+    </div>
+  </section>
+
+  <!-- ============ MARQUEE ============ -->
+  <div style="position: relative; z-index: 4; border-top: 3px solid #1A2258; border-bottom: 3px solid #1A2258; overflow: hidden; padding: 14px 0; background: #FFFFFF;">
+    {{ marquee }}
+  </div>
+
+  <!-- ============ FEATURED WIN ============ -->
+  <section data-screen-label="Featured win" style="position: relative; padding: clamp(56px, 7vw, 96px) min(6vw, 72px);">
+    <div style="max-width: 1080px; margin: 0 auto;">
+      <div style="text-align: center;">
+        <div style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #E2554F;">Real members · real trips</div>
+        <h2 style="font-family: 'Fredoka', sans-serif; font-size: clamp(28px, 3.8vw, 52px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; margin: 14px 0 0; text-wrap: pretty;">This is what booking as a member looks like</h2>
+        <p style="font-size: clamp(15px, 1.3vw, 19px); line-height: 1.6; font-weight: 600; color: rgba(26,34,88,0.72); max-width: 620px; margin: 16px auto 0;">Everyday people — parents, couples, first-timers — taking the same trips they always wanted, for a fraction of the public price.</p>
+      </div>
+
+      <!-- carousel -->
+      <div data-carousel-wrap="" style="position: relative; margin-top: clamp(34px, 4vw, 50px);">
+        <div data-carousel="" class="cg-reelrow" style="display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 6px 4px 18px; -webkit-overflow-scrolling: touch;">
+
+          <div style="flex: 0 0 auto; width: clamp(260px, 78vw, 320px); scroll-snap-align: center; display: flex; flex-direction: column;">
+            <div style="position: relative; background: #000000; border: 4px solid #1A2258; border-radius: 26px; overflow: hidden; box-shadow: 8px 8px 0 #1A2258;">
+              <video onClick="{{ toggleVideo }}" src="https://pub-54b940016abb48e8954b15df69868e4c.r2.dev/cheapgetaway/1_dad-family-california-hawaii.mp4#t=0.5" playsinline preload="metadata" aria-label="A dad shares his family trip from California to Hawaii" style="width: 100%; aspect-ratio: 9 / 16; object-fit: cover; background: #000000; display: block; cursor: pointer;"></video>
+              <button onClick="{{ toggleVideo }}" data-play-overlay="" aria-label="Play video" style="position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; background: rgba(26,34,88,0.28); border: 0; padding: 0; cursor: pointer; transition: opacity 0.25s ease;">
+                <span style="display: flex; align-items: center; justify-content: center; width: clamp(58px, 7vw, 76px); height: clamp(58px, 7vw, 76px); border-radius: 50%; background: #FF6B8A; border: 4px solid #FFFFFF; box-shadow: 0 8px 22px rgba(26,34,88,0.5);">
+                  <span style="display: block; width: 0; height: 0; border-top: 13px solid transparent; border-bottom: 13px solid transparent; border-left: 20px solid #FFFFFF; margin-left: 5px;"></span>
+                </span>
+              </button>
+              <button onClick="{{ goFullscreen }}" aria-label="Full screen" style="position: absolute; bottom: 12px; right: 12px; z-index: 2; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 10px; background: rgba(0,0,0,0.45); border: 0; padding: 0; cursor: pointer;" style-hover="background: rgba(0,0,0,0.65);">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg>
+              </button>
+            </div>
+            <div style="margin-top: 14px; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(15px, 1.4vw, 18px); text-align: center;">California → Hawaii, on the family plan</div>
+          </div>
+
+          <div style="flex: 0 0 auto; width: clamp(260px, 78vw, 320px); scroll-snap-align: center; display: flex; flex-direction: column;">
+            <div style="position: relative; background: #000000; border: 4px solid #1A2258; border-radius: 26px; overflow: hidden; box-shadow: 8px 8px 0 #1A2258;">
+              <video onClick="{{ toggleVideo }}" src="https://pub-54b940016abb48e8954b15df69868e4c.r2.dev/cheapgetaway/feed-01__ig-DRCmvTTjK37.mp4#t=0.5" playsinline preload="metadata" aria-label="Member reel — the deal in action" style="width: 100%; aspect-ratio: 9 / 16; object-fit: cover; background: #000000; display: block; cursor: pointer;"></video>
+              <button onClick="{{ toggleVideo }}" data-play-overlay="" aria-label="Play video" style="position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; background: rgba(26,34,88,0.28); border: 0; padding: 0; cursor: pointer; transition: opacity 0.25s ease;">
+                <span style="display: flex; align-items: center; justify-content: center; width: clamp(58px, 7vw, 76px); height: clamp(58px, 7vw, 76px); border-radius: 50%; background: #FF6B8A; border: 4px solid #FFFFFF; box-shadow: 0 8px 22px rgba(26,34,88,0.5);">
+                  <span style="display: block; width: 0; height: 0; border-top: 13px solid transparent; border-bottom: 13px solid transparent; border-left: 20px solid #FFFFFF; margin-left: 5px;"></span>
+                </span>
+              </button>
+              <button onClick="{{ goFullscreen }}" aria-label="Full screen" style="position: absolute; bottom: 12px; right: 12px; z-index: 2; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 10px; background: rgba(0,0,0,0.45); border: 0; padding: 0; cursor: pointer;" style-hover="background: rgba(0,0,0,0.65);">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg>
+              </button>
+            </div>
+            <div style="margin-top: 14px; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(15px, 1.4vw, 18px); text-align: center;">The reel that started it all</div>
+          </div>
+
+          <div style="flex: 0 0 auto; width: clamp(260px, 78vw, 320px); scroll-snap-align: center; display: flex; flex-direction: column;">
+            <div style="position: relative; background: #000000; border: 4px solid #1A2258; border-radius: 26px; overflow: hidden; box-shadow: 8px 8px 0 #1A2258;">
+              <video onClick="{{ toggleVideo }}" src="https://pub-54b940016abb48e8954b15df69868e4c.r2.dev/cheapgetaway/tod-world-tour.mp4#t=0.5" playsinline preload="metadata" aria-label="Member reel — world tour" style="width: 100%; aspect-ratio: 9 / 16; object-fit: cover; background: #000000; display: block; cursor: pointer;"></video>
+              <button onClick="{{ toggleVideo }}" data-play-overlay="" aria-label="Play video" style="position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; background: rgba(26,34,88,0.28); border: 0; padding: 0; cursor: pointer; transition: opacity 0.25s ease;">
+                <span style="display: flex; align-items: center; justify-content: center; width: clamp(58px, 7vw, 76px); height: clamp(58px, 7vw, 76px); border-radius: 50%; background: #FF6B8A; border: 4px solid #FFFFFF; box-shadow: 0 8px 22px rgba(26,34,88,0.5);">
+                  <span style="display: block; width: 0; height: 0; border-top: 13px solid transparent; border-bottom: 13px solid transparent; border-left: 20px solid #FFFFFF; margin-left: 5px;"></span>
+                </span>
+              </button>
+              <button onClick="{{ goFullscreen }}" aria-label="Full screen" style="position: absolute; bottom: 12px; right: 12px; z-index: 2; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 10px; background: rgba(0,0,0,0.45); border: 0; padding: 0; cursor: pointer;" style-hover="background: rgba(0,0,0,0.65);">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg>
+              </button>
+            </div>
+            <div style="margin-top: 14px; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(15px, 1.4vw, 18px); text-align: center;">A member's world tour</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STATS ============ -->
+  <section data-screen-label="Stats" style="position: relative; padding: clamp(48px, 6vw, 80px) min(6vw, 72px);">
+    <div style="max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 20px;">
+      <div style="background: #FFFFFF; border: 3px solid #1A2258; border-radius: 22px; padding: 26px; box-shadow: 7px 7px 0 #FFD976; text-align: center;">
+        <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(30px, 3.4vw, 46px); line-height: 1; color: #1A2258;">$0</div>
+        <div style="font-size: 14px; font-weight: 700; color: rgba(26,34,88,0.72); margin-top: 8px;">to attend — and no card to see how it works</div>
+      </div>
+      <div style="background: #FFFFFF; border: 3px solid #1A2258; border-radius: 22px; padding: 26px; box-shadow: 7px 7px 0 #FF6B8A; text-align: center;">
+        <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(30px, 3.4vw, 46px); line-height: 1; color: #1A2258;">70%</div>
+        <div style="font-size: 14px; font-weight: 700; color: rgba(26,34,88,0.72); margin-top: 8px;">the kind of savings members share vs. public sites</div>
+      </div>
+      <div style="background: #FFFFFF; border: 3px solid #1A2258; border-radius: 22px; padding: 26px; box-shadow: 7px 7px 0 #3EC6D0; text-align: center;">
+        <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(30px, 3.4vw, 46px); line-height: 1; color: #1A2258;">Any</div>
+        <div style="font-size: 14px; font-weight: 700; color: rgba(26,34,88,0.72); margin-top: 8px;">trip works — hotels, resorts, cruises, condo weeks</div>
+      </div>
+      <div style="background: #FFFFFF; border: 3px solid #1A2258; border-radius: 22px; padding: 26px; box-shadow: 7px 7px 0 #58B368; text-align: center;">
+        <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(30px, 3.4vw, 46px); line-height: 1; color: #1A2258;">5–10<span style="font-size: 0.45em;">min</span></div>
+        <div style="font-size: 14px; font-weight: 700; color: rgba(26,34,88,0.72); margin-top: 8px;">is all it takes to do the math on your next trip</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE SECRET REVEAL ============ -->
+  <section data-screen-label="The secret" style="position: relative; background: #1A2258; padding: clamp(64px, 8vw, 110px) min(6vw, 72px); overflow: hidden;">
+    <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+      <div style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #FFD976;">Why the deals are real</div>
+      <h2 style="font-family: 'Fredoka', sans-serif; font-size: clamp(30px, 4.2vw, 60px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.06; color: #FDF6E3; margin: 16px 0 0; text-wrap: pretty;">
+        The prices you see online are <span style="color: #FFD976;">set by just two companies.</span>
+      </h2>
+      <p style="font-size: clamp(16px, 1.35vw, 20px); line-height: 1.65; font-weight: 600; color: rgba(253,246,227,0.82); max-width: 720px; margin: 22px auto 0;">
+        According to the non-profit Consumer's Checkbook, Expedia and Booking Holdings own <strong style="color: #FFD976;">95% of third-party booking sites.</strong> That's why “shopping around” rarely helps — and why the members-only rates look almost too good to be true. They're the layer underneath the public price.
+      </p>
+      <div data-secret-badge="" style="display: inline-flex; align-items: stretch; gap: 0; margin: 30px auto 0; border: 4px solid #FFD976; border-radius: 20px; overflow: hidden; box-shadow: 8px 8px 0 rgba(0,0,0,0.25); background: #FFFFFF; max-width: 100%;">
+        <div style="background: #FFD976; padding: 16px clamp(18px, 2.4vw, 30px); display: flex; flex-direction: column; align-items: center; justify-content: center;">
+          <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(38px, 5vw, 64px); line-height: 0.9; color: #1A2258;">95%</div>
+        </div>
+        <div style="padding: 14px clamp(16px, 2vw, 26px); display: flex; flex-direction: column; justify-content: center; text-align: left; max-width: 340px;">
+          <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(15px, 1.4vw, 18px); color: #1A2258; line-height: 1.25;">of third-party booking sites are owned by just Expedia &amp; Booking Holdings</div>
+          <div style="font-size: 12px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(26,34,88,0.55); margin-top: 6px;">Source: Consumer's Checkbook</div>
+        </div>
+      </div>
+    </div>
+    <div style="position: relative; z-index: 3; width: 100%; max-width: 620px; margin: clamp(40px, 5vw, 60px) auto 0; background: #000000; border: 4px solid #FDF6E3; border-radius: 24px; overflow: hidden; box-shadow: 14px 14px 0 #FF6B8A;">
+      <video onClick="{{ toggleVideo }}" src="https://video.wixstatic.com/video/2af71f_74f6c82df73f458abbb54ec5bfa782f3/1080p/mp4/file.mp4#t=0.3" playsinline preload="metadata" aria-label="Travel's biggest secret" style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #000000; display: block; cursor: pointer;"></video>
+      <button onClick="{{ toggleVideo }}" data-play-overlay="" aria-label="Play video" style="position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; background: rgba(26,34,88,0.28); border: 0; padding: 0; cursor: pointer; transition: opacity 0.25s ease;">
+        <span style="display: flex; align-items: center; justify-content: center; width: clamp(66px, 9vw, 92px); height: clamp(66px, 9vw, 92px); border-radius: 50%; background: #FF6B8A; border: 4px solid #FFFFFF; box-shadow: 0 8px 22px rgba(26,34,88,0.5);">
+          <span style="display: block; width: 0; height: 0; border-top: 15px solid transparent; border-bottom: 15px solid transparent; border-left: 24px solid #FFFFFF; margin-left: 6px;"></span>
+        </span>
+      </button>
+      <button onClick="{{ goFullscreen }}" aria-label="Full screen" style="position: absolute; bottom: 12px; right: 12px; z-index: 2; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 10px; background: rgba(0,0,0,0.45); border: 0; padding: 0; cursor: pointer;" style-hover="background: rgba(0,0,0,0.65);">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg>
+      </button>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; max-width: 1000px; margin: clamp(44px, 5vw, 64px) auto 0;">
+      <div style="background: #FFFFFF; border: 3px solid #1A2258; border-radius: 22px; padding: 26px; box-shadow: 8px 8px 0 #3EC6D0; transform: rotate(-0.8deg);">
+        <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 40px); color: #FFD976; -webkit-text-stroke: 2px #1A2258; text-shadow: 3px 3px 0 #1A2258;">01</div>
+        <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 20px; color: #1A2258; margin: 12px 0 8px;">Watch the walkthrough</div>
+        <p style="font-size: 15px; line-height: 1.55; font-weight: 600; color: rgba(26,34,88,0.78); margin: 0;">Five to ten minutes, live — the member portal on screen, real price comparisons side by side.</p>
+      </div>
+      <div style="background: #FFFFFF; border: 3px solid #1A2258; border-radius: 22px; padding: 26px; box-shadow: 8px 8px 0 #FF6B8A; transform: rotate(0.7deg);">
+        <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 40px); color: #FF6B8A; -webkit-text-stroke: 2px #1A2258; text-shadow: 3px 3px 0 #1A2258;">02</div>
+        <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 20px; color: #1A2258; margin: 12px 0 8px;">Compare a real trip</div>
+        <p style="font-size: 15px; line-height: 1.55; font-weight: 600; color: rgba(26,34,88,0.78); margin: 0;">Pull up a trip you’d actually take and check the member rate on the same hotel, same dates.</p>
+      </div>
+      <div style="background: #FFFFFF; border: 3px solid #1A2258; border-radius: 22px; padding: 26px; box-shadow: 8px 8px 0 #58B368; transform: rotate(-0.6deg);">
+        <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 40px); color: #58B368; -webkit-text-stroke: 2px #1A2258; text-shadow: 3px 3px 0 #1A2258;">03</div>
+        <div style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 20px; color: #1A2258; margin: 12px 0 8px;">Book it for less</div>
+        <p style="font-size: 15px; line-height: 1.55; font-weight: 600; color: rgba(26,34,88,0.78); margin: 0;">If the math works — and it usually does — join and keep the difference on every trip after.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section data-screen-label="Final CTA" style="position: relative; background: #FFD976; border-top: 4px solid #1A2258; padding: clamp(72px, 9vw, 120px) min(6vw, 72px); text-align: center; overflow: hidden;">
+    {{ ctaClouds }}
+    <div style="position: relative; z-index: 2; max-width: 800px; margin: 0 auto;">
+      <h2 style="font-family: 'Fredoka', sans-serif; font-size: clamp(32px, 4.6vw, 64px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.04; margin: 0;">
+        Stop paying the <span style="color: #FFFFFF; -webkit-text-stroke: 2px #1A2258; text-shadow: 4px 4px 0 #1A2258;">tourist price.</span>
+      </h2>
+      <p style="font-size: clamp(16px, 1.4vw, 20px); font-weight: 600; line-height: 1.6; color: rgba(26,34,88,0.82); max-width: 580px; margin: 20px auto 0;">
+        Save your seat, watch the workshop, and do the math on your own next trip — it takes about 5–10 minutes to know if it’s for you.
+      </p>
+      <div style="margin-top: 32px; display: flex; flex-direction: column; align-items: center; gap: 14px;">
+        <button onClick="{{ focusForm }}" style="background: #FF6B8A; color: #FFFFFF; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(18px, 1.7vw, 23px); padding: 19px 44px; border-radius: 999px; border: 4px solid #1A2258; cursor: pointer; animation: cg-pop 2.4s ease-in-out infinite;" style-hover="background: #FF87A1;">{{ formCta }} →</button>
+        <span style="font-size: 13px; font-weight: 700; color: rgba(26,34,88,0.65);">Free · takes 20 seconds · no card, no catch</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="border-top: 4px solid #1A2258; background: #FFFFFF; padding: 34px min(6vw, 72px) 44px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center;">
+    <img src="assets/logo-cheapgetaway.png" alt="cheapgetaway.team" style="height: 34px; display: block; max-width: 80vw; object-fit: contain;">
+    <p style="font-size: 12px; font-weight: 600; line-height: 1.6; color: rgba(26,34,88,0.55); max-width: 680px; margin: 0;">
+      This is a free educational workshop operated by an independent team. Individual results vary and are not typical or guaranteed; savings depend on destination, dates and availability. Expedia, Booking.com and any other brands named are the property of their respective owners and are referenced for comparison only; we are not affiliated with or endorsed by them. Savings vary by destination, dates and availability.
+    </p>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1280, &quot;height&quot;: 900 },
+  &quot;eyebrow&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Free virtual workshop · open to everyone&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Copy&quot; },
+  &quot;formCta&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Save my free seat&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Copy&quot; },
+  &quot;sessionIntervalMin&quot;: { &quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 15, &quot;min&quot;: 5, &quot;max&quot;: 1440, &quot;unit&quot;: &quot;min&quot;, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Behavior&quot; }
+}">
+class Component extends DCLogic {
+  state = { submitted: false, firstName: '', email: '', error: '', now: Date.now() };
+
+  nextSessionTs() {
+    const iv = Math.max(5, this.props.sessionIntervalMin ?? 15) * 60000;
+    try {
+      const stored = Number(localStorage.getItem('cg_next_session_ts'));
+      if (stored && stored > Date.now()) return stored;
+      const next = Math.ceil((Date.now() + 1000) / iv) * iv;
+      localStorage.setItem('cg_next_session_ts', String(next));
+      return next;
+    } catch (err) {
+      return Math.ceil((Date.now() + 1000) / iv) * iv;
+    }
+  }
+
+  componentDidMount() {
+    this._timer = setInterval(() => this.setState({ now: Date.now() }), 1000);
+  }
+
+  componentWillUnmount() {
+    if (this._timer) clearInterval(this._timer);
+  }
+
+  constructor(props) {
+    super(props);
+
+    const puff = (w, h, top, left, blur) => React.createElement('span', {
+      key: 'p' + top + left + w,
+      style: { position: 'absolute', width: w, height: h, top: top, left: left, background: '#FFFFFF', borderRadius: '50%', filter: 'blur(' + blur + ')' }
+    });
+    const cloud = (key, scale, top, dur, delay, opacity) => React.createElement('div', {
+      key: key,
+      style: {
+        position: 'absolute', top: top, left: 0, width: 180 * scale + 'px', height: 70 * scale + 'px',
+        opacity: opacity, zIndex: 1, pointerEvents: 'none',
+        animation: 'cg-cloud ' + dur + 's linear ' + delay + 's infinite',
+        filter: 'drop-shadow(0 ' + 14 * scale + 'px 10px rgba(26,34,88,0.12))'
+      }
+    },
+      puff(90 * scale + 'px', 60 * scale + 'px', 10 * scale + 'px', 0, '1px'),
+      puff(70 * scale + 'px', 70 * scale + 'px', -8 * scale + 'px', 50 * scale + 'px', '1px'),
+      puff(80 * scale + 'px', 55 * scale + 'px', 12 * scale + 'px', 100 * scale + 'px', '1px')
+    );
+    this._clouds = React.createElement('div', { style: { position: 'absolute', inset: 0, overflow: 'hidden', zIndex: 1, pointerEvents: 'none' } },
+      cloud('c1', 0.7, '6%', 78, -10, 0.8),
+      cloud('c2', 0.5, '30%', 96, -50, 0.7),
+      cloud('c3', 0.9, '72%', 120, -74, 0.65)
+    );
+    this._ctaClouds = React.createElement('div', { style: { position: 'absolute', inset: 0, overflow: 'hidden', zIndex: 0, pointerEvents: 'none' } },
+      cloud('c4', 0.8, '14%', 82, -20, 0.9),
+      cloud('c5', 0.5, '60%', 108, -62, 0.7)
+    );
+
+    const stops = ['Members-only rates', 'Same rooms, same dates', 'Up to 70% off', 'Hotels · resorts · cruises', 'No coupon hunting', 'Cancel anytime'];
+    const items = [];
+    stops.concat(stops).forEach((s, i) => {
+      items.push(React.createElement('span', {
+        key: 'w' + i,
+        style: { fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: '22px', color: '#1A2258', whiteSpace: 'nowrap' }
+      }, s));
+      items.push(React.createElement('span', { key: 'd' + i, style: { color: '#FF6B8A', fontSize: '16px' } }, '✦'));
+    });
+    this._marquee = React.createElement('div',
+      { style: { display: 'flex', alignItems: 'center', gap: '30px', width: 'max-content', animation: 'cg-marquee 36s linear infinite' } },
+      items
+    );
+  }
+
+  toggleVideo = (e) => {
+    const wrap = e.currentTarget.parentElement;
+    if (!wrap) return;
+    const video = wrap.querySelector('video');
+    const overlay = wrap.querySelector('[data-play-overlay]');
+    if (!video) return;
+    if (video.paused) {
+      const p = video.play();
+      if (p && p.catch) p.catch(() => {});
+      if (overlay) { overlay.style.opacity = '0'; overlay.style.pointerEvents = 'none'; }
+    } else {
+      video.pause();
+      if (overlay) { overlay.style.opacity = '1'; overlay.style.pointerEvents = 'auto'; }
+    }
+  };
+
+  goFullscreen = (e) => {
+    const video = e.currentTarget.parentElement && e.currentTarget.parentElement.querySelector('video');
+    if (!video) return;
+    const req = video.requestFullscreen || video.webkitRequestFullscreen || video.webkitEnterFullscreen || video.msRequestFullscreen;
+    if (req) try { req.call(video); } catch (err) {}
+  };
+
+  scrollCarousel = (e, dir) => {
+    const wrap = e.currentTarget.parentElement;
+    const track = wrap && wrap.querySelector('[data-carousel]');
+    if (!track) return;
+    track.scrollBy({ left: dir * track.clientWidth * 0.8, behavior: 'smooth' });
+  };
+  carouselPrev = (e) => this.scrollCarousel(e, -1);
+  carouselNext = (e) => this.scrollCarousel(e, 1);
+
+  focusForm = () => {
+    const el = document.querySelector('[data-signup-form]');
+    if (!el) return;
+    const y = el.getBoundingClientRect().top + window.scrollY - 40;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+    const input = el.querySelector('input[name="firstName"]');
+    if (input) setTimeout(() => { try { input.focus({ preventScroll: true }); } catch (err) {} }, 500);
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const name = (form.elements.firstName.value || '').trim();
+    const email = (form.elements.email.value || '').trim();
+    if (!name) { this.setState({ error: 'Please add your first name.' }); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { this.setState({ error: 'That email doesn\u2019t look right — mind checking it?' }); return; }
+    try {
+      localStorage.setItem('cg_webinar_signup', JSON.stringify({ name: name, email: email, at: Date.now() }));
+    } catch (err) {}
+    this.setState({ submitted: true, firstName: name, email: email, error: '' });
+    window.location.href = 'registration-confirmed.html?name=' + encodeURIComponent(name) + '&email=' + encodeURIComponent(email) + '&ts=' + this.nextSessionTs();
+  };
+
+  renderVals() {
+    const submitted = this.state.submitted;
+    const diff = Math.max(0, this.nextSessionTs() - this.state.now);
+    const pad = (n) => String(n).padStart(2, '0');
+    return {
+      cdH: pad(Math.floor(diff / 3600000)),
+      cdM: pad(Math.floor(diff / 60000) % 60),
+      cdS: pad(Math.floor(diff / 1000) % 60),
+      eyebrow: this.props.eyebrow ?? 'Free virtual workshop · open to everyone',
+      formCta: this.props.formCta ?? 'Save my free seat',
+      clouds: this._clouds,
+      ctaClouds: this._ctaClouds,
+      marquee: this._marquee,
+      toggleVideo: this.toggleVideo,
+      goFullscreen: this.goFullscreen,
+      carouselPrev: this.carouselPrev,
+      carouselNext: this.carouselNext,
+      focusForm: this.focusForm,
+      handleSubmit: this.handleSubmit,
+      showForm: !submitted,
+      showSuccess: submitted,
+      firstName: this.state.firstName,
+      email: this.state.email,
+      errorMsg: this.state.error
+    };
+  }
+}
+</script>
+</body>
+</html>

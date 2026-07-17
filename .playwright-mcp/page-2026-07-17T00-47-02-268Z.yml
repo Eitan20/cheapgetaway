@@ -1,0 +1,50 @@
+- generic [ref=f12e3]:
+  - navigation [ref=f12e4]:
+    - generic [ref=f12e5]:
+      - link [ref=f12e6] [cursor=pointer]:
+        - /url: index.html
+        - img "cheapgetaway.com" [ref=f12e7]
+      - generic [ref=f12e8]:
+        - generic [ref=f12e11]: JFK ⇄ MIA
+        - generic [ref=f12e13]: Aug 14 – Aug 17
+        - generic [ref=f12e15]: 2 Travelers
+      - link "Join the club" [ref=f12e16] [cursor=pointer]:
+        - /url: webinar-optin.html
+  - main [ref=f12e17]:
+    - complementary [ref=f12e18]:
+      - generic [ref=f12e19]:
+        - strong [ref=f12e20]: Filters
+        - generic [ref=f12e21]:
+          - generic [ref=f12e22]: Stops
+          - generic [ref=f12e23] [cursor=pointer]:
+            - radio "Any" [checked] [ref=f12e24]
+            - text: Any
+          - generic [ref=f12e25] [cursor=pointer]:
+            - radio "Non-stop only" [ref=f12e26]
+            - text: Non-stop only
+          - generic [ref=f12e27] [cursor=pointer]:
+            - radio "1 stop or fewer" [ref=f12e28]
+            - text: 1 stop or fewer
+      - generic [ref=f12e29]:
+        - strong [ref=f12e30]: Bundle & save
+        - paragraph [ref=f12e34]: Members who pair a flight with a member-rate hotel save the most per trip.
+        - link "Unlock member prices" [ref=f12e35] [cursor=pointer]:
+          - /url: webinar-optin.html
+    - generic [ref=f12e37]:
+      - heading "Searching flights…" [level=1] [ref=f12e38]
+      - generic [ref=f12e39]:
+        - text: Sort by
+        - combobox "Sort by" [ref=f12e40] [cursor=pointer]:
+          - option "Cheapest first" [selected]
+          - option "Fastest first"
+          - option "Earliest departure"
+  - contentinfo [ref=f12e45]:
+    - img "cheapgetaway.com" [ref=f12e46]
+    - generic [ref=f12e47]:
+      - link "Home" [ref=f12e48] [cursor=pointer]:
+        - /url: index.html
+      - link "Join the club" [ref=f12e49] [cursor=pointer]:
+        - /url: webinar-optin.html
+      - link "For creators" [ref=f12e50] [cursor=pointer]:
+        - /url: webinar-optin-creator.html
+    - generic [ref=f12e51]: © 2026 cheapgetaway.com

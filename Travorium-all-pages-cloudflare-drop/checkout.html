@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<script src="./cg-api.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout — cheapgetaway.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#f6f7fb;font-family:'Nunito',sans-serif;color:#0b0f1f;}
+  a{color:#0e1556;text-decoration:none;}
+  a:hover{color:#38b6ff;}
+  *{box-sizing:border-box;}
+  input,button,select{font-family:'Nunito',sans-serif;}
+  input:focus{outline:none;}
+  @keyframes cg-shimmer{0%{background-position:-400px 0;}100%{background-position:400px 0;}}
+</style>
+</helmet>
+
+<nav style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);">
+  <div style="max-width:1100px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;">
+    <a href="index.html" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:40px;display:block;"></a>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#52586b;">
+      <span style="color:#1d9e55;display:flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1d9e55" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>Secure checkout</span>
+    </div>
+  </div>
+</nav>
+
+<main style="max-width:1100px;margin:0 auto;padding:24px 24px 80px;display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;">
+  <section style="flex:1.6 1 420px;min-width:0;display:flex;flex-direction:column;gap:18px;">
+    <a href="{{ backHref }}" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#52586b;width:fit-content;" style-hover="color:#38b6ff;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><polyline points="14 6 8 12 14 18"></polyline></svg>
+      Back to hotel
+    </a>
+    <h1 style="margin:0;font-size:26px;font-weight:900;color:#0e1556;">Complete your booking</h1>
+
+    <sc-if value="{{ prebookNote }}" hint-placeholder-val="">
+      <div style="background:{{ prebookNoteBg }};border:1.5px solid {{ prebookNoteBorder }};border-radius:12px;padding:11px 16px;font-size:13px;font-weight:700;color:#0e1556;">{{ prebookNote }}</div>
+    </sc-if>
+
+    <div style="background:#fff;border-radius:20px;padding:26px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;gap:16px;">
+      <h2 style="margin:0;font-size:17px;font-weight:900;color:#0e1556;">Guest details</h2>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;">
+        <label style="flex:1 1 200px;display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">First name
+          <input id="cg-co-first" type="text" autocomplete="given-name" placeholder="First name" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+        </label>
+        <label style="flex:1 1 200px;display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Last name
+          <input id="cg-co-last" type="text" autocomplete="family-name" placeholder="Last name" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+        </label>
+      </div>
+      <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Email — your confirmation goes here
+        <input id="cg-co-email" type="email" autocomplete="email" placeholder="you@email.com" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+      </label>
+      <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Phone (optional)
+        <input id="cg-co-phone" type="tel" autocomplete="tel" placeholder="+1 555 000 0000" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+      </label>
+    </div>
+
+    <div style="background:#fff;border-radius:20px;padding:26px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;gap:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+        <h2 style="margin:0;font-size:17px;font-weight:900;color:#0e1556;">Payment</h2>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <span style="border:1.5px solid rgba(14,21,86,0.12);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:900;color:#1a1f71;">VISA</span>
+          <span style="border:1.5px solid rgba(14,21,86,0.12);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:900;color:#eb001b;">MC</span>
+          <span style="border:1.5px solid rgba(14,21,86,0.12);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:900;color:#016fd0;">AMEX</span>
+        </div>
+      </div>
+      <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Card number
+        <input id="cg-co-card" type="text" inputMode="numeric" placeholder="4242 4242 4242 4242" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+      </label>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;">
+        <label style="flex:1 1 140px;display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Expiry
+          <input id="cg-co-exp" type="text" placeholder="MM / YY" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+        </label>
+        <label style="flex:1 1 140px;display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">CVC
+          <input id="cg-co-cvc" type="text" inputMode="numeric" placeholder="123" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+        </label>
+      </div>
+      <p style="margin:0;font-size:12px;font-weight:600;color:#9aa0b4;line-height:1.5;">Prototype payment — no card is charged. In production this connects to the LiteAPI book step with your payment processing.</p>
+    </div>
+
+    <sc-if value="{{ errorMsg }}" hint-placeholder-val="">
+      <div style="font-size:13.5px;font-weight:800;color:#e2554f;">{{ errorMsg }}</div>
+    </sc-if>
+    <button onClick="{{ confirmBooking }}" style="background:#ff6500;color:#fff;border:none;cursor:pointer;font-weight:900;font-size:17px;padding:16px 32px;border-radius:999px;box-shadow:0 12px 32px rgba(255,101,0,0.35);width:fit-content;" style-hover="background:#e65a00;">{{ confirmLabel }}</button>
+  </section>
+
+  <aside style="flex:1 1 300px;position:sticky;top:80px;display:flex;flex-direction:column;gap:16px;">
+    <div style="background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 8px 24px rgba(14,21,86,0.06);">
+      <div style="height:150px;background:#e8eaf2;">{{ hotelImgEl }}</div>
+      <div style="padding:20px;display:flex;flex-direction:column;gap:10px;">
+        <div>
+          <div style="color:#ffb400;font-size:12px;letter-spacing:1.5px;">{{ starsRow }}</div>
+          <h3 style="margin:4px 0 0;font-size:16px;font-weight:900;color:#0e1556;line-height:1.3;">{{ hotelName }}</h3>
+          <p style="margin:4px 0 0;font-size:12.5px;color:#52586b;font-weight:600;">{{ addressLine }}</p>
+        </div>
+        <div style="border-top:1.5px solid rgba(14,21,86,0.08);padding-top:12px;display:flex;flex-direction:column;gap:7px;font-size:13.5px;font-weight:700;">
+          <div style="display:flex;justify-content:space-between;gap:10px;"><span style="color:#52586b;">Room</span><span style="text-align:right;">{{ roomName }}</span></div>
+          <div style="display:flex;justify-content:space-between;gap:10px;"><span style="color:#52586b;">Board</span><span>{{ board }}</span></div>
+          <div style="display:flex;justify-content:space-between;gap:10px;"><span style="color:#52586b;">Check-in</span><span>{{ checkinLabel }}</span></div>
+          <div style="display:flex;justify-content:space-between;gap:10px;"><span style="color:#52586b;">Check-out</span><span>{{ checkoutLabel }}</span></div>
+          <div style="display:flex;justify-content:space-between;gap:10px;"><span style="color:#52586b;">Guests</span><span>{{ guestsLabel }}</span></div>
+          <div style="display:flex;justify-content:space-between;gap:10px;"><span style="color:#52586b;">Policy</span><span style="color:{{ refundColor }};">{{ refundLabel }}</span></div>
+        </div>
+        <div style="border-top:1.5px solid rgba(14,21,86,0.08);padding-top:12px;display:flex;justify-content:space-between;align-items:baseline;gap:10px;">
+          <span style="font-size:14px;font-weight:900;color:#0e1556;">Total <span style="font-weight:600;color:#52586b;font-size:11.5px;">incl. taxes</span></span>
+          <strong style="font-size:24px;font-weight:900;color:#0e1556;">{{ priceLabel }}</strong>
+        </div>
+      </div>
+    </div>
+    <div style="background:rgba(29,158,85,0.08);border:1.5px solid rgba(29,158,85,0.3);border-radius:16px;padding:14px 18px;font-size:12.5px;font-weight:700;color:#1d9e55;line-height:1.5;">
+      {{ trustLine }}
+    </div>
+  </aside>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { hotel: null, prebook: null, prebookFailed: false, submitting: false, error: '' };
+
+  params() {
+    const p = new URLSearchParams(window.location.search);
+    const iso = (o) => { const d = new Date(); d.setDate(d.getDate() + o); return d.toISOString().split('T')[0]; };
+    return {
+      hotelId: p.get('hotelId') || 'lp1a278', checkin: p.get('checkin') || iso(14), checkout: p.get('checkout') || iso(17),
+      adults: Number(p.get('adults') || 2), room: p.get('room') || 'Room', board: p.get('board') || 'Room only',
+      price: Number(p.get('price') || 0), refund: p.get('refund') !== '0'
+    };
+  }
+  async api(path, opts) {
+    const res = await cgApiFetch(path, { ...opts,
+      headers: { 'accept': 'application/json', ...(opts && opts.body ? { 'content-type': 'application/json' } : {}) } });
+    if (!res.ok) throw new Error('API ' + res.status);
+    return res.json();
+  }
+
+  async componentDidMount() {
+    this._navHandler = (e) => {
+      const a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+      if (!a) return;
+      const href = a.getAttribute('href') || '';
+      if (href.indexOf('.dc.html') === -1) return;
+      e.preventDefault(); e.stopPropagation();
+      window.location.href = href;
+    };
+    document.addEventListener('click', this._navHandler, true);
+    const P = this.params(); this._P = P;
+    this.api('/data/hotel?hotelId=' + encodeURIComponent(P.hotelId))
+      .then(r => this.setState({ hotel: r.data || r }))
+      .catch(() => this.setState({ hotel: { name: 'Your hotel', address: '', city: '', stars: 4, hotelImages: [{ url: 'assets/hotel-fallback-sm.webp' }] } }));
+    this.tryPrebook(P);
+  }
+  componentWillUnmount() { document.removeEventListener('click', this._navHandler, true); }
+
+  async tryPrebook(P) {
+    try {
+      const r = await this.api('/hotels/rates', { method: 'POST', body: JSON.stringify({
+        hotelIds: [P.hotelId], checkin: P.checkin, checkout: P.checkout,
+        occupancies: [{ adults: P.adults }], currency: 'USD', guestNationality: 'US', roomMapping: true }) });
+      const roomTypes = (r.data && r.data[0] && r.data[0].roomTypes) || [];
+      let match = null;
+      roomTypes.forEach(rt => (rt.rates || []).forEach(rate => {
+        if (!match && (rate.name || rate.roomName || '') === P.room) match = { rate, offerId: rt.offerId || rate.offerId };
+      }));
+      if (!match) { roomTypes.forEach(rt => { if (!match && rt.rates && rt.rates[0]) match = { rate: rt.rates[0], offerId: rt.offerId || rt.rates[0].offerId }; }); }
+      if (!match || !match.offerId) throw new Error('no offer');
+      const pb = await this.api('/rates/prebook', { method: 'POST', body: JSON.stringify({ offerId: match.offerId, usePaymentSdk: false }) });
+      const d = pb.data || pb;
+      const total = d.price || (d.roomTypes && d.roomTypes[0] && d.roomTypes[0].rates && d.roomTypes[0].rates[0] && d.roomTypes[0].rates[0].retailRate && d.roomTypes[0].rates[0].retailRate.total && d.roomTypes[0].rates[0].retailRate.total[0] && d.roomTypes[0].rates[0].retailRate.total[0].amount);
+      this.setState({ prebook: { id: d.prebookId || d.transactionId || d.id, price: total ? Math.round(Number(total)) : null } });
+    } catch (e) {
+      this.setState({ prebookFailed: true });
+    }
+  }
+
+  renderVals() {
+    const S = this.state, P = this._P || this.params();
+    const hotel = S.hotel || {};
+    const img = (hotel.hotelImages && hotel.hotelImages[0] && (hotel.hotelImages[0].urlHd || hotel.hotelImages[0].url)) || hotel.main_photo || 'assets/hotel-fallback-sm.webp';
+    const stars = Math.max(1, Math.min(5, Math.round(Number(hotel.stars || hotel.starRating) || 4)));
+    const fmt = (s) => { try { return new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).format(new Date(s + 'T12:00:00')); } catch (e) { return s; } };
+    const price = (S.prebook && S.prebook.price) || P.price;
+    return {
+      backHref: 'hotel-detail.html?hotelId=' + encodeURIComponent(P.hotelId) + '&checkin=' + P.checkin + '&checkout=' + P.checkout + '&adults=' + P.adults,
+      prebookNote: S.prebook ? 'Price locked with the supplier — this rate is confirmed live for your dates.' : (S.prebookFailed ? 'Live price-lock unavailable right now — the quoted rate is shown; final confirmation happens at booking.' : 'Locking your price with the supplier…'),
+      prebookNoteBg: S.prebook ? 'rgba(29,158,85,0.08)' : 'rgba(56,182,255,0.08)',
+      prebookNoteBorder: S.prebook ? 'rgba(29,158,85,0.35)' : 'rgba(56,182,255,0.35)',
+      hotelImgEl: React.createElement('img', { src: img, alt: hotel.name || 'Hotel', style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
+      hotelName: hotel.name || 'Loading…', starsRow: '★★★★★'.slice(0, stars),
+      addressLine: [hotel.address, hotel.city].filter(Boolean).join(', '),
+      roomName: P.room, board: P.board,
+      checkinLabel: fmt(P.checkin), checkoutLabel: fmt(P.checkout),
+      guestsLabel: P.adults + (P.adults === 1 ? ' adult' : ' adults'),
+      refundLabel: P.refund ? 'Free cancellation' : 'Non-refundable',
+      refundColor: P.refund ? '#1d9e55' : '#52586b',
+      priceLabel: price ? '$' + Number(price).toLocaleString() : '—',
+      trustLine: P.refund ? '✓ Free cancellation — you can cancel from My Trips at no charge.' : '✓ Instant confirmation — your room is guaranteed the moment you book.',
+      errorMsg: S.error, confirmLabel: S.submitting ? 'Confirming…' : 'Confirm & book',
+      confirmBooking: () => {
+        if (S.submitting) return;
+        const v = (id) => (document.getElementById(id) || {}).value || '';
+        const first = v('cg-co-first').trim(), last = v('cg-co-last').trim(), email = v('cg-co-email').trim();
+        if (!first || !last) { this.setState({ error: 'Please enter the guest\u2019s first and last name.' }); return; }
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { this.setState({ error: 'Please enter a valid email address.' }); return; }
+        if (v('cg-co-card').replace(/\s/g, '').length < 12) { this.setState({ error: 'Please enter a card number (any test number works in this prototype).' }); return; }
+        this.setState({ error: '', submitting: true });
+        const finish = (bookingId, status, confirmation) => {
+          const trips = JSON.parse(localStorage.getItem('cg_trips') || '[]');
+          const trip = { id: bookingId, confirmation, status,
+            hotelId: P.hotelId, hotelName: (S.hotel && S.hotel.name) || 'Hotel',
+            image: img, address: [hotel.address, hotel.city].filter(Boolean).join(', '),
+            room: P.room, board: P.board, checkin: P.checkin, checkout: P.checkout,
+            adults: P.adults, price: price, refundable: P.refund,
+            guest: first + ' ' + last, email, bookedAt: new Date().toISOString() };
+          trips.unshift(trip);
+          localStorage.setItem('cg_trips', JSON.stringify(trips));
+          window.location.href = 'booking-confirmed.html?bid=' + encodeURIComponent(bookingId);
+        };
+        const localId = 'CG-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+        if (S.prebook && S.prebook.id) {
+          this.api('/rates/book', { method: 'POST', body: JSON.stringify({
+            prebookId: S.prebook.id,
+            holder: { firstName: first, lastName: last, email },
+            guests: [{ occupancyNumber: 1, firstName: first, lastName: last, email }],
+            payment: { method: 'ACC_CREDIT_CARD' } }) })
+            .then(r => { const d = r.data || r; finish(d.bookingId || d.id || localId, 'confirmed', d.supplierConfirmationCode || d.confirmationCode || localId); })
+            .catch(() => finish(localId, 'confirmed', localId));
+        } else {
+          setTimeout(() => finish(localId, 'confirmed', localId), 900);
+        }
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

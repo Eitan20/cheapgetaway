@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<script src="./cg-api.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flight checkout — cheapgetaway.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#f6f7fb;font-family:'Nunito',sans-serif;color:#0b0f1f;}
+  a{color:#0e1556;text-decoration:none;}
+  a:hover{color:#38b6ff;}
+  *{box-sizing:border-box;}
+  input,button,select{font-family:'Nunito',sans-serif;}
+  input:focus{outline:none;}
+</style>
+</helmet>
+
+<nav style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);">
+  <div style="max-width:1100px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;">
+    <a href="index.html" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:40px;display:block;"></a>
+    <span style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#1d9e55;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1d9e55" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>Secure checkout</span>
+  </div>
+</nav>
+
+<main style="max-width:1100px;margin:0 auto;padding:24px 24px 80px;display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;">
+  <section style="flex:1.6 1 420px;min-width:0;display:flex;flex-direction:column;gap:18px;">
+    <a href="flight-results.html" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#52586b;width:fit-content;" style-hover="color:#38b6ff;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><polyline points="14 6 8 12 14 18"></polyline></svg>
+      Back to flights
+    </a>
+    <h1 style="margin:0;font-size:26px;font-weight:900;color:#0e1556;">Complete your flight booking</h1>
+
+    <sc-if value="{{ demoBanner }}" hint-placeholder-val="">
+      <div style="background:rgba(56,182,255,0.08);border:1.5px solid rgba(56,182,255,0.35);border-radius:12px;padding:11px 16px;font-size:13px;font-weight:700;color:#0e1556;">{{ demoBanner }}</div>
+    </sc-if>
+
+    <div style="background:#fff;border-radius:20px;padding:26px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;gap:16px;">
+      <h2 style="margin:0;font-size:17px;font-weight:900;color:#0e1556;">Lead passenger</h2>
+      <p style="margin:-8px 0 0;font-size:12.5px;font-weight:600;color:#9aa0b4;">Names must match the government ID used at the airport. {{ paxNote }}</p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;">
+        <label style="flex:1 1 200px;display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">First name
+          <input id="cg-fc-first" type="text" autocomplete="given-name" placeholder="As on ID" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+        </label>
+        <label style="flex:1 1 200px;display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Last name
+          <input id="cg-fc-last" type="text" autocomplete="family-name" placeholder="As on ID" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+        </label>
+      </div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;">
+        <label style="flex:1.4 1 220px;display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Email — e-tickets go here
+          <input id="cg-fc-email" type="email" autocomplete="email" placeholder="you@email.com" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+        </label>
+        <label style="flex:1 1 160px;display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Date of birth
+          <input id="cg-fc-dob" type="date" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:14px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+        </label>
+      </div>
+    </div>
+
+    <div style="background:#fff;border-radius:20px;padding:26px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;gap:16px;">
+      <h2 style="margin:0;font-size:17px;font-weight:900;color:#0e1556;">Payment</h2>
+      <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Card number
+        <input id="cg-fc-card" type="text" inputMode="numeric" placeholder="4242 4242 4242 4242" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+      </label>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;">
+        <label style="flex:1 1 140px;display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Expiry
+          <input id="cg-fc-exp" type="text" placeholder="MM / YY" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+        </label>
+        <label style="flex:1 1 140px;display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">CVC
+          <input id="cg-fc-cvc" type="text" inputMode="numeric" placeholder="123" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:12px 15px;font-size:15px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+        </label>
+      </div>
+      <p style="margin:0;font-size:12px;font-weight:600;color:#9aa0b4;line-height:1.5;">Prototype payment — no card is charged. In production this confirms through LiteAPI and returns your PNR and e-tickets.</p>
+    </div>
+
+    <sc-if value="{{ errorMsg }}" hint-placeholder-val="">
+      <div style="font-size:13.5px;font-weight:800;color:#e2554f;">{{ errorMsg }}</div>
+    </sc-if>
+    <button onClick="{{ confirmBooking }}" style="background:#ff6500;color:#fff;border:none;cursor:pointer;font-weight:900;font-size:17px;padding:16px 32px;border-radius:999px;box-shadow:0 12px 32px rgba(255,101,0,0.35);width:fit-content;" style-hover="background:#e65a00;">{{ confirmLabel }}</button>
+  </section>
+
+  <aside style="flex:1 1 300px;position:sticky;top:80px;display:flex;flex-direction:column;gap:16px;">
+    <div style="background:#fff;border-radius:20px;box-shadow:0 8px 24px rgba(14,21,86,0.06);padding:22px;display:flex;flex-direction:column;gap:14px;">
+      <h3 style="margin:0;font-size:15px;font-weight:900;color:#0e1556;">Your itinerary</h3>
+      <sc-for list="{{ legs }}" as="leg" hint-placeholder-count="2">
+        <div style="border:1.5px solid rgba(14,21,86,0.1);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;justify-content:space-between;gap:10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#9aa0b4;">
+            <span>{{ leg.dirLabel }}</span><span>{{ leg.dateLabel }}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span style="display:flex;flex-direction:column;align-items:flex-end;line-height:1.25;"><strong style="font-size:17px;color:#0e1556;font-weight:900;">{{ leg.departTime }}</strong><span style="font-size:12px;color:#52586b;font-weight:700;">{{ leg.origin }}</span></span>
+            <span style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;"><span style="font-size:10.5px;color:#52586b;font-weight:700;">{{ leg.duration }}</span><span style="width:100%;height:2px;background:rgba(14,21,86,0.12);"></span><span style="font-size:10.5px;font-weight:800;color:{{ leg.stopsColor }};">{{ leg.stopsLabel }}</span></span>
+            <span style="display:flex;flex-direction:column;line-height:1.25;"><strong style="font-size:17px;color:#0e1556;font-weight:900;">{{ leg.arriveTime }}</strong><span style="font-size:12px;color:#52586b;font-weight:700;">{{ leg.destination }}</span></span>
+          </div>
+          <span style="font-size:12px;font-weight:700;color:#52586b;">{{ leg.carrier }} {{ leg.flightNo }}</span>
+        </div>
+      </sc-for>
+      <div style="display:flex;flex-direction:column;gap:7px;font-size:13.5px;font-weight:700;border-top:1.5px solid rgba(14,21,86,0.08);padding-top:12px;">
+        <div style="display:flex;justify-content:space-between;gap:10px;"><span style="color:#52586b;">Travelers</span><span>{{ travelersLabel }}</span></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;border-top:1.5px solid rgba(14,21,86,0.08);padding-top:12px;">
+        <span style="font-size:14px;font-weight:900;color:#0e1556;">Total <span style="font-weight:600;color:#52586b;font-size:11.5px;">incl. taxes</span></span>
+        <strong style="font-size:24px;font-weight:900;color:#0e1556;">{{ priceLabel }}</strong>
+      </div>
+    </div>
+    <div style="background:rgba(29,158,85,0.08);border:1.5px solid rgba(29,158,85,0.3);border-radius:16px;padding:14px 18px;font-size:12.5px;font-weight:700;color:#1d9e55;line-height:1.5;">
+      ✓ Instant confirmation — your PNR and e-tickets arrive by email the moment the airline confirms.
+    </div>
+  </aside>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { submitting: false, error: '' };
+
+  offer() {
+    if (this._offer) return this._offer;
+    try { this._offer = JSON.parse(sessionStorage.getItem('cg_flight_offer') || 'null'); } catch (e) { this._offer = null; }
+    if (!this._offer) {
+      const iso = (o) => { const d = new Date(); d.setDate(d.getDate() + o); return d.toISOString().split('T')[0]; };
+      this._offer = { price: 296, currency: 'USD', adults: 2, offerId: null, demo: true,
+        legs: [
+          { carrier: 'JetBlue', carrierCode: 'B6', flightNo: 'B6 901', origin: 'JFK', destination: 'MIA', departISO: iso(14) + 'T09:05:00', durationMin: 189, stops: 0, direction: 'OUTBOUND' },
+          { carrier: 'JetBlue', carrierCode: 'B6', flightNo: 'B6 1416', origin: 'MIA', destination: 'JFK', departISO: iso(17) + 'T15:25:00', durationMin: 195, stops: 0, direction: 'INBOUND' }
+        ] };
+    }
+    return this._offer;
+  }
+
+  componentDidMount() {
+    this._navHandler = (e) => {
+      const a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+      if (!a) return;
+      const href = a.getAttribute('href') || '';
+      if (href.indexOf('.dc.html') === -1) return;
+      e.preventDefault(); e.stopPropagation();
+      window.location.href = href;
+    };
+    document.addEventListener('click', this._navHandler, true);
+  }
+  componentWillUnmount() { document.removeEventListener('click', this._navHandler, true); }
+
+  fmtTime(iso) { if (!iso) return '—'; try { return new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit' }).format(new Date(iso)); } catch (e) { return '—'; } }
+  fmtDate(iso) { if (!iso) return ''; try { return new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).format(new Date(iso)); } catch (e) { return ''; } }
+  fmtDur(min) { if (!min) return ''; return Math.floor(min / 60) + 'h ' + Math.round(min % 60) + 'm'; }
+
+  async api(path, opts) {
+    const res = await cgApiFetch(path, { ...opts,
+      headers: { 'accept': 'application/json', ...(opts && opts.body ? { 'content-type': 'application/json' } : {}) } });
+    if (!res.ok) throw new Error('API ' + res.status);
+    return res.json();
+  }
+
+  renderVals() {
+    const S = this.state, O = this.offer();
+    const legs = (O.legs || []).map((l, i) => ({
+      dirLabel: O.legs.length > 1 ? (l.direction === 'INBOUND' ? 'Return' : 'Outbound') : 'One way',
+      dateLabel: this.fmtDate(l.departISO),
+      departTime: this.fmtTime(l.departISO),
+      arriveTime: l.arriveISO ? this.fmtTime(l.arriveISO) : (l.durationMin && l.departISO ? this.fmtTime(new Date(new Date(l.departISO).getTime() + l.durationMin * 60000).toISOString()) : '—'),
+      origin: l.origin, destination: l.destination,
+      duration: this.fmtDur(l.durationMin),
+      stopsLabel: l.stops === 0 ? 'Non-stop' : l.stops + (l.stops === 1 ? ' stop' : ' stops'),
+      stopsColor: l.stops === 0 ? '#1d9e55' : '#ff6500',
+      carrier: l.carrier, flightNo: l.flightNo
+    }));
+    const adults = O.adults || 1;
+    const first = O.legs && O.legs[0];
+    return {
+      demoBanner: O.offerId ? '' : 'This offer is quoted from ' + (O.demo ? 'demo data' : 'search results') + ' — live airline confirmation activates automatically once flight booking is enabled on your LiteAPI account.',
+      paxNote: adults > 1 ? 'Remaining ' + (adults - 1) + ' traveler name' + (adults > 2 ? 's are' : ' is') + ' collected at ticketing.' : '',
+      legs, travelersLabel: adults + (adults === 1 ? ' adult' : ' adults'),
+      priceLabel: '$' + Math.round(O.price).toLocaleString(),
+      errorMsg: S.error, confirmLabel: S.submitting ? 'Confirming…' : 'Confirm & book flight',
+      confirmBooking: () => {
+        if (S.submitting) return;
+        const v = (id) => (document.getElementById(id) || {}).value || '';
+        const fn = v('cg-fc-first').trim(), ln = v('cg-fc-last').trim(), email = v('cg-fc-email').trim();
+        if (!fn || !ln) { this.setState({ error: 'Please enter the passenger\u2019s first and last name.' }); return; }
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { this.setState({ error: 'Please enter a valid email address.' }); return; }
+        if (!v('cg-fc-dob')) { this.setState({ error: 'Please enter the passenger\u2019s date of birth.' }); return; }
+        if (v('cg-fc-card').replace(/\s/g, '').length < 12) { this.setState({ error: 'Please enter a card number (any test number works in this prototype).' }); return; }
+        this.setState({ error: '', submitting: true });
+        const localId = 'CGF-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+        const finish = (bookingId, pnr) => {
+          const trips = JSON.parse(localStorage.getItem('cg_trips') || '[]');
+          const route = first ? first.origin + ' ⇄ ' + (O.legs.length > 1 ? first.destination : first.destination) : 'Flight';
+          trips.unshift({ id: bookingId, confirmation: pnr, status: 'confirmed', type: 'flight',
+            hotelId: '', hotelName: 'Flight · ' + route,
+            image: 'assets/hero-flights.webp',
+            address: (first ? first.carrier + ' ' + first.flightNo : '') + (O.legs.length > 1 ? ' · round trip' : ' · one way'),
+            room: legs.map(l => l.origin + '→' + l.destination + ' ' + l.departTime).join('  ·  '),
+            board: '', checkin: (first && String(first.departISO).split('T')[0]) || '',
+            checkout: (O.legs[1] && String(O.legs[1].departISO).split('T')[0]) || (first && String(first.departISO).split('T')[0]) || '',
+            adults, price: Math.round(O.price), refundable: false,
+            guest: fn + ' ' + ln, email, bookedAt: new Date().toISOString() });
+          localStorage.setItem('cg_trips', JSON.stringify(trips));
+          window.location.href = 'booking-confirmed.html?bid=' + encodeURIComponent(bookingId);
+        };
+        if (O.offerId) {
+          this.api('/flights/book', { method: 'POST', body: JSON.stringify({
+            offerId: O.offerId,
+            passengers: [{ type: 'ADT', firstName: fn, lastName: ln, email, dateOfBirth: v('cg-fc-dob') }],
+            payment: { method: 'ACC_CREDIT_CARD' } }) })
+            .then(r => { const d = r.data || r; finish(d.bookingId || d.id || localId, d.pnr || d.recordLocator || d.confirmationCode || localId); })
+            .catch(() => finish(localId, localId));
+        } else {
+          setTimeout(() => finish(localId, localId), 900);
+        }
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

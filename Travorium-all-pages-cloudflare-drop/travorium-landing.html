@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team Cheap Getaway — Travorium Proof Page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link rel="preconnect" href="https://player.vimeo.com">
+<link rel="preconnect" href="https://i.vimeocdn.com">
+<link rel="preconnect" href="https://f.vimeocdn.com">
+<link rel="dns-prefetch" href="https://player.vimeo.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #FDF6E3; -webkit-font-smoothing: antialiased; }
+  a { color: #1A2258; text-decoration: none; }
+  a:hover { color: #3FA9F5; }
+  ::selection { background: #1A2258; color: #FFD976; }
+  @keyframes cg-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
+  @keyframes cg-cloud { 0% { transform: translateX(-6vw); } 100% { transform: translateX(106vw); } }
+  @keyframes cg-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes cg-bob { 0%,100% { transform: rotate(-2deg) translateY(0); } 50% { transform: rotate(2deg) translateY(-10px); } }
+  @keyframes cg-wiggle { 0%,100% { transform: rotate(-1.5deg); } 50% { transform: rotate(1.5deg); } }
+  @keyframes cg-pop { 0%,100% { box-shadow: 6px 6px 0 #1A2258; transform: translate(0,0); } 50% { box-shadow: 10px 10px 0 #1A2258; transform: translate(-3px,-3px); } }
+  @keyframes cg-ping { 0% { transform: scale(0.8); opacity: 0.9; } 100% { transform: scale(1.9); opacity: 0; } }
+  [data-feed-track]::-webkit-scrollbar { display: none; }
+  /* Winners grid: keep column count a divisor of 10 so every row and column is even (no orphan card). */
+  [data-even-grid] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  @media (min-width: 960px) { [data-even-grid] { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; } }
+  @media (max-width: 560px) { [data-even-grid] { grid-template-columns: minmax(0, 1fr) !important; } }
+  /* Center video/card grids (orphan last-row cards centered instead of left-aligned). */
+  [data-center-grid] { justify-content: center; grid-template-columns: repeat(auto-fit, minmax(260px, 300px)) !important; }
+  /* Fullscreen: undo the card's tilt/rounding and show the whole (vertical) video, letterboxed. */
+  [data-feed-track] > div:fullscreen { transform: none !important; border-radius: 0 !important; }
+  [data-feed-track] > div:-webkit-full-screen { transform: none !important; border-radius: 0 !important; }
+  :fullscreen video { object-fit: contain !important; background: #000000 !important; }
+  :-webkit-full-screen video { object-fit: contain !important; background: #000000 !important; }
+  /* Hero headline: readability plate only on smaller screens (image crops to busy center there); clean on desktop */
+  @media (max-width: 1024px) {
+    [data-hero-h1] { background: rgba(255,255,255,0.72); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-radius: 20px; padding: 14px 22px; }
+  }
+  /* Mobile optimization */
+  @media (max-width: 700px) {
+    [data-hero-content] { margin-left: auto !important; margin-right: auto !important; width: calc(100vw - 20px) !important; }
+  }
+  @media (max-width: 420px) {
+    [data-story-toggle] { width: 100%; text-align: center; }
+  }
+</style>
+</helmet>
+
+<div data-screen-label="Travorium landing v2" style="font-family: 'Nunito', sans-serif; background: #FDF6E3; color: #1A2258; overflow-x: hidden; position: relative;">
+
+  <!-- ============ HEADER ============ -->
+  <header style="position: relative; z-index: 6; background: #FED770; display: flex; justify-content: center; padding: 26px min(6vw, 72px) 8px;">
+    <img src="assets/logo-cheapgetaway.png" alt="cheapgetaway.team" style="height: clamp(44px, 5vw, 64px); display: block; max-width: 90vw; object-fit: contain;">
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section data-screen-label="Hero" style="position: relative; overflow: hidden; width: 100%; min-height: clamp(500px, 41.7vw, 900px); padding-bottom: 28px; display: block;">
+    <img src="assets/hero-wide.jpg" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; z-index: 0;">
+    {{ clouds }}
+    <div data-hero-content="" style="position: relative; z-index: 3; width: min(620px, calc(100vw - 24px)); margin-left: auto; margin-right: clamp(12px, 4vw, 64px); padding: clamp(18px, 2.6vw, 44px) clamp(16px, 2vw, 32px) 0; text-align: center; display: flex; flex-direction: column; align-items: center; box-sizing: border-box;">
+      <div data-reveal="" style="display: inline-flex; align-items: center; gap: 9px; background: #FFFFFF; border: 3px solid #1A2258; border-radius: 999px; padding: 8px 16px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(11px, 1.1vw, 13px); letter-spacing: 0.05em; text-transform: uppercase; box-shadow: 5px 5px 0 #1A2258; max-width: 100%;">
+        <span style="width: 9px; height: 9px; border-radius: 50%; background: #FF6B8A; flex-shrink: 0;"></span>
+        You watched the webinar — this is the proof
+      </div>
+      <h1 data-reveal="" data-hero-h1="" style="font-family: 'Fredoka', sans-serif; font-size: clamp(34px, 4.4vw, 64px); line-height: 1.04; letter-spacing: -0.02em; font-weight: 700; margin: 20px 0 0;">
+        Everyone on this page <span style="color: #FFFFFF; text-shadow: 4px 4px 0 #1A2258; -webkit-text-stroke: 2px #1A2258;">said yes</span> to the invite you're holding.
+      </h1>
+      <p data-reveal="" style="font-size: clamp(16px, 1.5vw, 21px); line-height: 1.6; font-weight: 700; color: #1A2258; max-width: 640px; margin: 20px auto 0; background: rgba(255,255,255,0.72); backdrop-filter: blur(8px); border-radius: 20px; padding: 16px 24px;">
+        Travorium is an invite-only travel club: member pricing on hotels, resorts and cruises — plus a referral income stream for people who can't stop talking about their trips. You've seen how it works. Now watch what members actually do with it.
+      </p>
+      <div data-reveal="" style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 34px; flex-wrap: wrap;">
+        <a href="https://app.travorium.com/enroll?sponsor=106720" target="_blank" rel="noopener" style="background: #FF6B8A; color: #FFFFFF; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 19px; padding: 17px 34px; border-radius: 999px; border: 3px solid #1A2258; animation: cg-pop 2.4s ease-in-out infinite;" style-hover="background: #FF87A1; color: #FFFFFF;">{{ ctaLabel }} →</a>
+        <span style="font-size: 14px; font-weight: 800; color: #1A2258; line-height: 1.4; background: rgba(255,255,255,0.72); backdrop-filter: blur(8px); border-radius: 14px; padding: 10px 16px;">2-minute enrollment<br>You join under Team Cheap Getaway</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MARQUEE ============ -->
+  <div style="position: relative; z-index: 4; border-top: 3px solid #1A2258; border-bottom: 3px solid #1A2258; overflow: hidden; padding: 14px 0; background: #FFFFFF;">
+    {{ marquee }}
+  </div>
+
+  <!-- ============ WATCH FIRST ============ -->
+  <section data-screen-label="Watch first" style="position: relative; padding: clamp(64px, 8vw, 120px) min(6vw, 72px) 0; display: flex; flex-direction: column; align-items: center; gap: clamp(34px, 4vw, 54px);">
+    <div data-reveal="" style="max-width: 860px; text-align: center;">
+      <div style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #E2554F;">▶ One member · press play</div>
+      <h2 style="font-family: 'Fredoka', sans-serif; font-size: clamp(32px, 3.8vw, 58px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; margin: 14px 0 0;">Don't take our word for it. Take his.</h2>
+      <p style="font-size: clamp(16px, 1.3vw, 19px); line-height: 1.6; font-weight: 600; color: rgba(26,34,88,0.8); max-width: 700px; margin: 18px auto 0;">
+        He drove a city bus in Chicago before he found this travel club. Here's his story, unscripted.
+      </p>
+    </div>
+    <div data-reveal="" style="display: flex; flex-wrap: wrap; gap: clamp(24px, 3vw, 40px); justify-content: center; align-items: flex-start; width: 100%; max-width: 1040px;">
+
+      <!-- Video 1 — bus driver -->
+      <div style="flex: 1 1 400px; max-width: 500px; background: #FFFFFF; border: 4px solid #1A2258; border-radius: 24px; overflow: hidden; box-shadow: 12px 12px 0 #3EC6D0;">
+        <div style="position: relative; background: #000000; border-bottom: 4px solid #1A2258;">
+          <video src="https://pub-54b940016abb48e8954b15df69868e4c.r2.dev/cheapgetaway/testimonial-01-bus-driver.mp4#t=0.5" playsinline preload="metadata" aria-label="Former Chicago bus driver — member story" style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #000000; display: block;"></video>
+          <button data-play-overlay="" aria-label="Play video" style="position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; background: rgba(26,34,88,0.16); border: 0; padding: 0; cursor: pointer; transition: opacity 0.3s ease;"><span style="position: relative; display: flex; align-items: center; justify-content: center; width: clamp(56px, 24%, 78px); height: clamp(56px, 24%, 78px);"><span style="position: absolute; inset: 0; border-radius: 50%; border: 3px solid rgba(255,255,255,0.9); animation: cg-ping 1.8s cubic-bezier(0,0,0.2,1) infinite;"></span><span style="position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%; background: #FFFFFF; box-shadow: 0 6px 20px rgba(26,34,88,0.45);"><span style="display: block; width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 20px solid #1A2258; margin-left: 5px;"></span></span></span></button>
+        </div>
+        <div style="padding: 16px 20px 20px;">
+          <div style="display: inline-block; background: #FFD976; color: #1A2258; border: 2px solid #1A2258; border-radius: 999px; padding: 5px 13px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;">Former Chicago bus driver</div>
+          <div style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(17px, 1.5vw, 20px); color: #1A2258; line-height: 1.25; margin-top: 12px;">He traded the bus route for a passport. If he can build this, so can you.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 03 — CASE STUDY: JULIAN BERNARD ============ -->
+  <section data-screen-label="01 Case Study Julian Bernard" style="position: relative; margin-top: clamp(72px, 9vw, 130px); background: #3EC6D0; border-top: 4px solid #1A2258; border-bottom: 4px solid #1A2258; padding: clamp(72px, 9vw, 120px) min(6vw, 72px); overflow: hidden;">
+
+    <!-- header -->
+    <div data-reveal="" style="display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; border-bottom: 3px solid #1A2258; padding-bottom: 18px;">
+      <span style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 42px); color: #FFD976; -webkit-text-stroke: 2px #1A2258; text-shadow: 3px 3px 0 #1A2258;">01</span>
+      <h2 style="font-family: 'Fredoka', sans-serif; font-size: clamp(28px, 3.4vw, 52px); font-weight: 700; letter-spacing: -0.02em; margin: 0;">Case study: Julian Bernard</h2>
+      <span style="margin-left: auto; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.65);">The earner</span>
+    </div>
+
+    <!-- the story, short -->
+    <div style="display: flex; flex-wrap: wrap; gap: clamp(32px, 5vw, 72px); align-items: center; justify-content: center; margin-top: clamp(36px, 4vw, 56px);">
+      <div data-reveal="" style="flex: 1 1 460px; min-width: 0;">
+        <div style="font-family: 'Fredoka', sans-serif; font-size: clamp(34px, 4.2vw, 64px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05;">
+          <span style="color: #FFD976; -webkit-text-stroke: 2px #1A2258; text-shadow: 4px 4px 0 #1A2258;">$10K a month</span>, recurring. And Ambassador in under 90 days.
+        </div>
+        <p style="font-size: clamp(16px, 1.3vw, 19px); font-weight: 600; line-height: 1.6; color: rgba(26,34,88,0.85); max-width: 620px; margin: 24px 0 0;">
+          Julian Bernard started at a cell-phone kiosk in the middle of a mall, where even owning the whole thing wouldn't have paid what he wanted. He got coachable, leaned on his team, and hit Ambassador — the company's top rank — in under 90 days. Today he makes about $10,000 a month, recurring, from the people who followed him in.
+        </p>
+        <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-top: 28px;">
+          <div style="background: #FFFFFF; border: 3px solid #1A2258; border-radius: 18px; padding: 16px 22px; box-shadow: 6px 6px 0 #1A2258; transform: rotate(-1deg);">
+            <div style="font-family: 'Fredoka', sans-serif; font-size: 26px; font-weight: 700;">&lt; 90 days</div>
+            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 800; color: rgba(26,34,88,0.6);">to Ambassador rank</div>
+          </div>
+          <div style="background: #FFFFFF; border: 3px solid #1A2258; border-radius: 18px; padding: 16px 22px; box-shadow: 6px 6px 0 #1A2258; transform: rotate(1deg);">
+            <div style="font-family: 'Fredoka', sans-serif; font-size: 26px; font-weight: 700;">$10K / mo</div>
+            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 800; color: rgba(26,34,88,0.6);">recurring, self-reported</div>
+          </div>
+          <div style="background: #FFFFFF; border: 3px solid #1A2258; border-radius: 18px; padding: 16px 22px; box-shadow: 6px 6px 0 #1A2258; transform: rotate(-0.6deg);">
+            <div style="font-family: 'Fredoka', sans-serif; font-size: 26px; font-weight: 700;">$0</div>
+            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 800; color: rgba(26,34,88,0.6);">membership since day one</div>
+          </div>
+        </div>
+      </div>
+      <div data-reveal="" style="flex: 1 1 290px; width: 100%; max-width: 380px; animation: cg-float 7s ease-in-out infinite;">
+        <div style="position: relative; aspect-ratio: 9 / 16; border-radius: 28px; overflow: hidden; border: 4px solid #1A2258; background: #FFFFFF; box-shadow: 12px 12px 0 #FFD976;">
+          <video src="https://pub-54b940016abb48e8954b15df69868e4c.r2.dev/cheapgetaway/casestudy-julian-bernard-the-win__ig-DX4nt57zYsQ.mp4#t=0.1" title="Julian Bernard — the win" playsinline preload="metadata" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: #000000;"></video><button data-play-overlay="" aria-label="Play video" style="position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; background: rgba(26,34,88,0.16); border: 0; padding: 0; cursor: pointer; transition: opacity 0.3s ease;"><span style="position: relative; display: flex; align-items: center; justify-content: center; width: clamp(56px, 24%, 78px); height: clamp(56px, 24%, 78px);"><span style="position: absolute; inset: 0; border-radius: 50%; border: 3px solid rgba(255,255,255,0.9); animation: cg-ping 1.8s cubic-bezier(0,0,0.2,1) infinite;"></span><span style="position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%; background: #FFFFFF; box-shadow: 0 6px 20px rgba(26,34,88,0.45);"><span style="display: block; width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 20px solid #1A2258; margin-left: 5px;"></span></span></span></button>
+        </div>
+        <div style="text-align: center; margin-top: 12px; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.7);">Julian, sharing the win</div>
+      </div>
+    </div>
+
+    <!-- see it in his own words: small presentation card, like Larisa's -->
+    <div data-reveal="" style="max-width: 360px; margin: clamp(44px, 5vw, 64px) auto 0;">
+      <div style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #FFD976; transform: rotate(-0.9deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
+        <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="6K7PQDGwU7A" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/6K7PQDGwU7A/hqdefault.jpg" alt="Julian Bernard — the full presentation" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">The full presentation</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #FF6B8A; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Watch</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 02 — THE FEED ============ -->
+  <section data-screen-label="02 The Feed" style="position: relative; padding: clamp(72px, 9vw, 130px) min(6vw, 72px) 0;">
+    <div data-reveal="" style="display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; border-bottom: 3px solid #1A2258; padding-bottom: 18px;">
+      <span style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 42px); color: #FFFFFF; -webkit-text-stroke: 2px #1A2258; text-shadow: 3px 3px 0 #1A2258;">02</span>
+      <h2 style="font-family: 'Fredoka', sans-serif; font-size: clamp(28px, 3.4vw, 52px); font-weight: 700; letter-spacing: -0.02em; margin: 0;">This is what members post</h2>
+      <span style="margin-left: auto; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.6);">The feed</span>
+    </div>
+    <p data-reveal="" style="font-size: clamp(16px, 1.3vw, 19px); font-weight: 600; line-height: 1.6; color: rgba(26,34,88,0.8); max-width: 720px; margin: 24px 0 0;">
+      Not stock photos. Not renders. Members' own reels from trips the club made affordable — and every one of these people started exactly where you are: at the end of a webinar.
+    </p>
+    <div data-reveal="" style="position: relative; margin-top: 34px;">
+      <div data-feed-track="" style="display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 16px 6px 26px; -webkit-overflow-scrolling: touch; scrollbar-width: none;">
+        <div style="flex: 0 0 auto; width: clamp(240px, 72vw, 288px); scroll-snap-align: center; position: relative; aspect-ratio: 9 / 16; border-radius: 26px; overflow: hidden; border: 4px solid #1A2258; background: #000000; box-shadow: 9px 9px 0 #FFD976; transform: rotate(-1.1deg);">
+          <video src="https://pub-54b940016abb48e8954b15df69868e4c.r2.dev/cheapgetaway/One%20of%20us%20lives%20in%20reality%E2%80%A6%20try%20to%20guess%20who%20%F0%9F%98%9C%E2%AC%87%EF%B8%8F.mp4#t=0.1" title="Member travel reel" playsinline preload="metadata" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: #000000;"></video><button data-play-overlay="" aria-label="Play video" style="position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; background: rgba(26,34,88,0.16); border: 0; padding: 0; cursor: pointer; transition: opacity 0.3s ease;"><span style="position: relative; display: flex; align-items: center; justify-content: center; width: clamp(56px, 24%, 78px); height: clamp(56px, 24%, 78px);"><span style="position: absolute; inset: 0; border-radius: 50%; border: 3px solid rgba(255,255,255,0.9); animation: cg-ping 1.8s cubic-bezier(0,0,0.2,1) infinite;"></span><span style="position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%; background: #FFFFFF; box-shadow: 0 6px 20px rgba(26,34,88,0.45);"><span style="display: block; width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 20px solid #1A2258; margin-left: 5px;"></span></span></span></button>
+        </div>
+        <div style="flex: 0 0 auto; width: clamp(240px, 72vw, 288px); scroll-snap-align: center; position: relative; aspect-ratio: 9 / 16; border-radius: 26px; overflow: hidden; border: 4px solid #1A2258; background: #FFFFFF; box-shadow: 9px 9px 0 #3EC6D0; transform: rotate(1deg);">
+          <video src="https://pub-54b940016abb48e8954b15df69868e4c.r2.dev/cheapgetaway/feed-02__ig-DQRUL6ukQOZ.mp4#t=0.1" title="Member travel reel" playsinline preload="metadata" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: #000000;"></video><button data-play-overlay="" aria-label="Play video" style="position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; background: rgba(26,34,88,0.16); border: 0; padding: 0; cursor: pointer; transition: opacity 0.3s ease;"><span style="position: relative; display: flex; align-items: center; justify-content: center; width: clamp(56px, 24%, 78px); height: clamp(56px, 24%, 78px);"><span style="position: absolute; inset: 0; border-radius: 50%; border: 3px solid rgba(255,255,255,0.9); animation: cg-ping 1.8s cubic-bezier(0,0,0.2,1) infinite;"></span><span style="position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%; background: #FFFFFF; box-shadow: 0 6px 20px rgba(26,34,88,0.45);"><span style="display: block; width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 20px solid #1A2258; margin-left: 5px;"></span></span></span></button>
+        </div>
+        <div style="flex: 0 0 auto; width: clamp(240px, 72vw, 288px); scroll-snap-align: center; position: relative; aspect-ratio: 9 / 16; border-radius: 26px; overflow: hidden; border: 4px solid #1A2258; background: #FFFFFF; box-shadow: 9px 9px 0 #58B368; transform: rotate(-0.7deg);">
+          <video src="https://pub-54b940016abb48e8954b15df69868e4c.r2.dev/cheapgetaway/feed-03__ig-DW2HJCbAtDi.mp4#t=0.1" title="Member travel reel" playsinline preload="metadata" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: #000000;"></video><button data-play-overlay="" aria-label="Play video" style="position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; background: rgba(26,34,88,0.16); border: 0; padding: 0; cursor: pointer; transition: opacity 0.3s ease;"><span style="position: relative; display: flex; align-items: center; justify-content: center; width: clamp(56px, 24%, 78px); height: clamp(56px, 24%, 78px);"><span style="position: absolute; inset: 0; border-radius: 50%; border: 3px solid rgba(255,255,255,0.9); animation: cg-ping 1.8s cubic-bezier(0,0,0.2,1) infinite;"></span><span style="position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%; background: #FFFFFF; box-shadow: 0 6px 20px rgba(26,34,88,0.45);"><span style="display: block; width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 20px solid #1A2258; margin-left: 5px;"></span></span></span></button>
+        </div>
+        <div style="flex: 0 0 auto; width: clamp(240px, 72vw, 288px); scroll-snap-align: center; position: relative; aspect-ratio: 9 / 16; border-radius: 26px; overflow: hidden; border: 4px solid #1A2258; background: #FFFFFF; box-shadow: 9px 9px 0 #FF6B8A; transform: rotate(0.8deg);">
+          <video src="https://pub-54b940016abb48e8954b15df69868e4c.r2.dev/cheapgetaway/feed-04__ig-DTuf4DbCtjR.mp4#t=0.1" title="Member travel reel" playsinline preload="metadata" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: #000000;"></video><button data-play-overlay="" aria-label="Play video" style="position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; background: rgba(26,34,88,0.16); border: 0; padding: 0; cursor: pointer; transition: opacity 0.3s ease;"><span style="position: relative; display: flex; align-items: center; justify-content: center; width: clamp(56px, 24%, 78px); height: clamp(56px, 24%, 78px);"><span style="position: absolute; inset: 0; border-radius: 50%; border: 3px solid rgba(255,255,255,0.9); animation: cg-ping 1.8s cubic-bezier(0,0,0.2,1) infinite;"></span><span style="position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%; background: #FFFFFF; box-shadow: 0 6px 20px rgba(26,34,88,0.45);"><span style="display: block; width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 20px solid #1A2258; margin-left: 5px;"></span></span></span></button>
+        </div>
+        <div style="flex: 0 0 auto; width: clamp(240px, 72vw, 288px); scroll-snap-align: center; position: relative; aspect-ratio: 9 / 16; border-radius: 26px; overflow: hidden; border: 4px solid #1A2258; background: #000000; box-shadow: 9px 9px 0 #3EC6D0; transform: rotate(-0.9deg);">
+          <video src="https://pub-54b940016abb48e8954b15df69868e4c.r2.dev/cheapgetaway/feed-05__fb-1589048961871368.mp4#t=0.1" title="Member travel reel" playsinline preload="metadata" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: #000000;"></video><button data-play-overlay="" aria-label="Play video" style="position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; background: rgba(26,34,88,0.16); border: 0; padding: 0; cursor: pointer; transition: opacity 0.3s ease;"><span style="position: relative; display: flex; align-items: center; justify-content: center; width: clamp(56px, 24%, 78px); height: clamp(56px, 24%, 78px);"><span style="position: absolute; inset: 0; border-radius: 50%; border: 3px solid rgba(255,255,255,0.9); animation: cg-ping 1.8s cubic-bezier(0,0,0.2,1) infinite;"></span><span style="position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%; background: #FFFFFF; box-shadow: 0 6px 20px rgba(26,34,88,0.45);"><span style="display: block; width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 20px solid #1A2258; margin-left: 5px;"></span></span></span></button>
+        </div>
+        <div style="flex: 0 0 auto; width: clamp(240px, 72vw, 288px); scroll-snap-align: center; position: relative; aspect-ratio: 9 / 16; border-radius: 26px; overflow: hidden; border: 4px solid #1A2258; background: #000000; box-shadow: 9px 9px 0 #3FA9F5; transform: rotate(-0.8deg);">
+          <video src="https://pub-54b940016abb48e8954b15df69868e4c.r2.dev/cheapgetaway/feed-07__fb-1159425545221176.mp4#t=0.1" title="Member travel reel" playsinline preload="metadata" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: #000000;"></video><button data-play-overlay="" aria-label="Play video" style="position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; background: rgba(26,34,88,0.16); border: 0; padding: 0; cursor: pointer; transition: opacity 0.3s ease;"><span style="position: relative; display: flex; align-items: center; justify-content: center; width: clamp(56px, 24%, 78px); height: clamp(56px, 24%, 78px);"><span style="position: absolute; inset: 0; border-radius: 50%; border: 3px solid rgba(255,255,255,0.9); animation: cg-ping 1.8s cubic-bezier(0,0,0.2,1) infinite;"></span><span style="position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%; background: #FFFFFF; box-shadow: 0 6px 20px rgba(26,34,88,0.45);"><span style="display: block; width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 20px solid #1A2258; margin-left: 5px;"></span></span></span></button>
+        </div>
+        <div style="flex: 0 0 auto; width: clamp(240px, 72vw, 288px); scroll-snap-align: center; position: relative; aspect-ratio: 9 / 16; border-radius: 26px; overflow: hidden; border: 4px solid #1A2258; background: #000000; box-shadow: 9px 9px 0 #FF6B8A; transform: rotate(0.9deg);">
+          <video src="https://pub-54b940016abb48e8954b15df69868e4c.r2.dev/cheapgetaway/2_woman-waikiki-hawaii.mp4#t=0.3" title="Member travel reel" playsinline preload="metadata" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: #000000;"></video><button data-play-overlay="" aria-label="Play video" style="position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; background: rgba(26,34,88,0.16); border: 0; padding: 0; cursor: pointer; transition: opacity 0.3s ease;"><span style="position: relative; display: flex; align-items: center; justify-content: center; width: clamp(56px, 24%, 78px); height: clamp(56px, 24%, 78px);"><span style="position: absolute; inset: 0; border-radius: 50%; border: 3px solid rgba(255,255,255,0.9); animation: cg-ping 1.8s cubic-bezier(0,0,0.2,1) infinite;"></span><span style="position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%; background: #FFFFFF; box-shadow: 0 6px 20px rgba(26,34,88,0.45);"><span style="display: block; width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 20px solid #1A2258; margin-left: 5px;"></span></span></span></button>
+        </div>
+        <div style="flex: 0 0 auto; width: clamp(240px, 72vw, 288px); scroll-snap-align: center; position: relative; aspect-ratio: 9 / 16; border-radius: 26px; overflow: hidden; border: 4px solid #1A2258; background: #000000; box-shadow: 9px 9px 0 #3EC6D0; transform: rotate(-0.9deg);">
+          <video src="https://pub-54b940016abb48e8954b15df69868e4c.r2.dev/cheapgetaway/3_danny-bora-bora-room-tour.mp4#t=0.3" title="Member travel reel" playsinline preload="metadata" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: #000000;"></video><button data-play-overlay="" aria-label="Play video" style="position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; background: rgba(26,34,88,0.16); border: 0; padding: 0; cursor: pointer; transition: opacity 0.3s ease;"><span style="position: relative; display: flex; align-items: center; justify-content: center; width: clamp(56px, 24%, 78px); height: clamp(56px, 24%, 78px);"><span style="position: absolute; inset: 0; border-radius: 50%; border: 3px solid rgba(255,255,255,0.9); animation: cg-ping 1.8s cubic-bezier(0,0,0.2,1) infinite;"></span><span style="position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%; background: #FFFFFF; box-shadow: 0 6px 20px rgba(26,34,88,0.45);"><span style="display: block; width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 20px solid #1A2258; margin-left: 5px;"></span></span></span></button>
+        </div>
+        <div style="flex: 0 0 auto; width: clamp(240px, 72vw, 288px); scroll-snap-align: center; position: relative; aspect-ratio: 9 / 16; border-radius: 26px; overflow: hidden; border: 4px solid #1A2258; background: #000000; box-shadow: 9px 9px 0 #58B368; transform: rotate(0.8deg);">
+          <video src="https://pub-54b940016abb48e8954b15df69868e4c.r2.dev/cheapgetaway/4_ina-ukraine-canada-testimonial.mp4#t=0.3" title="Member travel reel" playsinline preload="metadata" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: #000000;"></video><button data-play-overlay="" aria-label="Play video" style="position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; background: rgba(26,34,88,0.16); border: 0; padding: 0; cursor: pointer; transition: opacity 0.3s ease;"><span style="position: relative; display: flex; align-items: center; justify-content: center; width: clamp(56px, 24%, 78px); height: clamp(56px, 24%, 78px);"><span style="position: absolute; inset: 0; border-radius: 50%; border: 3px solid rgba(255,255,255,0.9); animation: cg-ping 1.8s cubic-bezier(0,0,0.2,1) infinite;"></span><span style="position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%; background: #FFFFFF; box-shadow: 0 6px 20px rgba(26,34,88,0.45);"><span style="display: block; width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 20px solid #1A2258; margin-left: 5px;"></span></span></span></button>
+        </div>
+      </div>
+      <button onClick="{{ feedPrev }}" aria-label="Previous reels" style="position: absolute; top: 50%; left: -6px; transform: translateY(-50%); z-index: 5; width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; border: 3px solid #1A2258; box-shadow: 4px 4px 0 #1A2258; color: #1A2258; font-family: 'Fredoka', sans-serif; font-size: 30px; font-weight: 700; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0 4px 3px 0;" style-hover="background: #FFD976; color: #1A2258;">‹</button>
+      <button onClick="{{ feedNext }}" aria-label="Next reels" style="position: absolute; top: 50%; right: -6px; transform: translateY(-50%); z-index: 5; width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; border: 3px solid #1A2258; box-shadow: 4px 4px 0 #1A2258; color: #1A2258; font-family: 'Fredoka', sans-serif; font-size: 30px; font-weight: 700; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0 0 3px 4px;" style-hover="background: #FFD976; color: #1A2258;">›</button>
+    </div>
+    <div data-reveal="" style="display: flex; justify-content: center; margin-top: 44px;">
+      <a href="https://app.travorium.com/enroll?sponsor=106720" target="_blank" rel="noopener" style="background: #FFFFFF; color: #1A2258; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px; padding: 15px 30px; border-radius: 999px; border: 3px solid #1A2258; box-shadow: 6px 6px 0 #1A2258;" style-hover="transform: translate(-2px,-2px); color: #1A2258; box-shadow: 8px 8px 0 #1A2258;">Trade your feed for a passport → {{ ctaLabel }}</a>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 04 — LARISA BERG ============ -->
+  <section data-screen-label="03 Case Study Larisa Berg" style="position: relative; margin-top: clamp(72px, 9vw, 130px); background: #1A2258; border-top: 4px solid #1A2258; border-bottom: 4px solid #1A2258; padding: clamp(72px, 9vw, 120px) min(6vw, 72px); overflow: hidden;">
+
+    <!-- header -->
+    <div data-reveal="" style="display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; border-bottom: 3px solid rgba(255,217,118,0.4); padding-bottom: 18px;">
+      <span style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 42px); color: #FFD976; text-shadow: 3px 3px 0 #0E1440;">03</span>
+      <h2 style="font-family: 'Fredoka', sans-serif; font-size: clamp(28px, 3.4vw, 52px); font-weight: 700; letter-spacing: -0.02em; margin: 0; color: #FDF6E3;">Case study: Larisa Berg</h2>
+      <span style="margin-left: auto; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 800; color: rgba(253,246,227,0.55);">The one who went all in</span>
+    </div>
+
+    <!-- hook -->
+    <div data-reveal="" style="max-width: 1000px; margin: clamp(34px, 4vw, 52px) 0 0;">
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 22px;">
+        <span style="background:#FFD976; color:#1A2258; border:2px solid #0E1440; border-radius:999px; padding:5px 13px;">Mother of eight</span>
+        <span style="background:#3EC6D0; color:#1A2258; border:2px solid #0E1440; border-radius:999px; padding:5px 13px;">Ex coffee-shop owner</span>
+        <span style="background:#FF6B8A; color:#FFFFFF; border:2px solid #0E1440; border-radius:999px; padding:5px 13px;">Three-Star Ambassador</span>
+      </div>
+      <h3 style="font-family: 'Fredoka', sans-serif; font-size: clamp(30px, 4.2vw, 62px); line-height: 1.04; letter-spacing: -0.02em; font-weight: 700; margin: 0; color: #FDF6E3; text-wrap: pretty;">
+        Larisa woke at 4am to bake the bread for her own shop. Today, the company pays her <span style="color:#FFD976;">$20,000 a month</span> — on the days she works and the days she doesn't.
+      </h3>
+    </div>
+
+    <!-- before + turning point -->
+    <div style="display:flex; flex-wrap:wrap; gap: clamp(32px,5vw,64px); align-items:flex-start; margin-top: clamp(40px,5vw,60px);">
+      <div data-reveal="" style="flex: 1 1 440px; min-width:0;">
+        <p style="font-size: clamp(16px,1.3vw,19px); line-height:1.65; font-weight:600; color: rgba(253,246,227,0.82); margin:0;">
+          Before Travorium, Larisa wasn't chasing a shortcut. She already owned the hard version of the dream — a little coffee shop and a bakery on the island of Hawaii, eight kids at home, a husband running his own construction company across the resorts.
+        </p>
+        <p style="font-size: clamp(16px,1.3vw,19px); line-height:1.65; font-weight:600; color: rgba(253,246,227,0.82); margin:16px 0 0;">
+          Every morning started at four — sometimes three — to get the baking done. Loans. Payroll. Two years before the shop paid her a dime. And the trap she could never get out of:
+        </p>
+        <p style="font-size: clamp(17px,1.4vw,21px); line-height:1.5; font-weight:700; color:#FDF6E3; margin:20px 0 0; border-left:4px solid #FF6B8A; padding-left:18px;">
+          “I open my doors, I do the sales, I close my doors. That means — no more sales.”
+        </p>
+        <p style="font-size: clamp(16px,1.3vw,19px); line-height:1.65; font-weight:600; color: rgba(253,246,227,0.82); margin:22px 0 0;">
+          Then a friend called. Her husband nudged her — <em>“let's just try it.”</em> She opened the compensation plan, and one idea rewired how she thought about work for good.
+        </p>
+      </div>
+      <div data-reveal="" style="flex: 1 1 300px; width:100%; max-width:400px; animation: cg-float 7s ease-in-out infinite;">
+        <div style="background:#FFFFFF; border:4px solid #0E1440; border-radius:24px; overflow:hidden; box-shadow:12px 12px 0 #3EC6D0;">
+          <div style="padding:20px 24px; border-bottom:3px solid #1A2258;">
+            <div style="font-size:12px; letter-spacing:0.12em; text-transform:uppercase; font-weight:800; color:#FF6B8A;">Before</div>
+            <div style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:17px; color:#1A2258; margin-top:6px; line-height:1.35;">4am shifts · a bakery · a coffee shop · eight kids · two years to her first paycheck</div>
+          </div>
+          <div style="text-align:center; font-size:26px; color:#3EC6D0; padding:6px 0; background:#FDF6E3; border-bottom:3px solid #1A2258;">↓</div>
+          <div style="padding:20px 24px; background:#FFD976;">
+            <div style="font-size:12px; letter-spacing:0.12em; text-transform:uppercase; font-weight:800; color:#1A2258;">Now</div>
+            <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:20px; color:#1A2258; margin-top:6px; line-height:1.3;">$20,000 a month, paid whether she works or not — and the businesses? Sold.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- mechanism pull quote -->
+    <div data-reveal="" style="max-width: 960px; margin: clamp(56px,7vw,92px) auto 0; text-align:center;">
+      <div style="font-family:'Fredoka',sans-serif; font-size:clamp(56px,8vw,110px); line-height:0.7; color:#FFD976; opacity:0.45;">“</div>
+      <blockquote style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(28px,4vw,52px); line-height:1.12; letter-spacing:-0.02em; color:#FFD976; margin:0;">
+        I do sales once. But I get paid every single day, every single week, every single month.
+      </blockquote>
+      <div style="margin-top:20px; font-size:14px; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:rgba(253,246,227,0.7);">— Larisa Berg</div>
+      <p style="font-size:clamp(15px,1.25vw,18px); line-height:1.6; font-weight:600; color:rgba(253,246,227,0.78); max-width:640px; margin:24px auto 0;">
+        Think of it like Netflix. Netflix doesn't check whether you watched before it charges you — you're paying for the service. Same here: the company pays because there's a real member on the other end, not because anyone's on a plane that week.
+      </p>
+    </div>
+
+    <!-- proof stats -->
+    <div data-reveal="" style="display:flex; gap:16px; flex-wrap:wrap; justify-content:center; margin-top: clamp(48px,6vw,72px);">
+      <div style="background:#FFFFFF; border:3px solid #0E1440; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #3EC6D0; transform:rotate(-1.5deg); min-width:150px;">
+        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">$20K<span style="font-size:0.5em; font-weight:600;">/mo</span></div>
+        <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">residual + bonuses</div>
+      </div>
+      <div style="background:#FFFFFF; border:3px solid #0E1440; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #FF6B8A; transform:rotate(1.2deg); min-width:150px;">
+        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">~9<span style="font-size:0.5em; font-weight:600;"> mo</span></div>
+        <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">to replace family income</div>
+      </div>
+      <div style="background:#FFFFFF; border:3px solid #0E1440; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #58B368; transform:rotate(-0.8deg); min-width:150px;">
+        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">~$2M</div>
+        <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">paid out in &lt;3 years*</div>
+      </div>
+      <div style="background:#FFFFFF; border:3px solid #0E1440; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #3FA9F5; transform:rotate(1deg); min-width:150px;">
+        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">20K+</div>
+        <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">partners on their team*</div>
+      </div>
+      <div style="background:#FFFFFF; border:3px solid #0E1440; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #FFD976; transform:rotate(-1.1deg); min-width:150px;">
+        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">3★</div>
+        <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">Ambassador rank today</div>
+      </div>
+    </div>
+    <p data-reveal="" style="text-align:center; font-size:12px; font-weight:700; color:rgba(253,246,227,0.5); max-width:700px; margin:20px auto 0; line-height:1.5;">
+      *Larisa &amp; Igor combined. Every figure here is Larisa's own account of her results and timeline. Individual results vary and are not typical or guaranteed.
+    </p>
+
+    <!-- why she went all in -->
+    <div data-reveal="" style="margin-top: clamp(56px,7vw,92px);">
+      <h3 style="font-family:'Fredoka',sans-serif; font-size:clamp(24px,2.8vw,40px); font-weight:700; letter-spacing:-0.02em; color:#FDF6E3; margin:0 0 6px; text-align:center;">Why she went all in</h3>
+      <p style="text-align:center; font-size:clamp(15px,1.2vw,18px); font-weight:600; color:rgba(253,246,227,0.7); margin:0 auto 32px; max-width:560px;">Four reasons — and every one of them is on the table for you, on the exact same terms.</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:20px;">
+        <div style="background:#FFFFFF; border:3px solid #0E1440; border-radius:20px; padding:24px; box-shadow:7px 7px 0 #FFD976; transform:rotate(-0.8deg);">
+          <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">The work happens once</div>
+          <p style="font-size:15px; line-height:1.55; font-weight:600; color:rgba(26,34,88,0.78); margin:0;">Book a trip, post what you saved. The referral income keeps paying long after you've unpacked.</p>
+        </div>
+        <div style="background:#FFFFFF; border:3px solid #0E1440; border-radius:20px; padding:24px; box-shadow:7px 7px 0 #3EC6D0; transform:rotate(0.7deg);">
+          <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">She travels for pocket change</div>
+          <p style="font-size:15px; line-height:1.55; font-weight:600; color:rgba(26,34,88,0.78); margin:0;">Vegas, 5 nights, $98. Dubai, 6 nights, 5-star, about $31 in points. One booking beat the public sites by roughly $3,000.</p>
+        </div>
+        <div style="background:#FFFFFF; border:3px solid #0E1440; border-radius:20px; padding:24px; box-shadow:7px 7px 0 #FF6B8A; transform:rotate(-0.6deg);">
+          <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">No contract, ever</div>
+          <p style="font-size:15px; line-height:1.55; font-weight:600; color:rgba(26,34,88,0.78); margin:0;">Keep your job. Treat it as Plan B. Larisa's Plan B quietly became Plan A — then she sold the businesses.</p>
+        </div>
+        <div style="background:#FFFFFF; border:3px solid #0E1440; border-radius:20px; padding:24px; box-shadow:7px 7px 0 #58B368; transform:rotate(0.9deg);">
+          <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">It pays for itself</div>
+          <p style="font-size:15px; line-height:1.55; font-weight:600; color:rgba(26,34,88,0.78); margin:0;">Refer three friends who love it and the company covers your monthly. She hasn't paid for hers in three years.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- the why: seven kids -->
+    <div data-reveal="" style="max-width:820px; margin:clamp(56px,7vw,92px) auto 0; text-align:center;">
+      <div style="font-size:13px; letter-spacing:0.12em; text-transform:uppercase; font-weight:800; color:#FFD976; margin-bottom:14px;">Her real why</div>
+      <p style="font-size:clamp(16px,1.3vw,19px); font-weight:600; color:rgba(253,246,227,0.82); margin:0;">Ask Larisa what keeps her going and she won't say money. She'll say her eight kids.</p>
+      <blockquote style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(24px,3vw,42px); line-height:1.16; letter-spacing:-0.02em; color:#FDF6E3; margin:20px 0 0;">“My kids are not an excuse not to win. They are the reason I'm winning.”</blockquote>
+      <p style="font-size:clamp(15px,1.2vw,18px); font-weight:600; color:rgba(253,246,227,0.72); margin:20px auto 0; max-width:600px;">It's the one thing she tells everyone who starts: know your why. Once you know it, a “no” stops being a wall.</p>
+    </div>
+
+    <!-- close: why not you -->
+    <div data-reveal="" style="max-width:860px; margin:clamp(56px,7vw,88px) auto 0; text-align:center; border-top:3px solid rgba(255,217,118,0.4); padding-top:clamp(40px,5vw,60px);">
+      <p style="font-size:clamp(16px,1.3vw,19px); font-weight:600; line-height:1.65; color:rgba(253,246,227,0.82); margin:0;">She tells one story more than any other. A woman in her seventies who'd worked fifty years. Larisa asked what her boss had ever given her for it. Nothing. Empty eyes — and one question: <em>“Why didn't I hear about this before?”</em></p>
+      <h3 style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(28px,3.8vw,52px); line-height:1.08; letter-spacing:-0.02em; color:#FDF6E3; margin:26px 0 0; text-wrap:pretty;">If somebody out there could do this — <span style="color:#FFD976;">why not you?</span></h3>
+      <div style="margin-top:34px; display:flex; flex-direction:column; align-items:center; gap:14px;">
+        <a href="https://app.travorium.com/enroll?sponsor=106720" target="_blank" rel="noopener" style="background:#FFD976; color:#1A2258; font-family:'Fredoka',sans-serif; font-weight:600; font-size:clamp(18px,1.6vw,22px); padding:18px 40px; border-radius:999px; border:3px solid #0E1440; box-shadow:7px 7px 0 #FF6B8A;" style-hover="transform:translate(-2px,-2px); color:#1A2258; box-shadow:9px 9px 0 #FF6B8A;">{{ ctaLabel }} →</a>
+        <span style="font-size:13px; font-weight:700; color:rgba(253,246,227,0.6);">Same terms she started on · No contract · You join under Team Cheap Getaway</span>
+      </div>
+    </div>
+
+    <!-- see it in her own words -->
+    <h3 data-reveal="" style="font-family:'Fredoka',sans-serif; font-size:clamp(22px,2.6vw,36px); font-weight:700; letter-spacing:-0.02em; color:#FDF6E3; margin:clamp(56px,7vw,88px) 0 0; text-align:center;">See it in her own words</h3>
+    <div data-center-grid="" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 26px; margin-top: 34px;">
+      <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #FF6B8A; transform: rotate(-0.9deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
+        <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="ml3r9HYHqFM" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/ml3r9HYHqFM/hqdefault.jpg" alt="Larisa Berg — recognized on stage" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Larisa — awarded on stage</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #FF6B8A; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">English</span></div>
+      </div>
+      <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #58B368; transform: rotate(-0.7deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
+        <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="OlkLpr092kA" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/OlkLpr092kA/hqdefault.jpg" alt="Larisa presenting the business" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Larisa presenting the business</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">English</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 01 — WINNERS ============ -->
+  <section data-screen-label="04 Stories winners" style="position: relative; padding: clamp(72px, 9vw, 130px) min(6vw, 72px) 0;">
+    <div data-reveal="" style="display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; border-bottom: 3px solid #1A2258; padding-bottom: 18px;">
+      <span style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 42px); color: #FFFFFF; -webkit-text-stroke: 2px #1A2258; text-shadow: 3px 3px 0 #1A2258;">04</span>
+      <h2 style="font-family: 'Fredoka', sans-serif; font-size: clamp(28px, 3.4vw, 52px); font-weight: 700; letter-spacing: -0.02em; margin: 0;">Travorium Stories winners</h2>
+      <span style="margin-left: auto; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.6);">Real members · real trips</span>
+    </div>
+    <p data-reveal="" style="font-size: clamp(16px, 1.3vw, 19px); font-weight: 600; line-height: 1.6; color: rgba(26,34,88,0.8); max-width: 720px; margin: 24px 0 0;">
+      Every month the club awards a member who filmed their trip. Ten straight months of winners below — filmed by them, awarded by the club.
+    </p>
+    <div data-even-grid="" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 26px; margin-top: 34px;">
+      <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #3EC6D0; transform: rotate(-1deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
+        <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="IindnsObnhU" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/IindnsObnhU/hqdefault.jpg" alt="Cindy Cachin — Málaga" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Cindy Cachin</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Málaga</span></div>
+      </div>
+      <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #FF6B8A; transform: rotate(1.2deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
+        <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="B_zZRg7ejqI" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/B_zZRg7ejqI/hqdefault.jpg" alt="Cholpon — Sri Lanka" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Cholpon</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Sri Lanka</span></div>
+      </div>
+      <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #58B368; transform: rotate(-0.8deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
+        <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="iqhoh10jFbw" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/iqhoh10jFbw/hqdefault.jpg" alt="Ainur Zhaliybayeva — New Orleans" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Ainur Zhaliybayeva</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">New Orleans</span></div>
+      </div>
+      <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #FF6B8A; transform: rotate(0.9deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
+        <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="V-i7hKt8daQ" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/V-i7hKt8daQ/hqdefault.jpg" alt="Sibel Yilmaz — Budapest" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Sibel Yilmaz</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Budapest</span></div>
+      </div>
+      <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #58B368; transform: rotate(-1.1deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
+        <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="cM25ZdxohQ8" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/cM25ZdxohQ8/hqdefault.jpg" alt="Keith Brown — Venice" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Keith Brown</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Venice</span></div>
+      </div>
+      <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #3EC6D0; transform: rotate(1deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
+        <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="1xqewKIyI4c" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/1xqewKIyI4c/hqdefault.jpg" alt="Stephanie Dionne — Roatán" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Stephanie Dionne</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Roatán</span></div>
+      </div>
+      <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #FF6B8A; transform: rotate(-1.3deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
+        <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="3P2bklcDyd8" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/3P2bklcDyd8/hqdefault.jpg" alt="Stephanie — Cairo" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Stephanie</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Cairo</span></div>
+      </div>
+      <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #3EC6D0; transform: rotate(1.1deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
+        <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="npo3W_NldCM" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/npo3W_NldCM/hqdefault.jpg" alt="Zarina — Almaty" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Zarina</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Almaty</span></div>
+      </div>
+      <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #58B368; transform: rotate(-0.7deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
+        <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="KhPbln6YVOk" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/KhPbln6YVOk/hqdefault.jpg" alt="Dave — Orlando" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Dave</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Orlando</span></div>
+      </div>
+      <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #FF6B8A; transform: rotate(1deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
+        <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="5HxCvBGc2Vc" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/5HxCvBGc2Vc/hqdefault.jpg" alt="Zhazira — Phuket" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Zhazira</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Phuket</span></div>
+      </div>
+    </div>
+    <div data-reveal="" style="display: flex; justify-content: center; margin-top: 44px;">
+      <a href="https://app.travorium.com/enroll?sponsor=106720" target="_blank" rel="noopener" style="background: #FFFFFF; color: #1A2258; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px; padding: 15px 30px; border-radius: 999px; border: 3px solid #1A2258; box-shadow: 6px 6px 0 #1A2258;" style-hover="transform: translate(-2px,-2px); color: #1A2258; box-shadow: 8px 8px 0 #1A2258;">Your trip could be next → {{ ctaLabel }}</a>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 05 — IGOR NIKITSKIY ============ -->
+  <section data-screen-label="05 Case Study Igor Nikitskiy" style="position: relative; margin-top: clamp(72px, 9vw, 130px); background: #FFFFFF; border-top: 4px solid #1A2258; border-bottom: 4px solid #1A2258; padding: clamp(72px, 9vw, 120px) min(6vw, 72px);">
+
+    <!-- header -->
+    <div data-reveal="" style="display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; border-bottom: 3px solid #1A2258; padding-bottom: 18px;">
+      <span style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 42px); color: #1A2258; text-shadow: 3px 3px 0 #FFD976;">05</span>
+      <h2 style="font-family: 'Fredoka', sans-serif; font-size: clamp(28px, 3.4vw, 52px); font-weight: 700; letter-spacing: -0.02em; margin: 0; color:#1A2258;">Case study: Igor Nikitskiy</h2>
+      <span style="margin-left: auto; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.55);">Larisa's husband · 5★</span>
+    </div>
+
+    <!-- hook -->
+    <div data-reveal="" style="max-width: 1000px; margin: clamp(34px, 4vw, 52px) 0 0;">
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 22px;">
+        <span style="background:#FFD976; color:#1A2258; border:2px solid #1A2258; border-radius:999px; padding:5px 13px;">Licensed contractor</span>
+        <span style="background:#3EC6D0; color:#1A2258; border:2px solid #1A2258; border-radius:999px; padding:5px 13px;">Father of eight</span>
+        <span style="background:#FF6B8A; color:#FFFFFF; border:2px solid #1A2258; border-radius:999px; padding:5px 13px;">Five-Star Ambassador</span>
+      </div>
+      <h3 style="font-family: 'Fredoka', sans-serif; font-size: clamp(30px, 4.2vw, 62px); line-height: 1.06; letter-spacing: -0.02em; font-weight: 700; margin: 0; color: #1A2258; text-wrap: pretty;">
+        His buddies laughed at his $10 commission checks. Then Igor ignored the account for a whole month, logged in — and found <span style="background:#FFD976; color:#1A2258; padding:0 10px; border-radius:8px; box-shadow:3px 3px 0 #1A2258; white-space:nowrap;">$3,200</span> waiting.
+      </h3>
+    </div>
+
+    <!-- opening + two col -->
+    <div style="display:flex; flex-wrap:wrap; gap: clamp(32px,5vw,64px); align-items:flex-start; margin-top: clamp(40px,5vw,60px);">
+      <div data-reveal="" style="flex: 1 1 440px; min-width:0;">
+        <p style="font-size: clamp(16px,1.3vw,19px); line-height:1.65; font-weight:600; color: rgba(26,34,88,0.82); margin:0;">
+          Igor wasn't looking for an opportunity — he didn't need one. He was a licensed general contractor in Hawaii with his own construction company, a wife running her café, and eight kids at home with a ninth on the way. So when his friend Tatiana kept calling, he let it ring.
+        </p>
+        <p style="font-size: clamp(17px,1.4vw,21px); line-height:1.5; font-weight:700; color:#1A2258; margin:20px 0 0; border-left:4px solid #FF6B8A; padding-left:18px;">
+          “I never picked up the phone, because I knew she was going to sell me something.”
+        </p>
+        <p style="font-size: clamp(16px,1.3vw,19px); line-height:1.65; font-weight:600; color: rgba(26,34,88,0.82); margin:22px 0 0;">
+          It was his wife who changed everything. She told him, <em>“you're not a good man — pick up the phone, maybe she needs help.”</em> He picked up.
+        </p>
+        <p style="font-size: clamp(16px,1.3vw,19px); line-height:1.65; font-weight:600; color: rgba(26,34,88,0.82); margin:16px 0 0;">
+          And here's what makes it land: he didn't join for money. He'd once almost bought a $70,000 timeshare — $1,500 a year just to travel twice. Travorium was the opposite: a members' club into 2,000+ resorts for a fraction of that. With eight kids, cheap family travel is what sold him. He joined for the product. <strong>Then</strong> he found the comp plan.
+        </p>
+      </div>
+      <div data-reveal="" style="flex: 1 1 300px; width:100%; max-width:400px; animation: cg-float 7s ease-in-out infinite;">
+        <div style="background:#FFFFFF; border:4px solid #1A2258; border-radius:24px; overflow:hidden; box-shadow:12px 12px 0 #3EC6D0;">
+          <div style="padding:20px 24px; border-bottom:3px solid #1A2258;">
+            <div style="font-size:12px; letter-spacing:0.12em; text-transform:uppercase; font-weight:800; color:#FF6B8A;">Before</div>
+            <div style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:17px; color:#1A2258; margin-top:6px; line-height:1.35;">Licensed contractor · own construction company · 8 kids · nearly bought a $70k timeshare</div>
+          </div>
+          <div style="text-align:center; font-size:26px; color:#3EC6D0; padding:6px 0; background:#FDF6E3; border-bottom:3px solid #1A2258;">↓</div>
+          <div style="padding:20px 24px; background:#1A2258;">
+            <div style="font-size:12px; letter-spacing:0.12em; text-transform:uppercase; font-weight:800; color:#FFD976;">Now</div>
+            <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:20px; color:#FDF6E3; margin-top:6px; line-height:1.3;">Five-Star Ambassador, ~$50,000 a month. Construction company closed. Café sold.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- timeline centerpiece -->
+    <div data-reveal="" style="max-width: 1000px; margin: clamp(56px,7vw,92px) auto 0; text-align:center;">
+      <div style="font-size:13px; letter-spacing:0.12em; text-transform:uppercase; font-weight:800; color:#E2554F; margin-bottom:22px;">It started with $4.10</div>
+      <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:14px;">
+        <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:16px; padding:14px 20px; box-shadow:5px 5px 0 #3EC6D0; transform:rotate(-1.2deg); min-width:130px;">
+          <div style="font-family:'Fredoka',sans-serif; font-size:26px; font-weight:700; color:#1A2258; line-height:1;">$4.10</div>
+          <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">first commission</div>
+        </div>
+        <span style="font-family:'Fredoka',sans-serif; font-size:26px; font-weight:700; color:#1A2258;">→</span>
+        <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:16px; padding:14px 20px; box-shadow:5px 5px 0 #FF6B8A; transform:rotate(1deg); min-width:130px;">
+          <div style="font-family:'Fredoka',sans-serif; font-size:26px; font-weight:700; color:#1A2258; line-height:1;">$10</div>
+          <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">they laughed</div>
+        </div>
+        <span style="font-family:'Fredoka',sans-serif; font-size:26px; font-weight:700; color:#1A2258;">→</span>
+        <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:16px; padding:14px 20px; box-shadow:5px 5px 0 #3FA9F5; transform:rotate(-0.8deg); min-width:130px;">
+          <div style="font-family:'Fredoka',sans-serif; font-size:26px; font-weight:700; color:#1A2258; line-height:1;">1 month</div>
+          <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">he did nothing</div>
+        </div>
+        <span style="font-family:'Fredoka',sans-serif; font-size:26px; font-weight:700; color:#1A2258;">→</span>
+        <div style="background:#FFD976; border:3px solid #1A2258; border-radius:16px; padding:14px 24px; box-shadow:5px 5px 0 #1A2258; transform:rotate(1.4deg); min-width:140px;">
+          <div style="font-family:'Fredoka',sans-serif; font-size:34px; font-weight:700; color:#1A2258; line-height:1;">$3,200</div>
+          <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.7); margin-top:6px;">he couldn't sleep</div>
+        </div>
+      </div>
+      <blockquote style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(22px,2.8vw,38px); line-height:1.18; letter-spacing:-0.02em; color:#1A2258; margin:36px auto 0; max-width:760px;">“That's the moment I lost my sleep. I ran upstairs to my wife — ‘Look. Look at this.’”</blockquote>
+      <p style="font-size:clamp(14px,1.15vw,17px); font-weight:700; color:rgba(26,34,88,0.7); margin:18px auto 0; max-width:620px;">His favorite line, borrowed from Warren Buffett: <em>“If you don't find a way to make money while you sleep, you'll work until you die.”</em></p>
+    </div>
+
+    <!-- proof stats -->
+    <div data-reveal="" style="display:flex; gap:16px; flex-wrap:wrap; justify-content:center; margin-top: clamp(48px,6vw,72px);">
+      <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #FFD976; transform:rotate(-1.4deg); min-width:150px;">
+        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">5★</div>
+        <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">his rank today</div>
+      </div>
+      <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #3EC6D0; transform:rotate(1.1deg); min-width:150px;">
+        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">~$50K<span style="font-size:0.5em; font-weight:600;">/mo</span></div>
+        <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">Igor · residual + bonuses</div>
+      </div>
+      <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #FF6B8A; transform:rotate(-0.8deg); min-width:150px;">
+        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">~$70K<span style="font-size:0.5em; font-weight:600;">/mo</span></div>
+        <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">household (with Larisa)</div>
+      </div>
+      <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #58B368; transform:rotate(1deg); min-width:150px;">
+        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">$1M+</div>
+        <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">first million, ~2 mo ago</div>
+      </div>
+      <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #3FA9F5; transform:rotate(-1.1deg); min-width:150px;">
+        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">17</div>
+        <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">trips in his first 2 yrs</div>
+      </div>
+      <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #FFD976; transform:rotate(0.9deg); min-width:150px;">
+        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">~2.5<span style="font-size:0.5em; font-weight:600;"> yrs</span></div>
+        <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">time in the business</div>
+      </div>
+    </div>
+    <p data-reveal="" style="text-align:center; font-size:12px; font-weight:700; color:rgba(26,34,88,0.5); max-width:700px; margin:20px auto 0; line-height:1.5;">
+      Every figure here is Igor's own account of his and his wife Larisa's results. Individual results vary and are not typical or guaranteed.
+    </p>
+
+    <!-- why you -->
+    <div data-reveal="" style="margin-top: clamp(56px,7vw,92px);">
+      <h3 style="font-family:'Fredoka',sans-serif; font-size:clamp(24px,2.8vw,40px); font-weight:700; letter-spacing:-0.02em; color:#1A2258; margin:0 0 6px; text-align:center;">Why he says you can do it too</h3>
+      <p style="text-align:center; font-size:clamp(15px,1.2vw,18px); font-weight:600; color:rgba(26,34,88,0.7); margin:0 auto 32px; max-width:560px;">His argument isn't “get rich.” It's simpler than that — and harder to wave off.</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:20px;">
+        <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:20px; padding:24px; box-shadow:7px 7px 0 #FFD976; transform:rotate(-0.8deg);">
+          <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">You already sell every day</div>
+          <p style="font-size:15px; line-height:1.55; font-weight:600; color:rgba(26,34,88,0.78); margin:0;">You sold yourself into your job and onto your résumé. “You were born to sell” — the skill isn't the wall you think it is.</p>
+        </div>
+        <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:20px; padding:24px; box-shadow:7px 7px 0 #3EC6D0; transform:rotate(0.7deg);">
+          <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">It pays while you sleep</div>
+          <p style="font-size:15px; line-height:1.55; font-weight:600; color:rgba(26,34,88,0.78); margin:0;">His proudest month is the one he ignored. $3,200 landed anyway — the income keeps working when you don't.</p>
+        </div>
+        <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:20px; padding:24px; box-shadow:7px 7px 0 #FF6B8A; transform:rotate(-0.6deg);">
+          <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">Nothing to lug around</div>
+          <p style="font-size:15px; line-height:1.55; font-weight:600; color:rgba(26,34,88,0.78); margin:0;">No bottles, shampoos or vitamins to peddle. Just a membership people keep using — like Netflix or Uber.</p>
+        </div>
+        <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:20px; padding:24px; box-shadow:7px 7px 0 #58B368; transform:rotate(0.9deg);">
+          <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">Tiny entry, no ceiling</div>
+          <p style="font-size:15px; line-height:1.55; font-weight:600; color:rgba(26,34,88,0.78); margin:0;">His whole plan: sell 10 memberships in your life, teach 10 people to do the same. He asked about the limit — there isn't one.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- two-person business -->
+    <div data-reveal="" style="max-width:820px; margin:clamp(56px,7vw,92px) auto 0; text-align:center;">
+      <div style="font-size:13px; letter-spacing:0.12em; text-transform:uppercase; font-weight:800; color:#E2554F; margin-bottom:14px;">A two-person business</div>
+      <p style="font-size:clamp(16px,1.3vw,19px); font-weight:600; color:rgba(26,34,88,0.82); margin:0;">Igor's blunt about it: alone, he wouldn't have made it. Two positions — him and Larisa — built together, side by side.</p>
+      <blockquote style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(23px,3vw,40px); line-height:1.16; letter-spacing:-0.02em; color:#1A2258; margin:20px 0 0;">“If I work here the way I worked in my café, I'll become a millionaire.”</blockquote>
+      <p style="font-size:clamp(15px,1.2vw,18px); font-weight:700; color:rgba(26,34,88,0.72); margin:14px auto 0; max-width:600px;">— Larisa, before they started. Igor's note on the webinar: <strong>her words came true.</strong></p>
+    </div>
+
+    <!-- close -->
+    <div data-reveal="" style="max-width:860px; margin:clamp(56px,7vw,88px) auto 0; text-align:center; border-top:3px solid rgba(26,34,88,0.15); padding-top:clamp(40px,5vw,60px);">
+      <p style="font-size:clamp(16px,1.3vw,19px); font-weight:600; line-height:1.65; color:rgba(26,34,88,0.82); margin:0;">Ask Igor for advice and it runs about four words long.</p>
+      <h3 style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(28px,3.8vw,52px); line-height:1.08; letter-spacing:-0.02em; color:#1A2258; margin:18px 0 0; text-wrap:pretty;">“If you want to change something — <span style="background:#FFD976; padding:0 10px; border-radius:8px; box-shadow:3px 3px 0 #1A2258; white-space:nowrap;">just jump on board</span> and start.”</h3>
+      <div style="margin-top:34px; display:flex; flex-direction:column; align-items:center; gap:14px;">
+        <a href="https://app.travorium.com/enroll?sponsor=106720" target="_blank" rel="noopener" style="background:#FF6B8A; color:#FFFFFF; font-family:'Fredoka',sans-serif; font-weight:600; font-size:clamp(18px,1.6vw,22px); padding:18px 40px; border-radius:999px; border:3px solid #1A2258; animation: cg-pop 2.4s ease-in-out infinite;" style-hover="background:#FF87A1; color:#FFFFFF;">{{ ctaLabel }} →</a>
+        <span style="font-size:13px; font-weight:700; color:rgba(26,34,88,0.6);">Register as a couple or solo · No contract · You join under Team Cheap Getaway</span>
+      </div>
+    </div>
+
+    <!-- see it in his own words -->
+    <h3 data-reveal="" style="font-family:'Fredoka',sans-serif; font-size:clamp(22px,2.6vw,36px); font-weight:700; letter-spacing:-0.02em; color:#1A2258; margin:clamp(56px,7vw,88px) 0 0; text-align:center;">See it in his own words</h3>
+    <div data-center-grid="" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 26px; margin-top: 34px;">
+      <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #3EC6D0; transform: rotate(-0.9deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
+        <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="xdpqeZ_Aelw" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/xdpqeZ_Aelw/hqdefault.jpg" alt="Igor Nikitskiy Ambassador story" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Igor's Ambassador story</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #FF6B8A; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">English</span></div>
+      </div>
+      <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #FFD976; transform: rotate(0.7deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
+        <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="e0mFc3SkkgI" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/e0mFc3SkkgI/hqdefault.jpg" alt="Igor Nikitskiy full presentation" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">The full presentation</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Russian</span></div>
+      </div>
+      <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #58B368; transform: rotate(-0.6deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
+        <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="jeeGQUMfJ9k" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/jeeGQUMfJ9k/hqdefault.jpg" alt="Larisa and Igor presenting together" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Larisa &amp; Igor, together</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Russian</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 06 — MEMBER STORIES ============ -->
+  <section data-screen-label="06 Member stories" style="position: relative; padding: clamp(72px, 9vw, 130px) min(6vw, 72px) clamp(44px, 6vw, 80px);">
+    <div data-reveal="" style="display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; border-bottom: 3px solid #1A2258; padding-bottom: 18px;">
+      <span style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 42px); color: #FFFFFF; -webkit-text-stroke: 2px #1A2258; text-shadow: 3px 3px 0 #1A2258;">06</span>
+      <h2 style="font-family: 'Fredoka', sans-serif; font-size: clamp(28px, 3.4vw, 52px); font-weight: 700; letter-spacing: -0.02em; margin: 0;">Real stories, real savings</h2>
+      <span style="margin-left: auto; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.6);">Straight from members</span>
+    </div>
+    <p data-reveal="" style="font-size: clamp(16px, 1.3vw, 19px); font-weight: 600; line-height: 1.6; color: rgba(26,34,88,0.8); max-width: 760px; margin: 24px 0 0;">
+      Hundreds of members send in their trips — what they saved, where they went, in their own words. Here are a few; tap any card to read the full story.
+    </p>
+    <div data-stories-grid="" data-center-grid="" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 26px; margin-top: 34px; align-items: start;">
+      <sc-for list="{{ storiesMain }}" as="s" hint-placeholder-count="6">
+        <div data-story-card="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #1A2258; display: flex; flex-direction: column;">
+          <div style="position: relative; aspect-ratio: 16 / 9; background: #000000; border-bottom: 3px solid #1A2258; overflow: hidden;">
+            <sc-if value="{{ s.ytId }}" hint-placeholder-val="">
+              <div onClick="{{ playVideo }}" data-video-id="{{ s.ytId }}" data-fs="1" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/{{ s.ytId }}/hqdefault.jpg" alt="{{ s.name }}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div>
+            </sc-if>
+            <sc-if value="{{ s.embed }}" hint-placeholder-val="">
+              <div data-vimeo-facade="" data-vimeo-src="{{ s.embed }}" title="{{ s.name }}" style="position: absolute; inset: 0; cursor: pointer; background: #000000;"></div>
+            </sc-if>
+          </div>
+          <div style="padding: 16px 18px 18px; display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+              <div style="min-width: 0;">
+                <div style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 18px; color: #1A2258; line-height: 1.2;">{{ s.name }}</div>
+                <div style="font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.55); margin-top: 4px;">{{ s.place }}</div>
+              </div>
+              <div style="flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
+                <span style="background: #58B368; color: #FFFFFF; border: 2px solid #1A2258; border-radius: 999px; padding: 5px 12px; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 13px; white-space: nowrap;">Saved {{ s.saved }}</span>
+                <span style="font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 800; color: #1A2258; background: #EFE7CF; border: 1.5px solid #1A2258; border-radius: 999px; padding: 2px 9px; white-space: nowrap;">{{ s.lang }}</span>
+              </div>
+            </div>
+            <button onClick="{{ toggleStory }}" data-story-toggle="" aria-expanded="false" style="margin-top: 16px; align-self: flex-start; background: #FFD976; color: #1A2258; border: 3px solid #1A2258; border-radius: 999px; padding: 9px 18px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; box-shadow: 3px 3px 0 #1A2258;" style-hover="transform: translate(-1px,-1px); color: #1A2258; box-shadow: 4px 4px 0 #1A2258;">Read the full story</button>
+            <div data-story-body="" data-open="0" style="max-height: 0; opacity: 0; overflow: hidden; margin-top: 0; transition: max-height 0.45s ease, opacity 0.3s ease, margin-top 0.4s ease; font-size: 15px; line-height: 1.6; font-weight: 600; color: rgba(26,34,88,0.8);">{{ s.story }}</div>
+          </div>
+        </div>
+      </sc-for>
+      <sc-for list="{{ storiesMore }}" as="s" hint-placeholder-count="0">
+        <div data-story-card="" data-story-extra="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #1A2258; display: none; flex-direction: column;">
+          <div style="position: relative; aspect-ratio: 16 / 9; background: #000000; border-bottom: 3px solid #1A2258; overflow: hidden;">
+            <sc-if value="{{ s.ytId }}" hint-placeholder-val="">
+              <div onClick="{{ playVideo }}" data-video-id="{{ s.ytId }}" data-fs="1" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/{{ s.ytId }}/hqdefault.jpg" alt="{{ s.name }}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div>
+            </sc-if>
+            <sc-if value="{{ s.embed }}" hint-placeholder-val="">
+              <div data-vimeo-facade="" data-vimeo-src="{{ s.embed }}" title="{{ s.name }}" style="position: absolute; inset: 0; cursor: pointer; background: #000000;"></div>
+            </sc-if>
+          </div>
+          <div style="padding: 16px 18px 18px; display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+              <div style="min-width: 0;">
+                <div style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 18px; color: #1A2258; line-height: 1.2;">{{ s.name }}</div>
+                <div style="font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.55); margin-top: 4px;">{{ s.place }}</div>
+              </div>
+              <div style="flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
+                <span style="background: #58B368; color: #FFFFFF; border: 2px solid #1A2258; border-radius: 999px; padding: 5px 12px; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 13px; white-space: nowrap;">Saved {{ s.saved }}</span>
+                <span style="font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 800; color: #1A2258; background: #EFE7CF; border: 1.5px solid #1A2258; border-radius: 999px; padding: 2px 9px; white-space: nowrap;">{{ s.lang }}</span>
+              </div>
+            </div>
+            <button onClick="{{ toggleStory }}" data-story-toggle="" aria-expanded="false" style="margin-top: 16px; align-self: flex-start; background: #FFD976; color: #1A2258; border: 3px solid #1A2258; border-radius: 999px; padding: 9px 18px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; box-shadow: 3px 3px 0 #1A2258;" style-hover="transform: translate(-1px,-1px); color: #1A2258; box-shadow: 4px 4px 0 #1A2258;">Read the full story</button>
+            <div data-story-body="" data-open="0" style="max-height: 0; opacity: 0; overflow: hidden; margin-top: 0; transition: max-height 0.45s ease, opacity 0.3s ease, margin-top 0.4s ease; font-size: 15px; line-height: 1.6; font-weight: 600; color: rgba(26,34,88,0.8);">{{ s.story }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section data-screen-label="Final CTA" style="position: relative; background: #FFD976; border-top: 4px solid #1A2258; padding: clamp(90px, 11vw, 150px) min(6vw, 72px); text-align: center; overflow: hidden;">
+    {{ ctaClouds }}
+    <div style="position: relative; z-index: 2; max-width: 880px; margin: 0 auto;">
+      <div data-reveal="" style="display: inline-block; background: #FFFFFF; border: 3px solid #1A2258; border-radius: 999px; padding: 9px 20px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; box-shadow: 5px 5px 0 #1A2258;">The webinar was the pitch — this page was the evidence</div>
+      <h2 data-reveal="" style="font-family: 'Fredoka', sans-serif; font-size: clamp(38px, 5.2vw, 78px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.02; margin: 26px 0 0;">
+        The only person not <span style="color: #FFFFFF; -webkit-text-stroke: 2px #1A2258; text-shadow: 4px 4px 0 #1A2258;">in the videos yet</span> is you.
+      </h2>
+      <p data-reveal="" style="font-size: clamp(16px, 1.4vw, 20px); font-weight: 600; line-height: 1.6; color: rgba(26,34,88,0.8); max-width: 620px; margin: 24px auto 0;">
+        Join through this link and you enroll directly under Team Cheap Getaway — the people who will actually pick up the phone when you ask how Julian did it.
+      </p>
+      <div data-reveal="" style="margin-top: 38px; display: flex; flex-direction: column; align-items: center; gap: 16px;">
+        <a href="https://app.travorium.com/enroll?sponsor=106720" target="_blank" rel="noopener" style="background: #FF6B8A; color: #FFFFFF; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(19px, 1.7vw, 24px); padding: 21px 46px; border-radius: 999px; border: 4px solid #1A2258; animation: cg-pop 2.4s ease-in-out infinite;" style-hover="background: #FF87A1; color: #FFFFFF;">{{ ctaLabel }} →</a>
+        <span style="font-size: 14px; font-weight: 700; color: rgba(26,34,88,0.65);">2-minute enrollment · Cancel anytime · You're joining a team, not just a website</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="border-top: 4px solid #1A2258; background: #FFFFFF; padding: 36px min(6vw, 72px) 120px; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center;">
+    <img src="assets/logo-cheapgetaway.png" alt="cheapgetaway.team" style="height: 36px; display: block; max-width: 80vw; object-fit: contain;">
+    <p style="font-size: 12px; font-weight: 600; line-height: 1.6; color: rgba(26,34,88,0.55); max-width: 640px; margin: 0;">
+      This page is operated by an Independent Partner of Travorium (Team Cheap Getaway), not by Travorium corporate. Income figures shown are self-reported by the individuals featured and are not typical; earnings depend entirely on individual effort. Videos are embedded from their creators' public channels.
+    </p>
+  </footer>
+
+  <!-- ============ STICKY CTA ============ -->
+  <div style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; display: flex; justify-content: center; padding: 14px 16px; pointer-events: none; transform: {{ stickyTransform }}; transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);">
+    <div style="pointer-events: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 14px; background: #FFFFFF; border: 3px solid #1A2258; border-radius: 22px; padding: 10px 14px; box-shadow: 7px 7px 0 #1A2258; max-width: calc(100vw - 24px); box-sizing: border-box;">
+      <span style="font-size: clamp(12.5px, 2.6vw, 15px); font-weight: 800; color: #1A2258; text-align: center; line-height: 1.25;">Invite-only · you're in through <span style="color: #3FA9F5;">Team Cheap Getaway</span></span>
+      <a href="https://app.travorium.com/enroll?sponsor=106720" target="_blank" rel="noopener" style="background: #FF6B8A; color: #FFFFFF; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 15px; padding: 12px 24px; border-radius: 999px; border: 3px solid #1A2258; white-space: nowrap;" style-hover="background: #FF87A1; color: #FFFFFF;">{{ ctaLabel }} →</a>
+    </div>
+  </div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;ctaLabel&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Join the Club&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Calls to action&quot; },
+  &quot;stickyCta&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Calls to action&quot; }
+}">
+class Component extends DCLogic {
+  state = { sticky: false };
+
+  constructor(props) {
+    super(props);
+
+    // Soft 3D-ish clouds built from stacked circles, drifting across the sky
+    const puff = (w, h, top, left, blur) => React.createElement('span', {
+      key: 'p' + top + left + w,
+      style: {
+        position: 'absolute', width: w, height: h, top: top, left: left,
+        background: '#FFFFFF', borderRadius: '50%', filter: 'blur(' + blur + ')'
+      }
+    });
+    const cloud = (key, scale, top, dur, delay, opacity) => React.createElement('div', {
+      key: key,
+      style: {
+        position: 'absolute', top: top, left: 0, width: 180 * scale + 'px', height: 70 * scale + 'px',
+        opacity: opacity, zIndex: 2, pointerEvents: 'none',
+        animation: 'cg-cloud ' + dur + 's linear ' + delay + 's infinite',
+        filter: 'drop-shadow(0 ' + 14 * scale + 'px 10px rgba(26,34,88,0.18))'
+      }
+    },
+      puff(90 * scale + 'px', 60 * scale + 'px', 10 * scale + 'px', 0, '1px'),
+      puff(70 * scale + 'px', 70 * scale + 'px', -8 * scale + 'px', 50 * scale + 'px', '1px'),
+      puff(80 * scale + 'px', 55 * scale + 'px', 12 * scale + 'px', 100 * scale + 'px', '1px')
+    );
+
+    this._clouds = React.createElement('div', { style: { position: 'absolute', inset: 0, overflow: 'hidden', zIndex: 2, pointerEvents: 'none' } },
+      cloud('c1', 0.7, '2%', 70, -10, 0.85),
+      cloud('c2', 0.5, '68%', 95, -45, 0.9),
+      cloud('c3', 0.95, '76%', 120, -70, 0.85)
+    );
+    this._ctaClouds = React.createElement('div', { style: { position: 'absolute', inset: 0, overflow: 'hidden', zIndex: 0, pointerEvents: 'none' } },
+      cloud('c4', 0.8, '12%', 80, -20, 0.9),
+      cloud('c5', 0.5, '58%', 105, -60, 0.7)
+    );
+
+    // Destination marquee
+    const stops = ['Málaga', 'New Orleans', 'Budapest', 'Venice', 'Roatán', 'Sri Lanka', 'Cancún', 'Bali', 'Lisbon', 'Tokyo', 'Santorini', 'Cabo'];
+    const items = [];
+    stops.concat(stops).forEach((s, i) => {
+      items.push(React.createElement('span', {
+        key: 'w' + i,
+        style: { fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: '24px', color: '#1A2258', whiteSpace: 'nowrap' }
+      }, s));
+      items.push(React.createElement('span', { key: 'd' + i, style: { color: '#FF6B8A', fontSize: '16px' } }, '✈'));
+    });
+    this._marquee = React.createElement('div',
+      { style: { display: 'flex', alignItems: 'center', gap: '34px', width: 'max-content', animation: 'cg-marquee 40s linear infinite' } },
+      items
+    );
+
+    const V = (id) => 'https://player.vimeo.com/video/' + id + '?title=0&byline=0&portrait=0&dnt=1&controls=0';
+    this._stories = [
+      // ---- Vimeo stories (shown first) ----
+      { name: "Altyn D.", place: "Sanya, China", saved: "$900", embed: "https://player.vimeo.com/video/1128938100?title=0&byline=0&portrait=0&dnt=1&controls=0", story: "This trip felt like pure magic ✨ Thanks to the reward points I've earned with Travorium, our entire vacation included luxurious, abundant two meals a day, and even free alcohol! 🍹 The sea was crystal clear, the water warm, and the weather absolutely perfect. We were surrounded by amazing like-minded club members — it was fun, inspiring, and full of great vibes! We even visited local wellness clinics, where we received rejuvenating health treatments. It was the perfect mix of relaxation and recovery — both body and soul felt recharged 🌿💆‍♀️ This was already my 4th world tour with Travorium, and once again I'm convinced: Traveling can be cheaper, more often, and with better quality! The hotel was absolutely stunning, the service — top-notch, and the food — just incredible. Every journey with Travorium is not just a vacation — it's a new level of life, joy, and freedom!" },
+      { name: "Gulnara K.", place: "Sanya, China", saved: "$890", embed: "https://player.vimeo.com/video/1139563146?title=0&byline=0&portrait=0&dnt=1&controls=0", story: "I really enjoyed the Sanya world tour. Everything was top-notch. The hotel was big and beautiful." },
+      { name: "Cholpon K.", place: "Sri Lanka", saved: "$1000", embed: "https://player.vimeo.com/video/1140775853?title=0&byline=0&portrait=0&dnt=1&controls=0", story: "Это путешествие на Шри-Ланку – наш первый мировой тур с Travorium, и мы до сих пор пребываем под невероятным впечатлением! This trip to Sri Lanka is our first world tour with Travorium, and we are still incredibly impressed!" },
+      { name: "Stephanie M.", place: "Cairo, Egypt", saved: "$1000", embed: "https://player.vimeo.com/video/1148900490?title=0&byline=0&portrait=0&dnt=1&controls=0", story: "Quel voyage! Mon huitième de l'année, tout ça grâce a Travorium. Ce séjour au Caire je l'avais toujours promis à mon fils, ma raison de vivre. Ce séjour a été une découverte de culture et nous avons des leçons à prendre! Totalement adepte des world Tour, cet hôtel était splendide, le personnel aux petits soins, un hôtel qui mérite ses 5 étoiles. Un hôtel que je n'aurais pu m'offrir sans Travorium et son épargne voyage. Nous avons pu disposer d'une très belle chambre, des espaces reposant aussi bien en intérieur qu'en extérieur, des piscines et tant d'autres choses. Nous avons visité les pyramides avec un guide qui nous a permis d'apprendre énormément, le nouveau musée du Caire avec les pièces uniques de Touthankamon, le souk en soirée avec ses couleurs et ses lumières et une promenade en felouque sur le Nil… What a trip! My eighth of the year, all thanks to Travorium. I had always promised this trip to Cairo to my son, my reason for living. This trip was a cultural discovery, and we learned so much! A total fan of world tours, this hotel was splendid, the staff were incredibly attentive, a hotel that truly deserves its 5 stars. A hotel I wouldn't have been able to afford without Travorium and its travel savings program. We had a beautiful room, relaxing spaces both indoors and outdoors, swimming pools, and so much more. We visited the pyramids with a guide who helped us learn a great deal, the new Cairo Museum with its unique Tutankhamun artifacts, the souk in the evening with its vibrant colors and lights, and a felucca ride on the Nile… Thank you, David and Adela, thank you!" },
+      { name: "Kristin B.", place: "Kingdom of Bahrain", saved: "$3,151", embed: "https://player.vimeo.com/video/1150491699?title=0&byline=0&portrait=0&dnt=1&controls=0", story: "I had a blast on my first solo international trip! I went for my birthday and my flabbers were fasted at the amazing service. The hotel was at the world renowned 5star resort Jumeirah Gulf of Bahrain. The food was top notch, i literally looked forward to every meal. I was randomly upgraded to full board meaning all food was included. The room was quaint but very nice. They decorated my room for my birthday with balloons and also gifted me a tasty cake. Bahrain is neighbors to Qatar and Saudi Arabia. I took a day trip to Saudi Arabia and had a really nice traditional Saudi dinner. I also decided to fly on Etihad and they have an amazing stopover program that gifts you 1-2 additional days in Abu Dhabi at no extra charge. They even pay for you to stay in a 4 star hotel of your choice. I did everything under the sun, and trust me, the sun is OUT lol! My first trip to the Middle East but it certainly won't be my last! I cannot wait to go back!" },
+      { name: "Vitiello M.", place: "Cancun, Mexico", saved: "$2000", embed: "https://player.vimeo.com/video/1189253132?title=0&byline=0&portrait=0&dnt=1&controls=0", story: "Simply an amazing trip with fun people and extremely good training by Danny. Very nice resort." },
+      { name: "Nurtay M.", place: "Phuket, Thailand", saved: "$1565", embed: "https://player.vimeo.com/video/1191152296?title=0&byline=0&portrait=0&dnt=1&controls=0", story: "I've been traveling for 15 years, and this is my first time in Thailand. I absolutely loved it — the location, the hotel, and the service were all exceptional and truly top-notch." },
+      { name: "Kenza B.", place: "Barcelona, Spain", saved: "$1700", embed: "https://player.vimeo.com/video/1205386514?title=0&byline=0&portrait=0&dnt=1&controls=0", story: "Le séjour était juste sublime ! J'ai été impactée et impressionnée par l'hôtel 4 étoiles dans lequel nous séjournions. Cet hôtel est vraiment ludique il y avait plusieurs décoration et deux réceptions différentes qui était disponible, acceuil chaleureux et convivial ! Ce séjour c'est déroulée lors de la convention internationale de la société ce qui était particulièrement satisfaisant ! J'ai rencontrer plusieurs membres sur place et partager des petits moments extrêmement sympathique ! La piscine sur le toit de l'hôtel était trop cool j'ai adoré passer ces moment unique et ne parlons pas du petit déjeuner hyper complet à disposition ! Nous avons eu un verre offert d'accueil cela a été très apprécié par moi et mon conjoint ! Nous avons visité Barceloneta beach et j'ai partager cela en direct avec ma famille ce qui a été très émouvant car mes parents on vécu 10 ans à Barcelone et ce sont rencontrer sur cette place ! Une expérience unique et mon premier world tour sur les traces familial ! Merci à travorium et à tous les membres pour ces partages exceptionnel !" },
+      { name: `Bianca Pewtress`, place: `Grosvenor House, Dubai`, saved: `$1,445`, embed: V('589029737'), story: `This was my first booking with Travorium and I am honestly blown away by the sheer ease of booking and the vast variety of hotels available. I booked a 2-night staycation at the Grosvenor House in the Dubai Marina and paid $300 in total, all other taxes included. On check-in I was upgraded to a 2-bedroom suite worth $700, and we were given breakfast, 25% off food and beverages, plus free afternoon tea and pre-dinner drinks both nights. Waiting in the room was a welcome letter, a chocolate cake, a bottle of wine and a fruit basket. I am blown away by the prices, the hotels and the relationships the Harts have curated. Already deciding where to go for NYE!` },
+      { name: `Naomi Wong`, place: `Wynn Resort, Las Vegas NV`, saved: `$1,446`, embed: V('589025721'), story: `This was our first Dreamcation! I was so moved when I saw our room for the World Tour at the Wynn. Our experience was amazing, not only for the incredible deals but for the people we met. After the Wynn, we stayed a week for a Getaway at the Bluegreen Vacation Club, then extended with 2 nights at Caesars Palace through the Travel Site. One of the best trips of our lives. Money is not a problem anymore for doing what we want, and the more we save on hotels, the more we can spend on fun and restaurants!` },
+      { name: `Mahmuda Hill`, place: `Ipswich, England, UK`, saved: `$1,057`, embed: V('589025486'), story: `I am a widow and a mum of 4. I found that travel helped with mine and my children's emotional well-being. When I was introduced to Travorium I thought, this is exactly what I wanted to help me save money on all my travel needs -- but I found so much more with my Travorium family. Since joining I am so much happier, and I cannot wait to go on so many World Tours to meet up with like-minded friends.` },
+      { name: `Natalia Ramirez`, place: `Manchester Grand Hyatt, San Diego CA`, saved: `$900`, embed: V('645354854'), story: `I am so happy to have enjoyed this wonderful World Tour in San Diego, California -- meeting David and Adela Hart and so many friends and members. The trip and stay were wonderful and luxurious, and we were treated so kindly. Thanks to our travel club, we saved more than $1,000 at the Manchester Grand Hyatt: 4 days / 3 nights for only $269 for 2 people, buffet breakfast included, no resort fees. Recommended 100%.` },
+      { name: `Mel Keys`, place: `Wynn Resort, Las Vegas NV`, saved: `$1,922`, embed: V('589026930'), story: `Travorium made a dream come true on many levels. We saved over $1,000 booking our world-tour 3-night stay at the Wynn. We also booked a 2-bedroom penthouse at the Bellagio for one night, saving over $300, and were given a complimentary limo to and from the airport! To top it off, we saved over $250 on our shuttle ticket to the Grand Canyon -- with a helicopter ride into the Canyon itself. Travorium rocks!` },
+      { name: `Dedra Davis`, place: `Massanutten, VA`, saved: `$1,178`, embed: V('589028184'), story: `My family and I traveled to Massanutten, VA this past Thanksgiving. This was such a fun family vacation and getaway! We stayed for a total of 8 days and 7 nights for a grand total of $115 -- for 7 people. Our place was very nice and spacious, and we thoroughly enjoyed our stay!` },
+      { name: `Laura Rodriguez Tello`, place: `Hawks Cay Resort, FL`, saved: `$975`, embed: V('589022875'), story: `We loved it!! I cannot say how happy we are to have been part of this great company this past year. Being able to get away made us so relieved after so many plans COVID had put on hold. This resort is amazing and clean, with so many outdoor activities my husband and I love. We used the gym, went for bike rides, paddleboard and kayak, and had drinks by the pool and the lagoon. We even drove down to Key West with the whole team. Cheers to our first world tour and to many more!` },
+      { name: `Pedro Gallo`, place: `Punta Cana, Dominican Republic`, saved: `$800`, embed: V('589024259'), story: `First time in the Dominican Republic. All we can say is WOW! The best beaches all around, and TRS Turquesa by Grand Palladium was phenomenal. An all-inclusive resort that provided everything you can think of and much more -- the food, drinks, staff and views were just amazing. From pina coladas at the beach to riding speed boats, what a thrill. They treated us like royalty, and we got to meet so many Travorium members from different parts of the world.` },
+      { name: `Mardie Fitzpatrick`, place: `Paris, France`, saved: `$2,000`, embed: V('739518990'), story: `Me and my best friends -- my pastor and his wife, and another couple. This has been a dream of mine since I was a child, and I am 72. Dreams still come true. Thank you, Travorium, for my dream vacation!` },
+      { name: `Adriana Breban`, place: `Malaga, Spain`, saved: `$420`, embed: V('622590386'), story: `It was a perfect trip to spend quality time with my older son -- a break from a very busy life where we could catch up and mostly disconnect from the online world. A precious place for that, far from the noise, with large beautiful rooms with sea views, delicious meals and good service. The price we paid, about $279, is a gift for what we got. Priceless, precious moments.` },
+      { name: `Mahmuda Hill`, place: `Hyatt Regency, Dubai`, saved: `$1,129`, embed: V('622598281'), story: `I was very blessed to be able to go to Dubai for one of our World Tours. Platinum members paid $89 for 5 nights / 6 days for 2 guests, including breakfast, at the Hyatt Regency, Deira.` },
+      { name: `Regina Johnson`, place: `Palazzo, Las Vegas NV`, saved: `$342`, embed: V('589027955'), story: `I traveled to Las Vegas for my birthday in July. Thanks to Travorium, I was able to save over $300 at The Palazzo, which is a 5-star hotel.` },
+      { name: `Sandra Petete`, place: `Williamsburg, VA`, saved: `$342`, embed: V('589027798'), story: `My dreamcation in Williamsburg, Virginia was incredible -- 2 suites for 8 people. We were 4, so we each had our own room. The resort was beautiful with many amenities. Always happy to vacation with Travorium: the best way, and paying almost nothing.` },
+      { name: `Josefina Hart`, place: `Hawks Cay Resort, FL`, saved: `$975`, embed: V('589023764'), story: `We had an absolutely beautiful experience. Our Dreamcations and World Tour were incredible! We had the opportunity to connect with so many people from all over the world. We all feel like we are living in paradise. Our kids love the resort's amenities, specifically the pools. We created wonderful memories that will last forever!` },
+      { name: `Pedro Gallo Giron`, place: `Sirata Beach, St. Petersburg FL`, saved: `$70`, embed: V('589026674'), story: `My wife and I spent a beautiful weekend at the Sirata Beach Resort in St. Petersburg, FL. Some friends got married and their room block was already full and booked. We used our travel-site option in our back office and saved more than $70 on our booking for the weekend. What better than that!` },
+      { name: `Olha Prytkova`, place: `Punta Cana, Dominican Republic`, saved: `$1,600`, embed: V('1090573793'), story: `Hey everyone! Just landed from an amazing getaway -- and yes, this trip cost us only $299 for 5 days, all inclusive.` },
+      { name: `Eve Pepeder`, place: `Canary Islands`, saved: `$1,567`, embed: V('728587094'), story: `Un voyage juste extraordinaire grace a ma plateforme Travorium. Nous avons pu nous offrir ce sejour avec mon mari -- les Canaries pour 10 jours de reve. Nous avons profite a fond grace aux economies realisees avec la plateforme.` },
+      { name: `Janet Bokowski`, place: `Colorado`, saved: `$1,000`, embed: V('1091619311'), story: `Girls / Moms trip -- beautiful views, relaxing, fun happy hours, shopping. Thanks Travorium!` },
+      { name: `Marie Roy`, place: `Albufeira, Portugal`, saved: `$362`, embed: V('589025614'), story: `J'ai reserve cette chambre pour moi seule car je terminais un sejour de plusieurs mois au Portugal et je voulais profiter d'un bel hotel pres de la plage avant de rentrer en France. La chambre etait tres grande et pratique avec une petite cuisine. La piscine etait grande et la plage a quelques metres de l'hotel. Un tres bon sejour qui valait bien plus que le prix paye grace a Travorium.` },
+      { name: `Alexia Coulet`, place: `Cabarete, Dominican Republic`, saved: `$863`, embed: V('589024650'), story: `J'ai fait ce voyage avec une amie. Nous avons decouvert le Nord de la Republique Dominicaine, bien moins touristique que le Sud, et les paysages etaient magiques!` },
+      { name: `Marilyn Marquez`, place: `Marenas Beach, Miami FL`, saved: `$618`, embed: V('735012712'), story: `Mi estadia en el Hotel Marenas Beach Resort fue estupendamente maravillosa y por todo lo alto. Este hotel esta en Sunny Isles, Florida, rodeado de centros comerciales y restaurantes, y lo mejor: frente al mar, con cuartos con vista al mar. Los cuartos super limpios y comodos; ademas tiene piscina, gimnasio y restaurante. Y solo pague $447 por Travorium!` },
+      { name: `Giovanni Brignoni`, place: `Coco Beach, Puerto Rico`, saved: `$8,321`, embed: V('711364615'), story: `Sin duda uno de mis lugares favoritos en Puerto Rico: el Coco Beach Vacation Club at the Hyatt Grand Reserve en Rio Grande. Es un paraiso, un lugar para relajarse, descansar y comer muy bien. Las facilidades son increibles: las piscinas, el gimnasio, el lobby, la playa, el servicio. Altamente recomendado. Nuestra habitacion tenia sala, cocina, comedor, dos camas queen y un balcon gigante. Gracias Travorium por ahorrarme miles de dolares.` },
+      // ---- YouTube stories ----
+      { name: "Gulnaza A.", place: "Menorca, Spain", saved: "$923", ytId: "PDC_gGRVfJY", story: "My trip to the amazing island of Menorca was an unforgettable vacation. The Balearic Sea is stunning, and the bay is so beautiful it's beyond words. I'm grateful to Travorium and its founder, David Hart, for allowing me to witness such a miracle. The hotel is luxurious, with every amenity, and I especially loved the bracelet that opens the door to my room. It's so convenient, you don't have to carry a card. The view from the balcony reveals the stunning beauty of the sea and bay. The water is so clear that you can see the entire depth. There are also magnificent reefs that you never tire of admiring. The all-inclusive system and buffet offer a huge selection of food, which were never the same over the course of five days. Drinks are complimentary by the pool and at the bar. Every evening, there were concerts in the lobby area, where the performers reflected the culture and hospitality of Spain. If someone asked me: 'Will you come back again?' I would confidently answer: 'Yes, yes, yes…'" },
+      { name: "Saltanat S.", place: "Phuket, Thailand", saved: "$900", ytId: "DnEup9cKpkQ", story: "This time, I didn't fly on the World Tour using my points, but with my friend Gulmira Shegen, who had accumulated points and invited me to join. ✨ And it was one of the best decisions I've made in a while! We weren't alone—our partners and the entire Travōrium team, over 50 people, were with us! We stayed at the hotel for the first couple of days through a travel website, and then we checked into the Sheraton Phuket on the World Tour—and that's where the real magic began. The hotel is simply amazing: an incredible pool right inside the complex, breakfasts you'll never forget, and the service is top-notch. I didn't like Thailand before, but Travōrium made me see it differently: cozy, warm, vibrant, and inspiring. I think it wasn't just the energy of the place that was at work here, but also the company—there were people around who made every moment a celebration. Travōrium once again proved that it's not just travel, but a lifestyle full of freedom, friends, and moments that stay in your heart forever. Thank you, Travōrium, and a special thanks to Gulmira for this wonderful gift and inspiration 💖" },
+      { name: "Camille L.", place: "Crete, Greece", saved: "$1269", ytId: "2BsnanZA_gE", story: "Five days and four nights in the heart of a blue dream: Crete. Between the Aegean Sea and golden light, we set down our bags at the Peninsula Resort & Spa, a little paradise where the words all inclusive truly come to life. There, time simply stood still. Waves danced beneath our windows, the breeze brushed our faces, and our five-year-old daughter discovered the world with eyes sparkling with joy. Every glance revealed a new wonder: shimmering pools, endless shades of blue along the beaches, and gourmet meals awakening every sense. Everything felt magical. Between laughter and countless small moments of happiness, we explored the surroundings, sometimes by car, sometimes just walking hand in hand. The landscapes, majestic and serene, offered us views we'll carry in our hearts forever. The food delighted us, the beauty of the place enchanted us, and the memories will stay with us always. We return home with our souls painted in one thousand and twenty-five shades of blue. Crete, in all its splendor, offered us an all-inclusive in paradise, thanks to Travorium. So, thank you!" },
+      { name: "Oceane A.", place: "Crete, Greece", saved: "$700", ytId: "509C1Af_Pmg", story: "What a great trip! I met some people of Travorium that I didn't know before from Belgium, USA, Canada and Kazakhstan. I discover a beautiful island that I known by name now I know its landscape." },
+      { name: "Zeinegul T.", place: "Bali, Indonesia", saved: "$2,200", ytId: "fgXtPk46-AE", story: "This summer, during our vacation, we went on an unforgettable trip to Bali! As teachers, we can only take holidays in the summer, so this trip was a perfect time to relax and recharge. We stayed at the Grand Hyatt Bali, a beautiful 5-star hotel located right by the ocean. We spent 6 amazing days enjoying the sea, the sunshine, and breathtaking views. We discovered local cuisine, tried traditional Balinese dishes, and went on several excursions to explore the island's culture and nature. Thanks to Travorium, our world tour cost us much less — we saved $2,200! It's a great reminder that travel dreams can truly be affordable." },
+      { name: "Cindy C.", place: "Malaga, Spain", saved: "$750", ytId: "7Z1h95JsehA", story: "Un magnifique World Tour à Málaga ! Un moment hors du temps dans un superbe hôtel. Une vue sur la mer incroyable. J'ai eu la chance d'emmener ma maman et de voir sur place des personnes que je connaissais ainsi que de faire de nouvelles rencontres. La ville est magnifique, un vrai coup de cœur. Merci Travorium ! A magnificent World Tour in Malaga! A truly timeless experience in a superb hotel. An incredible sea view. I was lucky enough to bring my mother along and see people I knew while I was there, as well as making new friends. The city is magnificent, I absolutely loved it. Thank you Travorium!" },
+      { name: "Sophie A.", place: "Rio De Janeiro, Brazil", saved: "$1,395", ytId: "RolnFc7XROw", story: "Je suis complètement tombée sous le charme du Brésil ! L'hôtel était juste incroyable, un Getaway en 5 étoiles 🥰 super bien situé et confortable. L'Hôtel Nacional Rio, perché à São Conrado, offre une vue spectaculaire sur la mer et les montagnes, et se trouve à deux pas de la Rocinha, la plus grande favela d'Amérique latine. Construit dans les années 1940, cet hôtel emblématique a accueilli des célébrités et des événements historiques, mêlant luxe et histoire brésilienne. Chaque moment passé là-bas était un vrai bonheur… Je compte déjà y retourner 🥰 I completely fell in love with Brazil! The hotel was simply incredible, a 5-star Getaway 🥰 super well located and comfortable. The Hotel Nacional Rio, perched in São Conrado, offers spectacular views of the sea and mountains, and is just a stone's throw from Rocinha, the largest favela in Latin America. Built in the 1940s, this iconic hotel has hosted celebrities and historical events, blending luxury with Brazilian history. Every moment spent there was pure bliss… I'm already planning my return 🥰" },
+      { name: "Nolwenn F.", place: "Malaga, Spain", saved: "$820", ytId: "lu6RuvTs3ho", story: "Ce fut les plus belles vacances, passées dans le plus bel hôtel. Une expérience incroyable, que je garderai précieusement parmi mes plus beaux souvenirs ! Entre les paysages, l'ambiance, les nuits douces bercés par les bruits des vagues etc etc. It was the most wonderful vacation, spent in the most beautiful hotel. An incredible experience that I will cherish among my most beautiful memories! Between the scenery, the atmosphere, the peaceful nights lulled by the sound of the waves, etc., etc." },
+      { name: "Nigora K.", place: "Sanya, China", saved: "$890", ytId: "b-D27EvV0S0", story: "This is my first world tour. I'm not just happy. I'm overwhelmed with emotion, as if an entire ocean of light has opened up within me. The InterContinental Sanya Resort is a symbol of high living, premium relaxation, and a special attitude toward yourself. The chefs offer international cuisine, exquisite seafood, fresh tropical fruits, and signature flavor combinations! The design is stylish and modern, with elements of natural aesthetics, creating a harmony between luxury and tranquility. The service here is proactive: the staff anticipates your needs before you even think about them." },
+      { name: "Mavlyuda T.", place: "Sanya, China", saved: "$890", ytId: "Z9Z69_TvU5Q", story: "Благодаря Travorium я провела целых шесть дней в роскошном пятизвёздочном отеле InterContinental Sanya Resort, и это путешествие стало для меня настоящим воплощением комфорта, наслаждения и высокого уровня сервиса. Thanks to Travorium, I spent six whole days at the luxurious five-star InterContinental Sanya Resort, and for me, the trip was the epitome of comfort, enjoyment, and exceptional service. From the moment I stepped into the hotel, I was surrounded by an atmosphere of tranquility and sophistication. The spacious lobby, soft lighting, and smiling staff all seemed to whisper, \"Rest now. You'll be well taken care of here.\" The service exceeded all expectations. The staff was welcoming, attentive, and incredibly professional. The food at the hotel was a magical experience in itself. Breakfasts were a mini-celebration: fresh tropical fruits, perfect pastries, Asian dishes prepared right before your eyes, aromatic coffee, and delicacies you'll want to photograph before you even try them. And dinners… They were like a culinary journey: seafood, signature dishes, exquisite sauces, and stunning presentation. Every plate was a work of art. Over these six days, I managed to recharge and feel that life can be amazingly beautiful. And now I know for sure: trips like these stay in your heart. This vacation wasn't just a trip, but a gift from fate—bright, warm, and truly luxurious." },
+      { name: "Sophie A.", place: "Prague, Czech Republic", saved: "$756", ytId: "iG_zVKQvKew", story: "Worldtour de Prague 🥰 Mon séjour à Prague a été une véritable parenthèse enchantée. J'ai découvert une ville qui mêle histoire, magie et modernité avec une élégance unique. Chaque rue pavée, chaque pont, chaque monument m'a plongée dans une ambiance presque irréelle. Ce qui m'a le plus marquée, c'est l'énergie du pays : à la fois douce, inspirante et profondément culturelle. World tour of Prague 🥰 My stay in Prague was a truly magical interlude. I discovered a city that blends history, magic, and modernity with a unique elegance. Every cobblestone street, every bridge, every monument immersed me in an almost surreal atmosphere. What struck me most was the country's energy: gentle, inspiring, and deeply cultural." },
+      { name: "Aurore H.", place: "Gran Canaria, Spain", saved: "$804", ytId: "CzMVAFPeYB0", story: "Un Getaway génial à Gran Canaria. L'hôtel club Cala Blanca à Taurito était parfait, nous avions un appartement avec chambre (lit king size), cuisine équipée, salon, salle de bain et une superbe terrasse avec vue sur mer. Un cadre magnifique et idéal pour se retrouver en amoureux après la naissance de notre fils. On a profité de la piscine, de la plage (au sable volcanique) et d'une ambiance vraiment relaxante. Nous avons aussi découvert le Roque Nublo et un superbe \"mini Grand Canyon\" au centre de l'île : des paysages impressionnants qui nous ont vraiment marqués. Un séjour ressourçant, dépaysant et une très belle expérience grâce à Travorium ! Donc tout simplement MERCI! A fantastic getaway to Gran Canaria. The Cala Blanca Club Hotel in Taurito was perfect. We had an apartment with a bedroom (king-size bed), a fully equipped kitchen, a living room, a bathroom, and a superb terrace with a sea view. A magnificent setting, ideal for a romantic getaway after the birth of our son. We enjoyed the pool, the beach (with its volcanic sand), and a truly relaxing atmosphere. We also discovered Roque Nublo and a stunning \"mini Grand Canyon\" in the center of the island: breathtaking landscapes that truly impressed us. A rejuvenating and refreshing stay, and a wonderful experience thanks to Travorium! So, simply, THANK YOU!" },
+      { name: "Lou Anne B.", place: "Prague, Czech Republic", saved: "$750", ytId: "PE87LqIniZI", story: "J'ai passé un séjour merveilleux à Prague ! Une expérience unique que j'ai pu vivre avec ma maman. Un hôtel très classe, un petit-déjeuner buffet et le gros + : l'accès direct au métro depuis l'hôtel ! Nous avons découvert les spécialités culinaires locales ainsi que les activités et le patrimoine. J'en garderai un souvenir à vie, car c'est la première fois que je partage un voyage avec ma maman. Je suis ravie d'avoir pu lui offrir, merci Travorium et diky Praha ! I had a wonderful stay in Prague! A unique experience I was able to share with my mother. A very classy hotel, a buffet breakfast, and the best part: direct access to the metro from the hotel! We discovered local culinary specialties as well as activities and heritage sites. I will cherish the memory forever, as it was the first time I shared a trip with my mother. I am delighted to have been able to give her this experience, thank you Travorium and diky Praha!" },
+      { name: "Narmina A.", place: "Dubai, United Arab Emirates", saved: "$1000", ytId: "Y0Swki7-15g", story: "Мировой тур от компании Travorium 22–28 сентября ✨ Дубай. Наше незабываемое путешествие началось в тот момент, когда самолёт мягко приземлился. В отеле Aloft нас приветствовали молодые, внимательные менеджеры. Каждое утро начиналось с золотистых лучей солнца и величественного вида на Бурдж-Халифу. Мы искренне благодарим компанию Travorium за возможность увидеть Дубай, ощутить его магию и открыть для себя мир, о котором раньше только мечтали. ✨" },
+      { name: "Ahmed M.", place: "Prague, Czech Republic", saved: "$700", ytId: "NAnq0uF6zc0", story: "Prague was more than a destination — it was a living reminder of why freedom matters. I travelled with people who speak the same language: ambition, curiosity, authenticity. Travelers, entrepreneurs, vision-driven souls… the kind of individuals who don't just want to see the world, but to shape their place in it. From the first step in the cobblestone streets, I felt something different. Prague carries a strange magic — a blend of history, art, mystery, and quiet confidence. But what transformed this trip was the energy of the people beside me. We walked through ancient bridges talking about the future. We shared ideas that felt bigger than us, dreams we had kept hidden, and visions that suddenly felt within reach. And every evening, coming back to the 4-star Clarion Hotel grounded the experience. It wasn't just a stay — it was our base of comfort, clarity, and reconnection. The rooms were clean and modern, the atmosphere calm, and the staff always attentive. Breakfast turned into our morning ritual, where conversations flowed and plans took shape. The location gave us the perfect balance between the pulse of the city and the peace we needed to recharge. We weren't just discovering a city. We were discovering ourselves, our next moves, our next levels. There were moments of pure laughter, moments of deep reflection, moments where you realize that the right people can accelerate your growth more than a hundred books. The kind of memories that stay with you because they shift something inside you. This trip reminded me of something essential: Freedom is not a concept. It's a lifestyle — built step by step, decision by decision, journey by journey. And when you surround yourself with people who seek that same freedom, everything becomes possible. Prague gave us inspiration. It gave us clarity. It gave us momentum. Prague wasn't just a trip. Prague was an awakening." },
+      { name: "Melanie D.", place: "Freeport, Bahamas", saved: "$1,000", ytId: "8NvZh6kVt-E", story: "A memorable trip to the Bahamas with my loved one in a truly idyllic setting. The studio we rented through the Getaway platform was perfect. The hotel staff was courteous. The pool was simply WOW! And what can I say about the price I got thanks to my monthly points… unbelievable!" },
+      { name: "Zarina S.", place: "Almaty, Kazakhstan", saved: "$500", ytId: "gIl95Lfy4nQ", story: "This was the best trip ever! Swissôtel Wellness Resort Alatau Almaty with my daughter. I never imagined that you could have such an amazing, high-level отдых inside your own country. Grateful to Travōrium for making moments like this possible ✨" },
+      { name: "Irina I.", place: "Hilton Head Island, South Carolina", saved: "$1,270", ytId: "i-bu1jp_BOM", story: "It was the first US World Tour for our family! Our sons, the Latvian Champoons in the volleyball sport, dreamed and prayed about the opportunity to play volleyball at the beach on the Atlantic Ocean. So, here we are, thanks to Travorium! It was the trip of a lifetime." },
+      { name: "Christelle S.", place: "Bali, Indonesia", saved: "$750", ytId: "fLckacU2HV0", story: "Notre voyage à Bali en Getaways – une parenthèse magique en famille. Nous avons eu la chance de passer les fêtes de fin d'année à Bali, et ce voyage restera gravé à jamais dans nos cœurs. Nous avons séjourné dans un superbe hôtel 4 étoiles en bord de mer, avec un accueil chaleureux dès notre arrivée. Le personnel était aux petits soins, toujours souriant et attentionné. Chaque matin, nous profitions d'un petit-déjeuner royal. Au-delà du confort, ce voyage a été une véritable immersion culturelle. Nous avons vécu des expériences incroyables : une escapade inoubliable dans les îles Gili, du snorkeling au-dessus de magnifiques barrières de corail, des moments magiques à nager avec les tortues, et la visite d'un parc engagé dans la sauvegarde de la faune balinaise. Our Getaways trip to Bali – a magical family break. We were lucky enough to spend the Christmas and New Year holidays in Bali, and this trip will forever be etched in our hearts. We stayed in a superb 4-star beachfront hotel. Beyond the comfort, this trip was a true cultural immersion. We had some incredible experiences: an unforgettable getaway to the Gili Islands, snorkeling over magnificent coral reefs, magical moments swimming with turtles, and a visit to a wildlife conservation park. This trip was a whirlwind of emotions, discoveries, and family bonding… moments we will never forget." },
+      { name: "Irina V.", place: "Orcas Island, Washington State", saved: "$1,000", ytId: "4BWJp2wlgJ4", story: "This video is about how our family, thanks to Travorium, was able to take a one-week vacation to Orcas Island, Washington State 🌲🌊 And the best part — we saved around $1,000 on this trip. Sometimes one simple decision can change so much. I'm incredibly grateful to myself for having the clarity and courage to say \"Yes\" at the right moment. Yes to new opportunities, yes to travel, and yes to the life I want to create with my family 🤍" },
+      { name: "Karine L.", place: "Freeport, Bahamas", saved: "$1,500", ytId: "y_ipubECLKI", story: "This romantic getaway allowed us to slow down, relax, and explore the surrounding area. The resort, simply magnificent, provided the perfect setting for many wonderful moments spent by the pool, at the spa, and on the beach, undoubtedly the most beautiful we've ever seen. We also enjoyed exceptional comfort in our studio, which featured a whirlpool tub. We rented a car to explore the underwater world while snorkeling at various beaches, including Crystal Beach, Paradise Cove, Gold Rock Beach, and Banana Bay. A private boat trip to Peterson Cay was another highlight of our stay. Finally, the free ferry offered by the hotel allowed us to visit the Lucaya Marketplace, where we enjoyed some delicious meals." },
+      { name: "Christine C.", place: "Phuket, Thailand", saved: "$931", ytId: "5SuxxSJ0kps", story: "Je suis partie en voyage solo avec plusieurs étapes et le world tours à Phuket était au milieu de mon voyage. J'avais pour but le repos, profiter de la mer, des massages et de la vie locale. L'hotel est splendide, grand mais avec plusieurs partie ce qui fait qu'on était au calme. J'ai aimé les petites piscines sous forme de couloir de nage, ombragés. Que dire des petits déjeuners! Servis dans 2 restaurants, je n'ai jamais vu un si grand nombre de plats différents, que ce soit des viennoiseries, des plats thaïlandais, japonais, même des poissons entiers! J'ai fait la connaissance d'une partenaire canadienne. Le fait que l'hôtel soit situé au nord de la plage de Patong est appréciable car on est proche des restaurants sans être sur la partie trop bondée des plages. J'ai aimé me balader au coucher du soleil le long de la plage tout en profitant du street food." },
+      { name: "Audrey M.", place: "Mogan, Gran Canaria", saved: "$837", ytId: "12McBhDq3dc", story: "Quel voyage incroyable… 🥹🌍 5 jours aux Îles Canaries qui resteront gravés longtemps dans nos cœurs. J'ai pu emmener mon mari et ma fille avec moi, sans me ruiner, grâce à Travorium. Mais au-delà du voyage… c'est tout ce qu'on a vécu sur place qui a été magique. Retrouver des membres de mon équipe, certaines personnes que je ne connaissais qu'à travers un écran… et découvrir qu'en vrai, le lien est encore plus fort ❤️ On a ri, partagé, créé des souvenirs, travaillé aussi… Du virtuel au réel, voir ces personnes \"prendre vie\" et partager ça avec ma famille a été un moment très puissant. Ces quelques jours ont été bien plus que des vacances : une parenthèse hors du temps, remplie d'émotions, de gratitude et de connexions humaines. Honnêtement, je n'aurais jamais imaginé vivre ça un jour. Et le plus fou ? Tout ça sans exploser le budget. Je repars avec des souvenirs plein la tête… et encore plus motivée pour la suite ✨" },
+      { name: "Marina B.", place: "Cebu, Philippines", saved: "$930", ytId: "0tbPIAXW8Pk", story: "Как же приятно открывать для себя мир снова и снова… Мой четвёртый мировой тур вместе с клубом путешественников Travorium — и на этот раз направление по-настоящему райское: Филиппины. Лазурное море, мягкий белоснежный песок, пальмы, склоняющиеся к воде, и ощущение полной свободы… Моей точкой притяжения стал роскошный пятизвёздочный отель Dusit Thani Mactan Cebu. Этот тур — не просто путешествие. Это ещё одна глава в моей личной истории открытий, впечатлений и вдохновения. Филиппины покоряют сердце с первого взгляда 💛" },
+      { name: "Yelena S.", place: "Kuala Lumpur, Malaysia", saved: "$1200", ytId: "y0vQA7Hwa54", story: "It was a truly amazing trip!!! Kuala Lumpur greeted me with its lights and grandeur. At EQ Kuala Lumpur, I consciously made a mental note: \"This is how I want to vacation!!!\" Don't skimp. Don't choose according to your budget, but enjoy the best!!! And then – Langkawi. The jungle, the silence, the warmth, and a feeling of complete relaxation. And all this coincided with Chinese New Year, when the entire city sparkles with gold and festive energy. I felt like I was in a beautiful film. For me, this isn't just another country. It's a step into a new way of life." },
+      { name: "Keith B.", place: "Kuala Lumpur, Malaysia", saved: "$1200", ytId: "2gbCGON4ztY", story: "Thanks to Travorium Me and 60 other members were able to take a trip of a lifetime to Kuala Lumpur, Malaysia. We stayed at a 5 Star hotel for 6 days with breakfast everyday!" },
+      { name: "Akeles D.", place: "Kuala Lumpur, Malaysia", saved: "$1500", ytId: "ua5wDKkURZA", story: "Мама в декрете. 6 детей. И 5-звёздочный отель в центре Азии. Звучит как что-то нереальное? Я тоже раньше так думала. Но вот я — в самом сердце Куала-Лумпур, в роскошном EQ Kuala Lumpur. Панорамные окна. Город у твоих ног. Бассейн на высоте, где ты смотришь на небоскрёбы… и понимаешь — ограничения были только в голове. Это не просто отдых. Это ощущение ценности себя. Когда знаешь, как путешествовать по-другому — 5 звёзд становятся доступными даже маме в декрете." },
+      { name: "Andree Eve P.", place: "Orlando, Florida", saved: "$800", ytId: "asXoOjSZlCg", story: "Hello dears travelers ! 💚⚓️ We had a great time in Florida from February 26th to March 5th. My friend and I, from Canada (Quebec), were in holidays for Spring break and enjoyed our stay with the business. It all made sense to be at the convention and see successful people cheering up their team ! We stayed 3 nights at Doubletree Hilton by Seaworld where we saved 50$ each night with Travorium. We also rent a car for the week and stayed at Park Royal Hotel, Kissimmee. Clean, well located, outside pool, gym, very close to Disney and safe place. Breakfast was included everyday. We spent one day in Daytona Beach where we drove on the sand and one day in Cocoa Beach around Cap Canaveral. Sunsets where amazing with the full moon. Weather was perfect. ♡" },
+      { name: "Dave M.", place: "Orlando, Florida", saved: "$810", ytId: "IBXLbKsuX7I", story: "We booked a Getaway Tour and stayed before, during, and after the Orlando Conference — and what an experience it was. Over 2,000 like-minded travelers came together, and the energy was incredible. We loved reconnecting with our team, enjoying the beautiful resort, and saving over $810 on this trip alone. The real magic is in the Dreamcation platform. This marks our 7th trip between Getaways and World Tours, with a total retail value of $12,000… and we paid under $3,000. That's not just travel — that's smart travel. Travorium continues to stretch our travel dollars and open the world in ways we never imagined." },
+      { name: "Eldar U.", place: "JA The Resort, Dubai", saved: "$750", ytId: "_cgBviTSXZY", story: "🌴 JA Resort Lake View: Все номера просторные с системой «умный дом», а из окна — вид на бассейн и идеальные зеленые поля для гольфа. ⛳️ Еда на любой вкус: 25 ресторанов! Бассейны везде: их тут целых 7! Мой личный топ — инфинити-бассейн Bibé на крыше отеля. Территория гигантская, но пешком ходить не надо — повсюду гоняют шустрые бесплатные багги. Есть аквапарк с горками, детские клубы и даже конный клуб! Итог: Это не просто отель, это как огромная загородная резиденция. Рекомендую! )" },
+      { name: "Sylviane M.", place: "Orlando, Florida", saved: "$1,344.06", ytId: "ZbMhN5S1B80", story: "Orlando 2026 – Mon premier GetAway… et certainement pas le dernier ! C'était mon tout premier GetAway à Orlando, et honnêtement… je suis comblée. Dès notre arrivée, tout a été simple et agréable : un accueil chaleureux, une très belle chambre spacieuse, parfaitement équipée, idéalement située à deux pas de la piscine, du mini-golf et même de la buanderie. Sur place, nous avons pleinement profité de tout ce que le resort propose : activités variées (mini-golf, billard, jeux…), soirées conviviales, et surtout un service de navette gratuit très pratique. Côté restauration, nous avons pris tous nos petits-déjeuners et plusieurs dîners sur place : un excellent rapport qualité/prix. Mais au-delà du cadre, ce séjour avait une dimension particulière avec l'Annual Leadership Conference : des rencontres, des connexions, des échanges et des moments forts. Et là où ça devient encore plus intéressant, c'est en faisant les comptes : grâce à mon programme Platinum, j'ai réalisé 1 344,06 $ d'économies sur ce séjour. Donc oui, le mot est simple : une expérience réussie de A à Z." },
+      { name: "Dmitriy G.", place: "Bali, Indonesia", saved: "$1200", ytId: "LRCUqPwIqF8", story: "Bali… where do I even start. This trip wasn't just a vacation—it was an experience I'll never forget. From the moment we landed, it felt like we stepped into a different world. Warm air, palm trees, the sound of the ocean… the beaches alone were unreal. Big rolling waves crashing into the shore, that deep ocean energy—you can just stand there and feel it. And the craziest part? We didn't just watch… we actually got to get in the water and learn how to surf those waves. It was challenging, fun, and honestly one of the best feelings catching your first wave. We stayed at the 5-star Grand Hyatt Bali resort, and honestly, it felt like a dream. Every morning started with an incredible breakfast—so many options, fresh food, everything you could imagine—and it was all included as part of our Travorium world tour. But what made this trip unforgettable was everything we got to experience. We explored the island, visited the famous Gates of Heaven, walked through ancient temples, and stood in front of breathtaking waterfalls hidden in the jungle. One of the craziest moments was flying on a zipline above the rice fields—views I'll never forget. We even visited Monkey Island, where we got to hand-feed exotic animals up close. Every single day felt like a new adventure. But the most important part for me… was the time I got to spend with my wife. Just being present, exploring together, laughing, creating memories—that's something money can't buy. And the truth is, this kind of trip once felt out of reach. Something for \"someday.\" Now it's real. This experience was truly amazing, and I'm beyond grateful for the opportunity we had—thanks to our company—to live moments like this. More life. More travel. More memories. This is what it's all about." },
+      { name: "Zhazira K.", place: "Phuket, Thailand", saved: "$1844", ytId: "JWeX6WMJVCc", story: "It was truly an incredible trip with my team. We explored different locations together, went hiking, and lived each day exactly the way I once imagined it. We visited some of the most beautiful beaches in Phuket — and at one point, I caught myself thinking: I'm living inside my dream. It felt magical. And it's definitely one of those journeys that stays not just in your phone, but within you. Grateful 🤍 Talk soon." },
+      { name: "Zhulduzay M.", place: "Cam Ranh, Vietnam", saved: "$1300", ytId: "w6oNhXAQAMk", story: "Поехала отдыхать с четырьмя детьми — и отель приятно удивил. Нам сделали апгрейд до виллы. Просторно, удобно, с детьми — идеально. Еда разнообразная, подходит и для малышей. Сервис внимательный: вечером приносят печенье и молоко. По страховке можно вызвать врача прямо в отель. Пляж чистый, море тёплое. Благодарю Travorium за возможность показать детям такой уровень комфорта и безопасности. Отдых получился полноценным и запоминающимся — и это самое важное." },
+      { name: "Saltanat S.", place: "Batumi, Georgia", saved: "$500", ytId: "PLiQFc5KW6I", story: "I spent some incredible days with the team on the World Tour in Batumi! It was a true blend of relaxation, inspiration, and growth! A stunning hotel, exquisite cuisine, and an atmosphere of comfort and pure enjoyment—everything was top-notch. We visited amazing waterfalls, enjoyed a tasting of homemade wine, strolled along the waterfront, and even headed out to sea on a yacht! We captured some beautiful photos at the legendary Ali and Nino monument—a place where you can truly feel the presence of a timeless love story. We stopped by the local bazaar to soak up the city's unique flavor, and, of course, we held a training session for our Travorium partners—sharing knowledge, growing together, and inspiring one another. This tour is all about energy, about people, about scale, and about the life we are creating for ourselves. Batumi… you make you fall in love at first sight." },
+      { name: "Anne D.", place: "Budapest, Hungary", saved: "$280", ytId: "G8I_k4cdu7w", story: "Quel voyage… Budapest en amoureux, une parenthèse hors du temps que nous n'oublierons jamais… Un voyage gravé, pas seulement en photos, mais en nous. Merci 🤍" },
+      { name: "Andrii P.", place: "Batumi, Georgia", saved: "$890", ytId: "8GiRhvzsGys", story: "Batumi is a place you'll want to come back to again and again. The sea, palm trees, delicious food, stunning views, and a feeling of total freedom — Batumi has everything you need to relax and recharge." },
+      { name: "Albina T.", place: "JA The Resort, Dubai", saved: "$1800", ytId: "hIN6JpNquqE", story: "It was an unforgettable vacation spent with my parents! It was their very first trip abroad! The luxurious JA Resort is truly an oasis in the desert! It is such a beautiful hotel, featuring lush greenery, numerous swimming pools, and vast grounds. The property boasts its own zoo, yacht club, and golf club, along with a wide selection of restaurants and cafes, an expansive beachfront, plenty of sun loungers, and simply incredibly delicious breakfasts! I would like to thank Travorium for providing such opportunities to see the world—and to share that experience with my loved ones!" },
+      { name: "Audrey M.", place: "Majorca, Spain", saved: "$2600", ytId: "Tu-HxBHUciU", story: "Quel voyage incroyable… 7 jours à Majorque qui resteront gravés longtemps dans nos cœurs. Cette fois, c'était une vraie parenthèse en famille… tous les quatre. Du soleil, des paysages magnifiques, du temps ensemble loin du quotidien… exactement ce dont on avait besoin. Mais surtout, on a pu réaliser un rêve… Celui de notre fils. L'emmener passer une journée à la Rafael Nadal Academy. Le voir vivre ça à fond, avec des étoiles plein les yeux… c'est un moment que je n'oublierai jamais. Ces 7 jours, c'était bien plus que des vacances. C'était des souvenirs précieux, des instants simples mais forts, des rires, des découvertes… et surtout, du temps de qualité tous les quatre. Et honnêtement… jamais je n'aurais imaginé pouvoir vivre ce genre de séjour sans exploser le budget. Je repars avec le cœur rempli, des images plein la tête… et encore plus de motivation pour continuer à créer ce genre de moments." },
+      { name: "Stephanie D.", place: "Cancun, Mexico", saved: "$500", ytId: "7V74TrzhwgQ", story: "Sun-soaked days, crystal-clear water, and endless good vibes—Cancun was pure paradise. From relaxing on white-sand beaches to unforgettable nights and amazing food, every moment felt like a dream." },
+      { name: "Saltanat S.", place: "Khao Lak, Thailand", saved: "$500", ytId: "jNNFC_JVkL8", story: "I decided to treat us to a little getaway, so my wife and I flew to the JW Marriott Khao Lak Resort & Spa. It was one of those trips that truly stays with you. From the very first days, a special atmosphere of tranquility settled in: beautiful scenery, the warm sea, the hotel's expansive grounds, and time dedicated solely to the two of us. We took long walks, relaxed by the pool, watched the sunsets by the sea, and simply savored every moment together. I especially loved seeing her happy and relaxed—free from all the hustle and daily cares. Khao Lak turned out to be a beautiful and charming place—somewhere you can truly hit the reset button and rediscover the joy of living. This trip gifted us a wealth of heartwarming emotions and moments that we want to cherish in our memories for a long time to come. Sometimes, it is precisely these kinds of journeys that remind us just how important it is to simply be by the side of the one you love and enjoy life together." },
+      { name: "Gulnaza A.", place: "Prague, Czech Republic", saved: "$1076", ytId: "ABX4cDGS1lY", story: "Prague is not just a trip — it's a whole new level of lifestyle you create for yourself ✨ I experienced this fairytale in Prague, staying at Clarion Hotel Prague — comfort, service, and an atmosphere you truly enjoy coming back to after exploring the city. But the most important part — this wasn't just a regular vacation. It was a world tour with Travorium, and I traveled using accumulated points. Just imagine: traveling across Europe, staying in great hotels, and using opportunities you've created for yourself. And yes, we were a group of 20 people from Kyrgyzstan — incredible energy, support, and unforgettable emotions ❤️ This journey is about inspiration, a higher level of living, and realizing that traveling can be completely different 🌍" },
+      { name: "Luiza Z.", place: "Sanya, China", saved: "$890", ytId: "e1pxBMyzFk8", story: "Our trip to Sanya through Travorium gave us unforgettable emotions, amazing experiences, and memories that will stay with us forever ✈️🌴 Beautiful places, new feelings, and moments we will cherish forever ❤️" },
+      { name: "Amy M.", place: "Punta Cana, Dominican Republic", saved: "$800", ytId: "-W_KxNrD8yE", story: "Our Dominican Republic getaway was the perfect mix of adventure, relaxation, culture, and unforgettable memories — from muddy buggy rides and snorkeling to beach days, spa treatments, party boats, and meeting amazing people along the way. And the best part?" },
+      { name: "Bakytgul B.", place: "Burabay, Kazakhstan", saved: "$600", ytId: "9-Yiv8_0L9o", story: "Наш замечательный отдых с семьей прошел в Wyndham Garden Burabay. Благодарим компанию Травориум за такую возможность. Живописные места, отличная кухня и уединение с командой." },
+      { name: "Alina T.", place: "Punta Cana, Dominican Republic", saved: "$1700", ytId: "RH_dqbm-T8M", story: "This trip happened to fall on my friend's birthday, so I decided to gift them something unforgettable—a 5-star all-inclusive vacation in Punta Cana at the beautiful Grand Palladium Select Bávaro. It was our first time in the Dominican Republic, and I'm so grateful for Travorium because it made a gift like this possible. At 25, I never imagined I'd be able to treat my loved ones to experiences like this!" },
+      { name: "Keith B.", place: "Rio de Janeiro, Brazil", saved: "$1052", ytId: "JxHOlX5xjZg", story: "This trip to Rio was 5 days at a beautiful 5 star hotel with an amazing rooftop bar. Thank you Travorium!" },
+      { name: "Gulnar B.", place: "Batumi, Georgia", saved: "$500", ytId: "06gJGCNRPZE", story: "♟️ Батуми. Кубок Мира по шахматам. Новые эмоции и новые впечатления 🌍✨ Эта поездка стала прекрасным примером того, как можно совмещать развитие, вдохновение и отдых. От всей души благодарю нашу компанию Траториум за возможность провести это время в замечательной атмосфере и насладиться отдыхом в отеле Hilton 🏨" },
+    ];
+  }
+
+  loadYTApi() {
+    if (window.YT && window.YT.Player) return Promise.resolve();
+    if (this._ytPromise) return this._ytPromise;
+    this._ytPromise = new Promise((resolve) => {
+      const prev = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => { if (prev) try { prev(); } catch (e) {} resolve(); };
+      if (!document.getElementById('cg-yt-api')) {
+        const s = document.createElement('script');
+        s.id = 'cg-yt-api';
+        s.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(s);
+      }
+      const poll = setInterval(() => { if (window.YT && window.YT.Player) { clearInterval(poll); resolve(); } }, 120);
+    });
+    return this._ytPromise;
+  }
+
+  loadVimeoApi() {
+    if (window.Vimeo && window.Vimeo.Player) return Promise.resolve();
+    if (this._vimeoPromise) return this._vimeoPromise;
+    this._vimeoPromise = new Promise((resolve) => {
+      let s = document.getElementById('cg-vimeo-api');
+      if (!s) {
+        s = document.createElement('script');
+        s.id = 'cg-vimeo-api';
+        s.src = 'https://player.vimeo.com/api/player.js';
+        document.head.appendChild(s);
+      }
+      s.addEventListener('load', () => resolve());
+      const poll = setInterval(() => { if (window.Vimeo && window.Vimeo.Player) { clearInterval(poll); resolve(); } }, 120);
+    });
+    return this._vimeoPromise;
+  }
+
+  // iPhone/iPad Safari. iOS can't fullscreen a cross-origin iframe, so YouTube/Vimeo
+  // embeds instead use playsinline=0 (documented: a tap plays them in the native iOS
+  // fullscreen player). Native <video> uses webkitEnterFullscreen (see _toggleFs).
+  _isIOS() {
+    const ua = navigator.userAgent || '';
+    return /iP(hone|ad|od)/.test(ua) || (/Macintosh/.test(ua) && 'ontouchend' in document);
+  }
+
+  // Toggle fullscreen on a container element (not the iframe) so our custom
+  // controls stay on top in fullscreen and there's no path to YouTube/Vimeo.
+  _toggleFs = (el) => {
+    const d = document;
+    const cur = d.fullscreenElement || d.webkitFullscreenElement;
+    if (cur) {
+      const exit = d.exitFullscreen || d.webkitExitFullscreen;
+      if (exit) { try { exit.call(d); } catch (err) {} }
+      return;
+    }
+    const video = el.tagName === 'VIDEO' ? el : el.querySelector('video');
+    // iOS only ever fullscreens a raw <video>, via webkitEnterFullscreen(). On iOS,
+    // Element.webkitRequestFullscreen often EXISTS on a div but silently does nothing, so
+    // we must NOT take the element path there — go straight to the video. (This is why the
+    // horizontal testimonials wouldn't fullscreen on iPhone.) Must run inside the tap
+    // gesture, so call it synchronously when metadata is ready.
+    const isIOS = this._isIOS();
+    const nativeVideoFs = () => {
+      if (!(video && video.webkitEnterFullscreen)) return false;
+      // iOS often ignores preload="metadata", so the video may not be ready yet (the
+      // testimonial button is tappable before playback). Kick playback within the tap
+      // gesture so there's media to present, then enter fullscreen — immediately if we
+      // can, otherwise the moment metadata arrives.
+      try { const pr = video.play(); if (pr && pr.catch) pr.catch(() => {}); } catch (e) {}
+      try {
+        video.webkitEnterFullscreen();
+      } catch (err) {
+        video.addEventListener('loadedmetadata', function once() { try { video.webkitEnterFullscreen(); } catch (e) {} }, { once: true });
+      }
+      return true;
+    };
+    if (isIOS && nativeVideoFs()) return;
+    // Desktop + Android: fullscreen the container so our custom controls stay on top.
+    const req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (req) { try { const p = req.call(el); if (p && p.catch) p.catch(() => {}); } catch (err) {} return; }
+    // Last resort (non-iOS without element fullscreen): native video fullscreen.
+    nativeVideoFs();
+  };
+
+  // Inject the only two controls we want: click-anywhere to play/pause, plus a
+  // fullscreen button. A transparent catcher over the player blocks every native
+  // click, so users can never reach the YouTube/Vimeo site. Returns setPlaying().
+  _addChrome = (container, fsTarget, onToggle) => {
+    const catcher = document.createElement('div');
+    catcher.style.cssText = 'position:absolute;inset:0;z-index:4;cursor:pointer;';
+    catcher.addEventListener('click', (e) => { e.preventDefault(); onToggle(); });
+    catcher.addEventListener('contextmenu', (e) => e.preventDefault());
+
+    const overlay = document.createElement('div');
+    overlay.setAttribute('data-cg-play', '');
+    overlay.style.cssText = 'position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;background:rgba(26,34,88,0.16);pointer-events:none;opacity:0;transition:opacity 0.3s ease;';
+    overlay.innerHTML = '<span style="position:relative;display:flex;align-items:center;justify-content:center;width:clamp(56px,24%,78px);height:clamp(56px,24%,78px);"><span style="position:absolute;inset:0;border-radius:50%;border:3px solid rgba(255,255,255,0.9);animation:cg-ping 1.8s cubic-bezier(0,0,0.2,1) infinite;"></span><span style="position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:50%;background:#FFFFFF;box-shadow:0 6px 20px rgba(26,34,88,0.45);"><span style="display:block;width:0;height:0;border-top:12px solid transparent;border-bottom:12px solid transparent;border-left:20px solid #1A2258;margin-left:5px;"></span></span></span>';
+
+    const fsBtn = document.createElement('button');
+    fsBtn.type = 'button';
+    fsBtn.setAttribute('aria-label', 'Toggle fullscreen');
+    fsBtn.style.cssText = 'position:absolute;right:10px;bottom:10px;z-index:6;width:40px;height:40px;display:flex;align-items:center;justify-content:center;padding:0;border:0;border-radius:10px;background:rgba(26,34,88,0.32);cursor:pointer;transition:background 0.2s ease;';
+    fsBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';
+    fsBtn.addEventListener('mouseenter', () => { fsBtn.style.background = 'rgba(26,34,88,0.55)'; });
+    fsBtn.addEventListener('mouseleave', () => { fsBtn.style.background = 'rgba(26,34,88,0.32)'; });
+    fsBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); this._toggleFs(fsTarget); });
+
+    container.appendChild(catcher);
+    container.appendChild(overlay);
+    container.appendChild(fsBtn);
+
+    return (playing) => { overlay.style.opacity = playing ? '0' : '1'; };
+  };
+
+  playVideo = (e) => {
+    const facade = e.currentTarget;
+    const id = facade.getAttribute('data-video-id');
+    const box = facade.parentElement;
+    if (facade.getAttribute('data-playing')) return;
+    facade.setAttribute('data-playing', '1');
+
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:absolute;inset:0;overflow:hidden;z-index:2;background:#000;';
+    const mount = document.createElement('div');
+    mount.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;';
+    wrap.appendChild(mount);
+    // Mask the brief title/branding flash at the top (native controls are off).
+    const topMask = document.createElement('div');
+    topMask.style.cssText = 'position:absolute;top:0;left:0;right:0;height:72px;z-index:3;pointer-events:none;background:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0));';
+    wrap.appendChild(topMask);
+    box.appendChild(wrap);
+    facade.style.visibility = 'hidden';
+
+    let player = null;
+    const toggle = () => {
+      if (!player || !player.getPlayerState) return;
+      const st = player.getPlayerState();
+      if (st === 1 || st === 3) { player.pauseVideo(); } else { player.playVideo(); }
+    };
+    const setPlaying = this._addChrome(wrap, box, toggle);
+
+    this.loadYTApi().then(() => {
+      // YouTube error 153 = the embed can't validate its origin. Pass the real
+      // page origin so it works on the deployed (https) domain, not just localhost.
+      // iOS can't fullscreen the iframe, so playsinline:0 makes a tap open YouTube's native
+      // fullscreen player on iPhone (the only fullscreen iOS allows for an embed). fs:1 so
+      // that native player exposes fullscreen. Desktop/Android ignore playsinline → unchanged.
+      const iOS = this._isIOS();
+      const vars = { rel: 0, controls: 0, fs: iOS ? 1 : 0, modestbranding: 1, iv_load_policy: 3, cc_load_policy: 0, disablekb: 1, playsinline: iOS ? 0 : 1, autoplay: 1, enablejsapi: 1 };
+      if (location.protocol === 'https:' || location.protocol === 'http:') { vars.origin = location.origin; }
+      player = new window.YT.Player(mount, {
+        videoId: id,
+        playerVars: vars,
+        events: {
+          onReady: (ev) => { try { ev.target.playVideo(); } catch (err) {} },
+          onStateChange: (ev) => {
+            if (ev.data === 1) { setPlaying(true); }
+            else if (ev.data === 2 || ev.data === 0) { setPlaying(false); }
+          },
+          onError: (ev) => { try { console.warn('YT player error', ev && ev.data); } catch (err) {} }
+        }
+      });
+    });
+  };
+
+  scrollFeed = (dir) => {
+    const track = document.querySelector('[data-feed-track]');
+    if (!track) return;
+    const tile = track.firstElementChild;
+    const gap = 22;
+    const step = tile ? tile.getBoundingClientRect().width + gap : track.clientWidth * 0.8;
+    const pages = window.innerWidth < 700 ? 1 : 2;
+    track.scrollBy({ left: dir * step * pages, behavior: 'smooth' });
+  };
+
+  toggleStory = (e) => {
+    const btn = e.currentTarget;
+    const card = btn.closest('[data-story-card]');
+    if (!card) return;
+    const body = card.querySelector('[data-story-body]');
+    if (!body) return;
+    const open = body.getAttribute('data-open') === '1';
+    if (open) {
+      body.style.maxHeight = '0px';
+      body.style.opacity = '0';
+      body.style.marginTop = '0px';
+      body.setAttribute('data-open', '0');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.textContent = 'Read the full story';
+    } else {
+      body.style.maxHeight = body.scrollHeight + 'px';
+      body.style.opacity = '1';
+      body.style.marginTop = '14px';
+      body.setAttribute('data-open', '1');
+      btn.setAttribute('aria-expanded', 'true');
+      btn.textContent = 'Hide story';
+    }
+  };
+
+  toggleMoreStories = (e) => {
+    const btn = e.currentTarget;
+    const grid = document.querySelector('[data-stories-grid]');
+    if (!grid) return;
+    const extras = grid.querySelectorAll('[data-story-extra]');
+    const expanded = btn.getAttribute('data-expanded') === '1';
+    extras.forEach((el) => { el.style.display = expanded ? 'none' : 'flex'; });
+    btn.setAttribute('data-expanded', expanded ? '0' : '1');
+    btn.textContent = expanded ? 'See 72 more stories ↓' : 'Show fewer ↑';
+  };
+
+  startTestimonial = (e) => {
+    const btn = e.currentTarget;
+    const wrap = btn.parentElement;
+    const video = wrap && wrap.querySelector('video');
+    if (!video) return;
+    const p = video.play();
+    if (p && p.catch) p.catch(() => {});
+    btn.style.opacity = '0';
+    btn.style.pointerEvents = 'none';
+  };
+
+  componentDidMount() {
+    const root = document.querySelector('[data-screen-label="Travorium landing v2"]');
+    if (!root) return;
+
+    const els = root.querySelectorAll('[data-reveal]');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.translate = '0 0';
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    els.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top > window.innerHeight * 0.9) {
+        el.style.opacity = '0';
+        el.style.translate = '0 30px';
+        el.style.transition = 'opacity 0.7s ease, translate 0.7s cubic-bezier(0.34, 1.4, 0.44, 1)';
+        io.observe(el);
+      }
+    });
+    this._io = io;
+
+    // "This is what members post": shuffle all cards on every load.
+    const feedTrack = root.querySelector('[data-feed-track]');
+    if (feedTrack) {
+      const cards = Array.prototype.slice.call(feedTrack.children);
+      for (let i = cards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const tmp = cards[i]; cards[i] = cards[j]; cards[j] = tmp;
+      }
+      cards.forEach((card) => feedTrack.appendChild(card));
+    }
+
+    // Minimal reel player: click to play/pause only. No native controls => no download, fullscreen, or fast-forward.
+    Array.prototype.forEach.call(root.querySelectorAll('video'), (v) => {
+      if (!(v.getAttribute('src') || '').includes('r2.dev')) return; // reels only
+      v.removeAttribute('controls');
+      v.setAttribute('controlsList', 'nodownload nofullscreen noremoteplayback');
+      try { v.disablePictureInPicture = true; } catch (err) {}
+      const card = v.parentElement;
+      const overlay = card && card.querySelector('[data-play-overlay]');
+      const setOverlay = (show) => { if (overlay) { overlay.style.opacity = show ? '1' : '0'; overlay.style.pointerEvents = show ? 'auto' : 'none'; } };
+      const toggle = () => { if (v.paused) { const p = v.play(); if (p && p.catch) p.catch(() => {}); } else { v.pause(); } };
+      v.addEventListener('click', toggle);
+      if (overlay) overlay.addEventListener('click', (e) => { e.preventDefault(); toggle(); });
+      v.addEventListener('play', () => setOverlay(false));
+      v.addEventListener('pause', () => setOverlay(true));
+      v.addEventListener('ended', () => setOverlay(true));
+      v.addEventListener('contextmenu', (e) => e.preventDefault());
+      v.addEventListener('dblclick', (e) => e.preventDefault());
+
+      // Testimonials and the vertical member reels get a fullscreen button (matches the YouTube/Vimeo control).
+      const inFeed = card && card.parentElement && card.parentElement.hasAttribute && card.parentElement.hasAttribute('data-feed-track');
+      const src = v.getAttribute('src') || '';
+      const isVertical = inFeed || src.includes('casestudy-');
+      if (card && (isVertical || src.includes('testimonial-'))) {
+        const fsBg = 'rgba(26,34,88,0.32)', fsBgHover = 'rgba(26,34,88,0.55)';
+        const fsBtn = document.createElement('button');
+        fsBtn.type = 'button';
+        fsBtn.setAttribute('aria-label', 'Toggle fullscreen');
+        fsBtn.style.cssText = 'position:absolute;right:10px;bottom:10px;z-index:4;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:0;border-radius:10px;background:' + fsBg + ';cursor:pointer;transition:background 0.2s ease,opacity 0.25s ease;';
+        fsBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';
+        fsBtn.addEventListener('mouseenter', () => { fsBtn.style.background = fsBgHover; });
+        fsBtn.addEventListener('mouseleave', () => { fsBtn.style.background = fsBg; });
+        fsBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); this._toggleFs(card); });
+        // Vertical reels: hide the button until the clip is actually playing, so it never
+        // sits on top of the play overlay. Testimonials keep it visible at all times.
+        if (isVertical) {
+          const showFs = (on) => { fsBtn.style.opacity = on ? '1' : '0'; fsBtn.style.pointerEvents = on ? 'auto' : 'none'; };
+          showFs(false);
+          v.addEventListener('play', () => showFs(true));
+          v.addEventListener('pause', () => showFs(false));
+          v.addEventListener('ended', () => showFs(false));
+        }
+        card.appendChild(fsBtn);
+      }
+    });
+
+    // Vimeo stories: lazy facades. The 8 unique clips appear ~30 times across the story
+    // grid — embedding them all as live iframes booted 30 Vimeo players at once, so a
+    // card the user clicked crawled while it competed with every other player (the "takes
+    // forever to load" symptom). Instead each card shows a poster + play button, and the
+    // real iframe (with autoplay=1) is created only on click — so the one clip the user
+    // picks boots on its own. Same facade approach the YouTube cards use.
+    const VIMEO_POSTERS = {
+      "1128938100": "https://i.vimeocdn.com/video/2072159796-51824b8b78fee6db9fb2d92ccb6890d7bb641b9d27380709e26c81cc7af2b0d7-d_640x360?region=us",
+      "1139563146": "https://i.vimeocdn.com/video/2086259321-ae13bbf917eaee53bc9e31d42ad677ac4968b2a9681a4c6f368d3d99cc11b273-d_640x360?region=us",
+      "1140775853": "https://i.vimeocdn.com/video/2087939264-070f26cbb14b61ff69302ccf0de2e33928dc26790da8d83f7c676cdbc4431235-d_640x360?region=us",
+      "1148900490": "https://i.vimeocdn.com/video/2099278436-783737d55e58d1e8e3846a891bb7facacb0c3e7acd53415ea625ecaadc095079-d_640x360?region=us",
+      "1150491699": "https://i.vimeocdn.com/video/2101377755-e254e40b18574063fe7fc03d0b6d3f47df4377eebf572c540a925e0f36c8b063-d_640x360?region=us",
+      "1189253132": "https://i.vimeocdn.com/video/2153718550-79daec4d1cc0d7759e60523baa15934a2653a4a9322aa8b0b2f251bfa95244d0-d_640x360?region=us",
+      "1191152296": "https://i.vimeocdn.com/video/2156086644-b13222478213d187407bcacd4e5310575345123af976147ec13971d13fddf8d3-d_640x360?region=us",
+      "1205386514": "https://i.vimeocdn.com/video/2173950567-28dc86d51045f7d4a3b8d4917a3697382536dc175ebcd3af6b56cc54e55af1e9-d_640x360?region=us",
+      "589029737": "https://i.vimeocdn.com/video/1218352858-3e282f476d172d3d25b244e3fb1b417bffced65a4cc62f77bb8ad1ae4fca7204-d_640x360?region=us",
+      "589025721": "https://i.vimeocdn.com/video/1218346791-209a592985e000253df6ec36682bbe00c107b9008c117c0f8c427521dd118abc-d_640x360?region=us",
+      "589025486": "https://i.vimeocdn.com/video/1218345222-8f447e07bf7bee968d17e31a3f4ddaf033c4a19ceacabd470fc758a0b0c4fa16-d_640x360?region=us",
+      "645354854": "https://i.vimeocdn.com/video/1298072991-0e43ec70a83193142343902ca14609368a9c42045b6bd4d81_640x360?region=us",
+      "589026930": "https://i.vimeocdn.com/video/1218347667-5fb91ae03737b096fd184f3a37affb59eca47899dda9661b71c98f938d753e41-d_640x360?region=us",
+      "589028184": "https://i.vimeocdn.com/video/1218352452-a86de983be718d66dc155003c43b9e244548277c7875cd05e22f886b85b18e51-d_640x360?region=us",
+      "589022875": "https://i.vimeocdn.com/video/1218340922-762821c44f9a14c834f5f4e8058adff2ae5da3340de9a8e19aedb9ad3a5cf9b5-d_640x360?region=us",
+      "589024259": "https://i.vimeocdn.com/video/1218343885-3ebbb5b399ff2c40d90fb48844784023e25ab9d95329fd3140112205e878bcc1-d_640x360?region=us",
+      "739518990": "https://i.vimeocdn.com/video/1488229810-86293a8f7c810b714eafcf7265525d326c487b7d190d8e8fbaba3f96a2051168-d_640x360?region=us",
+      "622590386": "https://i.vimeocdn.com/video/1264865439-8337343acd903bcfa63b70104811ce3149c02ddfe163ebe9a_640x360?region=us",
+      "622598281": "https://i.vimeocdn.com/video/1264872875-70747bf4b33f735dd0bfa865a638b8e1cf12290f4915ee78f_640x360?region=us",
+      "589027955": "https://i.vimeocdn.com/video/1218349861-d0ad3adcf4c63fce4e13ad43531033d976e226fafb13c7556cedfc3e61dc8cb8-d_640x360?region=us",
+      "589027798": "https://i.vimeocdn.com/video/1218349380-67c66fb1b572d465e07a47cfa3f77f0963698fd585a888068cfc92bc9e9bae42-d_640x360?region=us",
+      "589023764": "https://i.vimeocdn.com/video/1218342861-7c89fd856c4c887424f0c219bfb0170313aeb4e87191e1ed620a5b750fa7bf30-d_640x360?region=us",
+      "589026674": "https://i.vimeocdn.com/video/1218347358-b24703ae289ebf53b7890e7182a4f7e513a558ab7aa4bccebb802dc57aa7cf40-d_640x360?region=us",
+      "1090573793": "https://i.vimeocdn.com/video/2023211855-f70381345c3997936880220efc85e2d384696a8319cac96d4e67d2cc0e9ece5f-d_640x360?region=us",
+      "728587094": "https://i.vimeocdn.com/video/1466634547-680c461ef3bb2eda13f99a4fad6f4f35e4e1159517cdf62a858f040090415269-d_640x360?region=us",
+      "1091619311": "https://i.vimeocdn.com/video/2024497554-c91209746ce987b63137bc823e1a18de1339810f448089ff428cb8246db8b6b9-d_640x360?region=us",
+      "589025614": "https://i.vimeocdn.com/video/1218345177-9b6ca5abbdcbf83b753a8f493d3ff5ee3d24f49a618f69d506a60984577ff803-d_640x360?region=us",
+      "589024650": "https://i.vimeocdn.com/video/1218344030-0427ffaf45974b06c0abf38be3c4d82aef672747f2e437abe4352f33d13e8e01-d_640x360?region=us",
+      "735012712": "https://i.vimeocdn.com/video/1478960033-b9f09a1bef1c50b7aab782562e20c0eed9ac28f18b1154a1770aa12e9a08296e-d_640x360?region=us",
+      "711364615": "https://i.vimeocdn.com/video/1434484892-1ba53e0aaec8f4398c352a96aa3adc9cacf992fdb825c381977533785839efc5-d_640x360?region=us"
+    };
+    const PLAY_OVERLAY = '<span style="position:relative;display:flex;align-items:center;justify-content:center;width:clamp(56px,24%,78px);height:clamp(56px,24%,78px);"><span style="position:absolute;inset:0;border-radius:50%;border:3px solid rgba(255,255,255,0.9);animation:cg-ping 1.8s cubic-bezier(0,0,0.2,1) infinite;"></span><span style="position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:50%;background:#FFFFFF;box-shadow:0 6px 20px rgba(26,34,88,0.45);"><span style="display:block;width:0;height:0;border-top:12px solid transparent;border-bottom:12px solid transparent;border-left:20px solid #1A2258;margin-left:5px;"></span></span></span>';
+    const vimeoFacades = root.querySelectorAll('[data-vimeo-facade]');
+    Array.prototype.forEach.call(vimeoFacades, (facade) => {
+      if (facade.getAttribute('data-cg-wired')) return;
+      facade.setAttribute('data-cg-wired', '1');
+      const embed = facade.getAttribute('data-vimeo-src') || '';
+      const m = embed.match(/\/video\/(\d+)/);
+      const vid = m ? m[1] : '';
+      // Poster (lazy — only fetched as the card nears the viewport).
+      if (VIMEO_POSTERS[vid]) {
+        const img = document.createElement('img');
+        img.src = VIMEO_POSTERS[vid];
+        img.alt = facade.getAttribute('title') || 'Member story';
+        img.loading = 'lazy';
+        img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;';
+        facade.appendChild(img);
+      }
+      const overlay = document.createElement('div');
+      overlay.style.cssText = 'position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;background:rgba(26,34,88,0.16);cursor:pointer;transition:opacity 0.3s ease;';
+      overlay.innerHTML = PLAY_OVERLAY;
+      facade.appendChild(overlay);
+
+      const start = () => {
+        if (facade.getAttribute('data-live')) return;
+        facade.setAttribute('data-live', '1');
+        // Build the real player iframe now, inside the click gesture, with autoplay=1 so
+        // it plays with sound reliably (the proven YouTube-facade behaviour).
+        const iframe = document.createElement('iframe');
+        // On iOS, playsinline=0 makes the tap open Vimeo's native fullscreen player (iOS
+        // can't fullscreen the iframe itself). Desktop/Android ignore it and play inline.
+        iframe.src = embed + (embed.indexOf('?') > -1 ? '&' : '?') + 'autoplay=1' + (this._isIOS() ? '&playsinline=0' : '');
+        iframe.title = facade.getAttribute('title') || '';
+        iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;display:block;z-index:2;';
+        facade.appendChild(iframe);
+        overlay.remove();
+        // Wire play/pause + fullscreen chrome once the SDK is ready. Playback has already
+        // started via autoplay=1, so this only adds our custom controls on top.
+        this.loadVimeoApi().then(() => {
+          if (!(window.Vimeo && window.Vimeo.Player)) return;
+          let player;
+          try { player = new window.Vimeo.Player(iframe); } catch (err) { return; }
+          let isPlaying = true;
+          const toggle = () => {
+            if (isPlaying) { const q = player.pause(); if (q && q.catch) q.catch(() => {}); }
+            else { const p = player.play(); if (p && p.catch) p.catch(() => {}); }
+          };
+          const setPlaying = this._addChrome(facade, facade, toggle);
+          player.on('play', () => { isPlaying = true; setPlaying(true); });
+          player.on('pause', () => { isPlaying = false; setPlaying(false); });
+          player.on('ended', () => { isPlaying = false; setPlaying(false); });
+          setPlaying(true);
+        });
+      };
+      facade.addEventListener('click', start);
+    });
+
+    // Every YouTube thumbnail gets the same play button as the reels/Vimeo cards.
+    // Purely decorative (pointer-events:none) — the facade's own onClick still fires.
+    const ytFacades = root.querySelectorAll('[data-video-id]');
+    Array.prototype.forEach.call(ytFacades, (facade) => {
+      if (!facade.querySelector('img')) return;
+      if (facade.querySelector('[data-cg-play-badge]')) return;
+      const ov = document.createElement('div');
+      ov.setAttribute('data-cg-play-badge', '');
+      ov.style.cssText = 'position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;background:rgba(26,34,88,0.16);pointer-events:none;';
+      ov.innerHTML = PLAY_OVERLAY;
+      facade.appendChild(ov);
+    });
+
+    this._onScroll = () => {
+      const show = window.scrollY > window.innerHeight * 1.8;
+      if (show !== this.state.sticky) this.setState({ sticky: show });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+  }
+
+  componentWillUnmount() {
+    if (this._io) this._io.disconnect();
+    window.removeEventListener('scroll', this._onScroll);
+  }
+
+  detectLang(text) {
+    if (!text) return 'English';
+    if (/[\u0400-\u04FF]/.test(text)) return 'Russian';
+    const low = text.toLowerCase();
+    if (/[àâçéèêëîïôûù]/.test(low) && /\b(le|la|les|un|une|des|du|voyage|séjour|était|nous|très|mon|ma|avec|plus)\b/.test(low)) return 'French';
+    if (/[ñ¡¿]/.test(text) || (/[áéíóú]/.test(low) && /\b(el|la|los|las|un|una|viaje|fue|muy|nuestro|gracias|estancia|hotel|playa)\b/.test(low))) return 'Spanish';
+    if (/[äöüß]/.test(low) && /\b(und|der|die|das|ein|eine|reise|sehr|war|mit)\b/.test(low)) return 'German';
+    return 'English';
+  }
+
+  renderVals() {
+    const showSticky = (this.props.stickyCta ?? true) && this.state.sticky;
+    return {
+      ctaLabel: this.props.ctaLabel ?? 'Join the Club',
+      playVideo: this.playVideo,
+      clouds: this._clouds,
+      ctaClouds: this._ctaClouds,
+      marquee: this._marquee,
+      feedPrev: () => this.scrollFeed(-1),
+      feedNext: () => this.scrollFeed(1),
+      toggleStory: this.toggleStory,
+      toggleMoreStories: this.toggleMoreStories,
+      startTestimonial: this.startTestimonial,
+      // YouTube stories load faster (instant thumbnail + quick embed), so show them first;
+      // the Vimeo facades follow. Stable partition — order within each group is preserved.
+      storiesMain: this._stories.filter((s) => s.ytId).concat(this._stories.filter((s) => !s.ytId)).map((s) => ({ ...s, lang: this.detectLang(s.story) })),
+      storiesMore: [],
+      stickyTransform: showSticky ? 'translateY(0)' : 'translateY(120%)'
+    };
+  }
+}
+</script>
+</body>
+</html>
