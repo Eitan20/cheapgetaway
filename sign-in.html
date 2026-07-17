@@ -12,6 +12,7 @@
 <title>Sign in — cheapgetaway.com</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
   html,body{margin:0;padding:0;background:#fff;font-family:'Nunito',sans-serif;color:#0b0f1f;}
   a{color:#0e1556;text-decoration:none;}
@@ -69,10 +70,7 @@
         <span style="flex:1;height:1.5px;background:rgba(14,21,86,0.08);"></span>OR<span style="flex:1;height:1.5px;background:rgba(14,21,86,0.08);"></span>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;">
-        <button style="display:flex;align-items:center;justify-content:center;gap:10px;background:#fff;border:1.5px solid rgba(14,21,86,0.15);border-radius:999px;padding:12px 20px;font-weight:800;font-size:14.5px;color:#0b0f1f;cursor:pointer;" style-hover="border-color:#38b6ff;">
-          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.5 12.3c0-.9-.1-1.5-.3-2.2H12v4.1h6.5c-.1 1.1-.8 2.7-2.4 3.8l3.7 2.9c2.2-2 3.7-5 3.7-8.6z"></path><path fill="#34A853" d="M12 24c3.2 0 5.9-1.1 7.9-2.9l-3.7-2.9c-1 .7-2.4 1.2-4.2 1.2-3.2 0-5.9-2.1-6.9-5l-3.9 3C3.2 21.3 7.3 24 12 24z"></path><path fill="#FBBC05" d="M5.1 14.4c-.2-.7-.4-1.5-.4-2.4s.1-1.7.4-2.4l-3.9-3C.4 8.2 0 10 0 12s.4 3.8 1.2 5.4l3.9-3z"></path><path fill="#EA4335" d="M12 4.7c1.8 0 3 .8 3.7 1.4l3.3-3.2C17.9 1 15.2 0 12 0 7.3 0 3.2 2.7 1.2 6.6l3.9 3c1-2.9 3.7-4.9 6.9-4.9z"></path></svg>
-          Continue with Google
-        </button>
+        <div id="cg-gsi-btn" style="display:flex;justify-content:center;"></div>
       </div>
       <p style="margin:0;font-size:12px;font-weight:600;color:#9aa0b4;line-height:1.5;">By continuing you agree to our <a href="/terms" style="color:#38b6ff;">Terms</a> and <a href="/privacy" style="color:#38b6ff;">Privacy Policy</a>.</p>
     </div>
@@ -102,6 +100,7 @@
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   state = { mode: 'signin', error: '', done: '' };
+  static GOOGLE_CLIENT_ID = '215477550523-129du3l2p3dvt9dbgst8ma7fid67etpr.apps.googleusercontent.com';
   componentDidMount() {
     this._navHandler = (e) => {
       const a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
@@ -112,8 +111,82 @@ class Component extends DCLogic {
       window.location.href = href;
     };
     document.addEventListener('click', this._navHandler, true);
+    this._initGoogleSignIn();
   }
-  componentWillUnmount() { document.removeEventListener('click', this._navHandler, true); }
+  componentWillUnmount() {
+    document.removeEventListener('click', this._navHandler, true);
+    if (this._gsiPollTimer) { clearInterval(this._gsiPollTimer); this._gsiPollTimer = null; }
+  }
+  _initGoogleSignIn() {
+    let elapsed = 0;
+    const step = 200;
+    const maxWait = 10000;
+    this._gsiPollTimer = setInterval(() => {
+      elapsed += step;
+      const container = document.getElementById('cg-gsi-btn');
+      const ready = window.google && window.google.accounts && window.google.accounts.id && container;
+      if (ready) {
+        clearInterval(this._gsiPollTimer);
+        this._gsiPollTimer = null;
+        try {
+          window.google.accounts.id.initialize({
+            client_id: Component.GOOGLE_CLIENT_ID,
+            callback: this._onGoogleCredential
+          });
+          window.google.accounts.id.renderButton(container, {
+            type: 'standard', theme: 'outline', size: 'large', shape: 'pill', text: 'continue_with', logo_alignment: 'left', width: 320
+          });
+        } catch (err) {
+          this._renderGoogleFallback();
+        }
+        return;
+      }
+      if (elapsed >= maxWait) {
+        clearInterval(this._gsiPollTimer);
+        this._gsiPollTimer = null;
+        this._renderGoogleFallback();
+      }
+    }, step);
+  }
+  _renderGoogleFallback() {
+    const container = document.getElementById('cg-gsi-btn');
+    if (!container) return;
+    container.innerHTML = '';
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:10px;background:#fff;border:1.5px solid rgba(14,21,86,0.15);border-radius:999px;padding:12px 20px;font-weight:800;font-size:14.5px;color:#0b0f1f;cursor:pointer;width:100%;';
+    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.5 12.3c0-.9-.1-1.5-.3-2.2H12v4.1h6.5c-.1 1.1-.8 2.7-2.4 3.8l3.7 2.9c2.2-2 3.7-5 3.7-8.6z"></path><path fill="#34A853" d="M12 24c3.2 0 5.9-1.1 7.9-2.9l-3.7-2.9c-1 .7-2.4 1.2-4.2 1.2-3.2 0-5.9-2.1-6.9-5l-3.9 3C3.2 21.3 7.3 24 12 24z"></path><path fill="#FBBC05" d="M5.1 14.4c-.2-.7-.4-1.5-.4-2.4s.1-1.7.4-2.4l-3.9-3C.4 8.2 0 10 0 12s.4 3.8 1.2 5.4l3.9-3z"></path><path fill="#EA4335" d="M12 4.7c1.8 0 3 .8 3.7 1.4l3.3-3.2C17.9 1 15.2 0 12 0 7.3 0 3.2 2.7 1.2 6.6l3.9 3c1-2.9 3.7-4.9 6.9-4.9z"></path></svg><span>Continue with Google</span>';
+    btn.addEventListener('click', () => {
+      this.setState({ error: "Google sign-in couldn't load — please use email.", done: '' });
+    });
+    container.appendChild(btn);
+  }
+  _onGoogleCredential = (resp) => {
+    try {
+      const token = resp && resp.credential;
+      if (!token) throw new Error('missing credential');
+      const parts = token.split('.');
+      if (parts.length < 2) throw new Error('malformed token');
+      let b64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+      while (b64.length % 4) { b64 += '='; }
+      const json = decodeURIComponent(
+        atob(b64).split('').map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')
+      );
+      const payload = JSON.parse(json);
+      const email = (payload.email || '').trim();
+      const name = payload.name || (email ? email.split('@')[0] : '');
+      const picture = payload.picture || '';
+      if (!email) {
+        this.setState({ error: 'Could not read your Google account email. Please try again or use email sign-in.', done: '' });
+        return;
+      }
+      try { localStorage.setItem('cg_user', JSON.stringify({ name, email, picture })); } catch (err) {}
+      this.setState({ error: '', done: 'Signed in! Redirecting you home…' });
+      setTimeout(() => { window.location.href = '/'; }, 1200);
+    } catch (err) {
+      this.setState({ error: 'Google sign-in failed. Please try again or use email.', done: '' });
+    }
+  };
   renderVals() {
     const signup = this.state.mode === 'signup';
     return {
