@@ -188,7 +188,7 @@
 
 <main style="max-width:1200px;margin:0 auto;padding:0 24px 80px;display:flex;flex-direction:column;gap:88px;">
 
-  <sc-if value="{{ staysMode }}" hint-placeholder-val="{{ true }}">
+  <sc-if value="{{ recsMode }}" hint-placeholder-val="{{ true }}">
   <section id="recommended" style="margin-top:64px;">
     <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px;">
       <h2 style="margin:0;font-size:30px;font-weight:900;color:#0e1556;">Recommended hotels</h2>
@@ -540,7 +540,7 @@ class Component extends DCLogic {
     const ai = mode === 'ai';
     const withImg = (arr, abs) => arr.map(x => ({ ...x, imgEl: this.imgEl(x.image, x.name || x.title, abs) }));
     return {
-      staysMode: std, aiMode: ai,
+      staysMode: std, aiMode: ai, recsMode: std || ai,
       heroTitle: 'Same Stays. Better Prices.',
       heroSub: ai ? 'Describe your trip — AI finds the stay.' : '2 Million Hotels Worldwide',
       doAiSearch: () => {
