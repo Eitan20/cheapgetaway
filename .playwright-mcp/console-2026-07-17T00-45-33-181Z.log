@@ -1,3 +1,0 @@
-[      48ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8737/api/liteapi/data/reviews?hotelId=lp43826&limit=30&getSentiment=true:0
-[      48ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8737/api/liteapi/data/hotel?hotelId=lp43826:0
-[      48ms] [ERROR] Failed to load resource: the server responded with a status of 501 (Unsupported method ('POST')) @ http://localhost:8737/api/liteapi/hotels/rates:0

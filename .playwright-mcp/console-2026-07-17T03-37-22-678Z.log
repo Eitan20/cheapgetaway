@@ -1,2 +1,0 @@
-[      32ms] [ERROR] Failed to load resource: the server responded with a status of 501 (Unsupported method ('POST')) @ http://localhost:8737/api/liteapi/flights/rates:0
-[     256ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://api.liteapi.travel/v3.0/flights/rates:0

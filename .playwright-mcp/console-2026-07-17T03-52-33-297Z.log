@@ -1,8 +1,0 @@
-[   51925ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8737/api/liteapi/data/facilities:0
-[   51925ms] [ERROR] Failed to load resource: the server responded with a status of 501 (Unsupported method ('POST')) @ http://localhost:8737/api/liteapi/hotels/rates:0
-[   51926ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8737/api/liteapi/data/hotelTypes:0
-[   55947ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8737/api/liteapi/data/hotel?hotelId=lp43826:0
-[   55948ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8737/api/liteapi/data/reviews?hotelId=lp43826&limit=30&getSentiment=true:0
-[   55948ms] [ERROR] Failed to load resource: the server responded with a status of 501 (Unsupported method ('POST')) @ http://localhost:8737/api/liteapi/hotels/rates:0
-[   59974ms] [ERROR] Failed to load resource: the server responded with a status of 501 (Unsupported method ('POST')) @ http://localhost:8737/api/liteapi/flights/rates:0
-[   60051ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://api.liteapi.travel/v3.0/flights/rates:0
