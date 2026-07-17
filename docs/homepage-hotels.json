@@ -1,0 +1,352 @@
+{
+  "dates": {
+    "checkin": "2026-07-24",
+    "checkout": "2026-07-26"
+  },
+  "recommended": [
+    {
+      "id": "lp31b8d",
+      "name": "Hampton By Hilton London City",
+      "city": "London",
+      "address": "12-20 Osborn Street",
+      "image": "https://static.cupid.travel/hotels/488246226.jpg",
+      "rating": 9.8,
+      "reviewCount": 6670
+    },
+    {
+      "id": "lp1b30d1",
+      "name": "Millennium Atria Business Bay",
+      "city": "Dubai",
+      "address": "Al Abraj Street, Business Bay",
+      "image": "https://static.cupid.travel/hotels/ex_14830209_z.jpg",
+      "rating": 9.6,
+      "reviewCount": 6938
+    },
+    {
+      "id": "lpaa0d7",
+      "name": "The Retreat Palm Dubai MGallery by Sofitel",
+      "city": "Dubai",
+      "address": "Palm Jumeirah",
+      "image": "https://static.cupid.travel/hotels/ex_8a973846_z.jpg",
+      "rating": 9.4,
+      "reviewCount": 7212
+    },
+    {
+      "id": "lp1beec",
+      "name": "H\u00f4tel Des Grands Voyageurs",
+      "city": "Paris",
+      "address": "92 Rue De Vaugirard",
+      "image": "https://static.cupid.travel/hotels/528466229.jpg",
+      "rating": 10,
+      "reviewCount": 2434
+    },
+    {
+      "id": "lp347d05",
+      "name": "PROSTYLE RYOKAN TOKYO ASAKUSA",
+      "city": "Tokyo",
+      "address": "2-12-11 Hanakawado, Taito",
+      "image": "https://static.cupid.travel/hotels/233239656.jpg",
+      "rating": 9.6,
+      "reviewCount": 2199
+    },
+    {
+      "id": "lp97230",
+      "name": "Hotel Martis Palace",
+      "city": "Rome",
+      "address": "Via San Giuseppe Calasanzio 1",
+      "image": "https://static.cupid.travel/hotels/79689143.jpg",
+      "rating": 10,
+      "reviewCount": 625
+    },
+    {
+      "id": "lp6557b133",
+      "name": "Umilt\u00e0 36 - Preferred Hotels & Resorts",
+      "city": "Rome",
+      "address": "Via dell'Umilt\u00e0 36",
+      "image": "https://static.cupid.travel/hotels/593208650.jpg",
+      "rating": 9.8,
+      "reviewCount": 2713
+    },
+    {
+      "id": "lp2a294",
+      "name": "Jumeirah Emirates Towers Dubai",
+      "city": "Dubai",
+      "address": "Sheikh Zayed Road",
+      "image": "https://static.cupid.travel/hotels/ex_ae2d8b63_z.jpg",
+      "rating": 9.4,
+      "reviewCount": 6423
+    },
+    {
+      "id": "lp6f715",
+      "name": "Shangri-La The Shard, London",
+      "city": "London",
+      "address": "31 St Thomas Street",
+      "image": "https://static.cupid.travel/hotels/40691107.jpg",
+      "rating": 10,
+      "reviewCount": 2687
+    },
+    {
+      "id": "lp4ca71",
+      "name": "Palazzo Ripetta",
+      "city": "Rome",
+      "address": "Via di Ripetta, 231",
+      "image": "https://static.cupid.travel/hotels/454429048.jpg",
+      "rating": 9.8,
+      "reviewCount": 458
+    },
+    {
+      "id": "lp9db42",
+      "name": "Rove Bur Dubai Healthcare City",
+      "city": "Dubai",
+      "address": "19th Street, Oud Metha, Bur Dubai",
+      "image": "https://static.cupid.travel/hotels/ex_cc1d8326_z.jpg",
+      "rating": 9.6,
+      "reviewCount": 6336
+    },
+    {
+      "id": "lp51fe7",
+      "name": "H\u00f4tel Dame des Arts",
+      "city": "Paris",
+      "address": "4 Rue Danton",
+      "image": "https://static.cupid.travel/hotels/421438913.jpg",
+      "rating": 10,
+      "reviewCount": 1599
+    },
+    {
+      "id": "lp19e0b",
+      "name": "Royal Lancaster London",
+      "city": "London",
+      "address": "Lancaster Terrace",
+      "image": "https://static.cupid.travel/hotels/130774650.jpg",
+      "rating": 10,
+      "reviewCount": 7385
+    },
+    {
+      "id": "lp1db0a1",
+      "name": "THE BLOSSOM HIBIYA",
+      "city": "Tokyo",
+      "address": "1-1-13 Shinbashi",
+      "image": "https://static.cupid.travel/hotels/216140703.jpg",
+      "rating": 9.1,
+      "reviewCount": 9147
+    },
+    {
+      "id": "lp65560928",
+      "name": "Tokyo Bay Shiomi Prince Hotel",
+      "city": "Tokyo",
+      "address": "2-8-16 Shiomi",
+      "image": "https://static.cupid.travel/hotels/300681318.jpg",
+      "rating": 9.1,
+      "reviewCount": 8755
+    },
+    {
+      "id": "lp65566b6b",
+      "name": "THE TOURIST HOTEL & Cafe AKIHABARA",
+      "city": "Tokyo",
+      "address": "1-6-6 Taito, Taito",
+      "image": "https://static.cupid.travel/hotels/258114942.jpg",
+      "rating": 9.4,
+      "reviewCount": 5574
+    },
+    {
+      "id": "lpb2c3c",
+      "name": "Al Bandar Rotana \u2013 Dubai Creek",
+      "city": "Dubai",
+      "address": "Baniyas Road, Deira",
+      "image": "https://static.cupid.travel/hotels/ex_678ac174_z.jpg",
+      "rating": 9.6,
+      "reviewCount": 4398
+    }
+  ],
+  "us": [
+    {
+      "id": "lpa440f",
+      "name": "NOPSI Hotel New Orleans",
+      "city": "New Orleans",
+      "address": "317 Baronne St",
+      "image": "https://static.cupid.travel/hotels/282791032.jpg",
+      "rating": 9.2,
+      "reviewCount": 2701
+    },
+    {
+      "id": "lp69a11",
+      "name": "EB Hotel Miami Airport",
+      "city": "Miami",
+      "address": "4299 Nw 36th St",
+      "image": "https://static.cupid.travel/hotels/20426253.jpg",
+      "rating": 9.6,
+      "reviewCount": 2468
+    },
+    {
+      "id": "lp399d2",
+      "name": "South Point Hotel, Casino, and Spa",
+      "city": "Las Vegas",
+      "address": "9777 Las Vegas Blvd S",
+      "image": "https://static.cupid.travel/hotels/ex_11383b45_z.jpg",
+      "rating": 9.2,
+      "reviewCount": 756
+    },
+    {
+      "id": "lp369ef",
+      "name": "Margaritaville Hotel San Diego Gaslamp Quarter",
+      "city": "San Diego",
+      "address": "435 6th Ave",
+      "image": "https://static.cupid.travel/hotels/511143696.jpg",
+      "rating": 9.4,
+      "reviewCount": 2048
+    },
+    {
+      "id": "lp65549fce",
+      "name": "Nobu Hotel Chicago",
+      "city": "Chicago",
+      "address": "155 N. Peoria Street",
+      "image": "https://static.cupid.travel/hotels/310722197.jpg",
+      "rating": 9.6,
+      "reviewCount": 741
+    },
+    {
+      "id": "lp65589896",
+      "name": "The Elser Hotel Miami - An All-Suite Hotel",
+      "city": "Miami",
+      "address": "398 NE 5th Street",
+      "image": "https://static.cupid.travel/hotels/489331754.jpg",
+      "rating": 9.2,
+      "reviewCount": 7332
+    },
+    {
+      "id": "lpaf047",
+      "name": "Cambria Hotel New Orleans Downtown Warehouse District",
+      "city": "New Orleans",
+      "address": "632 Tchoupitoulas Street",
+      "image": "https://static.cupid.travel/hotels/610500586.jpg",
+      "rating": 9.4,
+      "reviewCount": 753
+    },
+    {
+      "id": "lpaf414",
+      "name": "Alder Hotel Uptown New Orleans",
+      "city": "New Orleans",
+      "address": "4545 Magnolia Street",
+      "image": "https://static.cupid.travel/hotels/111164720.jpg",
+      "rating": 9.4,
+      "reviewCount": 1119
+    },
+    {
+      "id": "lp40fa7",
+      "name": "Trump International Hotel Las Vegas",
+      "city": "Las Vegas",
+      "address": "2000 Fashion Show Drive",
+      "image": "https://static.cupid.travel/hotels/44103227.jpg",
+      "rating": 9,
+      "reviewCount": 11297
+    },
+    {
+      "id": "lp224b9",
+      "name": "Silverton Casino Lodge",
+      "city": "Las Vegas",
+      "address": "3333 Blue Diamond Rd",
+      "image": "https://static.cupid.travel/hotels/20127728.jpg",
+      "rating": 9.1,
+      "reviewCount": 1289
+    },
+    {
+      "id": "lp1efb3",
+      "name": "Trump National Doral Miami",
+      "city": "Miami",
+      "address": "4400 N.W. 87th Ave",
+      "image": "https://static.cupid.travel/hotels/ex_95f5dbda_z.jpg",
+      "rating": 9.4,
+      "reviewCount": 298
+    },
+    {
+      "id": "lp19c0d",
+      "name": "Mayfair House Hotel & Garden",
+      "city": "Miami",
+      "address": "3000 Florida Avenue",
+      "image": "https://static.cupid.travel/hotels/502849201.jpg",
+      "rating": 9.2,
+      "reviewCount": 1064
+    },
+    {
+      "id": "lp1c1a8",
+      "name": "Hotel Monteleone, New Orleans",
+      "city": "New Orleans",
+      "address": "214 Royal Street",
+      "image": "https://static.cupid.travel/hotels/ex_53ecfbb7_z.jpg",
+      "rating": 9.4,
+      "reviewCount": 621
+    },
+    {
+      "id": "lp19ce31",
+      "name": "The Sound Hotel Seattle Belltown, Tapestry Collection",
+      "city": "Seattle",
+      "address": "2120 4th Avenue",
+      "image": "https://static.cupid.travel/hotels/474438187.jpg",
+      "rating": 9.4,
+      "reviewCount": 630
+    },
+    {
+      "id": "lpb9a82",
+      "name": "Embassy Suites By Hilton Seattle Downtown Pioneer Square",
+      "city": "Seattle",
+      "address": "255 South King Street",
+      "image": "https://static.cupid.travel/hotels/484394151.jpg",
+      "rating": 9.4,
+      "reviewCount": 1481
+    },
+    {
+      "id": "lp43c31",
+      "name": "Hampton Inn & Suites Phoenix North/Happy Valley",
+      "city": "Phoenix",
+      "address": "2550 West Charlotte Drive",
+      "image": "https://static.cupid.travel/hotels/499672362.jpg",
+      "rating": 9.1,
+      "reviewCount": 682
+    },
+    {
+      "id": "lp19b5a",
+      "name": "Arizona Biltmore, LXR Hotels & Resorts",
+      "city": "Phoenix",
+      "address": "2400 E Missouri Avenue",
+      "image": "https://static.cupid.travel/hotels/570052744.jpg",
+      "rating": 9.2,
+      "reviewCount": 483
+    },
+    {
+      "id": "lp65571c01",
+      "name": "Motto by Hilton New York City Chelsea",
+      "city": "New York",
+      "address": "113 West 24th Street",
+      "image": "https://static.cupid.travel/hotels/599791912.jpg",
+      "rating": 10,
+      "reviewCount": 4082
+    },
+    {
+      "id": "lp65581c57",
+      "name": "Moxy NYC Lower East Side",
+      "city": "New York",
+      "address": "145 BOWERY",
+      "image": "https://static.cupid.travel/hotels/448694373.jpg",
+      "rating": 9.6,
+      "reviewCount": 2521
+    },
+    {
+      "id": "lp6556cb5a",
+      "name": "AC Hotel by Marriott Phoenix Downtown",
+      "city": "Phoenix",
+      "address": "414 NORTH 5TH STREET",
+      "image": "https://static.cupid.travel/hotels/453377090.jpg",
+      "rating": 9.6,
+      "reviewCount": 935
+    },
+    {
+      "id": "lp103727",
+      "name": "Hyatt Regency Seattle",
+      "city": "Seattle",
+      "address": "808 Howell St",
+      "image": "https://static.cupid.travel/hotels/597766385.jpg",
+      "rating": 9.2,
+      "reviewCount": 2572
+    }
+  ]
+}
