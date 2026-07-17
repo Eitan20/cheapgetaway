@@ -31,11 +31,11 @@ All pages live at the repository root.
 
 Supporting files: `support.js` (shared page-runtime logic), `cg-api.js`
 (shared liteAPI fetch helper), `assets/` (images/logos), `api/liteapi/[...path].js`
-(the serverless proxy), `api/subscribe.js` (forwards webinar registrants to a
-GoHighLevel webhook, which owns the welcome/drip sequence, falling back to
-Resend if the GHL webhook is unreachable), `api/_welcome-email.js` (the
-embedded welcome-email HTML template used by the Resend fallback path in
-`api/subscribe.js`).
+(the serverless proxy), `api/subscribe.js` (forwards webinar registrants to
+GoHighLevel — primary path is a direct Contacts API upsert, falling back to
+the GHL inbound webhook, then to Resend, if earlier steps are unconfigured or
+fail), `api/_welcome-email.js` (the embedded welcome-email HTML template used
+by the Resend fallback path in `api/subscribe.js`).
 
 ## Deploy on Vercel
 
@@ -44,21 +44,27 @@ embedded welcome-email HTML template used by the Resend fallback path in
    `"framework": null` so Vercel serves the site statically (no Next.js build).
 3. Set the environment variable `LITEAPI_KEY` (Production) to your liteAPI
    production key.
-4. `GHL_WEBHOOK_URL` (optional) overrides the GoHighLevel inbound webhook URL
-   that webinar signups are posted to — the primary signup destination. A
-   working default is baked into `api/subscribe.js`, so this only needs to be
-   set to point at a different GHL webhook. The GHL workflow behind it owns
-   the welcome email + drip sequence for registrants.
-5. Resend is an optional fallback, used only when the GHL webhook is
-   unreachable or returns an error. Set `RESEND_API_KEY` (Production) to your
-   Resend API key to enable it — without it, a GHL failure just falls through
-   to `{ ok: false }` and the signup is not recorded anywhere.
-   `RESEND_AUDIENCE_ID` (optional) is the Resend audience ID webinar
-   registrants should be added to as a contact in the fallback path — omit it
-   to skip audience sync and only send the fallback welcome email.
-   `RESEND_FROM` (optional) overrides the fallback sender, defaulting to
-   `CheapGetaway Travel Club <travel@cheapgetaway.com>`.
-6. Redeploy so the functions pick up the env vars.
+4. `GHL_API_TOKEN` + `GHL_LOCATION_ID` (recommended, primary signup path) —
+   set both to have webinar signups upserted directly into GoHighLevel via
+   the Contacts API (`POST /contacts/upsert`), tagged `webinar-registrant`.
+   This avoids GHL's per-execution "premium action" fee that the inbound
+   webhook workflow trigger incurs. Point your GHL automation (welcome email +
+   drip sequence) at a workflow that triggers on the `webinar-registrant` tag
+   being added, rather than on an inbound webhook.
+5. `GHL_WEBHOOK_URL` (optional) — fallback signup destination, used only when
+   `GHL_API_TOKEN`/`GHL_LOCATION_ID` are unset or the Contacts API upsert
+   fails. A working default is baked into `api/subscribe.js`, so this only
+   needs to be set to point at a different GHL webhook.
+6. Resend is a last-resort fallback, used only when both the GHL Contacts API
+   and the GHL webhook are unavailable or fail. Set `RESEND_API_KEY`
+   (Production) to your Resend API key to enable it — without it, a GHL
+   failure just falls through to `{ ok: false }` and the signup is not
+   recorded anywhere. `RESEND_AUDIENCE_ID` (optional) is the Resend audience
+   ID webinar registrants should be added to as a contact in the fallback
+   path — omit it to skip audience sync and only send the fallback welcome
+   email. `RESEND_FROM` (optional) overrides the fallback sender, defaulting
+   to `CheapGetaway Travel Club <travel@cheapgetaway.com>`.
+7. Redeploy so the functions pick up the env vars.
 
 **Note:** the sender domain (`cheapgetaway.com`) must be verified in Resend
 before `travel@cheapgetaway.com` can send — see
