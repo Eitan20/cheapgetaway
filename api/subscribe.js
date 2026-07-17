@@ -176,7 +176,7 @@ async function runResendFallback(name, email, apiKey) {
       body: JSON.stringify({
         from: from,
         to: [email],
-        subject: `You're in — here's your seat, ${name}`,
+        subject: `you're in, ${name} — here's your webinar link`,
         html: welcomeHtml(name, email)
       })
     });

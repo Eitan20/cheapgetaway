@@ -42,8 +42,14 @@ Unsubscribe → global suppression.
 
 ## Email 1 — WELCOME (Day 0, everyone)
 
-**Subject:** You're in — here's your seat, {{first_name}}
-**Preheader:** Save this email. Your webinar access link is inside.
+> **Design note (2026-07-17):** this email intentionally breaks the design system.
+> It is sent as a plain, personal-looking note (no logo, no buttons, no colors) to
+> maximize Gmail **Primary-tab** placement — Gmail files designed HTML into
+> Promotions. Emails 2–7 keep the branded design; by then the "reply / drag to
+> Primary" ask in this email has trained the inbox. Branded version preserved at
+> `01-welcome-branded.html`. No preheader on purpose (preheaders are a promo signal).
+
+**Subject:** you're in, {{first_name}} — here's your webinar link
 
 > Hey {{first_name}},
 >
