@@ -78,7 +78,7 @@ client-shippable code.
    using the query params if present, falling back to the `cg_webinar_signup`
    localStorage value.
 3. `join-the-club.html` — the post-webinar page; its membership CTAs
-   point to `https://app.travorium.com/enroll?sponsor=106720`.
+   point to `https://travorium.com/enroll.php?sponsor=106720`.
 
 ## Known limitations
 
