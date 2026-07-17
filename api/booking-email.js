@@ -65,13 +65,18 @@ export default async function handler(req, res) {
     return;
   }
 
-  const sent = await sendBookingEmail(apiKey, {
+  const result = await sendBookingEmail(apiKey, {
     email, guestName, hotelName, address, room, board, checkin, checkout,
     adults, price, currency, confirmation, bookingId, refundable
   });
 
-  if (!sent) {
-    res.status(200).json({ ok: false, reason: 'send-failed' });
+  if (!result.ok) {
+    res.status(200).json({
+      ok: false,
+      reason: 'send-failed',
+      resendStatus: result.resendStatus,
+      detail: result.detail
+    });
     return;
   }
 
@@ -148,13 +153,13 @@ async function sendBookingEmail(apiKey, fields) {
     if (!emailRes.ok) {
       const text = await emailRes.text().catch(() => '');
       console.error('Resend booking-email send error', emailRes.status, text);
-      return false;
+      return { ok: false, resendStatus: emailRes.status, detail: text.slice(0, 300) };
     }
 
-    return true;
+    return { ok: true };
   } catch (err) {
     console.error('Resend booking-email send fetch failed', err);
-    return false;
+    return { ok: false, detail: String(err).slice(0, 300) };
   }
 }
 
