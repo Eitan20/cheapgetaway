@@ -48,3 +48,26 @@ as the old flights "Ask AI" bar) and searches stays.
 - [x] **4.4 Verify + merge** (orchestrator): serve locally, check both hero
   modes, AI search navigates to /search-results, no console errors; commit +
   push to main.
+
+## Phase 5 — Real payment flow (2026-07-17)
+
+Goal: guest actually pays by card via LiteAPI Payment SDK; bookings only confirm
+when /rates/book succeeds; honest failures. No account-credit (ACC_CREDIT_CARD)
+bookings, no fake confirmations.
+
+- [ ] **5.1 Proxy host routing** (senior-engineer): api/liteapi.js routes
+  rates/prebook, rates/book, bookings* to book.liteapi.travel/v3.0; everything
+  else stays on api.liteapi.travel/v3.0. Add `__env` meta path returning
+  {env: 'live'|'sandbox'} from the key prefix (prod_/sand_).
+- [ ] **5.2 checkout.html payment rewrite** (senior-engineer): guest form →
+  prebook {offerId, usePaymentSdk:true} on submit → Payment SDK
+  (payment-wrapper.liteapi.travel/dist/liteAPIPayment.js?v=a1) renders card
+  form → returnUrl back to /checkout?return=1 → POST /rates/book with
+  {method:'TRANSACTION_ID', transactionId, clientReference} → real
+  booking-confirmed. Honest error states everywhere; remove fake card form,
+  ACC_CREDIT_CARD, and fake CG- confirmations.
+- [ ] **5.3 Local verification** (orchestrator): node dev server wrapping the
+  real api/liteapi.js handler + static files; Playwright through prebook + SDK
+  iframe render; book-failure path stub-tested. NO live card submission with
+  the prod key.
+- [ ] **5.4 Merge + push + live smoke** (orchestrator).
