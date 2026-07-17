@@ -66,8 +66,8 @@ bookings, no fake confirmations.
   {method:'TRANSACTION_ID', transactionId, clientReference} → real
   booking-confirmed. Honest error states everywhere; remove fake card form,
   ACC_CREDIT_CARD, and fake CG- confirmations.
-- [ ] **5.3 Local verification** (orchestrator): node dev server wrapping the
+- [x] **5.3 Local verification** (orchestrator): node dev server wrapping the
   real api/liteapi.js handler + static files; Playwright through prebook + SDK
   iframe render; book-failure path stub-tested. NO live card submission with
   the prod key.
-- [ ] **5.4 Merge + push + live smoke** (orchestrator).
+- [x] **5.4 Merge + push + live smoke** (orchestrator).
