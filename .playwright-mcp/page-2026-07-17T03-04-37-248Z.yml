@@ -1,0 +1,427 @@
+- generic [ref=f3e3]:
+  - navigation [ref=f3e4]:
+    - generic [ref=f3e5]:
+      - link [ref=f3e6] [cursor=pointer]:
+        - /url: "#"
+        - img "cheapgetaway.com" [ref=f3e7]
+      - generic [ref=f3e8]:
+        - link "Deals" [ref=f3e9] [cursor=pointer]:
+          - /url: "#deals"
+        - link "Weekend" [ref=f3e10] [cursor=pointer]:
+          - /url: "#weekend"
+        - link "Vibes" [ref=f3e11] [cursor=pointer]:
+          - /url: "#vibes"
+      - generic [ref=f3e12]:
+        - button "Sign in" [ref=f3e13] [cursor=pointer]
+        - link "Join the club" [ref=f3e14] [cursor=pointer]:
+          - /url: webinar-optin.html
+  - generic [ref=f3e17]:
+    - heading "Same Stays. Better Prices." [level=1] [ref=f3e18]
+    - paragraph [ref=f3e19]: 2 Million Hotels Worldwide
+    - generic [ref=f3e20]:
+      - generic [ref=f3e22]:
+        - button "Stays" [ref=f3e23] [cursor=pointer]
+        - button "Flights" [ref=f3e26] [cursor=pointer]
+      - generic [ref=f3e29]:
+        - generic [ref=f3e30]:
+          - generic [ref=f3e31]: Destination
+          - textbox "City or airport" [ref=f3e36]
+        - button "Dates Jul 18 – Jul 20" [ref=f3e38] [cursor=pointer]:
+          - generic [ref=f3e39]: Dates
+          - generic [ref=f3e40]: Jul 18 – Jul 20
+        - button "Guests 2 Guests" [ref=f3e45] [cursor=pointer]:
+          - generic [ref=f3e46]: Guests
+          - generic [ref=f3e47]: 2 Guests
+        - button "Search" [ref=f3e52] [cursor=pointer]
+      - generic [ref=f3e56]:
+        - button "This weekend" [ref=f3e57] [cursor=pointer]
+        - button "Under $120/night" [ref=f3e58] [cursor=pointer]
+        - link "Members see lower prices →" [ref=f3e59] [cursor=pointer]:
+          - /url: webinar-optin.html
+  - main [ref=f3e63]:
+    - generic [ref=f3e64]:
+      - generic [ref=f3e65]:
+        - heading "Recommended hotels" [level=2] [ref=f3e66]
+        - generic [ref=f3e67]:
+          - button "Previous" [ref=f3e68] [cursor=pointer]
+          - button "Next" [ref=f3e71] [cursor=pointer]
+      - generic [ref=f3e74]:
+        - link "Tokyo Bay Shiomi Prince Hotel ★★★★★ Tokyo Bay Shiomi Prince Hotel Tokyo, 2-8-16 Shiomi, Koto City 9.1 Wonderful 1,248 reviews US$286 US$134 member price · incl. taxes" [ref=f3e75] [cursor=pointer]:
+          - /url: hotel-detail.html?q=Tokyo%20Bay%20Shiomi%20Prince%20Hotel%20Tokyo%2C%202-8-16%20Shiomi%2C%20Koto%20City
+          - img "Tokyo Bay Shiomi Prince Hotel" [ref=f3e77]
+          - generic [ref=f3e78]:
+            - generic [ref=f3e79]: ★★★★★
+            - heading "Tokyo Bay Shiomi Prince Hotel" [level=3] [ref=f3e80]
+            - paragraph [ref=f3e81]:
+              - generic [ref=f3e85]: Tokyo, 2-8-16 Shiomi, Koto City
+            - generic [ref=f3e86]:
+              - generic [ref=f3e87]:
+                - generic [ref=f3e88]: "9.1"
+                - generic [ref=f3e89]:
+                  - strong [ref=f3e90]: Wonderful
+                  - generic [ref=f3e91]: 1,248 reviews
+              - generic [ref=f3e92]:
+                - generic [ref=f3e93]: US$286
+                - strong [ref=f3e94]:
+                  - generic [ref=f3e98]: US$134
+                - generic [ref=f3e99]: member price · incl. taxes
+        - link "Sofitel Dubai Jumeirah Beach ★★★★★ Sofitel Dubai Jumeirah Beach Dubai, Jumeirah Beach Residence, The Walk 9.2 Wonderful 827 reviews US$382 US$180 member price · incl. taxes" [ref=f3e100] [cursor=pointer]:
+          - /url: hotel-detail.html?q=Sofitel%20Dubai%20Jumeirah%20Beach%20Dubai%2C%20Jumeirah%20Beach%20Residence%2C%20The%20Walk
+          - img "Sofitel Dubai Jumeirah Beach" [ref=f3e102]
+          - generic [ref=f3e103]:
+            - generic [ref=f3e104]: ★★★★★
+            - heading "Sofitel Dubai Jumeirah Beach" [level=3] [ref=f3e105]
+            - paragraph [ref=f3e106]:
+              - generic [ref=f3e110]: Dubai, Jumeirah Beach Residence, The Walk
+            - generic [ref=f3e111]:
+              - generic [ref=f3e112]:
+                - generic [ref=f3e113]: "9.2"
+                - generic [ref=f3e114]:
+                  - strong [ref=f3e115]: Wonderful
+                  - generic [ref=f3e116]: 827 reviews
+              - generic [ref=f3e117]:
+                - generic [ref=f3e118]: US$382
+                - strong [ref=f3e119]:
+                  - generic [ref=f3e123]: US$180
+                - generic [ref=f3e124]: member price · incl. taxes
+        - link "Pullman Paris Tour Eiffel ★★★★★ Pullman Paris Tour Eiffel Paris, 18 avenue de Suffren 8.9 Excellent 1,394 reviews US$468 US$220 member price · incl. taxes" [ref=f3e125] [cursor=pointer]:
+          - /url: hotel-detail.html?q=Pullman%20Paris%20Tour%20Eiffel%20Paris%2C%2018%20avenue%20de%20Suffren
+          - img "Pullman Paris Tour Eiffel" [ref=f3e127]
+          - generic [ref=f3e128]:
+            - generic [ref=f3e129]: ★★★★★
+            - heading "Pullman Paris Tour Eiffel" [level=3] [ref=f3e130]
+            - paragraph [ref=f3e131]:
+              - generic [ref=f3e135]: Paris, 18 avenue de Suffren
+            - generic [ref=f3e136]:
+              - generic [ref=f3e137]:
+                - generic [ref=f3e138]: "8.9"
+                - generic [ref=f3e139]:
+                  - strong [ref=f3e140]: Excellent
+                  - generic [ref=f3e141]: 1,394 reviews
+              - generic [ref=f3e142]:
+                - generic [ref=f3e143]: US$468
+                - strong [ref=f3e144]:
+                  - generic [ref=f3e148]: US$220
+                - generic [ref=f3e149]: member price · incl. taxes
+    - generic [ref=f3e152]:
+      - generic [ref=f3e153]:
+        - generic [ref=f3e154]: Why prices are crossed out
+        - heading "The price you see isn't the price members pay." [level=2] [ref=f3e155]
+        - paragraph [ref=f3e156]: Hotels can't publish their lowest rates — public sites would revolt. So they release them inside closed clubs instead. Our club taps those rates. Same room, same dates, no coupon hunting. Members routinely knock 40–65% off the public price.
+        - generic [ref=f3e157]:
+          - link "See how the club works" [ref=f3e158] [cursor=pointer]:
+            - /url: webinar-optin.html
+          - generic [ref=f3e159]: Free walkthrough · 2 minutes · No card needed
+      - generic [ref=f3e160]:
+        - generic [ref=f3e161]: Real example · 5★ Cancún, 4 nights
+        - generic [ref=f3e162]:
+          - generic [ref=f3e163]:
+            - generic [ref=f3e164]: Public price
+            - generic [ref=f3e165]: $1,684
+          - generic [ref=f3e166]:
+            - generic [ref=f3e167]: Member price
+            - generic [ref=f3e171]: $612
+          - generic [ref=f3e172]:
+            - generic [ref=f3e173]: You keep
+            - generic [ref=f3e174]: $1,072
+        - paragraph [ref=f3e175]: One trip like this covers years of membership. That's the whole pitch.
+    - generic [ref=f3e176]:
+      - generic [ref=f3e177]:
+        - heading "Featured collections" [level=2] [ref=f3e178]
+        - paragraph [ref=f3e179]: Curated trips for whatever vibe you're chasing.
+      - generic [ref=f3e180]:
+        - link [ref=f3e181] [cursor=pointer]:
+          - /url: search-results.html?ai=Beachfront%20resorts%20in%20Miami%20with%20pools
+          - img "Beach Escapes" [ref=f3e182]
+          - generic [ref=f3e184]:
+            - heading "Beach Escapes" [level=3] [ref=f3e185]
+            - paragraph [ref=f3e186]: Sun, sand, and savings
+        - link [ref=f3e187] [cursor=pointer]:
+          - /url: search-results.html?ai=Top-rated%20hotels%20near%20Times%20Square%20New%20York
+          - img "City Breaks" [ref=f3e188]
+          - generic [ref=f3e190]:
+            - heading "City Breaks" [level=3] [ref=f3e191]
+            - paragraph [ref=f3e192]: Neon lights and late nights
+        - link [ref=f3e193] [cursor=pointer]:
+          - /url: search-results.html?ai=Mountain%20cabin%20resorts%20near%20Denver%20Colorado
+          - img "Mountain Retreats" [ref=f3e194]
+          - generic [ref=f3e196]:
+            - heading "Mountain Retreats" [level=3] [ref=f3e197]
+            - paragraph [ref=f3e198]: Cabins and cozy fireplaces
+        - link [ref=f3e199] [cursor=pointer]:
+          - /url: search-results.html?ai=Desert%20resorts%20with%20pools%20in%20Scottsdale%20Arizona
+          - img "Desert Vibes" [ref=f3e200]
+          - generic [ref=f3e202]:
+            - heading "Desert Vibes" [level=3] [ref=f3e203]
+            - paragraph [ref=f3e204]: Oasis luxury
+    - generic [ref=f3e205]:
+      - generic [ref=f3e206]:
+        - heading "Top deals right now" [level=2] [ref=f3e207]
+        - paragraph [ref=f3e208]: Hand-picked stays offering incredible value.
+      - generic [ref=f3e209]:
+        - link "Downtown Grand Vegas ★ 8.6 Downtown Grand Vegas $89/night Las Vegas" [ref=f3e210] [cursor=pointer]:
+          - /url: hotel-detail.html?hotelId=lp1a278
+          - generic [ref=f3e211]:
+            - img "Downtown Grand Vegas" [ref=f3e212]
+            - generic [ref=f3e213]: ★ 8.6
+          - generic [ref=f3e214]:
+            - generic [ref=f3e215]:
+              - heading "Downtown Grand Vegas" [level=3] [ref=f3e216]
+              - generic [ref=f3e217]:
+                - strong [ref=f3e218]: $89
+                - text: /night
+            - paragraph [ref=f3e219]: Las Vegas
+        - link "The Wayfarer Seaside ★ 8.9 The Wayfarer Seaside $112/night San Diego" [ref=f3e220] [cursor=pointer]:
+          - /url: hotel-detail.html?q=beachfront%20hotel%20San%20Diego
+          - generic [ref=f3e221]:
+            - img "The Wayfarer Seaside" [ref=f3e222]
+            - generic [ref=f3e223]: ★ 8.9
+          - generic [ref=f3e224]:
+            - generic [ref=f3e225]:
+              - heading "The Wayfarer Seaside" [level=3] [ref=f3e226]
+              - generic [ref=f3e227]:
+                - strong [ref=f3e228]: $112
+                - text: /night
+            - paragraph [ref=f3e229]: San Diego
+        - link "Hotel Lincoln Chicago ★ 8.7 Hotel Lincoln Chicago $104/night Chicago" [ref=f3e230] [cursor=pointer]:
+          - /url: hotel-detail.html?q=Hotel%20Lincoln%20Chicago
+          - generic [ref=f3e231]:
+            - img "Hotel Lincoln Chicago" [ref=f3e232]
+            - generic [ref=f3e233]: ★ 8.7
+          - generic [ref=f3e234]:
+            - generic [ref=f3e235]:
+              - heading "Hotel Lincoln Chicago" [level=3] [ref=f3e236]
+              - generic [ref=f3e237]:
+                - strong [ref=f3e238]: $104
+                - text: /night
+            - paragraph [ref=f3e239]: Chicago
+        - link "French Quarter Inn ★ 8.8 French Quarter Inn $97/night New Orleans" [ref=f3e240] [cursor=pointer]:
+          - /url: hotel-detail.html?q=French%20Quarter%20hotel%20New%20Orleans
+          - generic [ref=f3e241]:
+            - img "French Quarter Inn" [ref=f3e242]
+            - generic [ref=f3e243]: ★ 8.8
+          - generic [ref=f3e244]:
+            - generic [ref=f3e245]:
+              - heading "French Quarter Inn" [level=3] [ref=f3e246]
+              - generic [ref=f3e247]:
+                - strong [ref=f3e248]: $97
+                - text: /night
+            - paragraph [ref=f3e249]: New Orleans
+        - link "South Beach Cabana ★ 9.0 South Beach Cabana $118/night Miami" [ref=f3e250] [cursor=pointer]:
+          - /url: hotel-detail.html?q=South%20Beach%20hotel%20Miami
+          - generic [ref=f3e251]:
+            - img "South Beach Cabana" [ref=f3e252]
+            - generic [ref=f3e253]: ★ 9.0
+          - generic [ref=f3e254]:
+            - generic [ref=f3e255]:
+              - heading "South Beach Cabana" [level=3] [ref=f3e256]
+              - generic [ref=f3e257]:
+                - strong [ref=f3e258]: $118
+                - text: /night
+            - paragraph [ref=f3e259]: Miami
+        - link "Midtown Pod NYC ★ 8.5 Midtown Pod NYC $139/night New York" [ref=f3e260] [cursor=pointer]:
+          - /url: hotel-detail.html?q=Midtown%20Manhattan%20hotel%20New%20York
+          - generic [ref=f3e261]:
+            - img "Midtown Pod NYC" [ref=f3e262]
+            - generic [ref=f3e263]: ★ 8.5
+          - generic [ref=f3e264]:
+            - generic [ref=f3e265]:
+              - heading "Midtown Pod NYC" [level=3] [ref=f3e266]
+              - generic [ref=f3e267]:
+                - strong [ref=f3e268]: $139
+                - text: /night
+            - paragraph [ref=f3e269]: New York
+        - link "Desert Sky Resort ★ 8.8 Desert Sky Resort $92/night Phoenix" [ref=f3e270] [cursor=pointer]:
+          - /url: hotel-detail.html?q=resort%20Phoenix%20Arizona
+          - generic [ref=f3e271]:
+            - img "Desert Sky Resort" [ref=f3e272]
+            - generic [ref=f3e273]: ★ 8.8
+          - generic [ref=f3e274]:
+            - generic [ref=f3e275]:
+              - heading "Desert Sky Resort" [level=3] [ref=f3e276]
+              - generic [ref=f3e277]:
+                - strong [ref=f3e278]: $92
+                - text: /night
+            - paragraph [ref=f3e279]: Phoenix
+        - link "Harbor Lights Hotel ★ 8.6 Harbor Lights Hotel $121/night Seattle" [ref=f3e280] [cursor=pointer]:
+          - /url: hotel-detail.html?q=downtown%20hotel%20Seattle
+          - generic [ref=f3e281]:
+            - img "Harbor Lights Hotel" [ref=f3e282]
+            - generic [ref=f3e283]: ★ 8.6
+          - generic [ref=f3e284]:
+            - generic [ref=f3e285]:
+              - heading "Harbor Lights Hotel" [level=3] [ref=f3e286]
+              - generic [ref=f3e287]:
+                - strong [ref=f3e288]: $121
+                - text: /night
+            - paragraph [ref=f3e289]: Seattle
+    - generic [ref=f3e290]:
+      - generic [ref=f3e291]:
+        - heading "Two ways to use the club" [level=2] [ref=f3e292]
+        - paragraph [ref=f3e293]: Most people join for the prices. Some turn it into a paycheck. Pick your door.
+      - generic [ref=f3e294]:
+        - generic [ref=f3e295]:
+          - 'heading "Door #1: Just travel cheaper" [level=3] [ref=f3e300]'
+          - paragraph [ref=f3e301]: You don't have to sell anything, post anything, or talk to anyone. Book the same hotels you'd book anyway — at member rates. Our members' average first booking saves more than the membership costs. After that, every trip is pure discount.
+          - list [ref=f3e302]:
+            - listitem [ref=f3e303]:
+              - generic [ref=f3e304]: ✓
+              - text: 40–65% off public hotel rates
+            - listitem [ref=f3e305]:
+              - generic [ref=f3e306]: ✓
+              - text: Resorts, cruises and condo weeks too
+            - listitem [ref=f3e307]:
+              - generic [ref=f3e308]: ✓
+              - text: Cancel anytime — keep what you saved
+          - link "Start saving on trips" [ref=f3e309] [cursor=pointer]:
+            - /url: webinar-optin.html
+        - generic [ref=f3e310]:
+          - 'heading "Door #2: Get paid to talk about it" [level=3] [ref=f3e314]'
+          - paragraph [ref=f3e315]: You already post your trips. What if the "how did you afford that?" comments paid you? Refer people to the club and earn recurring income on every membership — no products to ship, no inventory, nothing to peddle. Just a membership people keep using, like Netflix.
+          - list [ref=f3e316]:
+            - listitem [ref=f3e317]:
+              - generic [ref=f3e318]: ✓
+              - text: Recurring referral income, month after month
+            - listitem [ref=f3e319]:
+              - generic [ref=f3e320]: ✓
+              - text: The work happens once — post what you saved
+            - listitem [ref=f3e321]:
+              - generic [ref=f3e322]: ✓
+              - text: A team that picks up the phone when you ask how
+          - link "See how creators earn" [ref=f3e323] [cursor=pointer]:
+            - /url: webinar-optin-creator.html
+    - generic [ref=f3e324]:
+      - generic [ref=f3e325]:
+        - heading "Find your vibe" [level=2] [ref=f3e326]
+        - paragraph [ref=f3e327]: AI-powered searches matching exactly what you're feeling.
+      - generic [ref=f3e328]:
+        - link [ref=f3e329] [cursor=pointer]:
+          - /url: search-results.html?ai=Romantic%20adults-only%20resorts%20in%20Cancun
+          - img "Romantic Getaway" [ref=f3e330]
+          - heading "Romantic Getaway" [level=3] [ref=f3e332]
+        - link [ref=f3e333] [cursor=pointer]:
+          - /url: search-results.html?ai=Hotels%20near%20the%20Las%20Vegas%20Strip%20nightlife
+          - img "Weekend Party" [ref=f3e334]
+          - heading "Weekend Party" [level=3] [ref=f3e336]
+        - link [ref=f3e337] [cursor=pointer]:
+          - /url: search-results.html?ai=Family%20friendly%20resorts%20in%20Orlando%20with%20pools
+          - img "Family Friendly" [ref=f3e338]
+          - heading "Family Friendly" [level=3] [ref=f3e340]
+        - link [ref=f3e341] [cursor=pointer]:
+          - /url: search-results.html?ai=Quiet%20luxury%20boutique%20hotels%20in%20Santa%20Barbara
+          - img "Quiet Luxury" [ref=f3e342]
+          - heading "Quiet Luxury" [level=3] [ref=f3e344]
+    - generic [ref=f3e345]:
+      - generic [ref=f3e346]:
+        - heading "Weekend steals" [level=2] [ref=f3e347]
+        - paragraph [ref=f3e348]: Prices just dropped for this upcoming weekend.
+      - generic [ref=f3e349]:
+        - link [ref=f3e350] [cursor=pointer]:
+          - /url: hotel-detail.html?hotelId=lp1a278
+          - generic [ref=f3e351]:
+            - img "Downtown Las Vegas Stay" [ref=f3e352]
+            - generic [ref=f3e353]:
+              - strong [ref=f3e354]: $99
+              - text: /night
+          - generic [ref=f3e355]:
+            - heading "Downtown Las Vegas Stay" [level=3] [ref=f3e356]
+            - paragraph [ref=f3e357]: Las Vegas
+        - link [ref=f3e358] [cursor=pointer]:
+          - /url: hotel-detail.html?hotelId=lp1a7fc
+          - generic [ref=f3e359]:
+            - img "South Beach Escape" [ref=f3e360]
+            - generic [ref=f3e361]:
+              - strong [ref=f3e362]: $119
+              - text: /night
+          - generic [ref=f3e363]:
+            - heading "South Beach Escape" [level=3] [ref=f3e364]
+            - paragraph [ref=f3e365]: Miami
+        - link [ref=f3e366] [cursor=pointer]:
+          - /url: hotel-detail.html?hotelId=lp1a88f
+          - generic [ref=f3e367]:
+            - img "Midtown Weekend Pick" [ref=f3e368]
+            - generic [ref=f3e369]:
+              - strong [ref=f3e370]: $139
+              - text: /night
+          - generic [ref=f3e371]:
+            - heading "Midtown Weekend Pick" [level=3] [ref=f3e372]
+            - paragraph [ref=f3e373]: New York
+        - link [ref=f3e374] [cursor=pointer]:
+          - /url: hotel-detail.html?hotelId=lp194b6
+          - generic [ref=f3e375]:
+            - img "French Quarter Retreat" [ref=f3e376]
+            - generic [ref=f3e377]:
+              - strong [ref=f3e378]: $109
+              - text: /night
+          - generic [ref=f3e379]:
+            - heading "French Quarter Retreat" [level=3] [ref=f3e380]
+            - paragraph [ref=f3e381]: New Orleans
+    - generic [ref=f3e382]:
+      - generic [ref=f3e383]:
+        - heading "Members keep the receipts" [level=2] [ref=f3e384]
+        - paragraph [ref=f3e385]: Hundreds send in their trips — what they saved, in their own words.
+      - generic [ref=f3e386]:
+        - generic [ref=f3e387]:
+          - generic [ref=f3e388]: Saved $1,072
+          - paragraph [ref=f3e389]: "\"Booked the same all-inclusive my sister paid full price for in March. Four nights, oceanfront. She still brings it up.\""
+          - generic [ref=f3e390]: Dana R. · Cancún, 4 nights
+        - generic [ref=f3e391]:
+          - generic [ref=f3e392]: Saved $438
+          - paragraph [ref=f3e393]: "\"First booking paid for the membership twice over. Vegas strip hotel, weekend rate cheaper than my usual midweek one.\""
+          - generic [ref=f3e394]: Marcus T. · Las Vegas, 2 nights
+        - generic [ref=f3e395]:
+          - generic [ref=f3e396]: Earns monthly
+          - paragraph [ref=f3e397]: "\"I posted one reel about our Paris trip and the savings. Eleven people joined through my link. That reel still pays me.\""
+          - generic [ref=f3e398]: Yulia K. · Member since 2024
+      - paragraph [ref=f3e399]: Savings and earnings are self-reported by individual members and are not typical or guaranteed.
+    - generic [ref=f3e401]:
+      - generic [ref=f3e402]:
+        - heading "Real-time pricing" [level=3] [ref=f3e407]
+        - paragraph [ref=f3e408]: Live rates direct from global suppliers.
+      - generic [ref=f3e409]:
+        - heading "Instant confirmation" [level=3] [ref=f3e414]
+        - paragraph [ref=f3e415]: No waiting around. Guaranteed rooms.
+      - generic [ref=f3e416]:
+        - heading "Zero hidden fees" [level=3] [ref=f3e420]
+        - paragraph [ref=f3e421]: What you see is exactly what you pay.
+    - generic [ref=f3e422]:
+      - heading "Book like a member, not a tourist." [level=2] [ref=f3e423]
+      - paragraph [ref=f3e424]: Every crossed-out price on this page is a trip you could be taking for less. The walkthrough takes two minutes — watch it, do the math on your next trip, then decide.
+      - generic [ref=f3e425]:
+        - link "Unlock member prices" [ref=f3e426] [cursor=pointer]:
+          - /url: webinar-optin.html
+        - generic [ref=f3e427]: 2-minute signup · Cancel anytime · You join a team, not just a website
+  - contentinfo [ref=f3e428]:
+    - generic [ref=f3e429]:
+      - generic [ref=f3e430]:
+        - generic [ref=f3e431]:
+          - img "cheapgetaway.com" [ref=f3e432]
+          - paragraph [ref=f3e433]: Seriously good stays at seriously low prices. Real-time rates from suppliers worldwide.
+        - generic [ref=f3e434]:
+          - generic [ref=f3e435]:
+            - strong [ref=f3e436]: Explore
+            - link "Top deals" [ref=f3e437] [cursor=pointer]:
+              - /url: "#deals"
+            - link "Weekend steals" [ref=f3e438] [cursor=pointer]:
+              - /url: "#weekend"
+            - link "Find your vibe" [ref=f3e439] [cursor=pointer]:
+              - /url: "#find-your-vibe"
+            - link "For creators" [ref=f3e440] [cursor=pointer]:
+              - /url: webinar-optin-creator.html
+          - generic [ref=f3e441]:
+            - strong [ref=f3e442]: Support
+            - link "Help center" [ref=f3e443] [cursor=pointer]:
+              - /url: "#"
+            - link "Manage booking" [ref=f3e444] [cursor=pointer]:
+              - /url: "#"
+            - link "Contact us" [ref=f3e445] [cursor=pointer]:
+              - /url: "#"
+          - generic [ref=f3e446]:
+            - strong [ref=f3e447]: Company
+            - link "About" [ref=f3e448] [cursor=pointer]:
+              - /url: "#"
+            - link "Privacy" [ref=f3e449] [cursor=pointer]:
+              - /url: privacy.html
+            - link "Terms" [ref=f3e450] [cursor=pointer]:
+              - /url: terms.html
+      - paragraph [ref=f3e451]: © 2026 cheapgetaway.com — All rights reserved.

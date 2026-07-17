@@ -1,0 +1,67 @@
+- generic [ref=f20e3]:
+  - navigation [ref=f20e4]:
+    - generic [ref=f20e5]:
+      - link [ref=f20e6] [cursor=pointer]:
+        - /url: index.html
+        - img "cheapgetaway.com" [ref=f20e7]
+      - link "← Back to home" [ref=f20e8] [cursor=pointer]:
+        - /url: index.html
+  - main [ref=f20e9]:
+    - generic [ref=f20e10]:
+      - generic [ref=f20e11]:
+        - generic [ref=f20e12]:
+          - button "Sign in" [ref=f20e13] [cursor=pointer]
+          - button "Create account" [ref=f20e14] [cursor=pointer]
+        - generic [ref=f20e15]:
+          - heading "Welcome back" [level=1] [ref=f20e16]
+          - paragraph [ref=f20e17]: Sign in to see your trips and member prices.
+        - generic [ref=f20e18]:
+          - generic [ref=f20e19]:
+            - text: Email
+            - textbox "Email" [ref=f20e20]:
+              - /placeholder: you@email.com
+          - generic [ref=f20e21]:
+            - text: Password
+            - textbox "Password" [ref=f20e22]:
+              - /placeholder: ••••••••
+          - generic [ref=f20e23]:
+            - generic [ref=f20e24] [cursor=pointer]:
+              - checkbox "Remember me" [ref=f20e25]
+              - text: Remember me
+            - link "Forgot password?" [ref=f20e26] [cursor=pointer]:
+              - /url: "#"
+          - button "Sign in" [ref=f20e27] [cursor=pointer]
+        - generic [ref=f20e28]: OR
+        - generic [ref=f20e31]:
+          - button "Continue with Google" [ref=f20e32] [cursor=pointer]
+          - button "Continue with Apple" [ref=f20e38] [cursor=pointer]
+        - paragraph [ref=f20e41]:
+          - text: By continuing you agree to our
+          - link "Terms" [ref=f20e42] [cursor=pointer]:
+            - /url: terms.html
+          - text: and
+          - link "Privacy Policy" [ref=f20e43] [cursor=pointer]:
+            - /url: privacy.html
+          - text: .
+      - generic [ref=f20e44]:
+        - heading "Your trips and saved stays — all in one place." [level=2] [ref=f20e46]
+        - list [ref=f20e47]:
+          - listitem [ref=f20e48]:
+            - generic [ref=f20e49]: ✓
+            - text: See and manage your bookings
+          - listitem [ref=f20e50]:
+            - generic [ref=f20e51]: ✓
+            - text: Save hotels and price-watch trips
+          - listitem [ref=f20e52]:
+            - generic [ref=f20e53]: ✓
+            - text: Faster checkout with saved details
+        - generic [ref=f20e54]:
+          - paragraph [ref=f20e55]: Psst — the prices on this site aren't even the low ones.
+          - link "See how travelers unlock bigger discounts →" [ref=f20e56] [cursor=pointer]:
+            - /url: webinar-optin.html
+  - contentinfo [ref=f20e57]:
+    - link "Home" [ref=f20e58] [cursor=pointer]:
+      - /url: index.html
+    - link "Join the club" [ref=f20e59] [cursor=pointer]:
+      - /url: webinar-optin.html
+    - generic [ref=f20e60]: © 2026 cheapgetaway.com

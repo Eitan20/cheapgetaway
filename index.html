@@ -19,23 +19,64 @@
   *{box-sizing:border-box;}
   input,select,button{font-family:'Nunito',sans-serif;}
   input:focus,select:focus{outline:none;}
+
+  @media (max-width: 480px) {
+    /* Header nav row: stop the logo/links/auth row from forcing horizontal
+       scroll — wrap it and hide the anchor-link cluster (which becomes
+       inaccessible at this width anyway per the mobile audit). */
+    .cg-nav-row { flex-wrap: wrap; row-gap: 8px; justify-content: center; gap: 12px !important; }
+    .cg-nav-links { display: none; }
+    .cg-nav-auth { gap: 8px !important; }
+    .cg-join-btn { padding: 10px 14px !important; font-size: 13.5px !important; }
+    .cg-signin-btn { padding: 8px 8px !important; font-size: 13.5px !important; }
+
+    /* Hero H1 / sub: stop clipping instead of wrapping. */
+    .cg-hero-h1 { white-space: normal !important; }
+
+    /* Stays/Flights mode toggle: reach the 40px tap-target minimum. */
+    .cg-mode-btn { min-height: 40px; padding-top: 11px !important; padding-bottom: 11px !important; }
+
+    /* Quick-filter chips under the stays search card: reach 40px. */
+    .cg-quick-btn { min-height: 40px; padding-top: 12px !important; padding-bottom: 12px !important; }
+
+    /* Flights From/To/swap/dates/passengers/search row: stack instead of
+       forcing a single fixed-width row (the "From" field offender). */
+    .cg-fly-row { flex-direction: column !important; align-items: stretch !important; border-radius: 22px !important; }
+    .cg-fly-row [data-cg-pop] { width: 100% !important; border-right: none !important; border-bottom: 1.5px solid rgba(14,21,86,0.1); }
+    .cg-fly-row [data-cg-pop]:last-of-type { border-bottom: none; }
+    .cg-fly-swap { align-self: center !important; margin: 2px 0; }
+
+    /* Flights AI search bar: stack input above button instead of a fixed
+       single row (the "Find flights" button was pushing scrollWidth past
+       the viewport). */
+    .cg-ai-bar { flex-direction: column !important; align-items: stretch !important; border-radius: 24px !important; }
+    .cg-ai-input-wrap { width: 100% !important; min-width: 0 !important; }
+    #cg-fly-ai { min-width: 0; }
+    .cg-ai-btn { width: 100% !important; text-align: center; }
+
+    /* Membership section decorative circle: keep it well inside its
+       overflow:hidden ancestor at mobile widths (defensive — reinforce the
+       clip and shrink/reposition so it can never reach the page edge). */
+    .cg-decor-clip { overflow: hidden !important; }
+    .cg-decor-circle { width: 160px !important; height: 160px !important; top: -40px !important; right: -40px !important; }
+  }
 </style>
 </helmet>
 
 <nav style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);">
-  <div style="max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+  <div class="cg-nav-row" style="max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
     <a href="#" style="display:flex;align-items:center;"><img id="cg-nav-logo" src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:54px;display:block;transition:height .25s ease;"></a>
-    <div style="display:flex;align-items:center;gap:28px;font-weight:700;font-size:15px;">
+    <div class="cg-nav-links" style="display:flex;align-items:center;gap:28px;font-weight:700;font-size:15px;">
       <a href="#deals" style="color:#0e1556;" style-hover="color:#38b6ff;">Deals</a>
       <a href="#weekend" style="color:#0e1556;" style-hover="color:#38b6ff;">Weekend</a>
       <a href="#vibes" style="color:#0e1556;" style-hover="color:#38b6ff;">Vibes</a>
     </div>
-    <div style="display:flex;align-items:center;gap:12px;">
+    <div class="cg-nav-auth" style="display:flex;align-items:center;gap:12px;">
       <sc-if value="{{ signedIn }}" hint-placeholder-val="">
         <a href="my-trips.html" style="font-weight:700;font-size:15px;color:#0e1556;padding:8px 12px;">My trips</a>
       </sc-if>
-      <button onClick="{{ authAction }}" style="border:none;background:transparent;cursor:pointer;font-weight:700;font-size:15px;color:#0e1556;padding:8px 12px;" style-hover="color:#38b6ff;">{{ authLabel }}</button>
-      <a href="webinar-optin.html" style="background:#ff6500;color:#fff;font-weight:800;font-size:15px;padding:10px 20px;border-radius:999px;box-shadow:0 8px 24px rgba(255,101,0,0.28);" style-hover="background:#e65a00;color:#fff;">Join the club</a>
+      <button class="cg-signin-btn" onClick="{{ authAction }}" style="border:none;background:transparent;cursor:pointer;font-weight:700;font-size:15px;color:#0e1556;padding:8px 12px;" style-hover="color:#38b6ff;">{{ authLabel }}</button>
+      <a class="cg-join-btn" href="webinar-optin.html" style="background:#ff6500;color:#fff;font-weight:800;font-size:15px;padding:10px 20px;border-radius:999px;box-shadow:0 8px 24px rgba(255,101,0,0.28);" style-hover="background:#e65a00;color:#fff;">Join the club</a>
     </div>
   </div>
 </nav>
@@ -46,17 +87,17 @@
     <div style="position:absolute;inset:0;border-radius:40px;background-image:linear-gradient(rgba(15,23,42,0.35), rgba(15,23,42,0.35)), url('assets/hero-flights.webp');background-size:cover;background-position:center;"></div>
   </sc-if>
   <div style="position:relative;width:100%;max-width:1020px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;">
-    <h1 style="margin:0;color:#fff;font-size:clamp(30px,4.6vw,56px);font-weight:900;line-height:1.15;text-shadow:0 2px 24px rgba(11,15,31,0.35);white-space:nowrap;max-width:100%;">{{ heroTitle }}</h1>
+    <h1 class="cg-hero-h1" style="margin:0;color:#fff;font-size:clamp(30px,4.6vw,56px);font-weight:900;line-height:1.15;text-shadow:0 2px 24px rgba(11,15,31,0.35);white-space:nowrap;max-width:100%;">{{ heroTitle }}</h1>
     <p style="margin:0 0 36px;color:rgba(255,255,255,0.95);font-size:clamp(15px,1.6vw,18px);font-weight:600;text-shadow:0 1px 12px rgba(11,15,31,0.35);line-height:1.4;min-height:2.8em;display:flex;align-items:center;max-width:520px;">{{ heroSub }}</p>
 
     <div style="width:100%;display:flex;flex-direction:column;gap:16px;">
       <div style="display:flex;align-items:center;justify-content:center;position:relative;min-height:46px;">
         <div style="background:rgba(11,15,31,0.45);backdrop-filter:blur(8px);border-radius:999px;padding:5px;display:flex;gap:4px;">
-          <button onClick="{{ setModeStandard }}" style="display:flex;align-items:center;gap:8px;border:none;cursor:pointer;padding:9px 20px;border-radius:999px;font-weight:800;font-size:14.5px;background:{{ standardChipBg }};color:{{ standardChipColor }};">
+          <button class="cg-mode-btn" onClick="{{ setModeStandard }}" style="display:flex;align-items:center;gap:8px;border:none;cursor:pointer;padding:9px 20px;border-radius:999px;font-weight:800;font-size:14.5px;background:{{ standardChipBg }};color:{{ standardChipColor }};">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M4 18v-3h16v3h2v-6a3 3 0 0 0-3-3h-6V7a2 2 0 0 0-2-2H5a3 3 0 0 0-3 3v10h2z"></path></svg>
             Stays
           </button>
-          <button onClick="{{ setModeFlights }}" style="display:flex;align-items:center;gap:8px;border:none;cursor:pointer;padding:9px 20px;border-radius:999px;font-weight:800;font-size:14.5px;background:{{ flightsChipBg }};color:{{ flightsChipColor }};">
+          <button class="cg-mode-btn" onClick="{{ setModeFlights }}" style="display:flex;align-items:center;gap:8px;border:none;cursor:pointer;padding:9px 20px;border-radius:999px;font-weight:800;font-size:14.5px;background:{{ flightsChipBg }};color:{{ flightsChipColor }};">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"></path></svg>
             Flights
           </button>
@@ -76,12 +117,12 @@
       </sc-if>
 
       <sc-if value="{{ flightsAiMode }}" hint-placeholder-val="">
-        <div style="background:#fff;border-radius:999px;box-shadow:0 24px 64px rgba(14,21,86,0.22);padding:8px;display:flex;align-items:center;gap:10px;">
-          <div style="flex:1;display:flex;align-items:center;gap:12px;border:2px solid #38b6ff;border-radius:999px;padding:6px 8px 6px 20px;">
+        <div class="cg-ai-bar" style="background:#fff;border-radius:999px;box-shadow:0 24px 64px rgba(14,21,86,0.22);padding:8px;display:flex;align-items:center;gap:10px;">
+          <div class="cg-ai-input-wrap" style="flex:1;display:flex;align-items:center;gap:12px;border:2px solid #38b6ff;border-radius:999px;padding:6px 8px 6px 20px;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="#ff6500" style="flex-shrink:0;"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"></path></svg>
             <input id="cg-fly-ai" type="text" placeholder="e.g. Flights from London to Barcelona next weekend" style="flex:1;border:none;background:transparent;font-size:16px;font-weight:700;color:#0b0f1f;min-height:44px;">
           </div>
-          <button onClick="{{ doFlightAiSearch }}" style="background:#ff6500;color:#fff;border:none;cursor:pointer;font-weight:900;font-size:15px;padding:15px 28px;border-radius:999px;flex-shrink:0;" style-hover="background:#e65a00;">Find flights</button>
+          <button class="cg-ai-btn" onClick="{{ doFlightAiSearch }}" style="background:#ff6500;color:#fff;border:none;cursor:pointer;font-weight:900;font-size:15px;padding:15px 28px;border-radius:999px;flex-shrink:0;" style-hover="background:#e65a00;">Find flights</button>
         </div>
       </sc-if>
 
@@ -100,7 +141,7 @@
             <label style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:800;color:#52586b;cursor:pointer;"><input id="cg-nonstop" type="checkbox" style="width:17px;height:17px;accent-color:#38b6ff;">Non-stop only</label>
           </div>
           <div style="display:flex;align-items:stretch;gap:10px;flex-wrap:wrap;">
-            <div style="flex:1 1 100%;display:flex;align-items:stretch;border:1.5px solid rgba(14,21,86,0.12);border-radius:999px;padding:4px;">
+            <div class="cg-fly-row" style="flex:1 1 100%;display:flex;align-items:stretch;border:1.5px solid rgba(14,21,86,0.12);border-radius:999px;padding:4px;">
               <div data-cg-pop="" style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:10px 16px;text-align:left;">
                 <label style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">From</label>
                 <input id="cg-fly-from" type="text" placeholder="New York (JFK)" autocomplete="off" onFocus="{{ closePax }}" onInput="{{ onFlyFromInput }}" style="border:none;width:100%;font-size:14.5px;font-weight:700;color:#0b0f1f;background:transparent;">
@@ -115,7 +156,7 @@
                   </div>
                 </sc-if>
               </div>
-              <button onClick="{{ swapAirports }}" aria-label="Swap" style="align-self:center;flex-shrink:0;width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.14);background:#fff;color:#0e1556;cursor:pointer;display:flex;align-items:center;justify-content:center;" style-hover="border-color:#38b6ff;color:#38b6ff;">
+              <button class="cg-fly-swap" onClick="{{ swapAirports }}" aria-label="Swap" style="align-self:center;flex-shrink:0;width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.14);background:#fff;color:#0e1556;cursor:pointer;display:flex;align-items:center;justify-content:center;" style-hover="border-color:#38b6ff;color:#38b6ff;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 4 21 8 17 12"></polyline><line x1="21" y1="8" x2="7" y2="8"></line><polyline points="7 12 3 16 7 20"></polyline><line x1="3" y1="16" x2="17" y2="16"></line></svg>
               </button>
               <div data-cg-pop="" style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:10px 16px;text-align:left;border-right:1.5px solid rgba(14,21,86,0.1);">
@@ -271,8 +312,8 @@
 
       <sc-if value="{{ staysMode }}" hint-placeholder-val="{{ true }}">
       <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-        <button style="border:none;background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);color:#0e1556;font-weight:700;font-size:13px;padding:8px 16px;border-radius:999px;cursor:pointer;box-shadow:0 4px 14px rgba(11,15,31,0.18);" style-hover="background:#fff;color:#38b6ff;">This weekend</button>
-        <button style="border:none;background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);color:#0e1556;font-weight:700;font-size:13px;padding:8px 16px;border-radius:999px;cursor:pointer;box-shadow:0 4px 14px rgba(11,15,31,0.18);" style-hover="background:#fff;color:#38b6ff;">Under $120/night</button>
+        <button class="cg-quick-btn" style="border:none;background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);color:#0e1556;font-weight:700;font-size:13px;padding:8px 16px;border-radius:999px;cursor:pointer;box-shadow:0 4px 14px rgba(11,15,31,0.18);" style-hover="background:#fff;color:#38b6ff;">This weekend</button>
+        <button class="cg-quick-btn" style="border:none;background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);color:#0e1556;font-weight:700;font-size:13px;padding:8px 16px;border-radius:999px;cursor:pointer;box-shadow:0 4px 14px rgba(11,15,31,0.18);" style-hover="background:#fff;color:#38b6ff;">Under $120/night</button>
         <a href="webinar-optin.html" style="display:flex;align-items:center;gap:7px;font-weight:800;font-size:13px;color:#ff6500;background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);padding:8px 16px;border-radius:999px;box-shadow:0 4px 14px rgba(11,15,31,0.18);" style-hover="color:#e65a00;background:#fff;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>
           Members see lower prices →
@@ -352,8 +393,8 @@
   </section>
   </sc-if>
 
-  <section id="membership" style="background:#0e1556;border-radius:28px;padding:52px 40px;color:#fff;position:relative;overflow:hidden;">
-    <div style="position:absolute;top:-80px;right:-80px;width:320px;height:320px;border-radius:50%;background:rgba(56,182,255,0.15);"></div>
+  <section id="membership" class="cg-decor-clip" style="background:#0e1556;border-radius:28px;padding:52px 40px;color:#fff;position:relative;overflow:hidden;">
+    <div class="cg-decor-circle" style="position:absolute;top:-80px;right:-80px;width:320px;height:320px;border-radius:50%;background:rgba(56,182,255,0.15);"></div>
     <div style="position:relative;display:flex;gap:48px;flex-wrap:wrap;align-items:center;">
       <div style="flex:1.4 1 380px;display:flex;flex-direction:column;gap:16px;">
         <span style="width:fit-content;background:rgba(56,182,255,0.18);color:#38b6ff;font-weight:800;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;padding:6px 14px;border-radius:999px;">Why prices are crossed out</span>

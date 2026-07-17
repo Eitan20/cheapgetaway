@@ -122,6 +122,24 @@ confirmed → WebinarWiz live room **with the visitor's name in the URL**.
   dashboard import), local testing instructions (`vercel dev` for the proxy,
   or any static server for direct-API fallback mode).
 
+## Mobile optimization (user request 2026-07-16)
+
+All 16 pages must be usable on phones. Scope (fix, don't redesign):
+- **Zero horizontal overflow** at 360px and 390px viewport widths (document
+  `scrollWidth <= innerWidth`) on every page, in every interactive state that
+  changes layout (e.g. home page stays/flights modes, AI bar open).
+- Known offenders on index.html: `white-space:nowrap` hero H1, the "From"
+  flight input, passenger-summary label, nav "Join the club" button.
+- Forms and buttons: tap targets ≥ 40px tall on mobile, inputs fit the
+  viewport, multi-column rows stack vertically at small widths.
+- Grids/carousels (search results, hotel detail rooms, deals rows) must fit
+  or scroll within their own container — never widen the page.
+- Text: no clipped headlines; use existing `clamp()`/media-query idiom
+  (pages already use `@media (max-width: 480px)` blocks — extend those).
+- Keep desktop layouts pixel-unchanged (mobile-only media queries or
+  fluid units that resolve identically at desktop sizes).
+- Verified programmatically page-by-page at 360/390/768 widths after fixes.
+
 ## Acceptance criteria
 
 1. All 13 pages present under the drop folder with kebab-case names; zero references to `.dc.html` anywhere in the folder.

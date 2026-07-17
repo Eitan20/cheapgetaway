@@ -1,0 +1,274 @@
+- generic [ref=f21e3]:
+  - navigation [ref=f21e4]:
+    - generic [ref=f21e5]:
+      - link [ref=f21e6] [cursor=pointer]:
+        - /url: index.html
+        - img "cheapgetaway.com" [ref=f21e7]
+      - generic [ref=f21e8]:
+        - generic [ref=f21e11]: JFK ⇄ MIA
+        - generic [ref=f21e13]: Aug 14 – Aug 17
+        - generic [ref=f21e15]: 2 Travelers
+      - link "Join the club" [ref=f21e16] [cursor=pointer]:
+        - /url: webinar-optin.html
+  - main [ref=f21e17]:
+    - complementary [ref=f21e18]:
+      - generic [ref=f21e19]:
+        - strong [ref=f21e20]: Filters
+        - generic [ref=f21e21]:
+          - generic [ref=f21e22]: Stops
+          - generic [ref=f21e23] [cursor=pointer]:
+            - radio "Any" [checked] [ref=f21e24]
+            - text: Any
+          - generic [ref=f21e25] [cursor=pointer]:
+            - radio "Non-stop only" [ref=f21e26]
+            - text: Non-stop only
+          - generic [ref=f21e27] [cursor=pointer]:
+            - radio "1 stop or fewer" [ref=f21e28]
+            - text: 1 stop or fewer
+        - generic [ref=f21e52]:
+          - generic [ref=f21e53]: Airlines
+          - generic [ref=f21e54] [cursor=pointer]:
+            - checkbox "Delta 1" [ref=f21e55]
+            - generic [ref=f21e56]: Delta
+            - generic [ref=f21e57]: "1"
+          - generic [ref=f21e58] [cursor=pointer]:
+            - checkbox "JetBlue 1" [ref=f21e59]
+            - generic [ref=f21e60]: JetBlue
+            - generic [ref=f21e61]: "1"
+          - generic [ref=f21e62] [cursor=pointer]:
+            - checkbox "American 1" [ref=f21e63]
+            - generic [ref=f21e64]: American
+            - generic [ref=f21e65]: "1"
+          - generic [ref=f21e66] [cursor=pointer]:
+            - checkbox "United 1" [ref=f21e67]
+            - generic [ref=f21e68]: United
+            - generic [ref=f21e69]: "1"
+          - generic [ref=f21e70] [cursor=pointer]:
+            - checkbox "Spirit 1" [ref=f21e71]
+            - generic [ref=f21e72]: Spirit
+            - generic [ref=f21e73]: "1"
+      - generic [ref=f21e29]:
+        - strong [ref=f21e30]: Bundle & save
+        - paragraph [ref=f21e34]: Members who pair a flight with a member-rate hotel save the most per trip.
+        - link "Unlock member prices" [ref=f21e35] [cursor=pointer]:
+          - /url: webinar-optin.html
+    - generic [ref=f21e36]:
+      - generic [ref=f21e74]: Demo flights shown — live LiteAPI flight offers load automatically when the API is reachable.
+      - generic [ref=f21e37]:
+        - heading "5 flights · JFK to MIA" [level=1] [ref=f21e75]
+        - generic [ref=f21e39]:
+          - text: Sort by
+          - combobox "Sort by" [ref=f21e40] [cursor=pointer]:
+            - option "Cheapest first" [selected]
+            - option "Fastest first"
+            - option "Earliest departure"
+      - article [ref=f21e76]:
+        - generic [ref=f21e77]:
+          - generic:
+            - generic [ref=f21e78]:
+              - generic [ref=f21e79]: NK
+              - generic [ref=f21e81]:
+                - strong [ref=f21e82]: Spirit
+                - generic [ref=f21e83]: NK 233
+            - generic [ref=f21e84]:
+              - generic [ref=f21e85]:
+                - strong [ref=f21e86]: 5:45 AM
+                - generic [ref=f21e87]: JFK
+              - generic [ref=f21e88]:
+                - generic [ref=f21e89]: 3h 7m
+                - generic [ref=f21e92]: Non-stop
+              - generic [ref=f21e93]:
+                - strong [ref=f21e94]: 8:52 AM
+                - generic [ref=f21e95]: MIA
+            - generic [ref=f21e96]: Outbound
+          - generic:
+            - generic [ref=f21e97]:
+              - generic [ref=f21e98]: NK
+              - generic [ref=f21e100]:
+                - strong [ref=f21e101]: Spirit
+                - generic [ref=f21e102]: NK 1092
+            - generic [ref=f21e103]:
+              - generic [ref=f21e104]:
+                - strong [ref=f21e105]: 9:15 PM
+                - generic [ref=f21e106]: MIA
+              - generic [ref=f21e107]:
+                - generic [ref=f21e108]: 3h 10m
+                - generic [ref=f21e111]: Non-stop
+              - generic [ref=f21e112]:
+                - strong [ref=f21e113]: 12:25 AM
+                - generic [ref=f21e114]: JFK
+            - generic [ref=f21e115]: Return
+        - generic [ref=f21e116]:
+          - strong [ref=f21e117]: $189
+          - generic [ref=f21e118]: total · all passengersincl. taxes & fees
+          - button "Select" [ref=f21e119] [cursor=pointer]
+      - article [ref=f21e120]:
+        - generic [ref=f21e121]:
+          - generic:
+            - generic [ref=f21e122]:
+              - generic [ref=f21e123]: AA
+              - generic [ref=f21e125]:
+                - strong [ref=f21e126]: American
+                - generic [ref=f21e127]: AA 2412
+            - generic [ref=f21e128]:
+              - generic [ref=f21e129]:
+                - strong [ref=f21e130]: 6:00 AM
+                - generic [ref=f21e131]: JFK
+              - generic [ref=f21e132]:
+                - generic [ref=f21e133]: 5h 41m
+                - generic [ref=f21e136]: 1 stop
+              - generic [ref=f21e137]:
+                - strong [ref=f21e138]: 11:41 AM
+                - generic [ref=f21e139]: MIA
+            - generic [ref=f21e140]: Outbound
+          - generic:
+            - generic [ref=f21e141]:
+              - generic [ref=f21e142]: AA
+              - generic [ref=f21e144]:
+                - strong [ref=f21e145]: American
+                - generic [ref=f21e146]: AA 887
+            - generic [ref=f21e147]:
+              - generic [ref=f21e148]:
+                - strong [ref=f21e149]: 12:10 PM
+                - generic [ref=f21e150]: MIA
+              - generic [ref=f21e151]:
+                - generic [ref=f21e152]: 5h 55m
+                - generic [ref=f21e155]: 1 stop
+              - generic [ref=f21e156]:
+                - strong [ref=f21e157]: 6:05 PM
+                - generic [ref=f21e158]: JFK
+            - generic [ref=f21e159]: Return
+        - generic [ref=f21e160]:
+          - strong [ref=f21e161]: $244
+          - generic [ref=f21e162]: total · all passengersincl. taxes & fees
+          - button "Select" [ref=f21e163] [cursor=pointer]
+      - article [ref=f21e164]:
+        - generic [ref=f21e165]:
+          - generic:
+            - generic [ref=f21e166]:
+              - generic [ref=f21e167]: B6
+              - generic [ref=f21e169]:
+                - strong [ref=f21e170]: JetBlue
+                - generic [ref=f21e171]: B6 901
+            - generic [ref=f21e172]:
+              - generic [ref=f21e173]:
+                - strong [ref=f21e174]: 9:05 AM
+                - generic [ref=f21e175]: JFK
+              - generic [ref=f21e176]:
+                - generic [ref=f21e177]: 3h 9m
+                - generic [ref=f21e180]: Non-stop
+              - generic [ref=f21e181]:
+                - strong [ref=f21e182]: 12:14 PM
+                - generic [ref=f21e183]: MIA
+            - generic [ref=f21e184]: Outbound
+          - generic:
+            - generic [ref=f21e185]:
+              - generic [ref=f21e186]: B6
+              - generic [ref=f21e188]:
+                - strong [ref=f21e189]: JetBlue
+                - generic [ref=f21e190]: B6 1416
+            - generic [ref=f21e191]:
+              - generic [ref=f21e192]:
+                - strong [ref=f21e193]: 3:25 PM
+                - generic [ref=f21e194]: MIA
+              - generic [ref=f21e195]:
+                - generic [ref=f21e196]: 3h 15m
+                - generic [ref=f21e199]: Non-stop
+              - generic [ref=f21e200]:
+                - strong [ref=f21e201]: 6:40 PM
+                - generic [ref=f21e202]: JFK
+            - generic [ref=f21e203]: Return
+        - generic [ref=f21e204]:
+          - strong [ref=f21e205]: $296
+          - generic [ref=f21e206]: total · all passengersincl. taxes & fees
+          - button "Select" [ref=f21e207] [cursor=pointer]
+      - article [ref=f21e208]:
+        - generic [ref=f21e209]:
+          - generic:
+            - generic [ref=f21e210]:
+              - generic [ref=f21e211]: DL
+              - generic [ref=f21e213]:
+                - strong [ref=f21e214]: Delta
+                - generic [ref=f21e215]: DL 348
+            - generic [ref=f21e216]:
+              - generic [ref=f21e217]:
+                - strong [ref=f21e218]: 7:15 AM
+                - generic [ref=f21e219]: JFK
+              - generic [ref=f21e220]:
+                - generic [ref=f21e221]: 3h 12m
+                - generic [ref=f21e224]: Non-stop
+              - generic [ref=f21e225]:
+                - strong [ref=f21e226]: 10:27 AM
+                - generic [ref=f21e227]: MIA
+            - generic [ref=f21e228]: Outbound
+          - generic:
+            - generic [ref=f21e229]:
+              - generic [ref=f21e230]: DL
+              - generic [ref=f21e232]:
+                - strong [ref=f21e233]: Delta
+                - generic [ref=f21e234]: DL 1211
+            - generic [ref=f21e235]:
+              - generic [ref=f21e236]:
+                - strong [ref=f21e237]: 6:40 PM
+                - generic [ref=f21e238]: MIA
+              - generic [ref=f21e239]:
+                - generic [ref=f21e240]: 3h 18m
+                - generic [ref=f21e243]: Non-stop
+              - generic [ref=f21e244]:
+                - strong [ref=f21e245]: 9:58 PM
+                - generic [ref=f21e246]: JFK
+            - generic [ref=f21e247]: Return
+        - generic [ref=f21e248]:
+          - strong [ref=f21e249]: $318
+          - generic [ref=f21e250]: total · all passengersincl. taxes & fees
+          - button "Select" [ref=f21e251] [cursor=pointer]
+      - article [ref=f21e252]:
+        - generic [ref=f21e253]:
+          - generic:
+            - generic [ref=f21e254]:
+              - generic [ref=f21e255]: UA
+              - generic [ref=f21e257]:
+                - strong [ref=f21e258]: United
+                - generic [ref=f21e259]: UA 1580
+            - generic [ref=f21e260]:
+              - generic [ref=f21e261]:
+                - strong [ref=f21e262]: 11:30 AM
+                - generic [ref=f21e263]: JFK
+              - generic [ref=f21e264]:
+                - generic [ref=f21e265]: 3h 25m
+                - generic [ref=f21e268]: Non-stop
+              - generic [ref=f21e269]:
+                - strong [ref=f21e270]: 2:55 PM
+                - generic [ref=f21e271]: MIA
+            - generic [ref=f21e272]: Outbound
+          - generic:
+            - generic [ref=f21e273]:
+              - generic [ref=f21e274]: UA
+              - generic [ref=f21e276]:
+                - strong [ref=f21e277]: United
+                - generic [ref=f21e278]: UA 655
+            - generic [ref=f21e279]:
+              - generic [ref=f21e280]:
+                - strong [ref=f21e281]: 7:55 PM
+                - generic [ref=f21e282]: MIA
+              - generic [ref=f21e283]:
+                - generic [ref=f21e284]: 3h 21m
+                - generic [ref=f21e287]: Non-stop
+              - generic [ref=f21e288]:
+                - strong [ref=f21e289]: 11:16 PM
+                - generic [ref=f21e290]: JFK
+            - generic [ref=f21e291]: Return
+        - generic [ref=f21e292]:
+          - strong [ref=f21e293]: $342
+          - generic [ref=f21e294]: total · all passengersincl. taxes & fees
+          - button "Select" [ref=f21e295] [cursor=pointer]
+  - contentinfo [ref=f21e45]:
+    - img "cheapgetaway.com" [ref=f21e46]
+    - generic [ref=f21e47]:
+      - link "Home" [ref=f21e48] [cursor=pointer]:
+        - /url: index.html
+      - link "Join the club" [ref=f21e49] [cursor=pointer]:
+        - /url: webinar-optin.html
+      - link "For creators" [ref=f21e50] [cursor=pointer]:
+        - /url: webinar-optin-creator.html
+    - generic [ref=f21e51]: © 2026 cheapgetaway.com

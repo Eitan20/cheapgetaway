@@ -1,0 +1,83 @@
+- generic [ref=f17e3]:
+  - navigation [ref=f17e4]:
+    - generic [ref=f17e5]:
+      - link [ref=f17e6] [cursor=pointer]:
+        - /url: index.html
+        - img "cheapgetaway.com" [ref=f17e7]
+      - generic [ref=f17e8]: Secure checkout
+  - main [ref=f17e13]:
+    - generic [ref=f17e14]:
+      - link "Back to hotel" [ref=f17e15] [cursor=pointer]:
+        - /url: hotel-detail.html?hotelId=lp43826&checkin=2026-08-14&checkout=2026-08-17&adults=2
+      - heading "Complete your booking" [level=1] [ref=f17e18]
+      - generic [ref=f17e19]: Price locked with the supplier — this rate is confirmed live for your dates.
+      - generic [ref=f17e20]:
+        - heading "Guest details" [level=2] [ref=f17e21]
+        - generic [ref=f17e22]:
+          - generic [ref=f17e23]:
+            - text: First name
+            - textbox "First name" [ref=f17e24]
+          - generic [ref=f17e25]:
+            - text: Last name
+            - textbox "Last name" [ref=f17e26]
+        - generic [ref=f17e27]:
+          - text: Email — your confirmation goes here
+          - textbox "Email — your confirmation goes here" [ref=f17e28]:
+            - /placeholder: you@email.com
+        - generic [ref=f17e29]:
+          - text: Phone (optional)
+          - textbox "Phone (optional)" [ref=f17e30]:
+            - /placeholder: +1 555 000 0000
+      - generic [ref=f17e31]:
+        - generic [ref=f17e32]:
+          - heading "Payment" [level=2] [ref=f17e33]
+          - generic [ref=f17e34]:
+            - generic [ref=f17e35]: VISA
+            - generic [ref=f17e36]: MC
+            - generic [ref=f17e37]: AMEX
+        - generic [ref=f17e38]:
+          - text: Card number
+          - textbox "Card number" [ref=f17e39]:
+            - /placeholder: 4242 4242 4242 4242
+        - generic [ref=f17e40]:
+          - generic [ref=f17e41]:
+            - text: Expiry
+            - textbox "Expiry" [ref=f17e42]:
+              - /placeholder: MM / YY
+          - generic [ref=f17e43]:
+            - text: CVC
+            - textbox "CVC" [ref=f17e44]:
+              - /placeholder: "123"
+        - paragraph [ref=f17e45]: Prototype payment — no card is charged. In production this connects to the LiteAPI book step with your payment processing.
+      - button "Confirm & book" [ref=f17e46] [cursor=pointer]
+    - complementary [ref=f17e47]:
+      - generic [ref=f17e48]:
+        - img "Hampton Inn & Suites Las Vegas Airport" [ref=f17e78]
+        - generic [ref=f17e51]:
+          - generic [ref=f17e52]:
+            - generic [ref=f17e53]: ★★★
+            - heading "Hampton Inn & Suites Las Vegas Airport" [level=3] [ref=f17e79]
+            - paragraph [ref=f17e80]: 6575 South Eastern Avenue, Las Vegas
+          - generic [ref=f17e55]:
+            - generic [ref=f17e56]:
+              - generic [ref=f17e57]: Room
+              - generic [ref=f17e58]: X
+            - generic [ref=f17e59]:
+              - generic [ref=f17e60]: Board
+              - generic [ref=f17e61]: "Y"
+            - generic [ref=f17e62]:
+              - generic [ref=f17e63]: Check-in
+              - generic [ref=f17e64]: Fri, Aug 14
+            - generic [ref=f17e65]:
+              - generic [ref=f17e66]: Check-out
+              - generic [ref=f17e67]: Mon, Aug 17
+            - generic [ref=f17e68]:
+              - generic [ref=f17e69]: Guests
+              - generic [ref=f17e70]: 2 adults
+            - generic [ref=f17e71]:
+              - generic [ref=f17e72]: Policy
+              - generic [ref=f17e73]: Non-refundable
+          - generic [ref=f17e74]:
+            - generic [ref=f17e75]: Total incl. taxes
+            - strong [ref=f17e76]: $358
+      - generic [ref=f17e77]: ✓ Instant confirmation — your room is guaranteed the moment you book.

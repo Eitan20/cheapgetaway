@@ -1,0 +1,509 @@
+- generic [ref=f15e3]:
+  - navigation [ref=f15e4]:
+    - generic [ref=f15e5]:
+      - link [ref=f15e6] [cursor=pointer]:
+        - /url: index.html
+        - img "cheapgetaway.com" [ref=f15e7]
+      - generic [ref=f15e8]:
+        - textbox "Where to?" [ref=f15e9]: Las Vegas
+        - generic [ref=f15e11]: Aug 14 – Aug 17
+        - generic [ref=f15e13]: 2 Guests
+        - button "Search" [ref=f15e14] [cursor=pointer]
+      - link "Join the club" [ref=f15e18] [cursor=pointer]:
+        - /url: webinar-optin.html
+  - main [ref=f15e19]:
+    - complementary [ref=f15e20]:
+      - generic [ref=f15e21]:
+        - generic [ref=f15e22]:
+          - strong [ref=f15e23]: Filters
+          - button "Clear filters" [ref=f15e24] [cursor=pointer]
+        - generic [ref=f15e25]:
+          - generic [ref=f15e26]:
+            - generic [ref=f15e27]: Property name
+            - 'textbox "For example: Hilton" [ref=f15e28]'
+          - generic [ref=f15e29]:
+            - generic [ref=f15e30]: Price per night · up to $1000+
+            - slider [ref=f15e31]: "1000"
+          - generic [ref=f15e32]:
+            - generic [ref=f15e33]: Popular filters
+            - generic [ref=f15e34]:
+              - generic [ref=f15e35] [cursor=pointer]:
+                - checkbox "Free cancellation" [ref=f15e36]
+                - text: Free cancellation
+              - generic [ref=f15e37] [cursor=pointer]:
+                - checkbox "Parking" [ref=f15e38]
+                - text: Parking
+              - generic [ref=f15e39] [cursor=pointer]:
+                - checkbox "Breakfast included" [ref=f15e40]
+                - text: Breakfast included
+              - generic [ref=f15e41] [cursor=pointer]:
+                - checkbox "Swimming pool" [ref=f15e42]
+                - text: Swimming pool
+              - generic [ref=f15e43] [cursor=pointer]:
+                - checkbox "Fitness center" [ref=f15e44]
+                - text: Fitness center
+          - generic [ref=f15e45]:
+            - generic [ref=f15e46]: Distance from the center of Las Vegas
+            - generic [ref=f15e47] [cursor=pointer]:
+              - radio "Any distance" [ref=f15e48]
+              - text: Any distance
+            - generic [ref=f15e49] [cursor=pointer]:
+              - radio "Less than 1 mile" [ref=f15e50]
+              - text: Less than 1 mile
+            - generic [ref=f15e51] [cursor=pointer]:
+              - radio "Less than 3 miles" [ref=f15e52]
+              - text: Less than 3 miles
+            - generic [ref=f15e53] [cursor=pointer]:
+              - radio "Less than 5 miles" [ref=f15e54]
+              - text: Less than 5 miles
+          - generic [ref=f15e55]:
+            - generic [ref=f15e56]: Reservation policy
+            - generic [ref=f15e57] [cursor=pointer]:
+              - radio "Any policy" [ref=f15e58]
+              - text: Any policy
+            - generic [ref=f15e59] [cursor=pointer]:
+              - radio "Free cancellation" [ref=f15e60]
+              - text: Free cancellation
+            - generic [ref=f15e61] [cursor=pointer]:
+              - radio "Non-refundable" [ref=f15e62]
+              - text: Non-refundable
+          - generic [ref=f15e63]:
+            - generic [ref=f15e64]: Property type
+            - generic [ref=f15e65] [cursor=pointer]:
+              - checkbox "Hotels" [ref=f15e66]
+              - text: Hotels
+            - generic [ref=f15e67] [cursor=pointer]:
+              - checkbox "Apartments" [ref=f15e68]
+              - text: Apartments
+          - generic [ref=f15e69]:
+            - generic [ref=f15e70]: Star rating
+            - generic [ref=f15e71] [cursor=pointer]:
+              - checkbox "5 stars" [ref=f15e72]
+              - text: 5 stars
+            - generic [ref=f15e73] [cursor=pointer]:
+              - checkbox "4 stars" [ref=f15e74]
+              - text: 4 stars
+            - generic [ref=f15e75] [cursor=pointer]:
+              - checkbox "3 stars or less" [ref=f15e76]
+              - text: 3 stars or less
+          - generic [ref=f15e77]:
+            - generic [ref=f15e78]: Meal plans
+            - generic [ref=f15e79] [cursor=pointer]:
+              - radio "Any meal plan" [ref=f15e80]
+              - text: Any meal plan
+            - generic [ref=f15e81] [cursor=pointer]:
+              - radio "Breakfast included" [ref=f15e82]
+              - text: Breakfast included
+            - generic [ref=f15e83] [cursor=pointer]:
+              - radio "Half board" [ref=f15e84]
+              - text: Half board
+            - generic [ref=f15e85] [cursor=pointer]:
+              - radio "Full board" [ref=f15e86]
+              - text: Full board
+            - generic [ref=f15e87] [cursor=pointer]:
+              - radio "All inclusive" [ref=f15e88]
+              - text: All inclusive
+          - generic [ref=f15e89]:
+            - generic [ref=f15e90]: Guest rating
+            - generic [ref=f15e91] [cursor=pointer]:
+              - 'checkbox "Wonderful: 9+" [ref=f15e92]'
+              - text: "Wonderful: 9+"
+            - generic [ref=f15e93] [cursor=pointer]:
+              - 'checkbox "Very good: 8+" [ref=f15e94]'
+              - text: "Very good: 8+"
+          - generic [ref=f15e95]:
+            - generic [ref=f15e96]: Room amenities
+            - generic [ref=f15e97] [cursor=pointer]:
+              - checkbox "Air conditioning" [ref=f15e98]
+              - text: Air conditioning
+            - generic [ref=f15e99] [cursor=pointer]:
+              - checkbox "Kitchen facilities" [ref=f15e100]
+              - text: Kitchen facilities
+            - generic [ref=f15e101] [cursor=pointer]:
+              - checkbox "Balcony or terrace" [ref=f15e102]
+              - text: Balcony or terrace
+            - generic [ref=f15e103] [cursor=pointer]:
+              - checkbox "Laundry / washer" [ref=f15e104]
+              - text: Laundry / washer
+          - generic [ref=f15e105]:
+            - generic [ref=f15e106]: Facilities
+            - generic [ref=f15e107] [cursor=pointer]:
+              - checkbox "Free WiFi" [ref=f15e108]
+              - text: Free WiFi
+            - generic [ref=f15e109] [cursor=pointer]:
+              - checkbox "Spa & wellness" [ref=f15e110]
+              - text: Spa & wellness
+            - generic [ref=f15e111] [cursor=pointer]:
+              - checkbox "Restaurant" [ref=f15e112]
+              - text: Restaurant
+            - generic [ref=f15e113] [cursor=pointer]:
+              - checkbox "Bar" [ref=f15e114]
+              - text: Bar
+            - generic [ref=f15e115] [cursor=pointer]:
+              - checkbox "Pet friendly" [ref=f15e116]
+              - text: Pet friendly
+            - generic [ref=f15e117] [cursor=pointer]:
+              - checkbox "Airport shuttle" [ref=f15e118]
+              - text: Airport shuttle
+      - generic [ref=f15e119]:
+        - strong [ref=f15e120]: Member prices
+        - paragraph [ref=f15e124]: Club members see these same rooms 40–65% cheaper. The crossed-out price is what everyone else pays.
+        - link "Unlock member prices" [ref=f15e125] [cursor=pointer]:
+          - /url: webinar-optin.html
+    - generic [ref=f15e126]:
+      - generic [ref=f15e127]:
+        - heading "13 properties in Las Vegas" [level=1] [ref=f15e142]
+        - generic [ref=f15e129]:
+          - text: Sort by
+          - combobox "Sort by" [ref=f15e130] [cursor=pointer]:
+            - option "Our top picks" [selected]
+            - 'option "Price: low to high"'
+            - 'option "Price: high to low"'
+            - option "Guest rating"
+      - article [ref=f15e143]:
+        - link [ref=f15e144] [cursor=pointer]:
+          - /url: hotel-detail.html?hotelId=lp43826&checkin=2026-08-14&checkout=2026-08-17&adults=2
+          - img "Hampton Inn & Suites Las Vegas Airport" [ref=f15e145]
+        - generic [ref=f15e146]:
+          - generic:
+            - generic: ★★★
+            - link "Hampton Inn & Suites Las Vegas Airport":
+              - /url: hotel-detail.html?hotelId=lp43826&checkin=2026-08-14&checkout=2026-08-17&adults=2
+            - generic: 6575 South Eastern Avenue, Las Vegas
+            - generic: 5.2 mi from Las Vegas
+          - generic [ref=f15e155]:
+            - generic [ref=f15e156]:
+              - generic [ref=f15e157]:
+                - strong [ref=f15e158]: Fabulous
+                - generic [ref=f15e159]: 575 reviews
+              - generic [ref=f15e160]: "8.5"
+            - generic [ref=f15e161]:
+              - generic [ref=f15e162]: 13% off
+              - generic [ref=f15e163]:
+                - generic [ref=f15e164]: US$137
+                - strong [ref=f15e165]: US$119
+                - generic [ref=f15e166]: / night
+              - generic [ref=f15e167]: 3 nights, 1 room, incl. taxes & fees
+              - link "See availability" [ref=f15e168] [cursor=pointer]:
+                - /url: hotel-detail.html?hotelId=lp43826&checkin=2026-08-14&checkout=2026-08-17&adults=2
+      - article [ref=f15e171]:
+        - link [ref=f15e172] [cursor=pointer]:
+          - /url: hotel-detail.html?hotelId=lp33a1d1&checkin=2026-08-14&checkout=2026-08-17&adults=2
+          - img "Hampton Inn & Suites Las Vegas Convention Center - No Resort Fee" [ref=f15e173]
+        - generic [ref=f15e174]:
+          - generic:
+            - generic: ★★★
+            - link "Hampton Inn & Suites Las Vegas Convention Center - No Resort Fee":
+              - /url: hotel-detail.html?hotelId=lp33a1d1&checkin=2026-08-14&checkout=2026-08-17&adults=2
+            - generic: 755 Sierra Vista Dr., Las Vegas
+            - generic: 2.7 mi from Las Vegas
+          - generic [ref=f15e183]:
+            - generic [ref=f15e184]:
+              - generic [ref=f15e185]:
+                - strong [ref=f15e186]: Fabulous
+                - generic [ref=f15e187]: 1,002 reviews
+              - generic [ref=f15e188]: "8.8"
+            - generic [ref=f15e189]:
+              - generic [ref=f15e190]: 13% off
+              - generic [ref=f15e191]:
+                - generic [ref=f15e192]: US$142
+                - strong [ref=f15e193]: US$124
+                - generic [ref=f15e194]: / night
+              - generic [ref=f15e195]: 3 nights, 1 room, incl. taxes & fees
+              - link "See availability" [ref=f15e196] [cursor=pointer]:
+                - /url: hotel-detail.html?hotelId=lp33a1d1&checkin=2026-08-14&checkout=2026-08-17&adults=2
+      - article [ref=f15e199]:
+        - link [ref=f15e200] [cursor=pointer]:
+          - /url: hotel-detail.html?hotelId=lpd801e&checkin=2026-08-14&checkout=2026-08-17&adults=2
+          - img "Hilton Garden Inn Las Vegas City Center" [ref=f15e201]
+        - generic [ref=f15e202]:
+          - generic:
+            - generic: ★★★
+            - link "Hilton Garden Inn Las Vegas City Center":
+              - /url: hotel-detail.html?hotelId=lpd801e&checkin=2026-08-14&checkout=2026-08-17&adults=2
+            - generic: 4655 Dean Martin Dr. , Las Vegas
+            - generic: 0.9 mi from Las Vegas
+          - generic [ref=f15e211]:
+            - generic [ref=f15e212]:
+              - generic [ref=f15e213]:
+                - strong [ref=f15e214]: Wonderful
+                - generic [ref=f15e215]: 361 reviews
+              - generic [ref=f15e216]: "9.0"
+            - generic [ref=f15e217]:
+              - generic [ref=f15e218]: 13% off
+              - generic [ref=f15e219]:
+                - generic [ref=f15e220]: US$185
+                - strong [ref=f15e221]: US$161
+                - generic [ref=f15e222]: / night
+              - generic [ref=f15e223]: 3 nights, 1 room, incl. taxes & fees
+              - link "See availability" [ref=f15e224] [cursor=pointer]:
+                - /url: hotel-detail.html?hotelId=lpd801e&checkin=2026-08-14&checkout=2026-08-17&adults=2
+      - article [ref=f15e227]:
+        - link [ref=f15e228] [cursor=pointer]:
+          - /url: hotel-detail.html?hotelId=lpb6a9f&checkin=2026-08-14&checkout=2026-08-17&adults=2
+          - img "Homewood Suites By Hilton Las Vegas City Center" [ref=f15e229]
+        - generic [ref=f15e230]:
+          - generic:
+            - generic: ★★★
+            - link "Homewood Suites By Hilton Las Vegas City Center":
+              - /url: hotel-detail.html?hotelId=lpb6a9f&checkin=2026-08-14&checkout=2026-08-17&adults=2
+            - generic: 4625 Dean Martin Drive , Las Vegas
+            - generic: 0.9 mi from Las Vegas
+          - generic [ref=f15e239]:
+            - generic [ref=f15e240]:
+              - generic [ref=f15e241]:
+                - strong [ref=f15e242]: Wonderful
+                - generic [ref=f15e243]: 728 reviews
+              - generic [ref=f15e244]: "9.0"
+            - generic [ref=f15e245]:
+              - generic [ref=f15e246]: 13% off
+              - generic [ref=f15e247]:
+                - generic [ref=f15e248]: US$175
+                - strong [ref=f15e249]: US$152
+                - generic [ref=f15e250]: / night
+              - generic [ref=f15e251]: 3 nights, 1 room, incl. taxes & fees
+              - link "See availability" [ref=f15e252] [cursor=pointer]:
+                - /url: hotel-detail.html?hotelId=lpb6a9f&checkin=2026-08-14&checkout=2026-08-17&adults=2
+      - article [ref=f15e255]:
+        - link [ref=f15e256] [cursor=pointer]:
+          - /url: hotel-detail.html?hotelId=lp3e4b6&checkin=2026-08-14&checkout=2026-08-17&adults=2
+          - img "Hampton Inn & Suites Las Vegas-Red Rock/Summerlin" [ref=f15e257]
+        - generic [ref=f15e258]:
+          - generic:
+            - generic: ★★★
+            - link "Hampton Inn & Suites Las Vegas-Red Rock/Summerlin":
+              - /url: hotel-detail.html?hotelId=lp3e4b6&checkin=2026-08-14&checkout=2026-08-17&adults=2
+            - generic: 4280 South Grand Canyon Drive, Las Vegas
+            - generic: 6.1 mi from Las Vegas
+          - generic [ref=f15e267]:
+            - generic [ref=f15e268]:
+              - generic [ref=f15e269]:
+                - strong [ref=f15e270]: Fabulous
+                - generic [ref=f15e271]: 383 reviews
+              - generic [ref=f15e272]: "8.7"
+            - generic [ref=f15e273]:
+              - generic [ref=f15e274]: 13% off
+              - generic [ref=f15e275]:
+                - generic [ref=f15e276]: US$161
+                - strong [ref=f15e277]: US$140
+                - generic [ref=f15e278]: / night
+              - generic [ref=f15e279]: 3 nights, 1 room, incl. taxes & fees
+              - link "See availability" [ref=f15e280] [cursor=pointer]:
+                - /url: hotel-detail.html?hotelId=lp3e4b6&checkin=2026-08-14&checkout=2026-08-17&adults=2
+      - article [ref=f15e283]:
+        - link [ref=f15e284] [cursor=pointer]:
+          - /url: hotel-detail.html?hotelId=lp220f7&checkin=2026-08-14&checkout=2026-08-17&adults=2
+          - img "Hampton Inn Las Vegas/Summerlin" [ref=f15e285]
+        - generic [ref=f15e286]:
+          - generic:
+            - generic: ★★★
+            - link "Hampton Inn Las Vegas/Summerlin":
+              - /url: hotel-detail.html?hotelId=lp220f7&checkin=2026-08-14&checkout=2026-08-17&adults=2
+            - generic: 7100 Cascade Valley Court, Las Vegas
+            - generic: 7.3 mi from Las Vegas
+          - generic [ref=f15e295]:
+            - generic [ref=f15e296]:
+              - generic [ref=f15e297]:
+                - strong [ref=f15e298]: Fabulous
+                - generic [ref=f15e299]: 611 reviews
+              - generic [ref=f15e300]: "8.8"
+            - generic [ref=f15e301]:
+              - generic [ref=f15e302]: 13% off
+              - generic [ref=f15e303]:
+                - generic [ref=f15e304]: US$159
+                - strong [ref=f15e305]: US$138
+                - generic [ref=f15e306]: / night
+              - generic [ref=f15e307]: 3 nights, 1 room, incl. taxes & fees
+              - link "See availability" [ref=f15e308] [cursor=pointer]:
+                - /url: hotel-detail.html?hotelId=lp220f7&checkin=2026-08-14&checkout=2026-08-17&adults=2
+      - article [ref=f15e311]:
+        - link [ref=f15e312] [cursor=pointer]:
+          - /url: hotel-detail.html?hotelId=lp2529b&checkin=2026-08-14&checkout=2026-08-17&adults=2
+          - img "Hampton Inn Tropicana" [ref=f15e313]
+        - generic [ref=f15e314]:
+          - generic:
+            - generic: ★★★
+            - link "Hampton Inn Tropicana":
+              - /url: hotel-detail.html?hotelId=lp2529b&checkin=2026-08-14&checkout=2026-08-17&adults=2
+            - generic: 4975 South Dean Martin Drive, Las Vegas
+            - generic: 1.2 mi from Las Vegas
+          - generic [ref=f15e323]:
+            - generic [ref=f15e324]:
+              - generic [ref=f15e325]:
+                - strong [ref=f15e326]: Fabulous
+                - generic [ref=f15e327]: 2,401 reviews
+              - generic [ref=f15e328]: "8.8"
+            - generic [ref=f15e329]:
+              - generic [ref=f15e330]: 13% off
+              - generic [ref=f15e331]:
+                - generic [ref=f15e332]: US$149
+                - strong [ref=f15e333]: US$130
+                - generic [ref=f15e334]: / night
+              - generic [ref=f15e335]: 3 nights, 1 room, incl. taxes & fees
+              - link "See availability" [ref=f15e336] [cursor=pointer]:
+                - /url: hotel-detail.html?hotelId=lp2529b&checkin=2026-08-14&checkout=2026-08-17&adults=2
+      - article [ref=f15e339]:
+        - link [ref=f15e340] [cursor=pointer]:
+          - /url: hotel-detail.html?hotelId=lp30ac5&checkin=2026-08-14&checkout=2026-08-17&adults=2
+          - img "Best Western McCarran Inn" [ref=f15e341]
+        - generic [ref=f15e342]:
+          - generic:
+            - generic: ★★★
+            - link "Best Western McCarran Inn":
+              - /url: hotel-detail.html?hotelId=lp30ac5&checkin=2026-08-14&checkout=2026-08-17&adults=2
+            - generic: 4970 Paradise Road, Las Vegas
+            - generic: 2.7 mi from Las Vegas
+            - generic: Free cancellation
+          - generic [ref=f15e353]:
+            - generic [ref=f15e354]:
+              - generic [ref=f15e355]:
+                - strong [ref=f15e356]: Good
+                - generic [ref=f15e357]: 2,106 reviews
+              - generic [ref=f15e358]: "7.9"
+            - generic [ref=f15e359]:
+              - generic [ref=f15e360]: 13% off
+              - generic [ref=f15e361]:
+                - generic [ref=f15e362]: US$135
+                - strong [ref=f15e363]: US$117
+                - generic [ref=f15e364]: / night
+              - generic [ref=f15e365]: 3 nights, 1 room, incl. taxes & fees
+              - link "See availability" [ref=f15e366] [cursor=pointer]:
+                - /url: hotel-detail.html?hotelId=lp30ac5&checkin=2026-08-14&checkout=2026-08-17&adults=2
+      - article [ref=f15e369]:
+        - link [ref=f15e370] [cursor=pointer]:
+          - /url: hotel-detail.html?hotelId=lp249f8&checkin=2026-08-14&checkout=2026-08-17&adults=2
+          - img "Best Western Plus Las Vegas West" [ref=f15e371]
+        - generic [ref=f15e372]:
+          - generic:
+            - generic: ★★★
+            - link "Best Western Plus Las Vegas West":
+              - /url: hotel-detail.html?hotelId=lp249f8&checkin=2026-08-14&checkout=2026-08-17&adults=2
+            - generic: 8669 West Sahara Avenue, Las Vegas
+            - generic: 5.2 mi from Las Vegas
+            - generic: Free cancellation
+          - generic [ref=f15e383]:
+            - generic [ref=f15e384]:
+              - generic [ref=f15e385]:
+                - strong [ref=f15e386]: Very good
+                - generic [ref=f15e387]: 587 reviews
+              - generic [ref=f15e388]: "8.0"
+            - generic [ref=f15e389]:
+              - generic [ref=f15e390]: 13% off
+              - generic [ref=f15e391]:
+                - generic [ref=f15e392]: US$138
+                - strong [ref=f15e393]: US$120
+                - generic [ref=f15e394]: / night
+              - generic [ref=f15e395]: 3 nights, 1 room, incl. taxes & fees
+              - link "See availability" [ref=f15e396] [cursor=pointer]:
+                - /url: hotel-detail.html?hotelId=lp249f8&checkin=2026-08-14&checkout=2026-08-17&adults=2
+      - article [ref=f15e399]:
+        - link [ref=f15e400] [cursor=pointer]:
+          - /url: hotel-detail.html?hotelId=lp39a74&checkin=2026-08-14&checkout=2026-08-17&adults=2
+          - img "OYO Hotel and Casino Las Vegas" [ref=f15e401]
+        - generic [ref=f15e402]:
+          - generic:
+            - generic: ★★★
+            - link "OYO Hotel and Casino Las Vegas":
+              - /url: hotel-detail.html?hotelId=lp39a74&checkin=2026-08-14&checkout=2026-08-17&adults=2
+            - generic: 115 East Tropicana Avenue, Las Vegas
+            - generic: 1.8 mi from Las Vegas
+          - generic [ref=f15e411]:
+            - generic [ref=f15e412]:
+              - generic [ref=f15e413]:
+                - strong [ref=f15e414]: Good
+                - generic [ref=f15e415]: 8,298 reviews
+              - generic [ref=f15e416]: "7.0"
+            - generic [ref=f15e417]:
+              - generic [ref=f15e418]: 13% off
+              - generic [ref=f15e419]:
+                - generic [ref=f15e420]: US$21
+                - strong [ref=f15e421]: US$18
+                - generic [ref=f15e422]: / night
+              - generic [ref=f15e423]: 3 nights, 1 room, incl. taxes & fees
+              - link "See availability" [ref=f15e424] [cursor=pointer]:
+                - /url: hotel-detail.html?hotelId=lp39a74&checkin=2026-08-14&checkout=2026-08-17&adults=2
+      - article [ref=f15e427]:
+        - link [ref=f15e428] [cursor=pointer]:
+          - /url: hotel-detail.html?hotelId=lp43812&checkin=2026-08-14&checkout=2026-08-17&adults=2
+          - img "SpringHill Suites by Marriott Las Vegas Convention Center" [ref=f15e429]
+        - generic [ref=f15e430]:
+          - generic:
+            - generic: ★★★
+            - link "SpringHill Suites by Marriott Las Vegas Convention Center":
+              - /url: hotel-detail.html?hotelId=lp43812&checkin=2026-08-14&checkout=2026-08-17&adults=2
+            - generic: 2989 Paradise Road, Las Vegas
+            - generic: 2.6 mi from Las Vegas
+          - generic [ref=f15e439]:
+            - generic [ref=f15e440]:
+              - generic [ref=f15e441]:
+                - strong [ref=f15e442]: Wonderful
+                - generic [ref=f15e443]: 1,451 reviews
+              - generic [ref=f15e444]: "9.0"
+            - generic [ref=f15e445]:
+              - generic [ref=f15e446]: 13% off
+              - generic [ref=f15e447]:
+                - generic [ref=f15e448]: US$155
+                - strong [ref=f15e449]: US$135
+                - generic [ref=f15e450]: / night
+              - generic [ref=f15e451]: 3 nights, 1 room, incl. taxes & fees
+              - link "See availability" [ref=f15e452] [cursor=pointer]:
+                - /url: hotel-detail.html?hotelId=lp43812&checkin=2026-08-14&checkout=2026-08-17&adults=2
+      - article [ref=f15e455]:
+        - link [ref=f15e456] [cursor=pointer]:
+          - /url: hotel-detail.html?hotelId=lp656ca1ae&checkin=2026-08-14&checkout=2026-08-17&adults=2
+          - img "SpringHill Suites by Marriott Las Vegas Airport" [ref=f15e457]
+        - generic [ref=f15e458]:
+          - generic:
+            - generic: ★★★★
+            - link "SpringHill Suites by Marriott Las Vegas Airport":
+              - /url: hotel-detail.html?hotelId=lp656ca1ae&checkin=2026-08-14&checkout=2026-08-17&adults=2
+            - generic: 6590 South Decatur Blvd, Las Vegas
+            - generic: 3.2 mi from Las Vegas
+          - generic [ref=f15e467]:
+            - generic [ref=f15e468]:
+              - generic [ref=f15e469]:
+                - strong [ref=f15e470]: Wonderful
+                - generic [ref=f15e471]: 245 reviews
+              - generic [ref=f15e472]: "9.3"
+            - generic [ref=f15e473]:
+              - generic [ref=f15e474]: 13% off
+              - generic [ref=f15e475]:
+                - generic [ref=f15e476]: US$245
+                - strong [ref=f15e477]: US$213
+                - generic [ref=f15e478]: / night
+              - generic [ref=f15e479]: 3 nights, 1 room, incl. taxes & fees
+              - link "See availability" [ref=f15e480] [cursor=pointer]:
+                - /url: hotel-detail.html?hotelId=lp656ca1ae&checkin=2026-08-14&checkout=2026-08-17&adults=2
+      - article [ref=f15e483]:
+        - link [ref=f15e484] [cursor=pointer]:
+          - /url: hotel-detail.html?hotelId=lpa37c8&checkin=2026-08-14&checkout=2026-08-17&adults=2
+          - img "Hotel" [ref=f15e485]
+        - generic [ref=f15e486]:
+          - generic:
+            - generic: ★★★★
+            - link "Hotel":
+              - /url: hotel-detail.html?hotelId=lpa37c8&checkin=2026-08-14&checkout=2026-08-17&adults=2
+          - generic [ref=f15e490]:
+            - generic [ref=f15e491]:
+              - generic:
+                - strong
+              - generic [ref=f15e492]: —
+            - generic [ref=f15e493]:
+              - generic [ref=f15e494]: 13% off
+              - generic [ref=f15e495]:
+                - generic [ref=f15e496]: US$125
+                - strong [ref=f15e497]: US$108
+                - generic [ref=f15e498]: / night
+              - generic [ref=f15e499]: 3 nights, 1 room, incl. taxes & fees
+              - link "See availability" [ref=f15e500] [cursor=pointer]:
+                - /url: hotel-detail.html?hotelId=lpa37c8&checkin=2026-08-14&checkout=2026-08-17&adults=2
+  - contentinfo [ref=f15e135]:
+    - img "cheapgetaway.com" [ref=f15e136]
+    - generic [ref=f15e137]:
+      - link "Home" [ref=f15e138] [cursor=pointer]:
+        - /url: index.html
+      - link "Join the club" [ref=f15e139] [cursor=pointer]:
+        - /url: webinar-optin.html
+      - link "For creators" [ref=f15e140] [cursor=pointer]:
+        - /url: webinar-optin-creator.html
+    - generic [ref=f15e141]: © 2026 cheapgetaway.com

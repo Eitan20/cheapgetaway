@@ -1,0 +1,38 @@
+- generic [active] [ref=f27e1]:
+  - navigation [ref=f27e2]:
+    - generic [ref=f27e3]:
+      - link [ref=f27e4] [cursor=pointer]:
+        - /url: index.html
+        - img "cheapgetaway.com" [ref=f27e5]
+      - link "← Back to home" [ref=f27e6] [cursor=pointer]:
+        - /url: index.html
+  - main [ref=f27e7]:
+    - paragraph [ref=f27e8]: Legal
+    - heading "Terms of Use" [level=1] [ref=f27e9]
+    - paragraph [ref=f27e10]: "Last updated: July 2026"
+    - paragraph [ref=f27e11]: These Terms of Use ("Terms") govern your access to and use of cheapgetaway.com and the Travorium membership program (together, the "Services"), operated as a travel deals and membership marketing site. By browsing this site, creating an account, joining a webinar, or enrolling in a membership, you agree to these Terms.
+    - heading "1. Use of the Services" [level=2] [ref=f27e12]
+    - paragraph [ref=f27e13]: You may use the Services only for lawful purposes and in accordance with these Terms. You agree not to misuse the Services, interfere with their operation, or attempt to access areas or systems not intended for public use.
+    - heading "2. Accounts" [level=2] [ref=f27e14]
+    - paragraph [ref=f27e15]: Some features require an account. You're responsible for keeping your login details secure and for all activity under your account. Let us know right away if you believe your account has been accessed without authorization.
+    - heading "3. Bookings and pricing" [level=2] [ref=f27e16]
+    - paragraph [ref=f27e17]: Hotel, flight, and package pricing shown on this site is supplied by third-party travel data providers and can change without notice until a booking is confirmed. We make reasonable efforts to keep information accurate but do not guarantee availability, pricing, or that a listed rate will be honored at checkout.
+    - heading "4. Membership program" [level=2] [ref=f27e18]
+    - paragraph [ref=f27e19]: The Travorium membership program is a separate offering promoted through webinars and landing pages on this site. Enrollment, pricing, and terms for the membership itself are presented at the point of enrollment and are governed by Travorium's own terms, not by this site's Terms of Use.
+    - heading "5. No warranty" [level=2] [ref=f27e20]
+    - paragraph [ref=f27e21]: The Services are provided "as is" without warranties of any kind, express or implied. We do not warrant that the Services will be uninterrupted, error-free, or free of inaccuracies.
+    - heading "6. Limitation of liability" [level=2] [ref=f27e22]
+    - paragraph [ref=f27e23]: To the fullest extent permitted by law, we are not liable for any indirect, incidental, or consequential damages arising from your use of the Services.
+    - heading "7. Changes to these Terms" [level=2] [ref=f27e24]
+    - paragraph [ref=f27e25]: We may update these Terms from time to time. Continued use of the Services after changes are posted means you accept the updated Terms.
+    - heading "8. Contact" [level=2] [ref=f27e26]
+    - paragraph [ref=f27e27]: Questions about these Terms can be sent through the contact options available on the site.
+    - paragraph [ref=f27e28]: This page provides general placeholder terms for a travel-membership marketing site and does not constitute legal advice.
+  - contentinfo [ref=f27e29]:
+    - link "Home" [ref=f27e30] [cursor=pointer]:
+      - /url: index.html
+    - link "Privacy Policy" [ref=f27e31] [cursor=pointer]:
+      - /url: privacy.html
+    - link "Join the club" [ref=f27e32] [cursor=pointer]:
+      - /url: webinar-optin.html
+    - generic [ref=f27e33]: © 2026 cheapgetaway.com

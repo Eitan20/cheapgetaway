@@ -22,13 +22,23 @@
   input,button{font-family:'Nunito',sans-serif;}
   input:focus{outline:none;}
   @keyframes cg-shimmer{0%{background-position:-400px 0;}100%{background-position:400px 0;}}
+  @media (max-width: 480px) {
+    .cg-hd-nav{flex-wrap:wrap!important;row-gap:10px!important;}
+    .cg-hd-searchpill{order:3!important;width:100%!important;overflow-x:auto!important;}
+    .cg-hd-navjoin{padding:12px 20px!important;min-height:40px!important;display:inline-flex!important;align-items:center!important;}
+    .cg-hd-gallery{grid-template-columns:1fr 1fr!important;grid-template-rows:140px 140px 140px!important;}
+    .cg-hd-subnav-wrap{flex-wrap:nowrap!important;}
+    .cg-hd-subnav{min-width:0!important;flex:1 1 auto!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;}
+    .cg-hd-selectrooms{min-height:40px!important;display:inline-flex!important;align-items:center!important;}
+    .cg-hd-reserve{min-height:40px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;}
+  }
 </style>
 </helmet>
 
 <nav style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(14,21,86,0.08);">
-  <div style="max-width:1240px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;">
+  <div class="cg-hd-nav" style="max-width:1240px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;">
     <a href="index.html" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:34px;display:block;"></a>
-    <div style="display:flex;align-items:center;gap:2px;background:#fff;border:1.5px solid rgba(14,21,86,0.14);border-radius:999px;padding:7px 8px 7px 18px;font-size:13.5px;font-weight:800;color:#0e1556;box-shadow:0 2px 8px rgba(14,21,86,0.04);">
+    <div class="cg-hd-searchpill" style="display:flex;align-items:center;gap:2px;background:#fff;border:1.5px solid rgba(14,21,86,0.14);border-radius:999px;padding:7px 8px 7px 18px;font-size:13.5px;font-weight:800;color:#0e1556;box-shadow:0 2px 8px rgba(14,21,86,0.04);">
       <span>{{ navCity }}</span>
       <span style="width:1px;height:16px;background:rgba(14,21,86,0.14);margin:0 12px;"></span>
       <span>{{ navDates }}</span>
@@ -36,7 +46,7 @@
       <span>{{ guestsLabel }}</span>
       <a href="index.html" aria-label="Search" style="margin-left:12px;width:32px;height:32px;border-radius:50%;background:#38b6ff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg></a>
     </div>
-    <a href="webinar-optin.html" style="background:#ff6500;color:#fff;font-weight:800;font-size:14px;padding:9px 20px;border-radius:999px;box-shadow:0 8px 24px rgba(255,101,0,0.28);" style-hover="background:#e65a00;color:#fff;">Join the club</a>
+    <a href="webinar-optin.html" class="cg-hd-navjoin" style="background:#ff6500;color:#fff;font-weight:800;font-size:14px;padding:9px 20px;border-radius:999px;box-shadow:0 8px 24px rgba(255,101,0,0.28);" style-hover="background:#e65a00;color:#fff;">Join the club</a>
   </div>
 </nav>
 
@@ -78,7 +88,7 @@
       </button>
     </div>
 
-    <section style="display:grid;grid-template-columns:1.55fr 1fr 1fr;grid-template-rows:200px 200px;gap:10px;margin-top:16px;">
+    <section class="cg-hd-gallery" style="display:grid;grid-template-columns:1.55fr 1fr 1fr;grid-template-rows:200px 200px;gap:10px;margin-top:16px;">
       <div onClick="{{ openGallery }}" style="grid-row:span 2;border-radius:18px 4px 4px 18px;overflow:hidden;background:#eef0f6;cursor:pointer;">{{ tile0 }}</div>
       <div onClick="{{ openGallery }}" style="overflow:hidden;background:#eef0f6;cursor:pointer;border-radius:4px;">{{ tile1 }}</div>
       <div onClick="{{ openGallery }}" style="overflow:hidden;background:#eef0f6;cursor:pointer;border-radius:4px 18px 4px 4px;">{{ tile2 }}</div>
@@ -103,8 +113,8 @@
       </div>
     </sc-if>
 
-    <div style="position:sticky;top:64px;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:16px;background:#fff;border-bottom:1.5px solid rgba(14,21,86,0.08);margin-top:20px;padding:2px 0;">
-      <div style="display:flex;gap:26px;font-size:14px;font-weight:800;overflow-x:auto;">
+    <div class="cg-hd-subnav-wrap" style="position:sticky;top:64px;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:16px;background:#fff;border-bottom:1.5px solid rgba(14,21,86,0.08);margin-top:20px;padding:2px 0;">
+      <div class="cg-hd-subnav" style="display:flex;gap:26px;font-size:14px;font-weight:800;overflow-x:auto;">
         <a href="#overview" style="color:#38b6ff;padding:12px 0;border-bottom:2.5px solid #38b6ff;white-space:nowrap;">Overview</a>
         <a href="#facilities" style="color:#52586b;padding:12px 0;white-space:nowrap;" style-hover="color:#38b6ff;">Facilities</a>
         <a href="#rooms" style="color:#52586b;padding:12px 0;white-space:nowrap;" style-hover="color:#38b6ff;">Rooms</a>
@@ -112,7 +122,7 @@
         <a href="#description" style="color:#52586b;padding:12px 0;white-space:nowrap;" style-hover="color:#38b6ff;">Description</a>
         <a href="#ask-ai" style="color:#52586b;padding:12px 0;white-space:nowrap;display:flex;align-items:center;gap:6px;" style-hover="color:#38b6ff;">Ask AI <span style="background:rgba(255,101,0,0.12);color:#ff6500;font-size:10px;font-weight:900;padding:2px 7px;border-radius:999px;">beta</span></a>
       </div>
-      <a href="#rooms" style="flex-shrink:0;background:#38b6ff;color:#fff;font-weight:800;font-size:13.5px;padding:9px 20px;border-radius:999px;" style-hover="background:#2da1e6;color:#fff;">Select rooms ↓</a>
+      <a href="#rooms" class="cg-hd-selectrooms" style="flex-shrink:0;background:#38b6ff;color:#fff;font-weight:800;font-size:13.5px;padding:9px 20px;border-radius:999px;" style-hover="background:#2da1e6;color:#fff;">Select rooms ↓</a>
     </div>
 
     <section style="margin-top:32px;">
@@ -208,7 +218,7 @@
                   <strong style="font-size:21px;color:#0e1556;font-weight:900;">{{ r.price }}</strong>
                   <span style="font-size:11px;color:#52586b;font-weight:600;">total for stay · incl. taxes</span>
                 </div>
-                <a href="{{ r.href }}" style="background:#ff6500;color:#fff;font-weight:800;font-size:13.5px;padding:10px 20px;border-radius:999px;white-space:nowrap;" style-hover="background:#e65a00;color:#fff;">Reserve</a>
+                <a href="{{ r.href }}" class="cg-hd-reserve" style="background:#ff6500;color:#fff;font-weight:800;font-size:13.5px;padding:10px 20px;border-radius:999px;white-space:nowrap;" style-hover="background:#e65a00;color:#fff;">Reserve</a>
               </div>
             </div>
           </sc-for>

@@ -1,0 +1,45 @@
+- generic [active] [ref=f28e1]:
+  - navigation [ref=f28e2]:
+    - generic [ref=f28e3]:
+      - link [ref=f28e4] [cursor=pointer]:
+        - /url: index.html
+        - img "cheapgetaway.com" [ref=f28e5]
+      - link "← Back to home" [ref=f28e6] [cursor=pointer]:
+        - /url: index.html
+  - main [ref=f28e7]:
+    - paragraph [ref=f28e8]: Legal
+    - heading "Privacy Policy" [level=1] [ref=f28e9]
+    - paragraph [ref=f28e10]: "Last updated: July 2026"
+    - paragraph [ref=f28e11]: This Privacy Policy explains how cheapgetaway.com and the Travorium membership funnel ("we", "us") collect, use, and protect information when you browse the site, search for trips, sign in, or register for a webinar.
+    - heading "1. Information we collect" [level=2] [ref=f28e12]
+    - list [ref=f28e13]:
+      - listitem [ref=f28e14]: Contact details you provide, such as name and email, when you sign in, create an account, or register for a webinar.
+      - listitem [ref=f28e15]: Search and booking details you enter, such as destinations, dates, and traveler counts, used to fetch live availability from our travel data partners.
+      - listitem [ref=f28e16]: Basic usage data (pages viewed, browser type) collected automatically to keep the site working well.
+    - heading "2. How we use information" [level=2] [ref=f28e17]
+    - list [ref=f28e18]:
+      - listitem [ref=f28e19]: To show live hotel and flight availability and pricing.
+      - listitem [ref=f28e20]: To confirm webinar registrations and send you the join link for your session.
+      - listitem [ref=f28e21]: To manage your account and any saved trips.
+      - listitem [ref=f28e22]: To improve the site and prevent misuse.
+    - heading "3. Sharing" [level=2] [ref=f28e23]
+    - paragraph [ref=f28e24]: We share booking search details with the travel data providers necessary to return live rates and complete a reservation. We do not sell your personal information. Webinar registration details may be shared with the webinar and membership platforms (including WebinarWiz and Travorium) solely to deliver the session and enrollment experience you signed up for.
+    - heading "4. Cookies and local storage" [level=2] [ref=f28e25]
+    - paragraph [ref=f28e26]: We use cookies and browser local storage to keep you signed in, remember webinar registration details for the current session, and understand how the site is used.
+    - heading "5. Data retention" [level=2] [ref=f28e27]
+    - paragraph [ref=f28e28]: We keep account and booking information for as long as needed to provide the Services and meet legal obligations, then delete or anonymize it.
+    - heading "6. Your choices" [level=2] [ref=f28e29]
+    - paragraph [ref=f28e30]: You can ask us to access, correct, or delete your personal information at any time through the contact options available on the site.
+    - heading "7. Changes to this policy" [level=2] [ref=f28e31]
+    - paragraph [ref=f28e32]: We may update this Privacy Policy from time to time. The "Last updated" date above reflects the most recent revision.
+    - heading "8. Contact" [level=2] [ref=f28e33]
+    - paragraph [ref=f28e34]: Questions about this Privacy Policy can be sent through the contact options available on the site.
+    - paragraph [ref=f28e35]: This page provides a general placeholder privacy policy for a travel-membership marketing site and does not constitute legal advice.
+  - contentinfo [ref=f28e36]:
+    - link "Home" [ref=f28e37] [cursor=pointer]:
+      - /url: index.html
+    - link "Terms of Use" [ref=f28e38] [cursor=pointer]:
+      - /url: terms.html
+    - link "Join the club" [ref=f28e39] [cursor=pointer]:
+      - /url: webinar-optin.html
+    - generic [ref=f28e40]: © 2026 cheapgetaway.com

@@ -1,0 +1,2 @@
+[   68871ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8737/api/liteapi/data/iataCodes:0
+[   69404ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://api.liteapi.travel/v3.0/flights/rates:0

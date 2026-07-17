@@ -1,0 +1,90 @@
+- generic [ref=f22e3]:
+  - navigation [ref=f22e4]:
+    - generic [ref=f22e5]:
+      - link [ref=f22e6] [cursor=pointer]:
+        - /url: index.html
+        - img "cheapgetaway.com" [ref=f22e7]
+      - generic [ref=f22e8]: Secure checkout
+  - main [ref=f22e12]:
+    - generic [ref=f22e13]:
+      - link "Back to flights" [ref=f22e14] [cursor=pointer]:
+        - /url: flight-results.html
+      - heading "Complete your flight booking" [level=1] [ref=f22e17]
+      - generic [ref=f22e18]: This offer is quoted from demo data — live airline confirmation activates automatically once flight booking is enabled on your LiteAPI account.
+      - generic [ref=f22e19]:
+        - heading "Lead passenger" [level=2] [ref=f22e20]
+        - paragraph [ref=f22e21]: Names must match the government ID used at the airport. Remaining 1 traveler name is collected at ticketing.
+        - generic [ref=f22e22]:
+          - generic [ref=f22e23]:
+            - text: First name
+            - textbox "First name" [ref=f22e24]:
+              - /placeholder: As on ID
+          - generic [ref=f22e25]:
+            - text: Last name
+            - textbox "Last name" [ref=f22e26]:
+              - /placeholder: As on ID
+        - generic [ref=f22e27]:
+          - generic [ref=f22e28]:
+            - text: Email — e-tickets go here
+            - textbox "Email — e-tickets go here" [ref=f22e29]:
+              - /placeholder: you@email.com
+          - generic [ref=f22e30]:
+            - text: Date of birth
+            - textbox "Date of birth" [ref=f22e31]
+      - generic [ref=f22e32]:
+        - heading "Payment" [level=2] [ref=f22e33]
+        - generic [ref=f22e34]:
+          - text: Card number
+          - textbox "Card number" [ref=f22e35]:
+            - /placeholder: 4242 4242 4242 4242
+        - generic [ref=f22e36]:
+          - generic [ref=f22e37]:
+            - text: Expiry
+            - textbox "Expiry" [ref=f22e38]:
+              - /placeholder: MM / YY
+          - generic [ref=f22e39]:
+            - text: CVC
+            - textbox "CVC" [ref=f22e40]:
+              - /placeholder: "123"
+        - paragraph [ref=f22e41]: Prototype payment — no card is charged. In production this confirms through LiteAPI and returns your PNR and e-tickets.
+      - button "Confirm & book flight" [ref=f22e42] [cursor=pointer]
+    - complementary [ref=f22e43]:
+      - generic [ref=f22e44]:
+        - heading "Your itinerary" [level=3] [ref=f22e45]
+        - generic [ref=f22e46]:
+          - generic [ref=f22e47]:
+            - generic [ref=f22e48]: Outbound
+            - generic [ref=f22e49]: Fri, Jul 31
+          - generic [ref=f22e50]:
+            - generic [ref=f22e51]:
+              - strong [ref=f22e52]: 9:05 AM
+              - generic [ref=f22e53]: JFK
+            - generic [ref=f22e54]:
+              - generic [ref=f22e55]: 3h 9m
+              - generic [ref=f22e57]: Non-stop
+            - generic [ref=f22e58]:
+              - strong [ref=f22e59]: 12:14 PM
+              - generic [ref=f22e60]: MIA
+          - generic [ref=f22e61]: JetBlue B6 901
+        - generic [ref=f22e62]:
+          - generic [ref=f22e63]:
+            - generic [ref=f22e64]: Return
+            - generic [ref=f22e65]: Mon, Aug 3
+          - generic [ref=f22e66]:
+            - generic [ref=f22e67]:
+              - strong [ref=f22e68]: 3:25 PM
+              - generic [ref=f22e69]: MIA
+            - generic [ref=f22e70]:
+              - generic [ref=f22e71]: 3h 15m
+              - generic [ref=f22e73]: Non-stop
+            - generic [ref=f22e74]:
+              - strong [ref=f22e75]: 6:40 PM
+              - generic [ref=f22e76]: JFK
+          - generic [ref=f22e77]: JetBlue B6 1416
+        - generic [ref=f22e79]:
+          - generic [ref=f22e80]: Travelers
+          - generic [ref=f22e81]: 2 adults
+        - generic [ref=f22e82]:
+          - generic [ref=f22e83]: Total incl. taxes
+          - strong [ref=f22e84]: $296
+      - generic [ref=f22e85]: ✓ Instant confirmation — your PNR and e-tickets arrive by email the moment the airline confirms.

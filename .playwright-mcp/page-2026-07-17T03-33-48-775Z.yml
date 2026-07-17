@@ -1,0 +1,171 @@
+- generic [ref=f15e3]:
+  - navigation [ref=f15e4]:
+    - generic [ref=f15e5]:
+      - link [ref=f15e6] [cursor=pointer]:
+        - /url: index.html
+        - img "cheapgetaway.com" [ref=f15e7]
+      - generic [ref=f15e8]:
+        - textbox "Where to?" [ref=f15e9]: Las Vegas
+        - generic [ref=f15e11]: Aug 14 – Aug 17
+        - generic [ref=f15e13]: 2 Guests
+        - button "Search" [ref=f15e14] [cursor=pointer]
+      - link "Join the club" [ref=f15e18] [cursor=pointer]:
+        - /url: webinar-optin.html
+  - main [ref=f15e19]:
+    - complementary [ref=f15e20]:
+      - generic [ref=f15e21]:
+        - generic [ref=f15e22]:
+          - strong [ref=f15e23]: Filters
+          - button "Clear filters" [ref=f15e24] [cursor=pointer]
+        - generic [ref=f15e25]:
+          - generic [ref=f15e26]:
+            - generic [ref=f15e27]: Property name
+            - 'textbox "For example: Hilton" [ref=f15e28]'
+          - generic [ref=f15e29]:
+            - generic [ref=f15e30]: Price per night · up to $1000+
+            - slider [ref=f15e31]: "1000"
+          - generic [ref=f15e32]:
+            - generic [ref=f15e33]: Popular filters
+            - generic [ref=f15e34]:
+              - generic [ref=f15e35] [cursor=pointer]:
+                - checkbox "Free cancellation" [ref=f15e36]
+                - text: Free cancellation
+              - generic [ref=f15e37] [cursor=pointer]:
+                - checkbox "Parking" [ref=f15e38]
+                - text: Parking
+              - generic [ref=f15e39] [cursor=pointer]:
+                - checkbox "Breakfast included" [ref=f15e40]
+                - text: Breakfast included
+              - generic [ref=f15e41] [cursor=pointer]:
+                - checkbox "Swimming pool" [ref=f15e42]
+                - text: Swimming pool
+              - generic [ref=f15e43] [cursor=pointer]:
+                - checkbox "Fitness center" [ref=f15e44]
+                - text: Fitness center
+          - generic [ref=f15e45]:
+            - generic [ref=f15e46]: Distance from the center of Las Vegas
+            - generic [ref=f15e47] [cursor=pointer]:
+              - radio "Any distance" [ref=f15e48]
+              - text: Any distance
+            - generic [ref=f15e49] [cursor=pointer]:
+              - radio "Less than 1 mile" [ref=f15e50]
+              - text: Less than 1 mile
+            - generic [ref=f15e51] [cursor=pointer]:
+              - radio "Less than 3 miles" [ref=f15e52]
+              - text: Less than 3 miles
+            - generic [ref=f15e53] [cursor=pointer]:
+              - radio "Less than 5 miles" [ref=f15e54]
+              - text: Less than 5 miles
+          - generic [ref=f15e55]:
+            - generic [ref=f15e56]: Reservation policy
+            - generic [ref=f15e57] [cursor=pointer]:
+              - radio "Any policy" [ref=f15e58]
+              - text: Any policy
+            - generic [ref=f15e59] [cursor=pointer]:
+              - radio "Free cancellation" [ref=f15e60]
+              - text: Free cancellation
+            - generic [ref=f15e61] [cursor=pointer]:
+              - radio "Non-refundable" [ref=f15e62]
+              - text: Non-refundable
+          - generic [ref=f15e63]:
+            - generic [ref=f15e64]: Property type
+            - generic [ref=f15e65] [cursor=pointer]:
+              - checkbox "Hotels" [ref=f15e66]
+              - text: Hotels
+            - generic [ref=f15e67] [cursor=pointer]:
+              - checkbox "Apartments" [ref=f15e68]
+              - text: Apartments
+          - generic [ref=f15e69]:
+            - generic [ref=f15e70]: Star rating
+            - generic [ref=f15e71] [cursor=pointer]:
+              - checkbox "5 stars" [ref=f15e72]
+              - text: 5 stars
+            - generic [ref=f15e73] [cursor=pointer]:
+              - checkbox "4 stars" [ref=f15e74]
+              - text: 4 stars
+            - generic [ref=f15e75] [cursor=pointer]:
+              - checkbox "3 stars or less" [ref=f15e76]
+              - text: 3 stars or less
+          - generic [ref=f15e77]:
+            - generic [ref=f15e78]: Meal plans
+            - generic [ref=f15e79] [cursor=pointer]:
+              - radio "Any meal plan" [ref=f15e80]
+              - text: Any meal plan
+            - generic [ref=f15e81] [cursor=pointer]:
+              - radio "Breakfast included" [ref=f15e82]
+              - text: Breakfast included
+            - generic [ref=f15e83] [cursor=pointer]:
+              - radio "Half board" [ref=f15e84]
+              - text: Half board
+            - generic [ref=f15e85] [cursor=pointer]:
+              - radio "Full board" [ref=f15e86]
+              - text: Full board
+            - generic [ref=f15e87] [cursor=pointer]:
+              - radio "All inclusive" [ref=f15e88]
+              - text: All inclusive
+          - generic [ref=f15e89]:
+            - generic [ref=f15e90]: Guest rating
+            - generic [ref=f15e91] [cursor=pointer]:
+              - 'checkbox "Wonderful: 9+" [ref=f15e92]'
+              - text: "Wonderful: 9+"
+            - generic [ref=f15e93] [cursor=pointer]:
+              - 'checkbox "Very good: 8+" [ref=f15e94]'
+              - text: "Very good: 8+"
+          - generic [ref=f15e95]:
+            - generic [ref=f15e96]: Room amenities
+            - generic [ref=f15e97] [cursor=pointer]:
+              - checkbox "Air conditioning" [ref=f15e98]
+              - text: Air conditioning
+            - generic [ref=f15e99] [cursor=pointer]:
+              - checkbox "Kitchen facilities" [ref=f15e100]
+              - text: Kitchen facilities
+            - generic [ref=f15e101] [cursor=pointer]:
+              - checkbox "Balcony or terrace" [ref=f15e102]
+              - text: Balcony or terrace
+            - generic [ref=f15e103] [cursor=pointer]:
+              - checkbox "Laundry / washer" [ref=f15e104]
+              - text: Laundry / washer
+          - generic [ref=f15e105]:
+            - generic [ref=f15e106]: Facilities
+            - generic [ref=f15e107] [cursor=pointer]:
+              - checkbox "Free WiFi" [ref=f15e108]
+              - text: Free WiFi
+            - generic [ref=f15e109] [cursor=pointer]:
+              - checkbox "Spa & wellness" [ref=f15e110]
+              - text: Spa & wellness
+            - generic [ref=f15e111] [cursor=pointer]:
+              - checkbox "Restaurant" [ref=f15e112]
+              - text: Restaurant
+            - generic [ref=f15e113] [cursor=pointer]:
+              - checkbox "Bar" [ref=f15e114]
+              - text: Bar
+            - generic [ref=f15e115] [cursor=pointer]:
+              - checkbox "Pet friendly" [ref=f15e116]
+              - text: Pet friendly
+            - generic [ref=f15e117] [cursor=pointer]:
+              - checkbox "Airport shuttle" [ref=f15e118]
+              - text: Airport shuttle
+      - generic [ref=f15e119]:
+        - strong [ref=f15e120]: Member prices
+        - paragraph [ref=f15e124]: Club members see these same rooms 40–65% cheaper. The crossed-out price is what everyone else pays.
+        - link "Unlock member prices" [ref=f15e125] [cursor=pointer]:
+          - /url: webinar-optin.html
+    - generic [ref=f15e127]:
+      - heading "Searching Las Vegas…" [level=1] [ref=f15e128]
+      - generic [ref=f15e129]:
+        - text: Sort by
+        - combobox "Sort by" [ref=f15e130] [cursor=pointer]:
+          - option "Our top picks" [selected]
+          - 'option "Price: low to high"'
+          - 'option "Price: high to low"'
+          - option "Guest rating"
+  - contentinfo [ref=f15e135]:
+    - img "cheapgetaway.com" [ref=f15e136]
+    - generic [ref=f15e137]:
+      - link "Home" [ref=f15e138] [cursor=pointer]:
+        - /url: index.html
+      - link "Join the club" [ref=f15e139] [cursor=pointer]:
+        - /url: webinar-optin.html
+      - link "For creators" [ref=f15e140] [cursor=pointer]:
+        - /url: webinar-optin-creator.html
+    - generic [ref=f15e141]: © 2026 cheapgetaway.com
