@@ -42,14 +42,36 @@ Unsubscribe → global suppression.
 
 ## Email 1 — WELCOME (Day 0, everyone)
 
-> **Design note (2026-07-17):** this email intentionally breaks the design system.
-> It is sent as a plain, personal-looking note (no logo, no buttons, no colors) to
-> maximize Gmail **Primary-tab** placement — Gmail files designed HTML into
-> Promotions. Emails 2–7 keep the branded design; by then the "reply / drag to
-> Primary" ask in this email has trained the inbox. Branded version preserved at
-> `01-welcome-branded.html`. No preheader on purpose (preheaders are a promo signal).
+> **Design note (2026-07-17, revised):** ALL emails in this sequence are now TRUE
+> PLAIN TEXT (user directive) — bare `<p>` tags, no styling, no logo, no buttons,
+> default-blue links, `--` signature divider. Em-dashes are written as `&mdash;`
+> entities (raw UTF-8 em-dashes rendered as mojibake in GHL). Email 1 additionally
+> contains **zero links** — not even the webinar link — for maximum Primary-tab
+> placement. The webinar link arrives in **Email 1b** (below), sent 4 minutes after
+> signup = ~1 minute before the 5-minute countdown ends. Branded originals preserved
+> at `01-welcome-branded.html` and in git history. No preheaders on purpose.
+> GHL gotcha: workflow email actions snapshot the template at attach time — after
+> editing a template, remove + re-attach it in the workflow action (or the action
+> keeps sending the old copy).
 
-**Subject:** you're in, {{first_name}} — here's your webinar link
+**Subject:** you're in, {{first_name}}
+
+---
+
+## Email 1b — WEBINAR LINK (T-minus 1 minute, everyone)
+
+**Subject:** your webinar link — we're live in 1 minute
+**Timing:** Wait 4 minutes after Email 1, then send. The countdown on the site is
+5 minutes, so this lands right before the session starts.
+
+> Hey {{first_name}},
+>
+> We're about to start. Here's your link to the live room:
+>
+> [registration-confirmed link]
+>
+> See you inside,
+> The CheapGetaway Team
 
 > Hey {{first_name}},
 >
