@@ -429,6 +429,14 @@ class Component extends DCLogic {
       localStorage.setItem('cg_webinar_signup', JSON.stringify({ name: name, email: email, at: Date.now() }));
     } catch (err) {}
     this.setState({ submitted: true, firstName: name, email: email, error: '' });
+    try {
+      fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ name: name, email: email, source: 'webinar-optin-creator' }),
+        keepalive: true
+      }).catch(function () {});
+    } catch (err) {}
     window.location.href = '/registration-confirmed?name=' + encodeURIComponent(name) + '&email=' + encodeURIComponent(email) + '&ts=' + this.nextSessionTs();
   };
 
