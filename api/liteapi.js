@@ -2,6 +2,14 @@
 // Forwards /api/liteapi/<path>?<query> -> https://api.liteapi.travel/v3.0/<path>?<query>
 // Injects X-API-Key from process.env.LITEAPI_KEY, falling back to the hardcoded prod key
 // found in the client pages so the deploy still works before the env var is set.
+//
+// This is a flat file (not a [...path].js catch-all) because Vercel's static
+// build (framework: null) does not reliably route nested catch-all paths
+// (e.g. /api/liteapi/data/hotel) to the function — those 404 before the
+// handler ever runs. A rewrite in vercel.json sends
+// /api/liteapi/:path* -> /api/liteapi?path=:path* so this single flat
+// function always gets invoked, with the original nested path available via
+// req.query.path.
 
 const LITEAPI_BASE = 'https://api.liteapi.travel/v3.0';
 const FALLBACK_KEY = 'prod_836dbd63-00e5-443a-9b49-ce47adc49202';
@@ -16,10 +24,37 @@ export default async function handler(req, res) {
   }
 
   const rawPath = req.query.path;
-  const pathSegments = Array.isArray(rawPath) ? rawPath : (rawPath ? [rawPath] : []);
-  const upstreamPath = pathSegments.map(encodeURIComponent).join('/');
+  // Vercel's rewrite destination "?path=:path*" may deliver the forwarded
+  // segments as a string (possibly with internal slashes or commas) or as
+  // an array depending on how the path was captured. Normalize both.
+  let pathSegments;
+  if (Array.isArray(rawPath)) {
+    pathSegments = rawPath;
+  } else if (rawPath) {
+    pathSegments = String(rawPath).split(',');
+  } else {
+    pathSegments = [];
+  }
+  // Segments may themselves contain slashes (e.g. a single element
+  // "data/hotel"); split those too so we always re-encode per-segment.
+  const upstreamPath = pathSegments
+    .flatMap((seg) => String(seg).split('/'))
+    .filter((seg) => seg.length)
+    .map(encodeURIComponent)
+    .join('/');
 
-  const queryString = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
+  // Build the upstream query string from req.query, dropping the injected
+  // "path" param but preserving every other original query param.
+  const upstreamParams = new URLSearchParams();
+  for (const [key, value] of Object.entries(req.query || {})) {
+    if (key === 'path') continue;
+    if (Array.isArray(value)) {
+      for (const v of value) upstreamParams.append(key, v);
+    } else if (value !== undefined) {
+      upstreamParams.append(key, value);
+    }
+  }
+  const queryString = upstreamParams.toString() ? '?' + upstreamParams.toString() : '';
   const upstreamUrl = LITEAPI_BASE + '/' + upstreamPath + queryString;
 
   const apiKey = process.env.LITEAPI_KEY || FALLBACK_KEY;
