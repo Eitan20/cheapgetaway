@@ -1,4 +1,10 @@
-<!-- Subject: You're in — here's your seat, {{first_name}} | Preheader: Save this email. Your webinar access link is inside. -->
+// Renders the welcome-email HTML (source design: docs/emails/01-welcome.html)
+// as a template string. docs/ is excluded from the Vercel deploy via
+// .vercelignore, so the runtime cannot read that file at request time — its
+// content is embedded here instead. Keep this in sync by hand if the design
+// in docs/emails/01-welcome.html changes.
+
+const WELCOME_HTML_TEMPLATE = `<!-- Subject: You're in — here's your seat, {{first_name}} | Preheader: Save this email. Your webinar access link is inside. -->
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
@@ -184,3 +190,32 @@ CheapGetaway Travel Club &middot; travel@cheapgetaway.com<br>
 </table>
 </body>
 </html>
+`;
+
+/**
+ * Renders the welcome email HTML for a given visitor.
+ * @param {string} name - visitor's first/display name
+ * @param {string} email - visitor's email address
+ * @returns {string} full HTML document with placeholders substituted
+ */
+export function welcomeHtml(name, email) {
+  const safeName = name || 'there';
+  const encodedEmail = encodeURIComponent(email || '');
+
+  // TODO: replace with a real unsubscribe URL once list-management /
+  // preference-center infrastructure is set up. A mailto is a stopgap so
+  // the link is at least functional in the meantime.
+  const unsubscribeUrl = 'mailto:travel@cheapgetaway.com?subject=Unsubscribe';
+
+  // {{first_name}} appears both as plain body text ("Hey {{first_name}},")
+  // and inside a URL query string (registration-confirmed?name={{first_name}}).
+  // Substitute the query-string occurrence with the URL-encoded name first
+  // (matched via its surrounding literal context), then replace all
+  // remaining {{first_name}} occurrences with the plain display name.
+  return WELCOME_HTML_TEMPLATE
+    .split('?name={{first_name}}&email={{email}}')
+    .join(`?name=${encodeURIComponent(safeName)}&email=${encodedEmail}`)
+    .split('{{first_name}}').join(safeName)
+    .split('{{email}}').join(encodedEmail)
+    .split('{{unsubscribe_url}}').join(unsubscribeUrl);
+}

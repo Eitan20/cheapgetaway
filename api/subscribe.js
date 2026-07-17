@@ -1,8 +1,12 @@
-// Vercel serverless function — forwards webinar registrants to Brevo so an
+// Vercel serverless function — forwards webinar registrants to Resend so an
 // ESP can run the welcome + drip email sequence.
-// POST /api/subscribe { name, email, source } -> Brevo POST /v3/contacts
+// POST /api/subscribe { name, email, source } -> Resend audience contact +
+// immediate welcome email via Resend's REST API.
 
-const BREVO_CONTACTS_URL = 'https://api.brevo.com/v3/contacts';
+import { welcomeHtml } from './_welcome-email.js';
+
+const RESEND_API_BASE = 'https://api.resend.com';
+const DEFAULT_FROM = 'CheapGetaway Travel Club <travel@cheapgetaway.com>';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default async function handler(req, res) {
@@ -34,38 +38,65 @@ export default async function handler(req, res) {
     return;
   }
 
-  const apiKey = process.env.BREVO_API_KEY;
+  const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     res.status(200).json({ ok: false, reason: 'not-configured' });
     return;
   }
 
+  const audienceId = process.env.RESEND_AUDIENCE_ID;
+  const from = process.env.RESEND_FROM || DEFAULT_FROM;
+
+  if (audienceId) {
+    try {
+      const contactRes = await fetch(`${RESEND_API_BASE}/audiences/${audienceId}/contacts`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: email,
+          first_name: name,
+          unsubscribed: false
+        })
+      });
+
+      if (!contactRes.ok) {
+        const text = await contactRes.text().catch(() => '');
+        console.error('Resend add-contact error', contactRes.status, text);
+      }
+    } catch (err) {
+      // Non-fatal — the welcome email is what actually matters to the visitor.
+      console.error('Resend add-contact fetch failed', err);
+    }
+  }
+
   try {
-    const brevoRes = await fetch(BREVO_CONTACTS_URL, {
+    const emailRes = await fetch(`${RESEND_API_BASE}/emails`, {
       method: 'POST',
       headers: {
-        'api-key': apiKey,
-        'content-type': 'application/json',
-        'accept': 'application/json'
+        'Authorization': `Bearer ${apiKey}`,
+        'content-type': 'application/json'
       },
       body: JSON.stringify({
-        email: email,
-        attributes: { FIRSTNAME: name, SOURCE: source },
-        listIds: [Number(process.env.BREVO_LIST_ID) || 2],
-        updateEnabled: true
+        from: from,
+        to: [email],
+        subject: `You're in — here's your seat, ${name}`,
+        html: welcomeHtml(name, email)
       })
     });
 
-    if (!brevoRes.ok) {
-      const text = await brevoRes.text().catch(() => '');
-      console.error('Brevo subscribe error', brevoRes.status, text);
+    if (!emailRes.ok) {
+      const text = await emailRes.text().catch(() => '');
+      console.error('Resend send-email error', emailRes.status, text);
       res.status(200).json({ ok: false });
       return;
     }
 
     res.status(200).json({ ok: true });
   } catch (err) {
-    console.error('Brevo subscribe fetch failed', err);
+    console.error('Resend send-email fetch failed', err);
     res.status(200).json({ ok: false });
   }
 }

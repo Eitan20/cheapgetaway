@@ -32,7 +32,8 @@ All pages live at the repository root.
 Supporting files: `support.js` (shared page-runtime logic), `cg-api.js`
 (shared liteAPI fetch helper), `assets/` (images/logos), `api/liteapi/[...path].js`
 (the serverless proxy), `api/subscribe.js` (forwards webinar registrants to
-Brevo for the welcome/drip email sequence).
+Resend for the welcome/drip email sequence), `api/_welcome-email.js` (the
+embedded welcome-email HTML template used by `api/subscribe.js`).
 
 ## Deploy on Vercel
 
@@ -41,10 +42,17 @@ Brevo for the welcome/drip email sequence).
    `"framework": null` so Vercel serves the site statically (no Next.js build).
 3. Set the environment variable `LITEAPI_KEY` (Production) to your liteAPI
    production key.
-4. Set `BREVO_API_KEY` (Production) to your Brevo transactional API key, and
-   `BREVO_LIST_ID` to the Brevo list ID webinar registrants should be added
-   to (defaults to `2` if unset).
+4. Set `RESEND_API_KEY` (Production) to your Resend API key.
+   `RESEND_AUDIENCE_ID` (optional) is the Resend audience ID webinar
+   registrants should be added to as a contact — omit it to skip audience
+   sync and only send the welcome email.
+   `RESEND_FROM` (optional) overrides the sender, defaulting to
+   `CheapGetaway Travel Club <travel@cheapgetaway.com>`.
 5. Redeploy so the functions pick up the env vars.
+
+**Note:** the sender domain (`cheapgetaway.com`) must be verified in Resend
+before `travel@cheapgetaway.com` can send — see
+https://resend.com/domains.
 
 The proxy at `api/liteapi/[...path].js` forwards every liteAPI call
 (`/api/liteapi/<path>` → `https://api.liteapi.travel/v3.0/<path>`) and injects
