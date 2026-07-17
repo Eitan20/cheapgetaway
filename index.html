@@ -217,11 +217,15 @@
                 <span style="background:#0e1556;color:#fff;font-weight:800;font-size:14px;padding:6px 9px;border-radius:10px 10px 10px 2px;">{{ hotel.score }}</span>
                 <span style="display:flex;flex-direction:column;font-size:12px;line-height:1.35;"><strong style="color:#0b0f1f;">{{ hotel.label }}</strong><span style="color:#52586b;font-weight:600;">{{ hotel.reviews }} reviews</span></span>
               </div>
+              <sc-if value="{{ hotel.hasPrice }}" hint-placeholder-val="{{ true }}">
               <div style="display:flex;flex-direction:column;align-items:flex-end;font-size:11px;color:#52586b;font-weight:600;line-height:1.4;">
-                <span style="text-decoration:line-through;color:#9aa0b4;font-size:14px;font-weight:700;">{{ hotel.priceLabel }}</span>
+                <sc-if value="{{ hotel.hasStrike }}" hint-placeholder-val="">
+                  <span style="text-decoration:line-through;color:#9aa0b4;font-size:14px;font-weight:700;">{{ hotel.priceLabel }}</span>
+                </sc-if>
                 <strong style="font-size:19px;color:#ff6500;font-weight:900;display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>{{ hotel.memberLabel }}</strong>
-                <span>member price · incl. taxes</span>
+                <span>per night · member rate</span>
               </div>
+              </sc-if>
             </div>
           </div>
         </a>
@@ -307,7 +311,9 @@
           <div style="padding:14px 16px 16px;display:flex;flex-direction:column;gap:3px;flex:1;">
             <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;">
               <h3 style="margin:0;font-size:15px;font-weight:800;color:#0b0f1f;line-height:1.3;">{{ deal.name }}</h3>
-              <span style="white-space:nowrap;"><strong style="font-size:17px;color:#ff6500;font-weight:900;">{{ deal.priceLabel }}</strong><span style="font-size:12px;color:#52586b;font-weight:600;">/night</span></span>
+              <sc-if value="{{ deal.hasPrice }}" hint-placeholder-val="{{ true }}">
+                <span style="white-space:nowrap;"><strong style="font-size:17px;color:#ff6500;font-weight:900;">{{ deal.priceLabel }}</strong><span style="font-size:12px;color:#52586b;font-weight:600;">/night</span></span>
+              </sc-if>
             </div>
             <p style="margin:0;font-size:13px;color:#52586b;font-weight:600;">{{ deal.city }}</p>
           </div>
@@ -373,7 +379,9 @@
         <a href="{{ deal.href }}" style="background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;color:inherit;transition:transform .25s cubic-bezier(0.22,1,0.36,1), box-shadow .25s;" style-hover="transform:translateY(-4px);box-shadow:0 16px 48px rgba(14,21,86,0.12);color:inherit;">
           <div style="position:relative;height:160px;background:#e8eaf2;">
             {{ deal.imgEl }}
-            <span style="position:absolute;bottom:10px;left:10px;background:rgba(255,255,255,0.92);backdrop-filter:blur(6px);border-radius:999px;padding:5px 11px;"><strong style="color:#0e1556;font-weight:900;font-size:15px;">{{ deal.priceLabel }}</strong><span style="font-size:12px;color:#52586b;font-weight:600;">/night</span></span>
+            <sc-if value="{{ deal.hasPrice }}" hint-placeholder-val="{{ true }}">
+              <span style="position:absolute;bottom:10px;left:10px;background:rgba(255,255,255,0.92);backdrop-filter:blur(6px);border-radius:999px;padding:5px 11px;"><strong style="color:#0e1556;font-weight:900;font-size:15px;">{{ deal.priceLabel }}</strong><span style="font-size:12px;color:#52586b;font-weight:600;">/night</span></span>
+            </sc-if>
           </div>
           <div style="padding:14px 16px 16px;">
             <h3 style="margin:0 0 2px;font-size:15px;font-weight:800;color:#0b0f1f;">{{ deal.name }}</h3>
@@ -473,10 +481,55 @@
 </footer>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+const REC_POOL = [
+    { id: 'lp31b8d', name: 'Hampton By Hilton London City', city: 'London', address: '12-20 Osborn Street', image: 'https://static.cupid.travel/hotels/488246226.jpg', rating: 9.8, reviewCount: 6670 },
+    { id: 'lp1b30d1', name: 'Millennium Atria Business Bay', city: 'Dubai', address: 'Al Abraj Street, Business Bay', image: 'https://static.cupid.travel/hotels/ex_14830209_z.jpg', rating: 9.6, reviewCount: 6938 },
+    { id: 'lpaa0d7', name: 'The Retreat Palm Dubai MGallery by Sofitel', city: 'Dubai', address: 'Palm Jumeirah', image: 'https://static.cupid.travel/hotels/ex_8a973846_z.jpg', rating: 9.4, reviewCount: 7212 },
+    { id: 'lp1beec', name: 'Hôtel Des Grands Voyageurs', city: 'Paris', address: '92 Rue De Vaugirard', image: 'https://static.cupid.travel/hotels/528466229.jpg', rating: 10, reviewCount: 2434 },
+    { id: 'lp347d05', name: 'PROSTYLE RYOKAN TOKYO ASAKUSA', city: 'Tokyo', address: '2-12-11 Hanakawado, Taito', image: 'https://static.cupid.travel/hotels/233239656.jpg', rating: 9.6, reviewCount: 2199 },
+    { id: 'lp97230', name: 'Hotel Martis Palace', city: 'Rome', address: 'Via San Giuseppe Calasanzio 1', image: 'https://static.cupid.travel/hotels/79689143.jpg', rating: 10, reviewCount: 625 },
+    { id: 'lp6557b133', name: 'Umiltà 36 - Preferred Hotels & Resorts', city: 'Rome', address: 'Via dell\'Umiltà 36', image: 'https://static.cupid.travel/hotels/593208650.jpg', rating: 9.8, reviewCount: 2713 },
+    { id: 'lp2a294', name: 'Jumeirah Emirates Towers Dubai', city: 'Dubai', address: 'Sheikh Zayed Road', image: 'https://static.cupid.travel/hotels/ex_ae2d8b63_z.jpg', rating: 9.4, reviewCount: 6423 },
+    { id: 'lp6f715', name: 'Shangri-La The Shard, London', city: 'London', address: '31 St Thomas Street', image: 'https://static.cupid.travel/hotels/40691107.jpg', rating: 10, reviewCount: 2687 },
+    { id: 'lp4ca71', name: 'Palazzo Ripetta', city: 'Rome', address: 'Via di Ripetta, 231', image: 'https://static.cupid.travel/hotels/454429048.jpg', rating: 9.8, reviewCount: 458 },
+    { id: 'lp9db42', name: 'Rove Bur Dubai Healthcare City', city: 'Dubai', address: '19th Street, Oud Metha, Bur Dubai', image: 'https://static.cupid.travel/hotels/ex_cc1d8326_z.jpg', rating: 9.6, reviewCount: 6336 },
+    { id: 'lp51fe7', name: 'Hôtel Dame des Arts', city: 'Paris', address: '4 Rue Danton', image: 'https://static.cupid.travel/hotels/421438913.jpg', rating: 10, reviewCount: 1599 },
+    { id: 'lp19e0b', name: 'Royal Lancaster London', city: 'London', address: 'Lancaster Terrace', image: 'https://static.cupid.travel/hotels/130774650.jpg', rating: 10, reviewCount: 7385 },
+    { id: 'lp1db0a1', name: 'THE BLOSSOM HIBIYA', city: 'Tokyo', address: '1-1-13 Shinbashi', image: 'https://static.cupid.travel/hotels/216140703.jpg', rating: 9.1, reviewCount: 9147 },
+    { id: 'lp65560928', name: 'Tokyo Bay Shiomi Prince Hotel', city: 'Tokyo', address: '2-8-16 Shiomi', image: 'https://static.cupid.travel/hotels/300681318.jpg', rating: 9.1, reviewCount: 8755 },
+    { id: 'lp65566b6b', name: 'THE TOURIST HOTEL & Cafe AKIHABARA', city: 'Tokyo', address: '1-6-6 Taito, Taito', image: 'https://static.cupid.travel/hotels/258114942.jpg', rating: 9.4, reviewCount: 5574 },
+    { id: 'lpb2c3c', name: 'Al Bandar Rotana – Dubai Creek', city: 'Dubai', address: 'Baniyas Road, Deira', image: 'https://static.cupid.travel/hotels/ex_678ac174_z.jpg', rating: 9.6, reviewCount: 4398 }
+  ];
+
+const US_POOL = [
+    { id: 'lpa440f', name: 'NOPSI Hotel New Orleans', city: 'New Orleans', address: '317 Baronne St', image: 'https://static.cupid.travel/hotels/282791032.jpg', rating: 9.2, reviewCount: 2701 },
+    { id: 'lp69a11', name: 'EB Hotel Miami Airport', city: 'Miami', address: '4299 Nw 36th St', image: 'https://static.cupid.travel/hotels/20426253.jpg', rating: 9.6, reviewCount: 2468 },
+    { id: 'lp399d2', name: 'South Point Hotel, Casino, and Spa', city: 'Las Vegas', address: '9777 Las Vegas Blvd S', image: 'https://static.cupid.travel/hotels/ex_11383b45_z.jpg', rating: 9.2, reviewCount: 756 },
+    { id: 'lp369ef', name: 'Margaritaville Hotel San Diego Gaslamp Quarter', city: 'San Diego', address: '435 6th Ave', image: 'https://static.cupid.travel/hotels/511143696.jpg', rating: 9.4, reviewCount: 2048 },
+    { id: 'lp65549fce', name: 'Nobu Hotel Chicago', city: 'Chicago', address: '155 N. Peoria Street', image: 'https://static.cupid.travel/hotels/310722197.jpg', rating: 9.6, reviewCount: 741 },
+    { id: 'lp65589896', name: 'The Elser Hotel Miami - An All-Suite Hotel', city: 'Miami', address: '398 NE 5th Street', image: 'https://static.cupid.travel/hotels/489331754.jpg', rating: 9.2, reviewCount: 7332 },
+    { id: 'lpaf047', name: 'Cambria Hotel New Orleans Downtown Warehouse District', city: 'New Orleans', address: '632 Tchoupitoulas Street', image: 'https://static.cupid.travel/hotels/610500586.jpg', rating: 9.4, reviewCount: 753 },
+    { id: 'lpaf414', name: 'Alder Hotel Uptown New Orleans', city: 'New Orleans', address: '4545 Magnolia Street', image: 'https://static.cupid.travel/hotels/111164720.jpg', rating: 9.4, reviewCount: 1119 },
+    { id: 'lp40fa7', name: 'Trump International Hotel Las Vegas', city: 'Las Vegas', address: '2000 Fashion Show Drive', image: 'https://static.cupid.travel/hotels/44103227.jpg', rating: 9, reviewCount: 11297 },
+    { id: 'lp224b9', name: 'Silverton Casino Lodge', city: 'Las Vegas', address: '3333 Blue Diamond Rd', image: 'https://static.cupid.travel/hotels/20127728.jpg', rating: 9.1, reviewCount: 1289 },
+    { id: 'lp1efb3', name: 'Trump National Doral Miami', city: 'Miami', address: '4400 N.W. 87th Ave', image: 'https://static.cupid.travel/hotels/ex_95f5dbda_z.jpg', rating: 9.4, reviewCount: 298 },
+    { id: 'lp19c0d', name: 'Mayfair House Hotel & Garden', city: 'Miami', address: '3000 Florida Avenue', image: 'https://static.cupid.travel/hotels/502849201.jpg', rating: 9.2, reviewCount: 1064 },
+    { id: 'lp1c1a8', name: 'Hotel Monteleone, New Orleans', city: 'New Orleans', address: '214 Royal Street', image: 'https://static.cupid.travel/hotels/ex_53ecfbb7_z.jpg', rating: 9.4, reviewCount: 621 },
+    { id: 'lp19ce31', name: 'The Sound Hotel Seattle Belltown, Tapestry Collection', city: 'Seattle', address: '2120 4th Avenue', image: 'https://static.cupid.travel/hotels/474438187.jpg', rating: 9.4, reviewCount: 630 },
+    { id: 'lpb9a82', name: 'Embassy Suites By Hilton Seattle Downtown Pioneer Square', city: 'Seattle', address: '255 South King Street', image: 'https://static.cupid.travel/hotels/484394151.jpg', rating: 9.4, reviewCount: 1481 },
+    { id: 'lp43c31', name: 'Hampton Inn & Suites Phoenix North/Happy Valley', city: 'Phoenix', address: '2550 West Charlotte Drive', image: 'https://static.cupid.travel/hotels/499672362.jpg', rating: 9.1, reviewCount: 682 },
+    { id: 'lp19b5a', name: 'Arizona Biltmore, LXR Hotels & Resorts', city: 'Phoenix', address: '2400 E Missouri Avenue', image: 'https://static.cupid.travel/hotels/570052744.jpg', rating: 9.2, reviewCount: 483 },
+    { id: 'lp65571c01', name: 'Motto by Hilton New York City Chelsea', city: 'New York', address: '113 West 24th Street', image: 'https://static.cupid.travel/hotels/599791912.jpg', rating: 10, reviewCount: 4082 },
+    { id: 'lp65581c57', name: 'Moxy NYC Lower East Side', city: 'New York', address: '145 BOWERY', image: 'https://static.cupid.travel/hotels/448694373.jpg', rating: 9.6, reviewCount: 2521 },
+    { id: 'lp6556cb5a', name: 'AC Hotel by Marriott Phoenix Downtown', city: 'Phoenix', address: '414 NORTH 5TH STREET', image: 'https://static.cupid.travel/hotels/453377090.jpg', rating: 9.6, reviewCount: 935 },
+    { id: 'lp103727', name: 'Hyatt Regency Seattle', city: 'Seattle', address: '808 Howell St', image: 'https://static.cupid.travel/hotels/597766385.jpg', rating: 9.2, reviewCount: 2572 }
+  ];
+
 class Component extends DCLogic {
   state = { recPage: 0, mode: 'standard',
     datesOpen: false, guestsOpen: false, stayCheckin: '', stayCheckout: '', stayGuests: 2,
-    destSugs: [], destPlaceId: '' };
+    destSugs: [], destPlaceId: '',
+    ratesReady: false, ratesFailed: false, rateMap: {}, homeCheckin: '', homeCheckout: '' };
   async apiGet(path) {
     const res = await cgApiFetch(path, { headers: { 'accept': 'application/json' } });
     if (!res.ok) throw new Error('API ' + res.status);
@@ -484,19 +537,88 @@ class Component extends DCLogic {
   }
   step(k, d, min, max) { return () => this.setState(s => ({ [k]: Math.max(min, Math.min(max, s[k] + d)) })); }
   iso(offsetDays) { const d = new Date(); d.setDate(d.getDate() + offsetDays); return d.toISOString().split('T')[0]; }
-  imgEl(src, alt, abs) { return React.createElement('img', { src, alt: alt || '', style: abs ? { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' } : { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }); }
-  hotels = [
-    { name: "Tokyo Bay Shiomi Prince Hotel", address: "Tokyo, 2-8-16 Shiomi, Koto City", image: "https://static.cupid.travel/hotels/117744158.jpg", score: 9.1, reviews: 1248, price: 286 },
-    { name: "Sofitel Dubai Jumeirah Beach", address: "Dubai, Jumeirah Beach Residence, The Walk", image: "https://static.cupid.travel/hotels/ex_ca3a9677_z.jpg", score: 9.2, reviews: 827, price: 382 },
-    { name: "Pullman Paris Tour Eiffel", address: "Paris, 18 avenue de Suffren", image: "https://static.cupid.travel/hotels/428663598.jpg", score: 8.9, reviews: 1394, price: 468 },
-    { name: "The Royal Park Hotel Iconic Tokyo Shiodome", address: "Tokyo, 1-6-3 Higashishimbashi, Minato City", image: "https://static.cupid.travel/hotels/287763048.jpg", score: 9.1, reviews: 684, price: 412 },
-    { name: "St. James' Court, A Taj Hotel, London", address: "London, 54 Buckingham Gate, Westminster", image: "https://static.cupid.travel/hotels/177109798.jpg", score: 9.0, reviews: 948, price: 514 },
-    { name: "UNA Hotels Galles Milano", address: "Milan, Piazza Lima 2", image: "https://static.cupid.travel/hotels/31473350.jpg", score: 8.7, reviews: 1312, price: 318 },
-    { name: "Rome Cavalieri, A Waldorf Astoria Hotel", address: "Rome, Via Alberto Cadlolo 101", image: "https://static.cupid.travel/hotels/506518250.jpg", score: 9.3, reviews: 672, price: 921 },
-    { name: "The Prince Park Tower Tokyo", address: "Tokyo, 4-8-1 Shibakoen, Minato City", image: "https://static.cupid.travel/hotels/619238700.jpg", score: 9.3, reviews: 763, price: 529 },
-    { name: "Novotel Paris Les Halles", address: "Paris, 8 Place Marguerite de Navarre", image: "https://static.cupid.travel/hotels/ex_7cc26002_z.jpg", score: 8.8, reviews: 2104, price: 354 }
-  ];
+  imgEl(src, alt, abs) { return React.createElement('img', { src, alt: alt || '', loading: 'lazy', style: abs ? { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' } : { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }); }
   label(s) { return s >= 9.5 ? "Exceptional" : s >= 9 ? "Wonderful" : s >= 8.5 ? "Excellent" : "Very good"; }
+  nextWeekendDates() {
+    const d = new Date();
+    const day = d.getDay(); // 0 = Sun ... 5 = Fri ... 6 = Sat
+    let add = (5 - day + 7) % 7;
+    if (add === 0) add = 7; // today is Friday -> use next Friday, not today
+    const checkinDate = new Date(d.getFullYear(), d.getMonth(), d.getDate() + add);
+    const checkoutDate = new Date(checkinDate.getFullYear(), checkinDate.getMonth(), checkinDate.getDate() + 2);
+    const fmt = (x) => x.toISOString().split('T')[0];
+    return { checkin: fmt(checkinDate), checkout: fmt(checkoutDate) };
+  }
+  parseRateMap(data) {
+    const rows = (data && data.data) || (Array.isArray(data) ? data : []) || [];
+    const map = {};
+    rows.forEach(x => {
+      const hotelId = x.hotelId || x.id;
+      if (!hotelId) return;
+      let best = null;
+      (x.roomTypes || []).forEach(rt => (rt.rates || []).forEach(r => {
+        const rr = r.retailRate || {};
+        const totalObj = rr.total && rr.total[0];
+        const amt = totalObj ? Number(totalObj.amount) : NaN;
+        if (amt && !isNaN(amt) && (!best || amt < best.total)) {
+          const sspObj = rr.suggestedSellingPrice && rr.suggestedSellingPrice[0];
+          const ssp = sspObj ? Number(sspObj.amount) : null;
+          best = { total: amt, ssp: (ssp && !isNaN(ssp)) ? ssp : null };
+        }
+      }));
+      if (best) map[hotelId] = best;
+    });
+    return map;
+  }
+  async fetchHomeRates() {
+    const { checkin, checkout } = this.nextWeekendDates();
+    this.setState({ homeCheckin: checkin, homeCheckout: checkout });
+    const cacheKey = 'cg_home_rates_' + checkin;
+    try {
+      const raw = sessionStorage.getItem(cacheKey);
+      if (raw) {
+        const cached = JSON.parse(raw);
+        if (cached && cached.ts && (Date.now() - cached.ts) < 3600000 && cached.rateMap) {
+          this.setState({ rateMap: cached.rateMap, ratesReady: true, ratesFailed: false });
+          return;
+        }
+      }
+    } catch (e) {}
+    try {
+      const hotelIds = REC_POOL.concat(US_POOL).map(h => h.id);
+      const res = await cgApiFetch('/hotels/rates', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ hotelIds, checkin, checkout, occupancies: [{ adults: 2 }], currency: 'USD', guestNationality: 'US' })
+      });
+      if (!res.ok) throw new Error('rates ' + res.status);
+      const data = await res.json();
+      const rateMap = this.parseRateMap(data);
+      try { sessionStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), rateMap })); } catch (e) {}
+      this.setState({ rateMap, ratesReady: true, ratesFailed: false });
+    } catch (e) {
+      this.setState({ rateMap: {}, ratesReady: true, ratesFailed: true });
+    }
+  }
+  buildHotelEntry(h, checkin, checkout, rateMap) {
+    const rate = rateMap[h.id];
+    const hasPrice = !!rate;
+    const perNight = hasPrice ? rate.total / 2 : 0;
+    const hasStrike = hasPrice && !!rate.ssp && rate.ssp > rate.total * 1.03;
+    const sspPerNight = hasStrike ? rate.ssp / 2 : 0;
+    const href = '/hotel-detail?' + new URLSearchParams({ hotelId: h.id, checkin, checkout, adults: '2' }).toString();
+    return { ...h, hasPrice, perNight, hasStrike, sspPerNight, href };
+  }
+  selectDiverse(pool, count) {
+    const byCity = [];
+    const rest = [];
+    const seenCity = new Set();
+    pool.forEach(h => {
+      if (!seenCity.has(h.city)) { seenCity.add(h.city); byCity.push(h); }
+      else rest.push(h);
+    });
+    return byCity.concat(rest).slice(0, count);
+  }
   componentDidMount() {
     this._navHandler = (e) => {
       const a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
@@ -508,6 +630,7 @@ class Component extends DCLogic {
       window.location.href = href;
     };
     document.addEventListener('click', this._navHandler, true);
+    this.fetchHomeRates();
     this._popHandler = (e) => {
       if (e.target && e.target.closest && e.target.closest('[data-cg-pop]')) return;
       const S = this.state;
@@ -527,15 +650,45 @@ class Component extends DCLogic {
     window.removeEventListener('scroll', this._scrollHandler);
   }
   renderVals() {
-    const { recPage, mode } = this.state;
-    const pageSize = 3, pageCount = Math.ceil(this.hotels.length / pageSize);
-    const recVisible = this.hotels.slice(recPage * pageSize, recPage * pageSize + pageSize).map(h => ({
-      ...h, score: h.score.toFixed(1), label: this.label(h.score),
-      reviews: h.reviews.toLocaleString(), priceLabel: "US$" + h.price.toLocaleString(),
-      memberLabel: "US$" + Math.round(h.price * 0.47).toLocaleString(),
-      imgEl: this.imgEl(h.image, h.name),
-      href: "/hotel-detail?q=" + encodeURIComponent(h.name + " " + h.address)
-    }));
+    const { recPage, mode, ratesReady, ratesFailed, rateMap, homeCheckin, homeCheckout } = this.state;
+    const checkin = homeCheckin || this.iso(1), checkout = homeCheckout || this.iso(3);
+    const filterByRate = ratesReady && !ratesFailed;
+
+    const recSource = filterByRate ? REC_POOL.filter(h => rateMap[h.id]) : REC_POOL;
+    const recList = recSource.map(h => {
+      const e = this.buildHotelEntry(h, checkin, checkout, rateMap);
+      return {
+        ...e,
+        score: h.rating.toFixed(1),
+        label: this.label(h.rating),
+        reviews: h.reviewCount.toLocaleString(),
+        memberLabel: e.hasPrice ? "US$" + Math.round(e.perNight).toLocaleString() : '',
+        priceLabel: e.hasStrike ? "US$" + Math.round(e.sspPerNight).toLocaleString() : '',
+        imgEl: this.imgEl(h.image, h.name)
+      };
+    });
+    const pageSize = 3, pageCount = Math.max(1, Math.ceil(recList.length / pageSize));
+    const safeRecPage = Math.min(recPage, pageCount - 1);
+    const recVisible = recList.slice(safeRecPage * pageSize, safeRecPage * pageSize + pageSize);
+
+    const usAvail = filterByRate ? US_POOL.filter(h => rateMap[h.id]) : US_POOL;
+    const topDealsPool = this.selectDiverse(usAvail, 8);
+    const usedIds = new Set(topDealsPool.map(h => h.id));
+    const weekendPool = usAvail.length < 12
+      ? this.selectDiverse(usAvail, 4)
+      : this.selectDiverse(usAvail.filter(h => !usedIds.has(h.id)), 4);
+    const mkDeal = (h) => {
+      const e = this.buildHotelEntry(h, checkin, checkout, rateMap);
+      return {
+        ...e,
+        rating: h.rating.toFixed(1),
+        priceLabel: e.hasPrice ? "$" + Math.round(e.perNight) : '',
+        imgEl: this.imgEl(h.image, h.name)
+      };
+    };
+    const topDeals = topDealsPool.map(mkDeal);
+    const weekendDeals = weekendPool.map(mkDeal);
+
     const std = mode === 'standard';
     const ai = mode === 'ai';
     const withImg = (arr, abs) => arr.map(x => ({ ...x, imgEl: this.imgEl(x.image, x.name || x.title, abs) }));
@@ -613,28 +766,14 @@ class Component extends DCLogic {
       aiChipBg: ai ? '#fff' : 'transparent', aiChipColor: ai ? '#0e1556' : 'rgba(255,255,255,0.85)',
       searchLabel: 'Destination',
       searchPlaceholder: 'City or airport',
-      topDeals: withImg([
-        { name: "Downtown Grand Vegas", city: "Las Vegas", image: "assets/weekend-family.webp", priceLabel: "$89", rating: "8.6", href: "/hotel-detail?hotelId=lp1a278" },
-        { name: "The Wayfarer Seaside", city: "San Diego", image: "assets/quickvibe-poolside.webp", priceLabel: "$112", rating: "8.9", href: "/hotel-detail?q=" + encodeURIComponent("beachfront hotel San Diego") },
-        { name: "Hotel Lincoln Chicago", city: "Chicago", image: "assets/quickvibe-city.webp", priceLabel: "$104", rating: "8.7", href: "/hotel-detail?q=" + encodeURIComponent("Hotel Lincoln Chicago") },
-        { name: "French Quarter Inn", city: "New Orleans", image: "assets/weekend-city.webp", priceLabel: "$97", rating: "8.8", href: "/hotel-detail?q=" + encodeURIComponent("French Quarter hotel New Orleans") },
-        { name: "South Beach Cabana", city: "Miami", image: "assets/weekend-beach.webp", priceLabel: "$118", rating: "9.0", href: "/hotel-detail?q=" + encodeURIComponent("South Beach hotel Miami") },
-        { name: "Midtown Pod NYC", city: "New York", image: "assets/weekend-adventure.webp", priceLabel: "$139", rating: "8.5", href: "/hotel-detail?q=" + encodeURIComponent("Midtown Manhattan hotel New York") },
-        { name: "Desert Sky Resort", city: "Phoenix", image: "assets/quickvibe-roadtrip.webp", priceLabel: "$92", rating: "8.8", href: "/hotel-detail?q=" + encodeURIComponent("resort Phoenix Arizona") },
-        { name: "Harbor Lights Hotel", city: "Seattle", image: "assets/hotel-fallback-sm.webp", priceLabel: "$121", rating: "8.6", href: "/hotel-detail?q=" + encodeURIComponent("downtown hotel Seattle") }
-      ]),
+      topDeals,
       vibeCards: withImg([
         { title: "Romantic Getaway", image: "assets/vibe-beach.webp", href: "/search-results?ai=" + encodeURIComponent("Romantic adults-only resorts in Cancun") },
         { title: "Weekend Party", image: "assets/vibe-nightlife.webp", href: "/search-results?ai=" + encodeURIComponent("Hotels near the Las Vegas Strip nightlife") },
         { title: "Family Friendly", image: "assets/vibe-hiking.webp", href: "/search-results?ai=" + encodeURIComponent("Family friendly resorts in Orlando with pools") },
         { title: "Quiet Luxury", image: "assets/vibe-staycation.webp", href: "/search-results?ai=" + encodeURIComponent("Quiet luxury boutique hotels in Santa Barbara") }
       ], true),
-      weekendDeals: withImg([
-        { name: "Downtown Las Vegas Stay", city: "Las Vegas", image: "assets/weekend-family.webp", priceLabel: "$99", href: "/hotel-detail?hotelId=lp1a278" },
-        { name: "South Beach Escape", city: "Miami", image: "assets/weekend-beach.webp", priceLabel: "$119", href: "/hotel-detail?hotelId=lp1a7fc" },
-        { name: "Midtown Weekend Pick", city: "New York", image: "assets/weekend-adventure.webp", priceLabel: "$139", href: "/hotel-detail?hotelId=lp1a88f" },
-        { name: "French Quarter Retreat", city: "New Orleans", image: "assets/weekend-city.webp", priceLabel: "$109", href: "/hotel-detail?hotelId=lp194b6" }
-      ])
+      weekendDeals
     };
   }
 }
