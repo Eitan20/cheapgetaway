@@ -31,9 +31,11 @@ All pages live at the repository root.
 
 Supporting files: `support.js` (shared page-runtime logic), `cg-api.js`
 (shared liteAPI fetch helper), `assets/` (images/logos), `api/liteapi/[...path].js`
-(the serverless proxy), `api/subscribe.js` (forwards webinar registrants to
-Resend for the welcome/drip email sequence), `api/_welcome-email.js` (the
-embedded welcome-email HTML template used by `api/subscribe.js`).
+(the serverless proxy), `api/subscribe.js` (forwards webinar registrants to a
+GoHighLevel webhook, which owns the welcome/drip sequence, falling back to
+Resend if the GHL webhook is unreachable), `api/_welcome-email.js` (the
+embedded welcome-email HTML template used by the Resend fallback path in
+`api/subscribe.js`).
 
 ## Deploy on Vercel
 
@@ -42,13 +44,21 @@ embedded welcome-email HTML template used by `api/subscribe.js`).
    `"framework": null` so Vercel serves the site statically (no Next.js build).
 3. Set the environment variable `LITEAPI_KEY` (Production) to your liteAPI
    production key.
-4. Set `RESEND_API_KEY` (Production) to your Resend API key.
+4. `GHL_WEBHOOK_URL` (optional) overrides the GoHighLevel inbound webhook URL
+   that webinar signups are posted to — the primary signup destination. A
+   working default is baked into `api/subscribe.js`, so this only needs to be
+   set to point at a different GHL webhook. The GHL workflow behind it owns
+   the welcome email + drip sequence for registrants.
+5. Resend is an optional fallback, used only when the GHL webhook is
+   unreachable or returns an error. Set `RESEND_API_KEY` (Production) to your
+   Resend API key to enable it — without it, a GHL failure just falls through
+   to `{ ok: false }` and the signup is not recorded anywhere.
    `RESEND_AUDIENCE_ID` (optional) is the Resend audience ID webinar
-   registrants should be added to as a contact — omit it to skip audience
-   sync and only send the welcome email.
-   `RESEND_FROM` (optional) overrides the sender, defaulting to
+   registrants should be added to as a contact in the fallback path — omit it
+   to skip audience sync and only send the fallback welcome email.
+   `RESEND_FROM` (optional) overrides the fallback sender, defaulting to
    `CheapGetaway Travel Club <travel@cheapgetaway.com>`.
-5. Redeploy so the functions pick up the env vars.
+6. Redeploy so the functions pick up the env vars.
 
 **Note:** the sender domain (`cheapgetaway.com`) must be verified in Resend
 before `travel@cheapgetaway.com` can send — see

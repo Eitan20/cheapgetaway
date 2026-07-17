@@ -1,12 +1,14 @@
-// Vercel serverless function — forwards webinar registrants to Resend so an
-// ESP can run the welcome + drip email sequence.
-// POST /api/subscribe { name, email, source } -> Resend audience contact +
-// immediate welcome email via Resend's REST API.
+// Vercel serverless function — forwards webinar registrants to GoHighLevel
+// (primary) so its workflow can own the welcome + drip email sequence, with
+// Resend kept as an automatic fallback if the GHL webhook is unreachable.
+// POST /api/subscribe { name, email, source } -> GHL inbound webhook, or
+// Resend audience contact + immediate welcome email if GHL fails.
 
 import { welcomeHtml } from './_welcome-email.js';
 
 const RESEND_API_BASE = 'https://api.resend.com';
 const DEFAULT_FROM = 'CheapGetaway Travel Club <travel@cheapgetaway.com>';
+const DEFAULT_GHL_WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/AYSVZL0QEQajXAY0Cejh/webhook-trigger/e630b6ca-0fa5-4082-8276-d0fba830256c';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default async function handler(req, res) {
@@ -38,12 +40,53 @@ export default async function handler(req, res) {
     return;
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    res.status(200).json({ ok: false, reason: 'not-configured' });
+  const ghlOk = await postToGhl(name, email, source);
+  if (ghlOk) {
+    res.status(200).json({ ok: true, via: 'ghl' });
     return;
   }
 
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    res.status(200).json({ ok: false });
+    return;
+  }
+
+  const resendOk = await runResendFallback(name, email, apiKey);
+  if (resendOk) {
+    res.status(200).json({ ok: true, via: 'resend-fallback' });
+    return;
+  }
+
+  res.status(200).json({ ok: false });
+}
+
+async function postToGhl(name, email, source) {
+  const webhookUrl = process.env.GHL_WEBHOOK_URL || DEFAULT_GHL_WEBHOOK_URL;
+
+  try {
+    const ghlRes = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({ name, email, source })
+    });
+
+    if (!ghlRes.ok) {
+      const text = await ghlRes.text().catch(() => '');
+      console.error('GHL webhook error', ghlRes.status, text);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error('GHL webhook fetch failed', err);
+    return false;
+  }
+}
+
+async function runResendFallback(name, email, apiKey) {
   const audienceId = process.env.RESEND_AUDIENCE_ID;
   const from = process.env.RESEND_FROM || DEFAULT_FROM;
 
@@ -90,14 +133,13 @@ export default async function handler(req, res) {
     if (!emailRes.ok) {
       const text = await emailRes.text().catch(() => '');
       console.error('Resend send-email error', emailRes.status, text);
-      res.status(200).json({ ok: false });
-      return;
+      return false;
     }
 
-    res.status(200).json({ ok: true });
+    return true;
   } catch (err) {
     console.error('Resend send-email fetch failed', err);
-    res.status(200).json({ ok: false });
+    return false;
   }
 }
 
