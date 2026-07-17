@@ -35,7 +35,10 @@ Supporting files: `support.js` (shared page-runtime logic), `cg-api.js`
 GoHighLevel — primary path is a direct Contacts API upsert, falling back to
 the GHL inbound webhook, then to Resend, if earlier steps are unconfigured or
 fail), `api/_welcome-email.js` (the embedded welcome-email HTML template used
-by the Resend fallback path in `api/subscribe.js`).
+by the Resend fallback path in `api/subscribe.js`), `api/track.js` (funnel
+conversion tracking — tags a GHL contact `clicked-enroll` when a visitor
+clicks an enroll CTA on `join-the-club.html`, via the same GHL Contacts API
+upsert; requires `GHL_API_TOKEN` + `GHL_LOCATION_ID`).
 
 ## Deploy on Vercel
 
