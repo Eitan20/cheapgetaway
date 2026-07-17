@@ -45,6 +45,6 @@ as the old flights "Ask AI" bar) and searches stays.
 - [x] **4.3 Legal copy sweep** (developer): terms.html + privacy.html drop
   flight wording (hotels/packages only); repo-wide grep confirms no live-page
   flight references remain outside docs/.
-- [ ] **4.4 Verify + merge** (orchestrator): serve locally, check both hero
+- [x] **4.4 Verify + merge** (orchestrator): serve locally, check both hero
   modes, AI search navigates to /search-results, no console errors; commit +
   push to main.
