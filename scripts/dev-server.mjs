@@ -21,6 +21,7 @@ const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; cha
   '.svg': 'image/svg+xml', '.ico': 'image/x-icon', '.woff2': 'font/woff2' };
 
 const { default: liteapiHandler } = await import(pathToFileURL(join(ROOT, 'api', 'liteapi.js')).href);
+const { default: bookingEmailHandler } = await import(pathToFileURL(join(ROOT, 'api', 'booking-email.js')).href);
 
 function makeRes(res) {
   const api = {
@@ -44,6 +45,13 @@ const server = createServer(async (req, res) => {
     query.path = rest;
     req.query = query;
     try { await liteapiHandler(req, makeRes(res)); }
+    catch (err) { res.statusCode = 500; res.end(JSON.stringify({ error: 'handler threw', detail: String(err) })); }
+    return;
+  }
+
+  // /api/booking-email -> real exported handler (Node req/res, no rewrite needed).
+  if (pathname === '/api/booking-email') {
+    try { await bookingEmailHandler(req, makeRes(res)); }
     catch (err) { res.statusCode = 500; res.end(JSON.stringify({ error: 'handler threw', detail: String(err) })); }
     return;
   }
