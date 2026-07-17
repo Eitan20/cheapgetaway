@@ -29,3 +29,22 @@ Source folder: `/Users/neriksbeast/Documents/Travorium membership landing page (
 - [x] **2.1 End-to-end verification** (orchestrator with Playwright, after all above)
   - Serve drop folder locally, drive: hotel flow, flight flow, optin → registration-confirmed → webinarwiz href with name, my-trips, all nav links.
   - Review diffs against spec; fix-ups delegated back to developer (or senior-engineer if subtle).
+
+## Phase 4 — Flights removal (2026-07-17)
+
+Goal: stays-only live site. Archive all flights work (do not delete); hero mode
+toggle becomes Stays / AI, where AI shows the existing AI search bar (same look
+as the old flights "Ask AI" bar) and searches stays.
+
+- [x] **4.1 Archive flight pages + asset** (developer)
+  - `git mv flight-results.html flight-checkout.html docs/archive/flights/`
+  - `git mv assets/hero-flights.webp docs/archive/flights/`
+  - Save the flights markup/JS removed from `index.html` in 4.2 to
+    `docs/archive/flights/index-flights-sections.html` with a header comment.
+- [x] **4.2 index.html: flights → AI mode** (developer, details in task prompt)
+- [x] **4.3 Legal copy sweep** (developer): terms.html + privacy.html drop
+  flight wording (hotels/packages only); repo-wide grep confirms no live-page
+  flight references remain outside docs/.
+- [ ] **4.4 Verify + merge** (orchestrator): serve locally, check both hero
+  modes, AI search navigates to /search-results, no console errors; commit +
+  push to main.

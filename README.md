@@ -1,6 +1,6 @@
 # team-cheapgetaway
 
-Cheapgetaway is a travel-deals marketing site (hotel/flight search, checkout,
+Cheapgetaway is a travel-deals marketing site (hotel search, checkout,
 trips) paired with the Travorium membership webinar funnel. The deployable
 site lives at the repository root — a
 static HTML site with one small Vercel serverless function that proxies
@@ -12,15 +12,13 @@ All pages live at the repository root.
 
 | Page | Purpose |
 |---|---|
-| `index.html` | Site entry — main hotel/flight search hub |
+| `index.html` | Site entry — main hotel search hub |
 | `search-results.html` | Hotel search results |
 | `hotel-detail.html` | Hotel detail — rooms/rates, prebook |
 | `checkout.html` | Hotel booking checkout (stops at prebook, see limitation below) |
 | `booking-confirmed.html` | Hotel booking confirmation |
 | `my-trips.html` | Signed-in user's saved/booked trips |
 | `sign-in.html` | Sign in / create account |
-| `flight-results.html` | Flight search results |
-| `flight-checkout.html` | Flight booking checkout |
 | `registration-confirmed.html` | Webinar registration confirmation → WebinarWiz join link |
 | `join-the-club.html` | Post-webinar Travorium membership landing page |
 | `webinar-optin.html` | Webinar opt-in (general "Join the club" funnel) |
@@ -113,9 +111,6 @@ client-shippable code.
 
 ## Known limitations
 
-- **Flights API returns 403 on the production key.** liteAPI's `/flights/rates`
-  endpoint is sandbox-only for this key — flight pages fall back to demo data
-  until liteAPI enables production flights access on the account.
 - **Checkout stops at prebook.** `POST /rates/book` is intentionally not
   called from checkout — completing a real booking requires payment
   processing that isn't wired up yet. This is a documented TODO, not a bug.

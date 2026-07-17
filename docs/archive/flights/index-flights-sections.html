@@ -1,0 +1,323 @@
+<!--
+  Archived flights sections removed from /index.html on 2026-07-17
+  when the live site went stays-only (Phase 4 — Flights removal).
+  Kept for reference only; not wired into any live page.
+-->
+
+<!-- ===== Markup removed from index.html ===== -->
+
+<!-- Hero flights background overlay (was ~lines 86-88) -->
+  <sc-if value="{{ flightsMode }}" hint-placeholder-val="">
+    <div style="position:absolute;inset:0;border-radius:40px;background-image:linear-gradient(rgba(15,23,42,0.35), rgba(15,23,42,0.35)), url('assets/hero-flights.webp');background-size:cover;background-position:center;"></div>
+  </sc-if>
+
+<!-- "Flights" mode chip button (was ~lines 100-103), replaced by the AI chip -->
+          <button class="cg-mode-btn" onClick="{{ setModeFlights }}" style="display:flex;align-items:center;gap:8px;border:none;cursor:pointer;padding:9px 20px;border-radius:999px;font-weight:800;font-size:14.5px;background:{{ flightsChipBg }};color:{{ flightsChipColor }};">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"></path></svg>
+            Flights
+          </button>
+
+<!-- Ask AI / Close toggle pill inside flights mode (was ~lines 107-117) -->
+      <sc-if value="{{ flightsMode }}" hint-placeholder-val="">
+        <div style="width:100%;display:flex;justify-content:flex-end;margin-bottom:-8px;">
+          <button onClick="{{ toggleFlightsAi }}" style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:6px 14px;border-radius:999px;font-weight:800;font-size:12px;color:#0e1556;border:1.5px solid transparent;background:linear-gradient(#fff,#fff) padding-box, linear-gradient(100deg,#ff6500,#38b6ff) border-box;box-shadow:0 3px 10px rgba(56,182,255,0.25);transition:transform .2s, box-shadow .2s;" style-hover="transform:translateY(-1px);box-shadow:0 5px 14px rgba(56,182,255,0.35);">
+            <sc-if value="{{ flightsAi }}" hint-placeholder-val=""><span style="background:linear-gradient(100deg,#ff6500,#38b6ff);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900;">✕ Close</span></sc-if>
+            <sc-if value="{{ flightsAiOff }}" hint-placeholder-val="{{ true }}">
+              <svg width="12" height="12" viewBox="0 0 24 24"><defs><linearGradient id="cg-ai-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ff6500"></stop><stop offset="100%" stop-color="#38b6ff"></stop></linearGradient></defs><path fill="url(#cg-ai-grad)" d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"></path><path fill="url(#cg-ai-grad)" d="M19 14l0.9 3.1L23 18l-3.1 0.9L19 22l-0.9-3.1L15 18l3.1-0.9L19 14z" opacity="0.85"></path></svg>
+              <span style="background:linear-gradient(100deg,#ff6500,#38b6ff);-webkit-background-clip:text;background-clip:text;color:transparent;">Ask AI</span>
+            </sc-if>
+          </button>
+        </div>
+      </sc-if>
+
+<!-- Flights AI search bar (was ~lines 119-127) — note: the markup/styling of this bar
+     was reused as-is for the new stays AI search bar, just re-targeted (id, copy, handler). -->
+      <sc-if value="{{ flightsAiMode }}" hint-placeholder-val="">
+        <div class="cg-ai-bar" style="background:#fff;border-radius:999px;box-shadow:0 24px 64px rgba(14,21,86,0.22);padding:8px;display:flex;align-items:center;gap:10px;">
+          <div class="cg-ai-input-wrap" style="flex:1;display:flex;align-items:center;gap:12px;border:2px solid #38b6ff;border-radius:999px;padding:6px 8px 6px 20px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#ff6500" style="flex-shrink:0;"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"></path></svg>
+            <input id="cg-fly-ai" type="text" placeholder="e.g. Flights from London to Barcelona next weekend" style="flex:1;border:none;background:transparent;font-size:16px;font-weight:700;color:#0b0f1f;min-height:44px;">
+          </div>
+          <button class="cg-ai-btn" onClick="{{ doFlightAiSearch }}" style="background:#ff6500;color:#fff;border:none;cursor:pointer;font-weight:900;font-size:15px;padding:15px 28px;border-radius:999px;flex-shrink:0;" style-hover="background:#e65a00;">Find flights</button>
+        </div>
+      </sc-if>
+
+<!-- Flights form block: trip chips, From/To/swap, dates, passengers/cabin, search button (was ~lines 129-244) -->
+      <sc-if value="{{ flightsFormMode }}" hint-placeholder-val="">
+        <div style="background:#fff;border-radius:32px;box-shadow:0 24px 64px rgba(14,21,86,0.22);padding:16px;display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <button onClick="{{ setTripRound }}" style="display:flex;align-items:center;gap:8px;border:1.5px solid {{ roundChipBorder }};background:{{ roundChipBg }};color:{{ roundChipColor }};font-weight:800;font-size:13.5px;padding:9px 18px;border-radius:999px;cursor:pointer;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><polyline points="21 3 21 8 16 8"></polyline><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path><polyline points="3 21 3 16 8 16"></polyline></svg>
+              Round trip
+            </button>
+            <button onClick="{{ setTripOneway }}" style="display:flex;align-items:center;gap:8px;border:1.5px solid {{ onewayChipBorder }};background:{{ onewayChipBg }};color:{{ onewayChipColor }};font-weight:800;font-size:13.5px;padding:9px 18px;border-radius:999px;cursor:pointer;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="4" y1="12" x2="20" y2="12"></line><polyline points="14 6 20 12 14 18"></polyline></svg>
+              One way
+            </button>
+            <span style="width:1.5px;height:24px;background:rgba(14,21,86,0.12);margin:0 4px;"></span>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:800;color:#52586b;cursor:pointer;"><input id="cg-nonstop" type="checkbox" style="width:17px;height:17px;accent-color:#38b6ff;">Non-stop only</label>
+          </div>
+          <div style="display:flex;align-items:stretch;gap:10px;flex-wrap:wrap;">
+            <div class="cg-fly-row" style="flex:1 1 100%;display:flex;align-items:stretch;border:1.5px solid rgba(14,21,86,0.12);border-radius:999px;padding:4px;">
+              <div data-cg-pop="" style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:10px 16px;text-align:left;">
+                <label style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">From</label>
+                <input id="cg-fly-from" type="text" placeholder="New York (JFK)" autocomplete="off" onFocus="{{ closePax }}" onInput="{{ onFlyFromInput }}" style="border:none;width:100%;font-size:14.5px;font-weight:700;color:#0b0f1f;background:transparent;">
+                <sc-if value="{{ hasFlyFromSugs }}" hint-placeholder-val="">
+                  <div style="position:absolute;top:calc(100% + 18px);left:0;z-index:60;width:300px;background:#fff;border-radius:18px;box-shadow:0 24px 64px rgba(11,15,31,0.3);padding:8px;display:flex;flex-direction:column;text-align:left;">
+                    <sc-for list="{{ flyFromSugs }}" as="s" hint-placeholder-count="4">
+                      <button onClick="{{ s.pick }}" style="display:flex;align-items:center;gap:11px;border:none;background:transparent;cursor:pointer;padding:10px 14px;border-radius:12px;text-align:left;width:100%;" style-hover="background:#f6f7fb;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="#52586b" style="flex-shrink:0;"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"></path></svg>
+                        <span style="display:flex;flex-direction:column;min-width:0;"><strong style="font-size:14px;color:#0b0f1f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ s.label }}</strong><span style="font-size:12px;color:#52586b;font-weight:600;">{{ s.sub }}</span></span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              <button class="cg-fly-swap" onClick="{{ swapAirports }}" aria-label="Swap" style="align-self:center;flex-shrink:0;width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.14);background:#fff;color:#0e1556;cursor:pointer;display:flex;align-items:center;justify-content:center;" style-hover="border-color:#38b6ff;color:#38b6ff;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 4 21 8 17 12"></polyline><line x1="21" y1="8" x2="7" y2="8"></line><polyline points="7 12 3 16 7 20"></polyline><line x1="3" y1="16" x2="17" y2="16"></line></svg>
+              </button>
+              <div data-cg-pop="" style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:10px 16px;text-align:left;border-right:1.5px solid rgba(14,21,86,0.1);">
+                <label style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">To</label>
+                <input id="cg-fly-to" type="text" placeholder="Miami (MIA)" autocomplete="off" onFocus="{{ closePax }}" onInput="{{ onFlyToInput }}" style="border:none;width:100%;font-size:14.5px;font-weight:700;color:#0b0f1f;background:transparent;">
+                <sc-if value="{{ hasFlyToSugs }}" hint-placeholder-val="">
+                  <div style="position:absolute;top:calc(100% + 18px);left:0;z-index:60;width:300px;background:#fff;border-radius:18px;box-shadow:0 24px 64px rgba(11,15,31,0.3);padding:8px;display:flex;flex-direction:column;text-align:left;">
+                    <sc-for list="{{ flyToSugs }}" as="s" hint-placeholder-count="4">
+                      <button onClick="{{ s.pick }}" style="display:flex;align-items:center;gap:11px;border:none;background:transparent;cursor:pointer;padding:10px 14px;border-radius:12px;text-align:left;width:100%;" style-hover="background:#f6f7fb;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="#52586b" style="flex-shrink:0;"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"></path></svg>
+                        <span style="display:flex;flex-direction:column;min-width:0;"><strong style="font-size:14px;color:#0b0f1f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ s.label }}</strong><span style="font-size:12px;color:#52586b;font-weight:600;">{{ s.sub }}</span></span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              <div data-cg-pop="" style="position:relative;flex:1;min-width:150px;display:flex;flex-direction:column;justify-content:center;border-right:1.5px solid rgba(14,21,86,0.1);">
+                <button onClick="{{ toggleFlyDates }}" style="border:none;background:transparent;cursor:pointer;display:flex;flex-direction:column;gap:2px;padding:10px 16px;text-align:left;width:100%;">
+                  <span style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">{{ flyDatesTitle }}</span>
+                  <span style="font-size:13.5px;font-weight:700;color:#0b0f1f;white-space:nowrap;">{{ flyDatesLabel }}</span>
+                </button>
+                <sc-if value="{{ flyDatesOpen }}" hint-placeholder-val="">
+                  <div style="position:absolute;top:calc(100% + 18px);left:0;z-index:60;width:320px;background:#fff;border-radius:22px;box-shadow:0 24px 64px rgba(11,15,31,0.3);padding:22px;display:flex;flex-direction:column;gap:14px;text-align:left;">
+                    <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Depart
+                      <input type="date" defaultValue="{{ flyDepartVal }}" onChange="{{ setFlyDepart }}" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:11px 14px;font-size:14.5px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+                    </label>
+                    <sc-if value="{{ roundTrip }}" hint-placeholder-val="{{ true }}">
+                      <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Return
+                        <input type="date" defaultValue="{{ flyReturnVal }}" onChange="{{ setFlyReturn }}" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:11px 14px;font-size:14.5px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+                      </label>
+                    </sc-if>
+                    <button onClick="{{ toggleFlyDates }}" style="align-self:flex-end;background:#0e1556;color:#fff;border:none;cursor:pointer;font-weight:800;font-size:13.5px;padding:10px 24px;border-radius:999px;" style-hover="background:#1a2470;">Done</button>
+                  </div>
+                </sc-if>
+              </div>
+              <div data-cg-pop="" style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;">
+                <button onClick="{{ togglePax }}" style="border:none;background:transparent;cursor:pointer;display:flex;flex-direction:column;gap:2px;padding:10px 16px;text-align:left;width:100%;">
+                  <span style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;white-space:nowrap;">Passengers</span>
+                  <span style="font-size:13.5px;font-weight:700;color:#0b0f1f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;">{{ paxSummary }}</span>
+                </button>
+                <sc-if value="{{ paxOpen }}" hint-placeholder-val="">
+                  <div style="position:absolute;top:calc(100% + 14px);right:0;z-index:60;width:340px;background:#fff;border-radius:24px;box-shadow:0 24px 64px rgba(11,15,31,0.3);padding:24px;display:flex;flex-direction:column;gap:16px;text-align:left;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                      <span style="font-size:16px;font-weight:900;color:#0b0f1f;">Adults</span>
+                      <span style="display:flex;align-items:center;gap:12px;">
+                        <button onClick="{{ adultsMinus }}" style="width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.15);background:#fff;color:#52586b;font-size:17px;font-weight:800;cursor:pointer;" style-hover="border-color:#38b6ff;color:#38b6ff;">−</button>
+                        <span style="min-width:20px;text-align:center;font-size:16px;font-weight:900;color:#0b0f1f;">{{ adults }}</span>
+                        <button onClick="{{ adultsPlus }}" style="width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.15);background:#fff;color:#52586b;font-size:17px;font-weight:800;cursor:pointer;" style-hover="border-color:#38b6ff;color:#38b6ff;">+</button>
+                      </span>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                      <span style="font-size:16px;font-weight:900;color:#0b0f1f;">Children <span style="font-weight:600;color:#52586b;font-size:14px;">Ages 2-11</span></span>
+                      <span style="display:flex;align-items:center;gap:12px;">
+                        <button onClick="{{ childrenMinus }}" style="width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.15);background:#fff;color:#52586b;font-size:17px;font-weight:800;cursor:pointer;" style-hover="border-color:#38b6ff;color:#38b6ff;">−</button>
+                        <span style="min-width:20px;text-align:center;font-size:16px;font-weight:900;color:#0b0f1f;">{{ childrenCount }}</span>
+                        <button onClick="{{ childrenPlus }}" style="width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.15);background:#fff;color:#52586b;font-size:17px;font-weight:800;cursor:pointer;" style-hover="border-color:#38b6ff;color:#38b6ff;">+</button>
+                      </span>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                      <span style="font-size:16px;font-weight:900;color:#0b0f1f;">Infants <span style="font-weight:600;color:#52586b;font-size:14px;">Under 2</span></span>
+                      <span style="display:flex;align-items:center;gap:12px;">
+                        <button onClick="{{ infantsMinus }}" style="width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.15);background:#fff;color:#52586b;font-size:17px;font-weight:800;cursor:pointer;" style-hover="border-color:#38b6ff;color:#38b6ff;">−</button>
+                        <span style="min-width:20px;text-align:center;font-size:16px;font-weight:900;color:#0b0f1f;">{{ infants }}</span>
+                        <button onClick="{{ infantsPlus }}" style="width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.15);background:#fff;color:#52586b;font-size:17px;font-weight:800;cursor:pointer;" style-hover="border-color:#38b6ff;color:#38b6ff;">+</button>
+                      </span>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:10px;">
+                      <span style="font-size:14px;font-weight:900;color:#0b0f1f;">Cabin class</span>
+                      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <sc-for list="{{ cabinChips }}" as="c" hint-placeholder-count="4">
+                          <button onClick="{{ c.pick }}" style="border:1.5px solid {{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-weight:800;font-size:13.5px;padding:9px 18px;border-radius:999px;cursor:pointer;">{{ c.label }}</button>
+                        </sc-for>
+                      </div>
+                    </div>
+                    <button onClick="{{ togglePax }}" style="align-self:flex-end;background:#0e1556;color:#fff;border:none;cursor:pointer;font-weight:800;font-size:13.5px;padding:10px 24px;border-radius:999px;" style-hover="background:#1a2470;">Done</button>
+                  </div>
+                </sc-if>
+              </div>
+              <button onClick="{{ doFlightSearch }}" aria-label="Search flights" style="flex-shrink:0;align-self:center;margin:0 8px;width:48px;height:48px;border-radius:50%;background:#38b6ff;color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(56,182,255,0.4);" style-hover="background:#2da1e6;">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+<!-- Trending destinations section (was ~lines 330-352) -->
+  <sc-if value="{{ flightsMode }}" hint-placeholder-val="">
+    <section id="trending" style="margin-top:64px;">
+      <div style="margin-bottom:22px;">
+        <h2 style="margin:0 0 6px;font-size:30px;font-weight:900;color:#0e1556;">Trending destinations</h2>
+        <p style="margin:0;color:#52586b;font-weight:600;font-size:16px;">Where everyone's flying right now — tap a card to see live fares.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;">
+        <sc-for list="{{ trendingCards }}" as="t" hint-placeholder-count="4">
+          <a href="{{ t.href }}" style="position:relative;height:340px;border-radius:20px;overflow:hidden;display:flex;align-items:flex-end;padding:20px;color:#fff;transition:transform .25s cubic-bezier(0.22,1,0.36,1);" style-hover="transform:translateY(-4px);color:#fff;">
+            {{ t.imgEl }}
+            <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(11,15,31,0.72) 0%, rgba(11,15,31,0.05) 55%);"></div>
+            <div style="position:relative;display:flex;flex-direction:column;gap:2px;">
+              <span style="font-size:13px;font-weight:700;opacity:0.85;">{{ t.kicker }}</span>
+              <h3 style="margin:0;font-size:22px;font-weight:900;">{{ t.city }}</h3>
+            </div>
+            <span style="position:absolute;right:16px;bottom:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.92);color:#0e1556;display:flex;align-items:center;justify-content:center;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="6" y1="18" x2="18" y2="6"></line><polyline points="9 6 18 6 18 15"></polyline></svg>
+            </span>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+  </sc-if>
+
+<!-- ===== JS removed from the data-dc-script Component ===== -->
+
+<!-- Original state object (flights-related keys: trip, flightsAi, paxOpen, adults, children,
+     infants, cabin, flyDatesOpen, flyDepart, flyReturn, flyFromSugs, flyToSugs) -->
+  state = { recPage: 0, mode: 'standard', trip: 'round', flightsAi: false,
+    paxOpen: false, adults: 1, children: 0, infants: 0, cabin: 'all',
+    datesOpen: false, guestsOpen: false, stayCheckin: '', stayCheckout: '', stayGuests: 2,
+    flyDatesOpen: false, flyDepart: '', flyReturn: '',
+    destSugs: [], flyFromSugs: [], flyToSugs: [], destPlaceId: '' };
+
+<!-- loadIata / airportSugs / onAirportInput methods -->
+  async loadIata() {
+    if (this._iata) return this._iata;
+    try {
+      const r = await this.apiGet('/data/iataCodes');
+      this._iata = (r.data || []).map(x => ({ code: x.code || x.iataCode || x.iata, name: x.name || x.airportName || x.city || '' })).filter(x => x.code);
+    } catch (e) { this._iata = []; }
+    return this._iata;
+  }
+  airportSugs(q, inputId, key) {
+    const ql = q.toLowerCase();
+    return (this._iata || [])
+      .filter(a => a.code.toLowerCase().startsWith(ql) || a.name.toLowerCase().includes(ql))
+      .slice(0, 6)
+      .map(a => ({ label: a.name || a.code, sub: a.code,
+        pick: () => {
+          const el = document.getElementById(inputId);
+          if (el) el.value = (a.name ? a.name + ' ' : '') + '(' + a.code + ')';
+          this.setState({ [key]: [] });
+        } }));
+  }
+  onAirportInput(inputId, key) {
+    return (e) => {
+      const q = e.currentTarget.value.trim();
+      if (q.length < 2) { this.setState({ [key]: [] }); return; }
+      this.loadIata().then(() => this.setState({ [key]: this.airportSugs(q, inputId, key) }));
+    };
+  }
+
+<!-- Original _popHandler (before flights state keys were dropped) -->
+    this._popHandler = (e) => {
+      if (e.target && e.target.closest && e.target.closest('[data-cg-pop]')) return;
+      const S = this.state;
+      if (S.paxOpen || S.datesOpen || S.guestsOpen || S.flyDatesOpen || S.destSugs.length || S.flyFromSugs.length || S.flyToSugs.length)
+        this.setState({ paxOpen: false, datesOpen: false, guestsOpen: false, flyDatesOpen: false, destSugs: [], flyFromSugs: [], flyToSugs: [] });
+    };
+    document.addEventListener('click', this._popHandler);
+
+<!-- renderVals(): flights-related entries (mode toggle, AI bar, trip/passenger/cabin state,
+     trending cards, flight search handlers) -->
+            <p style="margin:0;font-size:13px;color:#52586b;font-weight:600;">{{ deal.city }}</p>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="member-stories">
+    <div style="margin-bottom:26px;">
+      <h2 style="margin:0 0 6px;font-size:30px;font-weight:900;color:#0e1556;">Members keep the receipts</h2>
+      <p style="margin:0;color:#52586b;font-weight:600;font-size:16px;">Hundreds send in their trips — what they saved, in their own words.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
+      <div style="background:#fff;border-radius:20px;padding:26px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;gap:12px;">
+        <span style="width:fit-content;background:rgba(56,182,255,0.12);color:#0e1556;font-weight:900;font-size:15px;padding:6px 14px;border-radius:999px;">Saved $1,072</span>
+        <p style="margin:0;font-size:15px;font-weight:600;line-height:1.6;color:#0b0f1f;">"Booked the same all-inclusive my sister paid full price for in March. Four nights, oceanfront. She still brings it up."</p>
+        <span style="margin-top:auto;font-size:13px;font-weight:800;color:#52586b;">Dana R. · Cancún, 4 nights</span>
+      </div>
+      <div style="background:#fff;border-radius:20px;padding:26px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;gap:12px;">
+        <span style="width:fit-content;background:rgba(56,182,255,0.12);color:#0e1556;font-weight:900;font-size:15px;padding:6px 14px;border-radius:999px;">Saved $438</span>
+        <p style="margin:0;font-size:15px;font-weight:600;line-height:1.6;color:#0b0f1f;">"First booking paid for the membership twice over. Vegas strip hotel, weekend rate cheaper than my usual midweek one."</p>
+        <span style="margin-top:auto;font-size:13px;font-weight:800;color:#52586b;">Marcus T. · Las Vegas, 2 nights</span>
+      </div>
+      <div style="background:#fff;border-radius:20px;padding:26px;box-shadow:0 8px 24px rgba(14,21,86,0.06);display:flex;flex-direction:column;gap:12px;">
+        <span style="width:fit-content;background:rgba(255,101,0,0.12);color:#ff6500;font-weight:900;font-size:15px;padding:6px 14px;border-radius:999px;">Earns monthly</span>
+        <p style="margin:0;font-size:15px;font-weight:600;line-height:1.6;color:#0b0f1f;">"I posted one reel about our Paris trip and the savings. Eleven people joined through my link. That reel still pays me."</p>
+        <span style="margin-top:auto;font-size:13px;font-weight:800;color:#52586b;">Yulia K. · Member since 2024</span>
+      </div>
+    </div>
+    <p style="margin:14px 4px 0;font-size:12px;font-weight:600;color:#9aa0b4;">Savings and earnings are self-reported by individual members and are not typical or guaranteed.</p>
+  </section>
+
+  <section style="background:#fff;border-radius:24px;box-shadow:0 8px 24px rgba(14,21,86,0.06);padding:44px 32px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:32px;text-align:center;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+        <span style="width:56px;height:56px;border-radius:16px;background:rgba(56,182,255,0.14);color:#38b6ff;display:flex;align-items:center;justify-content:center;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15.5 14"></polyline></svg></span>
+        <h3 style="margin:0;font-size:18px;font-weight:800;color:#0e1556;">Real-time pricing</h3>
+        <p style="margin:0;color:#52586b;font-weight:600;font-size:14px;">Live rates direct from global suppliers.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+        <span style="width:56px;height:56px;border-radius:16px;background:rgba(56,182,255,0.14);color:#38b6ff;display:flex;align-items:center;justify-content:center;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z"></path><polyline points="8.5 12 11 14.5 15.5 9.5"></polyline></svg></span>
+        <h3 style="margin:0;font-size:18px;font-weight:800;color:#0e1556;">Instant confirmation</h3>
+        <p style="margin:0;color:#52586b;font-weight:600;font-size:14px;">No waiting around. Guaranteed rooms.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+        <span style="width:56px;height:56px;border-radius:16px;background:rgba(56,182,255,0.14);color:#38b6ff;display:flex;align-items:center;justify-content:center;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"></rect><line x1="2.5" y1="10" x2="21.5" y2="10"></line></svg></span>
+        <h3 style="margin:0;font-size:18px;font-weight:800;color:#0e1556;">Zero hidden fees</h3>
+        <p style="margin:0;color:#52586b;font-weight:600;font-size:14px;">What you see is exactly what you pay.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="text-align:center;padding:24px 0 0;">
+    <h2 style="margin:0 auto;font-size:clamp(30px,3.8vw,46px);font-weight:900;color:#0e1556;line-height:1.1;max-width:760px;text-wrap:balance;">Book like a member, not a tourist.</h2>
+    <p style="margin:18px auto 0;font-size:17px;font-weight:600;line-height:1.65;color:#52586b;max-width:600px;">Every crossed-out price on this page is a trip you could be taking for less. The walkthrough takes two minutes — watch it, do the math on your next trip, then decide.</p>
+    <div style="margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:12px;">
+      <a href="/webinar-optin" style="background:#ff6500;color:#fff;font-weight:900;font-size:18px;padding:16px 38px;border-radius:999px;box-shadow:0 12px 32px rgba(255,101,0,0.35);" style-hover="background:#e65a00;color:#fff;">Unlock member prices</a>
+      <span style="font-size:13px;font-weight:700;color:#9aa0b4;">2-minute signup · Cancel anytime · You join a team, not just a website</span>
+    </div>
+  </section>
+</main>
+
+<footer style="background:#0e1556;color:rgba(255,255,255,0.85);padding:52px 24px 32px;">
+  <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:36px;">
+    <div style="display:flex;flex-wrap:wrap;gap:48px;justify-content:space-between;">
+      <div style="max-width:300px;display:flex;flex-direction:column;gap:12px;">
+        <img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:34px;width:fit-content;background:#fff;border-radius:10px;padding:6px 12px;">
+        <p style="margin:0;font-size:14px;font-weight:600;line-height:1.6;color:rgba(255,255,255,0.7);">Seriously good stays at seriously low prices. Real-time rates from suppliers worldwide.</p>
+      </div>
+
+<!-- renderVals(): airport-suggestion and fly-dates bindings -->
+      onFlyFromInput: this.onAirportInput('cg-fly-from', 'flyFromSugs'),
+      onFlyToInput: this.onAirportInput('cg-fly-to', 'flyToSugs'),
+      hasFlyFromSugs: this.state.flyFromSugs.length > 0, flyFromSugs: this.state.flyFromSugs,
+      hasFlyToSugs: this.state.flyToSugs.length > 0, flyToSugs: this.state.flyToSugs,
+      toggleFlyDates: () => this.setState(s => ({ flyDatesOpen: !s.flyDatesOpen, paxOpen: false })),
+      flyDatesOpen: this.state.flyDatesOpen,
+      flyDatesTitle: this.state.trip === 'round' ? 'Depart & return' : 'Depart',
+      flyDepartVal: this.state.flyDepart || this.iso(14), flyReturnVal: this.state.flyReturn || this.iso(17),
+      setFlyDepart: (e) => this.setState({ flyDepart: e.currentTarget.value }),
+      setFlyReturn: (e) => this.setState({ flyReturn: e.currentTarget.value }),
+      flyDatesLabel: (() => {
+        const f = (s) => { try { return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(new Date(s + 'T12:00:00')); } catch (e) { return s; } };
+        const dep = f(this.state.flyDepart || this.iso(14));
+        return this.state.trip === 'round' ? dep + ' – ' + f(this.state.flyReturn || this.iso(17)) : dep;
+      })(),
