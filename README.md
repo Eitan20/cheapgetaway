@@ -2,13 +2,13 @@
 
 Cheapgetaway is a travel-deals marketing site (hotel/flight search, checkout,
 trips) paired with the Travorium membership webinar funnel. The deployable
-site lives entirely in the `Travorium-all-pages-cloudflare-drop/` folder — a
+site lives at the repository root — a
 static HTML site with one small Vercel serverless function that proxies
 liteAPI calls so the API key never ships to the browser.
 
 ## Page map
 
-All pages live at the root of `Travorium-all-pages-cloudflare-drop/`.
+All pages live at the repository root.
 
 | Page | Purpose |
 |---|---|
@@ -36,8 +36,8 @@ Supporting files: `support.js` (shared page-runtime logic), `cg-api.js`
 ## Deploy on Vercel
 
 1. Import this repo into Vercel (or run `vercel --prod` from the repo root).
-2. In the Vercel project settings, set **Root Directory** to
-   `Travorium-all-pages-cloudflare-drop`.
+2. Root Directory stays at the repo default (`.`); `vercel.json` sets
+   `"framework": null` so Vercel serves the site statically (no Next.js build).
 3. Set the environment variable `LITEAPI_KEY` (Production) to your liteAPI
    production key.
 4. Redeploy so the function picks up the env var.
@@ -58,12 +58,10 @@ client-shippable code.
 
 - **Full proxy mode** (recommended — exercises the real serverless function):
   ```
-  cd Travorium-all-pages-cloudflare-drop
   npx vercel dev
   ```
 - **Static mode** (no serverless runtime, e.g. `python3 -m http.server`):
   ```
-  cd Travorium-all-pages-cloudflare-drop
   python3 -m http.server
   ```
   In this mode `cg-api.js` detects the missing proxy (404/405) and falls back
