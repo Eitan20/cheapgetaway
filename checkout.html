@@ -417,6 +417,31 @@ class Component extends DCLogic {
       trips.unshift(trip);
       localStorage.setItem('cg_trips', JSON.stringify(trips));
       try { localStorage.removeItem('cg_pending_booking'); } catch (e) {}
+
+      try {
+        fetch('/api/booking-email', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          keepalive: true,
+          body: JSON.stringify({
+            email: g.email,
+            guestName: trip.guest,
+            hotelName: trip.hotelName,
+            address: trip.address,
+            room: trip.room,
+            board: trip.board,
+            checkin: trip.checkin,
+            checkout: trip.checkout,
+            adults: trip.adults,
+            price: trip.price,
+            currency: pending.currency || 'USD',
+            confirmation: trip.confirmation,
+            bookingId: trip.id,
+            refundable: trip.refundable
+          })
+        }).catch(() => {});
+      } catch (e) {}
+
       window.location.href = '/booking-confirmed?bid=' + encodeURIComponent(bookingId);
     } catch (e) {
       this.setState({ confirming: false, bookError: true,
