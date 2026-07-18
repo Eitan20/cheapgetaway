@@ -362,7 +362,7 @@
 class Component extends DCLogic {
   state = { loading: true, hotel: null, rates: [], reviews: [], sentiment: null, highlights: [], similar: [], demo: false,
     lightbox: false, imgIdx: 0, ratesLoading: false, askLoading: false, askAnswer: '', askQuestion: '',
-    datesOpen: false, stayCheckin: '', stayCheckout: '' };
+    datesOpen: false, stayCheckin: '', stayCheckout: '', videoFailed: false };
 
   params() {
     const p = new URLSearchParams(window.location.search);
@@ -538,6 +538,14 @@ class Component extends DCLogic {
   ]; }
 
   imgEl(src, alt, style) { return React.createElement('img', { src, alt: alt || '', style: style || { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }); }
+  videoEl(src, poster) {
+    return React.createElement('video', {
+      src, poster, autoPlay: true, muted: true, loop: true, playsInline: true, preload: 'metadata',
+      style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' },
+      onError: () => this.setState({ videoFailed: true }),
+      ref: (el) => { if (!el) return; el.muted = true; el.defaultMuted = true; const p = el.play && el.play(); if (p && p.catch) p.catch(() => {}); }
+    });
+  }
   money(m) { if (!m) return null; const a = Math.round(Number(m.amount)); const c = m.currency === 'USD' ? '$' : (m.currency || '') + ' '; return c + a.toLocaleString(); }
   fmtDate(s) { try { return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(new Date(s + 'T12:00:00')); } catch (e) { return s || ''; } }
   fmtDateFull(s) { try { return new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).format(new Date(s)); } catch (e) { return s || ''; } }
@@ -615,9 +623,11 @@ class Component extends DCLogic {
         price: p ? 'US$' + Math.round(Number(p)).toLocaleString() : '—',
         href: '/hotel-detail?hotelId=' + encodeURIComponent(x.hotelId) + '&checkin=' + P.checkin + '&checkout=' + P.checkout + '&adults=' + P.adults };
     });
+    const videoUrl = String(hotel.videoUrl || '').trim();
+    const tile0 = (videoUrl && !S.videoFailed) ? this.videoEl(videoUrl, imgs[0]) : this.imgEl(imgs[0], 'Hotel');
     return {
       ...base,
-      tile0: this.imgEl(imgs[0], 'Hotel'), tile1: this.imgEl(imgs[1]), tile2: this.imgEl(imgs[2]), tile3: this.imgEl(imgs[3]), tile4: this.imgEl(imgs[4]),
+      tile0, tile1: this.imgEl(imgs[1]), tile2: this.imgEl(imgs[2]), tile3: this.imgEl(imgs[3]), tile4: this.imgEl(imgs[4]),
       lightboxImgEl: this.imgEl(imgs[S.imgIdx % n], '', { maxWidth: '90vw', maxHeight: '74vh', borderRadius: '14px', objectFit: 'contain' }),
       lightboxCount: (S.imgIdx % n) + 1 + ' / ' + n,
       lightboxPrev: (e) => { e.stopPropagation(); this.setState(s => ({ imgIdx: (s.imgIdx - 1 + n) % n })); },
