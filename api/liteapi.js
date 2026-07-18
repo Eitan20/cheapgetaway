@@ -1,7 +1,8 @@
 // Vercel serverless function — proxies liteAPI calls so the API key stays server-side.
 // Forwards /api/liteapi/<path>?<query> -> https://api.liteapi.travel/v3.0/<path>?<query>
-// Injects X-API-Key from process.env.LITEAPI_KEY, falling back to the hardcoded prod key
-// found in the client pages so the deploy still works before the env var is set.
+// Injects X-API-Key from process.env.LITEAPI_KEY. There is no fallback key —
+// if the env var is unset, the proxy responds with a clean 503 instead of
+// forwarding requests upstream with a dead/leaked key.
 //
 // This is a flat file (not a [...path].js catch-all) because Vercel's static
 // build (framework: null) does not reliably route nested catch-all paths
@@ -15,7 +16,6 @@ const LITEAPI_BASE = 'https://api.liteapi.travel/v3.0';
 // Booking-flow endpoints live on a different host. prebook/book/bookings must
 // be routed here; everything else (data/*, hotels/*) stays on LITEAPI_BASE.
 const LITEAPI_BOOK_BASE = 'https://book.liteapi.travel/v3.0';
-const FALLBACK_KEY = 'prod_836dbd63-00e5-443a-9b49-ce47adc49202';
 const ALLOWED_METHODS = ['GET', 'POST', 'PUT'];
 
 // Paths (relative to /v3.0/) that must be sent to the booking host.
@@ -64,7 +64,7 @@ export default async function handler(req, res) {
   }
   const queryString = upstreamParams.toString() ? '?' + upstreamParams.toString() : '';
 
-  const apiKey = process.env.LITEAPI_KEY || FALLBACK_KEY;
+  const apiKey = process.env.LITEAPI_KEY;
 
   // Meta path: report which key environment is active WITHOUT ever calling
   // upstream or leaking the key itself. Used by the client to pick the
@@ -72,7 +72,14 @@ export default async function handler(req, res) {
   if (upstreamPath === '__env') {
     res.status(200);
     res.setHeader('content-type', 'application/json');
-    res.send(JSON.stringify({ env: apiKey.startsWith('sand_') ? 'sandbox' : 'live' }));
+    res.send(JSON.stringify({ env: apiKey ? (apiKey.startsWith('sand_') ? 'sandbox' : 'live') : 'unconfigured' }));
+    return;
+  }
+
+  if (!apiKey) {
+    res.status(503);
+    res.setHeader('content-type', 'application/json');
+    res.send(JSON.stringify({ error: 'liteapi-unconfigured' }));
     return;
   }
 
