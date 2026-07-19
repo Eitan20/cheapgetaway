@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
 <script src="./cg-api.js"></script>
+<script src="./cg-rates.js"></script>
 </head>
 <body>
 <x-dc>
@@ -275,7 +276,7 @@ class Component extends DCLogic {
       adults: Number(p.get('adults') || 2)
     };
   }
-  nights(P) { return Math.max(1, Math.round((new Date(P.checkout) - new Date(P.checkin)) / 86400000)); }
+  nights(P) { return cgNights(P.checkin, P.checkout); }
 
   async api(path, opts) {
     const res = await cgApiFetch(path, { ...opts,
@@ -315,7 +316,7 @@ class Component extends DCLogic {
     this.setState({ loading: true });
     try {
       const body = { checkin: P.checkin, checkout: P.checkout, occupancies: [{ adults: P.adults }],
-        currency: 'USD', guestNationality: 'US', maxRatesPerHotel: 1, includeHotelData: true, limit: 25 };
+        currency: 'USD', guestNationality: 'US', includeHotelData: true, limit: 25 };
       if (P.aiQ) body.aiSearch = P.aiQ;
       else if (P.placeId) body.placeId = P.placeId;
       else body.aiSearch = 'hotels in ' + P.q;
@@ -383,14 +384,20 @@ class Component extends DCLogic {
     const S = this.state, P = this._P || this.params(), nights = this.nights(P);
     const rows = S.results.map(x => {
       const hd = x.hotelData || {};
-      const rate = (x.roomTypes && x.roomTypes[0] && x.roomTypes[0].rates && x.roomTypes[0].rates[0]) || null;
-      const totalObj = rate && rate.retailRate && rate.retailRate.total && rate.retailRate.total[0];
-      const total = totalObj ? Number(totalObj.amount) : 0;
-      const ssp = rate && rate.retailRate && rate.retailRate.suggestedSellingPrice && rate.retailRate.suggestedSellingPrice[0];
-      const sspAmt = ssp ? Number(ssp.amount) : 0;
+      const best = cgBestRate(x);
+      const total = best ? best.total : 0;
+      const sspAmt = (best && best.ssp) || 0;
+      // Find the specific rate plan matching the chosen cheapest total, so
+      // refundability/board reflect the same rate the price is computed from.
+      const roomTypes = x.roomTypes || [];
+      let rate = null;
+      roomTypes.forEach(rt => (rt.rates || []).forEach(r => {
+        const t = r.retailRate && r.retailRate.total && r.retailRate.total[0];
+        if (t && best && Number(t.amount) === best.total) rate = r;
+      }));
       const refundable = rate && (!rate.cancellationPolicies || rate.cancellationPolicies.refundableTag !== 'NRFN');
       const board = String((rate && rate.boardName) || '').toLowerCase();
-      return { hd, total, sspAmt, refundable, perNight: total / nights, board,
+      return { hd, total, sspAmt, refundable, perNight: cgPerNight(total, nights), board,
         lat: Number(hd.latitude || hd.lat) || null, lng: Number(hd.longitude || hd.lng || hd.lon) || null,
         brand: hd.chain || hd.chain_name || '', hood: hd.district || hd.zone || hd.neighborhood || '',
         rating: Number(hd.rating) || 0, stars: Math.max(1, Math.min(5, Math.round(Number(hd.stars) || 4))),
@@ -417,7 +424,7 @@ class Component extends DCLogic {
     else if (S.sort === 'rating') f = f.slice().sort((a, b) => b.rating - a.rating);
     const cards = f.map(r => {
       const img = r.hd.main_photo || r.hd.thumbnail || (r.hd.images && r.hd.images[0] && r.hd.images[0].url) || 'assets/hotel-fallback-sm.webp';
-      const off = r.sspAmt > r.total * 1.02 ? Math.round((1 - r.total / r.sspAmt) * 100) : 0;
+      const off = r.sspAmt > r.total * CG_STRIKE ? Math.round((1 - r.total / r.sspAmt) * 100) : 0;
       return {
         name: r.name, stars: '★★★★★'.slice(0, r.stars),
         address: [r.hd.address, r.hd.city || r.hd.city_name].filter(Boolean).join(', '),
@@ -425,8 +432,8 @@ class Component extends DCLogic {
         refundable: r.refundable,
         score: r.rating ? r.rating.toFixed(1) : '—', scoreLabel: r.rating ? this.scoreWord(r.rating) : '',
         reviews: r.hd.review_count ? Number(r.hd.review_count).toLocaleString() + ' reviews' : '',
-        price: 'US$' + Math.round(r.perNight).toLocaleString(),
-        strike: r.sspAmt > r.total * 1.02 ? 'US$' + Math.round(r.sspAmt / nights).toLocaleString() : '',
+        price: cgMoney(r.perNight),
+        strike: r.sspAmt > r.total * CG_STRIKE ? cgMoney(cgPerNight(r.sspAmt, nights)) : '',
         offPct: off ? off + '%' : '',
         distLabel: r.dist != null ? r.dist.toFixed(1) + ' mi from ' + ((P.q || '').split(',')[0] || 'center') : '',
         stayNote: nights + (nights === 1 ? ' night' : ' nights') + ', 1 room, incl. taxes & fees',

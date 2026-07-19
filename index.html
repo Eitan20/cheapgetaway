@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
 <script src="./cg-api.js"></script>
+<script src="./cg-rates.js"></script>
 </head>
 <body>
 <x-dc>
@@ -555,17 +556,7 @@ class Component extends DCLogic {
     rows.forEach(x => {
       const hotelId = x.hotelId || x.id;
       if (!hotelId) return;
-      let best = null;
-      (x.roomTypes || []).forEach(rt => (rt.rates || []).forEach(r => {
-        const rr = r.retailRate || {};
-        const totalObj = rr.total && rr.total[0];
-        const amt = totalObj ? Number(totalObj.amount) : NaN;
-        if (amt && !isNaN(amt) && (!best || amt < best.total)) {
-          const sspObj = rr.suggestedSellingPrice && rr.suggestedSellingPrice[0];
-          const ssp = sspObj ? Number(sspObj.amount) : null;
-          best = { total: amt, ssp: (ssp && !isNaN(ssp)) ? ssp : null };
-        }
-      }));
+      const best = cgBestRate(x);
       if (best) map[hotelId] = best;
     });
     return map;
@@ -578,7 +569,7 @@ class Component extends DCLogic {
       const raw = sessionStorage.getItem(cacheKey);
       if (raw) {
         const cached = JSON.parse(raw);
-        if (cached && cached.ts && (Date.now() - cached.ts) < 3600000 && cached.rateMap) {
+        if (cached && cached.ts && (Date.now() - cached.ts) < 600000 && cached.rateMap) {
           this.setState({ rateMap: cached.rateMap, ratesReady: true, ratesFailed: false });
           return;
         }
@@ -603,9 +594,10 @@ class Component extends DCLogic {
   buildHotelEntry(h, checkin, checkout, rateMap) {
     const rate = rateMap[h.id];
     const hasPrice = !!rate;
-    const perNight = hasPrice ? rate.total / 2 : 0;
-    const hasStrike = hasPrice && !!rate.ssp && rate.ssp > rate.total * 1.03;
-    const sspPerNight = hasStrike ? rate.ssp / 2 : 0;
+    const nights = cgNights(checkin, checkout);
+    const perNight = hasPrice ? cgPerNight(rate.total, nights) : 0;
+    const hasStrike = hasPrice && !!rate.ssp && rate.ssp > rate.total * CG_STRIKE;
+    const sspPerNight = hasStrike ? cgPerNight(rate.ssp, nights) : 0;
     const href = '/hotel-detail?' + new URLSearchParams({ hotelId: h.id, checkin, checkout, adults: '2' }).toString();
     return { ...h, hasPrice, perNight, hasStrike, sspPerNight, href };
   }

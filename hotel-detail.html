@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
 <script src="./cg-api.js"></script>
+<script src="./cg-rates.js"></script>
 </head>
 <body>
 <x-dc>
@@ -233,8 +234,8 @@
               <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding-top:8px;">
                 <div style="display:flex;flex-direction:column;">
                   <sc-if value="{{ r.strike }}" hint-placeholder-val=""><span style="text-decoration:line-through;color:#9aa0b4;font-size:13px;font-weight:700;">{{ r.strike }}</span></sc-if>
-                  <strong style="font-size:21px;color:#0e1556;font-weight:900;">{{ r.price }}</strong>
-                  <span style="font-size:11px;color:#52586b;font-weight:600;">total for stay · incl. taxes</span>
+                  <strong style="font-size:21px;color:#0e1556;font-weight:900;">{{ r.price }}<span style="font-size:12px;font-weight:700;color:#52586b;"> / night</span></strong>
+                  <span style="font-size:11px;color:#52586b;font-weight:600;">{{ r.subLine }} · incl. taxes</span>
                 </div>
                 <a href="{{ r.href }}" class="cg-hd-reserve" style="background:#ff6500;color:#fff;font-weight:800;font-size:13.5px;padding:10px 20px;border-radius:999px;white-space:nowrap;" style-hover="background:#e65a00;color:#fff;">Reserve</a>
               </div>
@@ -441,6 +442,12 @@ class Component extends DCLogic {
     const roomTypes = (rates && rates.data && rates.data[0] && rates.data[0].roomTypes) || [];
     const flat = [];
     roomTypes.forEach(rt => (rt.rates || []).forEach(r => flat.push(r)));
+    const amt = (r) => {
+      const totalObj = r.retailRate && r.retailRate.total && r.retailRate.total[0];
+      const n = totalObj ? Number(totalObj.amount) : NaN;
+      return isNaN(n) ? Infinity : n;
+    };
+    flat.sort((a, b) => amt(a) - amt(b));
     return flat;
   }
 
@@ -593,17 +600,25 @@ class Component extends DCLogic {
     S.reviews.forEach(r => { const t = typeNames[(r.type || '').toUpperCase()]; if (t) counts[t] = (counts[t] || 0) + 1; });
     const totalTyped = Object.values(counts).reduce((a, b) => a + b, 0);
     const stayTypes = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 4).map(([name, c]) => ({ name, pct: Math.round(c / totalTyped * 100) + '%' }));
+    const nights = cgNights(P.checkin, P.checkout);
     const rateCards = S.rates.slice(0, 6).map(r => {
       const totalObj = r.retailRate && r.retailRate.total && r.retailRate.total[0];
-      const total = this.money(totalObj);
+      const totalAmt = totalObj ? Number(totalObj.amount) : NaN;
+      const currency = totalObj && totalObj.currency;
       const ssp = r.retailRate && r.retailRate.suggestedSellingPrice && r.retailRate.suggestedSellingPrice[0];
-      const strike = ssp && totalObj && Number(ssp.amount) > Number(totalObj.amount) * 1.02 ? this.money(ssp) : '';
+      const sspAmt = ssp ? Number(ssp.amount) : NaN;
+      const hasStrike = !isNaN(sspAmt) && !isNaN(totalAmt) && sspAmt > totalAmt * CG_STRIKE;
+      const price = !isNaN(totalAmt) ? cgMoney(cgPerNight(totalAmt, nights), currency) : '—';
+      const strike = hasStrike ? cgMoney(cgPerNight(sspAmt, nights), currency) : '';
+      const subLine = !isNaN(totalAmt)
+        ? cgMoney(totalAmt, currency) + ' total for ' + nights + (nights === 1 ? ' night' : ' nights')
+        : '';
       const refundable = !r.cancellationPolicies || r.cancellationPolicies.refundableTag !== 'NRFN';
-      const amt = totalObj ? Math.round(Number(totalObj.amount)) : 0;
+      const amt = !isNaN(totalAmt) ? Math.round(totalAmt) : 0;
       return { name: r.name || r.roomName || 'Room', board: r.boardName || 'Room only',
         refund: refundable ? 'Free cancellation' : 'Non-refundable',
         refundBg: refundable ? 'rgba(56,182,255,0.12)' : 'rgba(14,21,86,0.06)',
-        refundColor: refundable ? '#0e1556' : '#52586b', price: total || '—', strike,
+        refundColor: refundable ? '#0e1556' : '#52586b', price, strike, subLine,
         href: '/checkout?hotelId=' + encodeURIComponent(this._hotelId || '') +
           '&checkin=' + P.checkin + '&checkout=' + P.checkout + '&adults=' + P.adults +
           '&room=' + encodeURIComponent(r.name || r.roomName || 'Room') +
