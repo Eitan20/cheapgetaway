@@ -6,9 +6,9 @@
 <link rel="preconnect" href="https://unpkg.com" crossorigin>
 <link rel="preload" as="script" crossorigin href="https://unpkg.com/react@18.3.1/umd/react.production.min.js">
 <link rel="preload" as="script" crossorigin href="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js">
-<script src="./support.js?v=115" defer></script>
-<script src="./cg-api.js?v=115" defer></script>
-<script src="./cg-rates.js?v=115" defer></script>
+<script src="./support.js?v=116" defer></script>
+<script src="./cg-api.js?v=116" defer></script>
+<script src="./cg-rates.js?v=116" defer></script>
 </head>
 <body>
 <x-dc>
@@ -141,12 +141,18 @@ class Component extends DCLogic {
       const cancelled = t.status === 'cancelled';
       const upcoming = !cancelled && new Date(t.checkin + 'T12:00:00') > new Date();
       return {
-        imgEl: React.createElement('img', {
-          src: (typeof cgImg === 'function') ? cgImg(t.image || 'assets/hotel-fallback-sm.webp', 384) : (t.image || 'assets/hotel-fallback-sm.webp'),
-          alt: t.hotelName, loading: 'lazy', decoding: 'async',
-          onError: (e) => { const orig = t.image || 'assets/hotel-fallback-sm.webp'; if (e.target.src !== orig) { e.target.src = orig; } },
-          style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' }
-        }),
+        imgEl: React.createElement('img', (() => {
+          const tImg = t.image || 'assets/hotel-fallback-sm.webp';
+          const isAbsImg = typeof cgImg === 'function' && typeof tImg === 'string' && /^https?:\/\//i.test(tImg);
+          const p = {
+            src: (typeof cgImg === 'function') ? cgImg(tImg, 384) : tImg,
+            alt: t.hotelName, loading: 'lazy', decoding: 'async',
+            onError: (e) => { if (e.target.src !== tImg) { e.target.srcset = ''; e.target.src = tImg; } },
+            style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' }
+          };
+          if (isAbsImg) { p.srcSet = [384, 640].map(x => cgImg(tImg, x) + ' ' + x + 'w').join(', '); p.sizes = '(max-width:768px) 33vw, 150px'; }
+          return p;
+        })()),
         hotelName: t.hotelName, address: t.address || '—', confirmation: t.confirmation || t.id,
         hotelHref: '/hotel-detail?hotelId=' + encodeURIComponent(t.hotelId || ''),
         statusLabel: cancelled ? 'Cancelled' : upcoming ? 'Upcoming' : 'Completed',

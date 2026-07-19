@@ -6,9 +6,9 @@
 <link rel="preconnect" href="https://unpkg.com" crossorigin>
 <link rel="preload" as="script" crossorigin href="https://unpkg.com/react@18.3.1/umd/react.production.min.js">
 <link rel="preload" as="script" crossorigin href="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js">
-<script src="./support.js?v=115" defer></script>
-<script src="./cg-api.js?v=115" defer></script>
-<script src="./cg-rates.js?v=115" defer></script>
+<script src="./support.js?v=116" defer></script>
+<script src="./cg-api.js?v=116" defer></script>
+<script src="./cg-rates.js?v=116" defer></script>
 </head>
 <body>
 <x-dc>
@@ -594,12 +594,20 @@ class Component extends DCLogic {
   ]; }
 
   imgEl(src, alt, style, w) {
-    const proxied = (typeof cgImg === 'function') ? cgImg(src, w || 384) : src;
-    return React.createElement('img', {
+    const wBase = w || 384;
+    const isAbs = typeof cgImg === 'function' && typeof src === 'string' && /^https?:\/\//i.test(src);
+    const proxied = (typeof cgImg === 'function') ? cgImg(src, wBase) : src;
+    const props = {
       src: proxied, alt: alt || '', loading: 'lazy', decoding: 'async',
-      onError: (e) => { if (e.target.src !== src) { e.target.src = src; } },
+      onError: (e) => { if (e.target.src !== src) { e.target.srcset = ''; e.target.src = src; } },
       style: style || { width: '100%', height: '100%', objectFit: 'cover', display: 'block' }
-    });
+    };
+    if (isAbs) {
+      const widths = wBase >= 960 ? [384, 640, 960] : [384, 640];
+      props.srcSet = widths.map(x => cgImg(src, x) + ' ' + x + 'w').join(', ');
+      props.sizes = wBase >= 960 ? '(max-width:768px) 100vw, 800px' : '(max-width:768px) 25vw, 150px';
+    }
+    return React.createElement('img', props);
   }
   videoEl(src, poster) {
     const proxiedPoster = (typeof cgImg === 'function') ? cgImg(poster, 960) : poster;

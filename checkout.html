@@ -6,9 +6,9 @@
 <link rel="preconnect" href="https://unpkg.com" crossorigin>
 <link rel="preload" as="script" crossorigin href="https://unpkg.com/react@18.3.1/umd/react.production.min.js">
 <link rel="preload" as="script" crossorigin href="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js">
-<script src="./support.js?v=115" defer></script>
-<script src="./cg-api.js?v=115" defer></script>
-<script src="./cg-rates.js?v=115" defer></script>
+<script src="./support.js?v=116" defer></script>
+<script src="./cg-api.js?v=116" defer></script>
+<script src="./cg-rates.js?v=116" defer></script>
 </head>
 <body>
 <x-dc>
@@ -506,7 +506,12 @@ class Component extends DCLogic {
       sdkError: paymentPhase ? S.sdkError : '',
       onRetryPayment: () => { this._paymentInit = false; this.setState({ sdkError: '' }); },
       supportMailto: supportMailto,
-      hotelImgEl: React.createElement('img', { src: (typeof cgImg === 'function') ? cgImg(img, 384) : img, alt: hotel.name || 'Hotel', loading: 'lazy', decoding: 'async', onError: (e) => { if (e.target.src !== img) { e.target.src = img; } }, style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
+      hotelImgEl: React.createElement('img', (() => {
+        const isAbsImg = typeof cgImg === 'function' && typeof img === 'string' && /^https?:\/\//i.test(img);
+        const p = { src: (typeof cgImg === 'function') ? cgImg(img, 384) : img, alt: hotel.name || 'Hotel', loading: 'lazy', decoding: 'async', onError: (e) => { if (e.target.src !== img) { e.target.srcset = ''; e.target.src = img; } }, style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } };
+        if (isAbsImg) { p.srcSet = [384, 640].map(x => cgImg(img, x) + ' ' + x + 'w').join(', '); p.sizes = '(max-width:768px) 33vw, 150px'; }
+        return p;
+      })()),
       hotelName: hotel.name || 'Loading…', starsRow: '★★★★★'.slice(0, stars),
       addressLine: [hotel.address, hotel.city].filter(Boolean).join(', '),
       roomName: P.room, board: P.board,

@@ -6,9 +6,9 @@
 <link rel="preconnect" href="https://unpkg.com" crossorigin>
 <link rel="preload" as="script" crossorigin href="https://unpkg.com/react@18.3.1/umd/react.production.min.js">
 <link rel="preload" as="script" crossorigin href="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js">
-<script src="./support.js?v=115" defer></script>
-<script src="./cg-api.js?v=115" defer></script>
-<script src="./cg-rates.js?v=115" defer></script>
+<script src="./support.js?v=116" defer></script>
+<script src="./cg-api.js?v=116" defer></script>
+<script src="./cg-rates.js?v=116" defer></script>
 </head>
 <body>
 <x-dc>
@@ -458,12 +458,15 @@ class Component extends DCLogic {
     else if (S.sort === 'rating') f = f.slice().sort((a, b) => b.rating - a.rating);
     const cards = f.map(r => {
       const img = r.hd.main_photo || r.hd.thumbnail || (r.hd.images && r.hd.images[0] && r.hd.images[0].url) || 'assets/hotel-fallback-sm.webp';
+      const isAbsImg = typeof cgImg === 'function' && typeof img === 'string' && /^https?:\/\//i.test(img);
       const proxiedImg = (typeof cgImg === 'function') ? cgImg(img, 640) : img;
+      const imgProps = { src: proxiedImg, alt: r.name, loading: 'lazy', decoding: 'async', onError: (e) => { if (e.target.src !== img) { e.target.srcset = ''; e.target.src = img; } }, style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } };
+      if (isAbsImg) { imgProps.srcSet = [384, 640].map(x => cgImg(img, x) + ' ' + x + 'w').join(', '); imgProps.sizes = '(max-width:480px) 100vw, 240px'; }
       const off = r.sspAmt > r.total * CG_STRIKE ? Math.round((1 - r.total / r.sspAmt) * 100) : 0;
       return {
         name: r.name, stars: '★★★★★'.slice(0, r.stars),
         address: [r.hd.address, r.hd.city || r.hd.city_name].filter(Boolean).join(', '),
-        imgEl: React.createElement('img', { src: proxiedImg, alt: r.name, loading: 'lazy', decoding: 'async', onError: (e) => { if (e.target.src !== img) { e.target.src = img; } }, style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
+        imgEl: React.createElement('img', imgProps),
         refundable: r.refundable,
         score: r.rating ? r.rating.toFixed(1) : '—', scoreLabel: r.rating ? this.scoreWord(r.rating) : '',
         reviews: r.hd.review_count ? Number(r.hd.review_count).toLocaleString() + ' reviews' : '',

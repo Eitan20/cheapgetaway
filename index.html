@@ -7,9 +7,9 @@
 <link rel="preconnect" href="https://unpkg.com" crossorigin>
 <link rel="preload" as="script" crossorigin href="https://unpkg.com/react@18.3.1/umd/react.production.min.js">
 <link rel="preload" as="script" crossorigin href="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js">
-<script src="./support.js?v=115" defer></script>
-<script src="./cg-api.js?v=115" defer></script>
-<script src="./cg-rates.js?v=115" defer></script>
+<script src="./support.js?v=116" defer></script>
+<script src="./cg-api.js?v=116" defer></script>
+<script src="./cg-rates.js?v=116" defer></script>
 </head>
 <body>
 <x-dc>
@@ -67,7 +67,7 @@
 
 <nav style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);">
   <div class="cg-nav-row" style="max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
-    <a href="/" style="display:flex;align-items:center;"><img id="cg-nav-logo" src="assets/cg-logo.png" alt="cheapgetaway.com" width="2000" height="500" style="height:54px; width:auto;display:block;transition:height .25s ease;"></a>
+    <a href="/" style="display:flex;align-items:center;">{{ navLogoImgEl }}</a>
     <div class="cg-nav-links" style="display:flex;align-items:center;gap:28px;font-weight:700;font-size:15px;">
       <a href="#deals" style="color:#0e1556;" style-hover="color:#38b6ff;">Deals</a>
       <a href="#weekend" style="color:#0e1556;" style-hover="color:#38b6ff;">Weekend</a>
@@ -285,22 +285,22 @@
     </div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:220px 220px;gap:18px;">
       <a href="/search-results?ai=Beachfront%20resorts%20in%20Miami%20with%20pools" style="grid-column:span 2;grid-row:span 2;position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
-        <img src="assets/featured-beach.webp" alt="Turquoise ocean water and white sand beach lined with palm trees" width="900" height="1116" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+        {{ featuredBeachImgEl }}
         <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(11,15,31,0.72) 0%, rgba(11,15,31,0) 55%);"></div>
         <div style="position:absolute;left:22px;bottom:20px;color:#fff;"><h3 style="margin:0;font-size:24px;font-weight:900;">Beach Escapes</h3><p style="margin:2px 0 0;font-weight:600;opacity:0.9;">Sun, sand, and savings</p></div>
       </a>
       <a href="/search-results?ai=Top-rated%20hotels%20near%20Times%20Square%20New%20York" style="grid-column:span 2;position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
-        <img src="assets/featured-roadtrip.webp" alt="City skyline lit up at night with busy downtown streets" width="1200" height="800" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+        {{ featuredRoadtripImgEl }}
         <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(11,15,31,0.72) 0%, rgba(11,15,31,0) 55%);"></div>
         <div style="position:absolute;left:22px;bottom:20px;color:#fff;"><h3 style="margin:0;font-size:22px;font-weight:900;">City Breaks</h3><p style="margin:2px 0 0;font-weight:600;opacity:0.9;">Neon lights and late nights</p></div>
       </a>
       <a href="/search-results?ai=Mountain%20cabin%20resorts%20near%20Denver%20Colorado" style="position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
-        <img src="assets/featured-mountain.webp" alt="Snow-capped mountain cabin with a wood-burning fireplace" width="1200" height="800" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+        {{ featuredMountainImgEl }}
         <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(11,15,31,0.72) 0%, rgba(11,15,31,0) 55%);"></div>
         <div style="position:absolute;left:18px;bottom:16px;color:#fff;"><h3 style="margin:0;font-size:18px;font-weight:900;">Mountain Retreats</h3><p style="margin:2px 0 0;font-weight:600;font-size:13px;opacity:0.9;">Cabins and cozy fireplaces</p></div>
       </a>
       <a href="/search-results?ai=Desert%20resorts%20with%20pools%20in%20Scottsdale%20Arizona" style="position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
-        <img src="assets/featured-forest.webp" alt="Desert resort pool surrounded by palm trees at sunset" width="1200" height="795" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+        {{ featuredForestImgEl }}
         <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(11,15,31,0.72) 0%, rgba(11,15,31,0) 55%);"></div>
         <div style="position:absolute;left:18px;bottom:16px;color:#fff;"><h3 style="margin:0;font-size:18px;font-weight:900;">Desert Vibes</h3><p style="margin:2px 0 0;font-weight:600;font-size:13px;opacity:0.9;">Oasis luxury</p></div>
       </a>
@@ -462,7 +462,7 @@
   <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:36px;">
     <div style="display:flex;flex-wrap:wrap;gap:48px;justify-content:space-between;">
       <div style="max-width:300px;display:flex;flex-direction:column;gap:12px;">
-        <img src="assets/cg-logo.png" alt="cheapgetaway.com" width="2000" height="500" style="height:34px;width:fit-content;background:#fff;border-radius:10px;padding:6px 12px;">
+        {{ footerLogoImgEl }}
         <p style="margin:0;font-size:14px;font-weight:600;line-height:1.6;color:rgba(255,255,255,0.7);">Seriously good stays at seriously low prices. Real-time rates from suppliers worldwide.</p>
       </div>
       <div style="display:flex;gap:64px;flex-wrap:wrap;">
@@ -583,12 +583,53 @@ class Component extends DCLogic {
   step(k, d, min, max) { return () => this.setState(s => ({ [k]: Math.max(min, Math.min(max, s[k] + d)) })); }
   iso(offsetDays) { const d = new Date(); d.setDate(d.getDate() + offsetDays); return d.toISOString().split('T')[0]; }
   imgEl(src, alt, abs, w) {
-    const proxied = (typeof cgImg === 'function') ? cgImg(src, w || 640) : src;
-    return React.createElement('img', {
+    const wBase = w || 640;
+    const isAbs = typeof cgImg === 'function' && typeof src === 'string' && /^https?:\/\//i.test(src);
+    const proxied = (typeof cgImg === 'function') ? cgImg(src, wBase) : src;
+    const props = {
       src: proxied, alt: alt || '', loading: 'lazy',
-      onError: (e) => { if (e.target.src !== src) { e.target.src = src; } },
+      onError: (e) => { if (e.target.src !== src) { e.target.srcset = ''; e.target.src = src; } },
       style: abs ? { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' } : { width: '100%', height: '100%', objectFit: 'cover', display: 'block' }
-    });
+    };
+    if (isAbs) {
+      const widths = wBase >= 960 ? [384, 640, 960] : [384, 640];
+      props.srcSet = widths.map(x => cgImg(src, x) + ' ' + x + 'w').join(', ');
+      props.sizes = '(max-width:768px) 100vw, 300px';
+    }
+    return React.createElement('img', props);
+  }
+  // staticImgEl: for local /assets/<name> static images rendered via JS
+  // (e.g. vibeCards, the featured-collections grid, and the nav/footer
+  // logo). Unlike imgEl/cgImg (dynamic http(s) hotel photos only), this
+  // always proxies through /_vercel/image since the source is always a
+  // same-origin static file, with graceful onerror fallback to the
+  // original unproxied asset (dev server has no /_vercel/image). NOTE:
+  // these images must be rendered through this JS path, NOT written as
+  // literal <img onerror="..."> markup in the x-dc template body — the
+  // dc-runtime maps the HTML `onerror` attribute straight to a React
+  // `onError` prop but leaves its value as the raw string, which throws
+  // (React error #231: onError must be a function) the next time this
+  // component re-renders.
+  staticImgEl(name, alt, opts) {
+    opts = opts || {};
+    const widths = opts.widths || [640];
+    const base = widths.indexOf(640) !== -1 ? 640 : widths[widths.length - 1];
+    const original = 'assets/' + name;
+    const mk = (w) => '/_vercel/image?url=' + encodeURIComponent('/assets/' + name) + '&w=' + w + '&q=70';
+    const props = {
+      src: mk(base), alt: alt || '', loading: opts.loading || 'lazy',
+      onError: (e) => { if (e.target.src !== original) { e.target.srcset = ''; e.target.src = original; } },
+      style: opts.style || { width: '100%', height: '100%', objectFit: 'cover', display: 'block' }
+    };
+    if (opts.decoding) props.decoding = opts.decoding;
+    if (opts.width) props.width = opts.width;
+    if (opts.height) props.height = opts.height;
+    if (opts.id) props.id = opts.id;
+    if (widths.length > 1) {
+      props.srcSet = widths.map(w => mk(w) + ' ' + w + 'w').join(', ');
+      props.sizes = opts.sizes || '100vw';
+    }
+    return React.createElement('img', props);
   }
   label(s) { return s >= 9.5 ? "Exceptional" : s >= 9 ? "Wonderful" : s >= 8.5 ? "Excellent" : "Very good"; }
   nextWeekendDates() {
@@ -746,7 +787,10 @@ class Component extends DCLogic {
 
     const std = mode === 'standard';
     const ai = mode === 'ai';
-    const withImg = (arr, abs) => arr.map(x => ({ ...x, imgEl: this.imgEl(x.image, x.name || x.title, abs) }));
+    const withImg = (arr, abs) => arr.map(x => ({ ...x, imgEl: this.staticImgEl(x.image, x.name || x.title, {
+      widths: [384, 640], sizes: '(max-width:768px) 50vw, 300px',
+      style: abs ? { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' } : { width: '100%', height: '100%', objectFit: 'cover', display: 'block' }
+    }) }));
     return {
       staysMode: std, aiMode: ai, recsMode: std || ai,
       heroTitle: 'Same Stays. Better Prices.',
@@ -823,12 +867,36 @@ class Component extends DCLogic {
       searchPlaceholder: 'City or airport',
       topDeals,
       vibeCards: withImg([
-        { title: "Romantic Getaway", image: "assets/vibe-beach.webp", href: "/search-results?ai=" + encodeURIComponent("Romantic adults-only resorts in Cancun") },
-        { title: "Weekend Party", image: "assets/vibe-nightlife.webp", href: "/search-results?ai=" + encodeURIComponent("Hotels near the Las Vegas Strip nightlife") },
-        { title: "Family Friendly", image: "assets/vibe-hiking.webp", href: "/search-results?ai=" + encodeURIComponent("Family friendly resorts in Orlando with pools") },
-        { title: "Quiet Luxury", image: "assets/vibe-staycation.webp", href: "/search-results?ai=" + encodeURIComponent("Quiet luxury boutique hotels in Santa Barbara") }
+        { title: "Romantic Getaway", image: "vibe-beach.webp", href: "/search-results?ai=" + encodeURIComponent("Romantic adults-only resorts in Cancun") },
+        { title: "Weekend Party", image: "vibe-nightlife.webp", href: "/search-results?ai=" + encodeURIComponent("Hotels near the Las Vegas Strip nightlife") },
+        { title: "Family Friendly", image: "vibe-hiking.webp", href: "/search-results?ai=" + encodeURIComponent("Family friendly resorts in Orlando with pools") },
+        { title: "Quiet Luxury", image: "vibe-staycation.webp", href: "/search-results?ai=" + encodeURIComponent("Quiet luxury boutique hotels in Santa Barbara") }
       ], true),
-      weekendDeals
+      weekendDeals,
+      navLogoImgEl: this.staticImgEl('cg-logo.png', 'cheapgetaway.com', {
+        widths: [384], width: 2000, height: 500, id: 'cg-nav-logo',
+        style: { height: '54px', width: 'auto', display: 'block', transition: 'height .25s ease' }
+      }),
+      footerLogoImgEl: this.staticImgEl('cg-logo.png', 'cheapgetaway.com', {
+        widths: [384], width: 2000, height: 500,
+        style: { height: '34px', width: 'fit-content', background: '#fff', borderRadius: '10px', padding: '6px 12px' }
+      }),
+      featuredBeachImgEl: this.staticImgEl('featured-beach.webp', 'Turquoise ocean water and white sand beach lined with palm trees', {
+        widths: [384, 640, 960], sizes: '(max-width:768px) 100vw, 600px', width: 900, height: 1116, decoding: 'async',
+        style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }
+      }),
+      featuredRoadtripImgEl: this.staticImgEl('featured-roadtrip.webp', 'City skyline lit up at night with busy downtown streets', {
+        widths: [384, 640], sizes: '(max-width:768px) 50vw, 300px', width: 1200, height: 800, decoding: 'async',
+        style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }
+      }),
+      featuredMountainImgEl: this.staticImgEl('featured-mountain.webp', 'Snow-capped mountain cabin with a wood-burning fireplace', {
+        widths: [384, 640], sizes: '(max-width:768px) 25vw, 280px', width: 1200, height: 800, decoding: 'async',
+        style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }
+      }),
+      featuredForestImgEl: this.staticImgEl('featured-forest.webp', 'Desert resort pool surrounded by palm trees at sunset', {
+        widths: [384, 640], sizes: '(max-width:768px) 25vw, 280px', width: 1200, height: 795, decoding: 'async',
+        style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }
+      })
     };
   }
 }

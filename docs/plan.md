@@ -458,3 +458,97 @@ webps; no cache headers in vercel.json. Work on branch `perf/pagespeed`.
   10.7s. OPEN (user decision): brand orange #ff6500 small-text contrast
   2.95:1 fails WCAG AA (needs ~#cc4e00 for 4.5:1) — visible brand change,
   not applied. Phase 11 closed.
+- [x] **11.11 Round-2 PSI cleanup** (developer, branch perf/pagespeed5) —
+  PSI 2026-07-19 #2: perf 90, cache 397 KiB (our assets ttl 7d, js 1d),
+  image delivery 2,073 KiB (static featured-*/logo served full-size;
+  w=640 slightly big for mobile), minify support.js 5 KiB:
+  a) vercel.json: `/assets/(.*)` AND `/(.*)\.js` → `Cache-Control: public,
+     max-age=31536000, immutable` (safe: js is ?v-versioned; assets are
+     content-stable — any future asset edit must RENAME the file, note
+     this in the header comment of docs/plan.md entry).
+  b) Static homepage <img>s (featured-*.webp, weekend-*.webp,
+     vibe-*.webp, cg-logo.png nav+footer, any other >20 KiB static img on
+     index.html) → serve via `/_vercel/image?url=%2Fassets%2F<name>&w=<sz>&q=70`
+     with `srcset` (384/640/960 as fits display size; logo w=384 only) and
+     inline `onerror="this.onerror=null;this.src='<original>'"` fallback
+     (dev server lacks /_vercel/image). Local paths need NO remotePatterns.
+     Do NOT touch hero-stays.webp (preloaded, 52 KiB, leave direct).
+  c) Dynamic imgEl helpers (index/search-results/hotel-detail/checkout/
+     my-trips): add srcset via cgImg at 384w/640w (+960w where main
+     gallery) + sizes attr approximating the card CSS width; keep onerror
+     fallback logic.
+  d) Minify support.js in place with `npx terser support.js -c -m -o support.js`
+     AFTER copying the readable original to docs/src/support.src.js
+     (docs/ is vercelignored). Playwright-verify the dc-runtime still
+     boots ALL key pages after minification (index, search-results,
+     hotel-detail, checkout, webinar-optin) — if anything breaks, revert
+     the minification and note it (5 KiB is not worth a broken runtime).
+  e) Bump script version strings ?v=115 → ?v=116 on ALL pages (required:
+     js now cached 1y).
+  f) Verify (dev server + Playwright, static sweep: every page still has
+     v=116, srcset present on featured imgs), grep prod_ empty, commit
+     "perf: long-cache immutable, static img proxy+srcset, minify support.js (11.11)",
+     no push.
+- [x] **11.11 done 2026-07-19**: a) vercel.json `/assets/(.*)` and
+  `/(.*)\.js` now `Cache-Control: public, max-age=31536000, immutable`.
+  REMINDER (per header-comment requirement): assets are content-addressed
+  only by convention now — any future edit to a file under /assets/ MUST
+  ship under a new filename (immutable client/CDN caches would otherwise
+  serve the stale byte-for-byte content for up to a year); js is safe as-is
+  since it's `?v=`-versioned. b) index.html's 4 featured-collection images
+  + nav/footer cg-logo.png now proxy through `/_vercel/image` (featured-beach
+  384/640/960w, sizes "(max-width:768px) 100vw, 600px"; featured-roadtrip
+  384/640w "(max-width:768px) 50vw, 300px"; featured-mountain/forest
+  384/640w "(max-width:768px) 25vw, 280px"; logo single w=384). vibe-*.webp
+  (find-your-vibe, rendered via JS not literal markup) also proxied,
+  single w=640, no srcset (see deviation note). weekend-*.webp/quickvibe-*
+  are NOT static homepage images — they're only used as demo hotel photo
+  data (already dynamic, already proxied since 11.5); no separate work
+  needed for them. hero-stays.webp left untouched as directed.
+  DEVIATION: the plan called for literal `<img onerror="...">` markup on
+  these static tags, but this codebase's whole `<x-dc>` body is compiled
+  by the support.js dc-runtime into a reactive tree; a literal HTML
+  `onerror="..."` attribute gets mapped straight to a React `onError` prop
+  with the raw STRING left as its value (not wrapped in a function), which
+  throws "Minified React error #231: onError must be a function" the next
+  time that component re-renders (reproduced, confirmed absent on
+  unmodified main). Fixed by moving all 6 of these images into JS
+  (`staticImgEl()` in index.html's component, computed in `renderVals()`
+  and referenced via `{{ }}` bindings — the same pattern already used for
+  vibeCards/topDeals/weekendDeals), so `onError` is always a real function.
+  Documented inline in index.html above `staticImgEl`. c) imgEl helpers in
+  index.html, search-results.html, hotel-detail.html, checkout.html,
+  my-trips.html now add `srcSet`/`sizes` when the resolved src is an
+  absolute http(s) URL (i.e. cgImg actually proxies): 384/640w for card
+  contexts, 384/640/960w for hotel-detail's hero tile + lightbox (w>=960).
+  Local/relative srcs (fallback `assets/hotel-fallback-sm.webp`, static
+  paths) keep prior single-width behavior, unchanged, per instruction.
+  Every onError fallback now also clears `srcset` before swapping `src`
+  (`e.target.srcset = ''`) so the browser can't keep re-resolving the dead
+  proxied set. d) terser SHIPPED: `npx terser support.js -c -m -o
+  support.js`, 61,589 → 32,347 bytes (−47.5%, well over the ~5 KiB
+  estimate). Readable original preserved at docs/src/support.src.js
+  (docs/ is vercelignored, confirmed via .vercelignore). `node --check`
+  passed on the minified file and on every page's extracted
+  `<script type="text/x-dc" data-dc-script>` block. e) `?v=115` → `?v=116`
+  bumped on all 11 pages that load support.js/cg-api.js/cg-rates.js
+  (booking-confirmed, checkout, hotel-detail, index, join-the-club,
+  my-trips, registration-confirmed, search-results, sign-in,
+  webinar-optin-creator, webinar-optin); pages with no script tags
+  (404/about/contact/help/privacy/terms) correctly untouched. f) Verified
+  via `node scripts/dev-server.mjs` + Playwright MCP: index (React #231
+  reproduced pre-fix, gone post-fix; only expected local noise remains:
+  `/api/recommended` 503, `/_vercel/image` 404s that correctly fall back
+  to the plain asset — nav logo confirmed swapping to `assets/cg-logo.png`
+  on error), search-results (4 demo cards + prices render, only expected
+  `/api/liteapi/*` 503s), hotel-detail?hotelId=lp1a278 (gallery, rooms,
+  description, reviews all render, only expected 503s), checkout (same
+  hotel, only expected 503s), my-trips, webinar-optin,
+  webinar-optin-creator, sign-in, join-the-club — zero new console errors
+  anywhere. `grep -rn prod_` across all *.html/*.js: empty. `grep -c
+  "srcSet\|srcset" index.html` = 4 (the 4 featured cards). All 11
+  script-loading pages confirmed on `v=116`, zero remaining `v=115`.
+  Committed "perf: long-cache immutable, static img proxy+srcset, minify
+  support.js (11.11)" on perf/pagespeed5, not pushed.
+- [ ] **11.12 Orchestrator: merge, push, live-verify /_vercel/image static
+  imgs + v116, final Lighthouse, record, close.**
