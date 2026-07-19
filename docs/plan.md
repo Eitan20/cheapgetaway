@@ -300,3 +300,78 @@ advice" placeholder footer on both pages.
   rewrite terms.html and strengthen privacy.html per clause list above;
   fix dead footer links (#) in index.html → /about, /contact.
 - [x] 10.2 (orchestrator) Review diff, verify links/rendering, report.
+
+## Phase 11 — PageSpeed / mobile performance (report 2026-07-19: perf 68, LCP 10.7s, a11y 86, SEO 83)
+
+Context: PSI mobile flags render-blocking requests (1,620ms), image delivery
+(4,304 KiB), LCP request discovery (hero is a CSS background, never
+preloaded), >4 preconnects, cache lifetimes (3,044 KiB), imgs without
+width/height, missing <title>/meta-description/<html lang>, low-contrast
+text, redundant alt text. Researcher audit 2026-07-19 confirms: support.js
+(61.6 KB) + cg-api.js + cg-rates.js load render-blocking with no defer;
+Google Fonts stylesheet blocks render; index.html has NO <title>, no
+preconnects; all 17 pages lack lang + meta description; assets/ holds
+2.9 MB reference-theme.png + 2.4 MB hero-wide.jpg + several 100–435 KB
+webps; no cache headers in vercel.json. Work on branch `perf/pagespeed`.
+
+- [x] **11.1 Head + loading order, all 17 HTML pages** (developer):
+  a) `<html lang="en">` everywhere; remove duplicate `<meta name=viewport>`.
+  b) index.html: add `<title>Cheap Getaway — Members-Only Hotel Deals & Cheap Stays</title>`
+     and meta description "Search 2M+ hotels at member prices. Real-time
+     deals, weekend getaways, and a free workshop that unlocks
+     members-only travel rates." Every other page: unique ~150-char meta
+     description matching its existing <title> topic (write them per page).
+  c) Preconnects: exactly `<link rel="preconnect" href="https://fonts.googleapis.com">`
+     + `<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>`
+     per page (add to index.html, delete extras elsewhere). No other
+     preconnect/dns-prefetch unless the page really fetches that origin
+     pre-LCP.
+  d) Google Fonts non-blocking on every page:
+     `<link rel="preload" as="style" href="<fonts css2 url>">` +
+     `<link rel="stylesheet" href="<same url>" media="print" onload="this.media='all'">`
+     + `<noscript><link rel="stylesheet" href="<same url>"></noscript>`.
+     Keep display=swap. Trim unused Nunito/Fredoka weights per page (grep
+     the page's CSS for font-weight usage first).
+  e) `defer` on support.js, cg-api.js, cg-rates.js script tags on every
+     page that loads them. FIRST grep each page's inline <script> blocks
+     for parse-time use of their globals (dc/cgApiFetch/cgBestRate/
+     cgNights/cgMoney etc.); anything that runs at parse time must move
+     into a DOMContentLoaded handler (defer'd externals finish before
+     DOMContentLoaded, order preserved).
+  f) index.html LCP: `<link rel="preload" as="image" fetchpriority="high"
+     href="assets/hero-stays.webp">` (hero stays a CSS background).
+  g) vercel.json: add headers — `/assets/(.*)` → `Cache-Control: public,
+     max-age=604800, stale-while-revalidate=2592000`; `/(.*)\.js` →
+     `public, max-age=86400, stale-while-revalidate=604800`. Keep existing
+     cleanUrls/redirects/rewrites intact.
+- [ ] **11.2 Images + contrast + a11y** (developer, same branch):
+  a) Verify unreferenced (grep all html/js/css), then delete from deploy:
+     assets/reference-theme.png, assets/hero-wide.jpg, assets/hero-bg.webp
+     (if unused), root-level screenshot PNGs (stays-*.png, flights-*.png).
+     Prefer adding to .vercelignore + `git rm` only if truly unused;
+     if referenced anywhere, compress instead.
+  b) Recompress oversized referenced images to ≤150 KB and ≤2× displayed
+     CSS width (cards ≈ 400px → 800px wide): featured-*.webp,
+     weekend-*.webp, vibe-*.webp, julian-ambassador.jpg, igor-hottub.jpg.
+     Use `cwebp`/`sips`/`npx sharp-cli` (whichever is available), quality
+     ~70, keep filenames + dimensions ratio.
+  c) Every `<img>`: explicit width+height attributes (or CSS aspect-ratio)
+     matching the file's ratio; `loading="lazy" decoding="async"` on all
+     below-the-fold imgs (NOT on anything visible in the first viewport).
+  d) Contrast to WCAG AA (≥4.5:1 normal text, ≥3:1 large): #9aa0b4 on
+     white → #5d6478; #52586b 11px labels on #f6f7fb → #454b5e; check
+     each flagged pair against its ACTUAL background before changing
+     (footer text may sit on navy where light gray passes).
+  e) Redundant alt text: fix imgs whose alt duplicates adjacent text or
+     says "image/photo/logo of"; keep alts meaningful, decorative imgs
+     get alt="".
+- [ ] **11.3 Verify locally** (developer, same branch): `node
+  scripts/dev-server.mjs` + Playwright — homepage renders w/ prices,
+  search-results, hotel-detail gallery/rates, checkout page loads (NEVER
+  call rates/prebook or rates/book), webinar-optin form present, fonts
+  render, no console errors from defer change. Grep shipped files for
+  `prod_` (must be absent). Confirm every page parses with lang/title/
+  meta-description present (quick node/grep sweep).
+- [ ] **11.4 Orchestrator review + merge**: diff vs this phase, run local
+  Playwright spot-check, merge to main, push (Vercel auto-deploys), then
+  re-run PSI and record scores here.
