@@ -562,3 +562,85 @@ webps; no cache headers in vercel.json. Work on branch `perf/pagespeed`.
   beacon cache, #ff6500 small-text contrast (user decision). REMINDERS:
   editing any /assets file → RENAME it (immutable 1y cache); editing any
   root .js → bump ?v= on script tags (currently 116). Phase 11 closed.
+- [x] **11.13 done 2026-07-19**: computed WCAG relative luminance in
+  /private/tmp scratch script (hue 23.76° locked, full saturation, binary
+  search over value). Primary swap: `#ff6500` → `#c04c00` (192,76,0) —
+  lightest orange in-hue that clears ALL required pairs: vs #ffffff 4.912:1,
+  vs #f6f7fb 4.588:1, vs #fff3eb 4.508:1 (note: literal `#fff3eb` string
+  does not actually appear anywhere in the codebase — checked, no chip bg
+  uses that exact hex — so this was a validate-only check), white-text-on-
+  new-orange 4.912:1 (≥4.6 required). Found and fixed one additional
+  failing pair the base swap alone didn't cover: the two small-text chips
+  that render orange text over a light `rgba(255,101,0,alpha)` orange wash
+  (index.html "Member price $612" pill over 0.08 wash, and "Earns monthly"
+  pill over 0.12 wash) — original was ~2.7:1 (matches orchestrator's
+  flagged failing pair) and even the new #c04c00 text only reached
+  4.16–4.41:1 on those composited backgrounds, still short of 4.5. CHOICE:
+  darkened text-only on those 2 labels to `#b74800` (183,72,0) rather than
+  changing the wash backgrounds — computed to clear both alpha cases
+  (4.52:1 @ 0.12 wash, 4.77:1 @ 0.08 wash) with comfortable margin, and is
+  the smaller visual change (2 text-color tweaks vs redesigning every
+  tinted wash sitewide). All other rgba(255,101,0,x) tints (box-shadows,
+  borders, icon-badge washes with no text on them) swapped to
+  rgba(192,76,0,x) at their original alphas, unchanged otherwise.
+  FILES CHANGED (grep-driven, occurrence counts pre-edit): 404.html (1
+  hex + 1 rgba), booking-confirmed.html (1+1), checkout.html (1+1),
+  my-trips.html (1+1), hotel-detail.html (2 hex + 2 rgba), index.html (17
+  hex + 7 rgba, 2 of those hex further overridden to #b74800 per above),
+  sign-in.html (1+1), search-results.html (2+1). support.js / cg-api.js /
+  cg-rates.js / docs/src/support.src.js: confirmed clean (0 hits, case-
+  insensitive, both hex and rgba forms) — NO v117 bump needed, script tags
+  stay at `?v=116`. Verify: dev server (`node scripts/dev-server.mjs`) +
+  Playwright — index (hero "Join the club" CTA, "Members see lower prices"
+  chip, "Member price $612" pill, "Earns monthly" pill, membership/creator
+  card border+icon+checkmarks+"See how creators earn" button all render
+  the new orange, legible), hotel-detail?hotelId=lp1a278 ("Join the club"
+  nav button), checkout?hotelId=lp1a278 (only expected `/api/liteapi/*`
+  503s — continue button not reachable in this dev-server run because the
+  demo room "sold out" fallback fired, same known dev-only limitation
+  documented in 11.11; button's `#c04c00`/box-shadow markup verified
+  correct by source inspection and by the identical style variant
+  rendering correctly elsewhere), webinar-optin (0 console errors; this
+  page doesn't use the brand orange at all, unaffected as expected). No
+  new console errors anywhere beyond the pre-existing local-only noise
+  (`/api/*` 503s, `/_vercel/image` 404 fallbacks — both already documented
+  in 11.11/11.12). `grep -rn prod_` across all *.html/*.js: empty.
+  Case-insensitive `ff6500` grep: zero hits outside `docs/` (3 hits remain
+  only in `docs/archive/flights/*.html`, explicitly out of scope).
+  Committed "a11y: darken brand orange to WCAG AA (11.13)" on
+  perf/pagespeed6, not pushed.
+- [ ] **11.14 Orchestrator: merge, push, final Lighthouse (expect a11y
+  100), record, close.**
+- [ ] **11.15 CLS + polish round 3** (developer, branch perf/pagespeed7,
+  AFTER 11.13 merges) — PSI #3 2026-07-19: CLS 0.107, culprit = Nunito
+  web-font swap (fonts.gstatic woff2); filmstrip flashes raw "{{ heroTitle }}"
+  template pre-boot; image delivery 375 KiB (featured-beach w=960 = 109 KiB
+  of it):
+  a) Zero-shift font loading on ALL pages using Nunito: add a
+     metric-matched fallback `@font-face{font-family:'Nunito Fallback';
+     src:local('Arial');size-adjust/ascent-override/descent-override/
+     line-gap-override:<computed>}` to each page's critical inline CSS and
+     put 'Nunito Fallback' after 'Nunito' in every font-family stack.
+     COMPUTE the override percentages from the actual Nunito font metrics
+     (fontTools via pip --user venv, or capsize metrics via npm — Nunito
+     latin woff2 downloadable from the Google Fonts CSS we already use).
+     If computation is impossible, fall back to switching the Google CSS
+     URLs to display=optional instead (state which path you took). Same
+     for Fredoka on the 4 webinar/funnel pages.
+  b) Kill the raw-template flash: static `<style>x-dc{display:none}</style>`
+     in the real <head> of every dc-runtime page — FIRST verify in
+     support.js (docs/src/support.src.js) that the runtime renders into a
+     separate #dc-root and never needs x-dc visible; confirm post-boot
+     rendering still works in Playwright after the change.
+  c) index.html featured-beach: drop the 960w srcset entry (keep 384/640)
+     — mobile DPR was pulling 137 KiB for a card. Also drop q to 60 on the
+     THREE largest dynamic-photo sinks' cgImg calls ONLY if a quick visual
+     check shows no obvious quality loss (else leave q=70).
+  d) Verify: Playwright index/search-results/hotel-detail/checkout/
+     webinar-optin render post-boot, no {{ }} text visible at any point
+     (screenshot early + late), fonts render as Nunito, no new console
+     errors, grep prod_ empty. No .js file changes expected → v stays 116;
+     if you DO touch a root .js, bump to v=117 everywhere.
+  e) Commit "perf: zero-CLS font fallback, hide pre-boot template, srcset cap (11.15)", no push.
+- [ ] **11.16 Orchestrator: merge 11.13+11.15, push, final PSI-equivalent
+  Lighthouse, record, close.**
