@@ -31,32 +31,53 @@
   input,select,button{font-family:'Nunito','Nunito Fallback',sans-serif;}
   input:focus,select:focus{outline:none;}
 
-  @media (max-width: 480px) {
-    /* Header nav row: stop the logo/links/auth row from forcing horizontal
-       scroll — wrap it and hide the anchor-link cluster (which becomes
-       inaccessible at this width anyway per the mobile audit). */
-    .cg-nav-row { flex-wrap: wrap; row-gap: 8px; justify-content: center; gap: 12px !important; }
-    .cg-nav-links { display: none; }
+  @media (max-width: 768px) {
+    /* Header nav row (11.17): compact single row, no wrap — logo left,
+       "Sign in" + "Join the club" right, vertically centered. The
+       Deals/Weekend/Vibes link cluster is hidden below 640px (see next
+       block) since it has nowhere to go without wrapping. */
+    .cg-nav-row { flex-wrap: nowrap !important; justify-content: space-between; align-items: center; gap: 12px !important; padding: 12px 16px !important; }
+    .cg-logo-link img { height: 40px !important; width: auto !important; }
     .cg-nav-auth { gap: 8px !important; }
-    .cg-join-btn { padding: 10px 14px !important; font-size: 13.5px !important; }
-    .cg-signin-btn { padding: 8px 8px !important; font-size: 13.5px !important; }
+    .cg-join-btn { padding: 10px 16px !important; font-size: 13.5px !important; white-space: nowrap; }
+    .cg-signin-btn { padding: 8px 10px !important; font-size: 13.5px !important; white-space: nowrap; }
 
-    /* Hero H1 / sub: stop clipping instead of wrapping. */
-    .cg-hero-h1 { white-space: normal !important; }
+    /* Hero card (11.17): rounded-rect instead of the desktop 40px/tall
+       treatment, height driven by content, headline clamps to fit two
+       lines max instead of clipping via white-space:nowrap. */
+    .cg-hero-card { border-radius: 24px !important; padding: 48px 20px 28px !important; min-height: auto !important; }
+    .cg-hero-h1 { white-space: normal !important; font-size: clamp(26px, 8vw, 34px) !important; }
 
     /* Stays/AI mode toggle: reach the 40px tap-target minimum. */
     .cg-mode-btn { min-height: 40px; padding-top: 11px !important; padding-bottom: 11px !important; }
 
-    /* Quick-filter chips under the stays search card: reach 40px. */
-    .cg-quick-btn { min-height: 40px; padding-top: 12px !important; padding-bottom: 12px !important; }
+    /* Search widget (11.17): the desktop pill (border-radius:999px,
+       row layout with vertical dividers) becomes a rounded-rect card;
+       Destination/Dates/Guests stack as full-width rows separated by
+       hairlines (no more clipped oval / cut-off calendar icon), and the
+       circular icon-only submit button becomes a full-width cyan pill
+       with a visible "Search" label — reuses the same onClick={{doSearch}}
+       handler, just restyled. */
+    .cg-search-widget { border-radius: 24px !important; background: #fff !important; padding: 8px !important; flex-direction: column !important; align-items: stretch !important; gap: 0 !important; }
+    .cg-search-field { width: 100% !important; flex: 1 1 auto !important; padding: 14px 18px !important; border-right: none !important; border-bottom: 1px solid rgba(14,21,86,0.08) !important; }
+    .cg-search-field:last-of-type { border-bottom: none !important; }
+    .cg-search-btn { align-self: stretch !important; width: 100% !important; height: 52px !important; border-radius: 999px !important; margin-top: 8px !important; gap: 8px !important; }
+    .cg-search-btn svg { stroke: #0e1556 !important; }
+    .cg-search-btn-label { display: inline-block !important; color: #0e1556 !important; font-weight: 800 !important; font-size: 16px !important; }
 
-    /* AI search bar: stack input above button instead of a fixed
-       single row (the "Find stays" button was pushing scrollWidth past
-       the viewport). */
-    .cg-ai-bar { flex-direction: column !important; align-items: stretch !important; border-radius: 24px !important; }
+    /* AI search bar (11.17): same rounded-rect card treatment as the
+       Stays widget since it shares the desktop pill styling — input row
+       above a full-width pill button instead of a fixed single row (the
+       "Find stays" button was pushing scrollWidth past the viewport). */
+    .cg-ai-bar { flex-direction: column !important; align-items: stretch !important; border-radius: 24px !important; padding: 8px !important; }
     .cg-ai-input-wrap { width: 100% !important; min-width: 0 !important; }
     #cg-ai { min-width: 0; }
-    .cg-ai-btn { width: 100% !important; text-align: center; }
+    .cg-ai-btn { width: 100% !important; text-align: center; margin-top: 8px !important; }
+
+    /* Quick-filter chips: horizontal wrap, centered, 8px gap, auto-width
+       (member chip keeps its #c04c00 orange text); reach 40px tap target. */
+    .cg-quick-chips { gap: 8px !important; justify-content: center !important; }
+    .cg-quick-btn { min-height: 40px; padding-top: 12px !important; padding-bottom: 12px !important; flex: 0 1 auto !important; }
 
     /* Membership section decorative circle: keep it well inside its
        overflow:hidden ancestor at mobile widths (defensive — reinforce the
@@ -64,12 +85,29 @@
     .cg-decor-clip { overflow: hidden !important; }
     .cg-decor-circle { width: 160px !important; height: 160px !important; top: -40px !important; right: -40px !important; }
   }
+
+  @media (max-width: 640px) {
+    /* Deals/Weekend/Vibes anchor links: no room in the compact single-row
+       nav below 640px. */
+    .cg-nav-links { display: none !important; }
+  }
+
+  @media (max-width: 360px) {
+    /* 11.17 320px check: the 768px nav sizing still clipped "Join the
+       club" at 320px viewport width — tighten further so the compact
+       row fits with no horizontal scroll. */
+    .cg-nav-row { padding: 10px 10px !important; gap: 8px !important; }
+    .cg-logo-link img { height: 32px !important; }
+    .cg-nav-auth { gap: 6px !important; }
+    .cg-join-btn { padding: 8px 12px !important; font-size: 12.5px !important; }
+    .cg-signin-btn { padding: 6px 6px !important; font-size: 12.5px !important; }
+  }
 </style>
 </helmet>
 
 <nav style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);">
   <div class="cg-nav-row" style="max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
-    <a href="/" style="display:flex;align-items:center;">{{ navLogoImgEl }}</a>
+    <a href="/" class="cg-logo-link" style="display:flex;align-items:center;">{{ navLogoImgEl }}</a>
     <div class="cg-nav-links" style="display:flex;align-items:center;gap:28px;font-weight:700;font-size:15px;">
       <a href="#deals" style="color:#0e1556;" style-hover="color:#38b6ff;">Deals</a>
       <a href="#weekend" style="color:#0e1556;" style-hover="color:#38b6ff;">Weekend</a>
@@ -86,7 +124,7 @@
 </nav>
 
 <section style="padding:32px 24px 0;">
-  <div style="position:relative;max-width:1200px;margin:0 auto;min-height:620px;border-radius:40px;display:flex;align-items:flex-start;justify-content:center;padding:76px 48px;background-image:linear-gradient(rgba(15,23,42,0.38), rgba(15,23,42,0.38)), url('assets/hero-stays.webp');background-size:cover;background-position:center;">
+  <div class="cg-hero-card" style="position:relative;max-width:1200px;margin:0 auto;min-height:620px;border-radius:40px;display:flex;align-items:flex-start;justify-content:center;padding:76px 48px;background-image:linear-gradient(rgba(15,23,42,0.38), rgba(15,23,42,0.38)), url('assets/hero-stays.webp');background-size:cover;background-position:center;">
   <div style="position:relative;width:100%;max-width:1020px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;">
     <h1 class="cg-hero-h1" style="margin:0;color:#fff;font-size:clamp(30px,4.6vw,56px);font-weight:900;line-height:1.15;text-shadow:0 2px 24px rgba(11,15,31,0.35);white-space:nowrap;max-width:100%;">{{ heroTitle }}</h1>
     <p style="margin:0 0 36px;color:rgba(255,255,255,0.95);font-size:clamp(15px,1.6vw,18px);font-weight:600;text-shadow:0 1px 12px rgba(11,15,31,0.35);line-height:1.4;min-height:2.8em;display:flex;align-items:center;max-width:520px;">{{ heroSub }}</p>
@@ -116,8 +154,8 @@
       </sc-if>
 
       <sc-if value="{{ staysMode }}" hint-placeholder-val="{{ true }}">
-      <div style="background:#fff;border-radius:999px;box-shadow:0 24px 64px rgba(14,21,86,0.22);padding:6px;display:flex;align-items:stretch;gap:0;flex-wrap:wrap;">
-        <div data-cg-pop="" style="position:relative;flex:2 1 240px;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:10px 14px 10px 22px;text-align:left;border-right:1.5px solid rgba(14,21,86,0.1);">
+      <div class="cg-search-widget" style="background:#fff;border-radius:999px;box-shadow:0 24px 64px rgba(14,21,86,0.22);padding:6px;display:flex;align-items:stretch;gap:0;flex-wrap:wrap;">
+        <div data-cg-pop="" class="cg-search-field cg-field-dest" style="position:relative;flex:2 1 240px;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:10px 14px 10px 22px;text-align:left;border-right:1.5px solid rgba(14,21,86,0.1);">
           <label style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">{{ searchLabel }}</label>
           <div style="display:flex;align-items:center;gap:8px;">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#52586b" stroke-width="2.2" stroke-linecap="round" style="flex-shrink:0;"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
@@ -134,7 +172,7 @@
             </div>
           </sc-if>
         </div>
-        <div data-cg-pop="" style="position:relative;flex:1.6 1 220px;display:flex;flex-direction:column;justify-content:center;border-right:1.5px solid rgba(14,21,86,0.1);">
+        <div data-cg-pop="" class="cg-search-field cg-field-dates" style="position:relative;flex:1.6 1 220px;display:flex;flex-direction:column;justify-content:center;border-right:1.5px solid rgba(14,21,86,0.1);">
           <button onClick="{{ toggleDates }}" style="border:none;background:transparent;cursor:pointer;display:flex;flex-direction:column;gap:2px;padding:12px 18px;text-align:left;width:100%;">
             <span style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Dates</span>
             <span style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:#0b0f1f;">
@@ -154,7 +192,7 @@
             </div>
           </sc-if>
         </div>
-        <div data-cg-pop="" style="position:relative;flex:1 1 130px;display:flex;flex-direction:column;justify-content:center;">
+        <div data-cg-pop="" class="cg-search-field cg-field-guests" style="position:relative;flex:1 1 130px;display:flex;flex-direction:column;justify-content:center;">
           <button onClick="{{ toggleGuests }}" style="border:none;background:transparent;cursor:pointer;display:flex;flex-direction:column;gap:2px;padding:12px 18px;text-align:left;width:100%;">
             <span style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Guests</span>
             <span style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:#0b0f1f;">
@@ -176,17 +214,18 @@
             </div>
           </sc-if>
         </div>
-        <button onClick="{{ doSearch }}" aria-label="Search" style="flex:0 0 auto;align-self:center;width:52px;height:52px;border-radius:50%;background:#38b6ff;color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(56,182,255,0.4);" style-hover="background:#2da1e6;">
+        <button class="cg-search-btn" onClick="{{ doSearch }}" aria-label="Search" style="flex:0 0 auto;align-self:center;width:52px;height:52px;border-radius:50%;background:#38b6ff;color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(56,182,255,0.4);" style-hover="background:#2da1e6;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <span class="cg-search-btn-label" style="display:none;">Search</span>
         </button>
       </div>
       </sc-if>
 
       <sc-if value="{{ staysMode }}" hint-placeholder-val="{{ true }}">
-      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+      <div class="cg-quick-chips" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
         <button class="cg-quick-btn" style="border:none;background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);color:#0e1556;font-weight:700;font-size:13px;padding:8px 16px;border-radius:999px;cursor:pointer;box-shadow:0 4px 14px rgba(11,15,31,0.18);" style-hover="background:#fff;color:#38b6ff;">This weekend</button>
         <button class="cg-quick-btn" style="border:none;background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);color:#0e1556;font-weight:700;font-size:13px;padding:8px 16px;border-radius:999px;cursor:pointer;box-shadow:0 4px 14px rgba(11,15,31,0.18);" style-hover="background:#fff;color:#38b6ff;">Under $120/night</button>
-        <a href="/webinar-optin" style="display:flex;align-items:center;gap:7px;font-weight:800;font-size:13px;color:#c04c00;background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);padding:8px 16px;border-radius:999px;box-shadow:0 4px 14px rgba(11,15,31,0.18);" style-hover="color:#e65a00;background:#fff;">
+        <a href="/webinar-optin" class="cg-quick-btn" style="display:flex;align-items:center;gap:7px;font-weight:800;font-size:13px;color:#c04c00;background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);padding:8px 16px;border-radius:999px;box-shadow:0 4px 14px rgba(11,15,31,0.18);" style-hover="color:#e65a00;background:#fff;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>
           Members see lower prices →
         </a>

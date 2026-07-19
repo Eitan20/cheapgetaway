@@ -706,3 +706,48 @@ webps; no cache headers in vercel.json. Work on branch `perf/pagespeed`.
   weight 586 KiB. Phase 11 fully closed. Brand color note: interactive
   orange is now #c04c00 sitewide (washes rgba(192,76,0,x)); cyan #38b6ff
   buttons use navy #0e1556 text.
+- [x] 11.17 mobile hero fix (2026-07-19): homepage hero was broken at
+  390px — 3-row wrapped nav, egg-shaped clipped search widget (desktop
+  border-radius:999px fighting a stacked column layout, calendar icon
+  cut off, search button overlapping Guests), and full-width one-per-line
+  chips. Fixed on branch perf/pagespeed9 (developer), scoped to
+  index.html's inline `<style>` head block only — replaced the old
+  `@media (max-width:480px)` patch with a single `@media (max-width:768px)`
+  block (plus a 640px sub-block to hide `.cg-nav-links` and a 360px
+  sub-block that further tightens nav sizing — 320px viewport still
+  clipped "Join the club" at the 768px sizing alone). New classes added
+  to index.html markup: `.cg-logo-link` (nav logo `<a>`), `.cg-hero-card`
+  (outer hero section), `.cg-search-widget` + `.cg-search-field` (on all
+  three Destination/Dates/Guests wrapper divs) + `.cg-search-btn` /
+  `.cg-search-btn-label` (submit button, plus a new `<span>Search</span>`
+  hidden by default and shown only ≤768px), `.cg-quick-chips` (chip row)
+  — `.cg-quick-btn` also added to the "Members see lower prices" anchor
+  for tap-target parity. Mobile search widget: border-radius 24px, white
+  bg, fields stack full-width with hairline separators
+  (rgba(14,21,86,0.08)) instead of vertical dividers, submit becomes a
+  full-width 52px cyan pill with navy `#0e1556` icon+label (chosen over
+  white text — navy always passes contrast, matches the existing
+  cyan-CTA navy-text precedent from 11.16) — reuses the same
+  `onClick="{{ doSearch }}"` handler unchanged, just restyled. AI-tab bar
+  (`.cg-ai-bar`) given the same rounded-rect/stacked treatment since it
+  shares the desktop pill styling; `.cg-ai-btn` reuses `{{ doAiSearch }}`
+  unchanged. Chips: flex-wrap, centered, 8px gap, orange `#c04c00` member
+  chip untouched. Verified with Playwright on the local dev server
+  (`node scripts/dev-server.mjs`): 390x844 screenshots for both Stays and
+  AI tabs — nav single-row, search card fully legible, nothing
+  clipped/overlapping, chips wrap cleanly; 320px width — nav no longer
+  clips (confirmed fixed by the 360px sub-block), residual
+  `scrollWidth:344 > clientWidth:320` traced to the pre-existing
+  Recommended-hotels carousel prev/next buttons (identical overflow
+  reproduced on unmodified main via `git stash`) — out of scope, not
+  touched; 1280px desktop screenshot confirms the original oval pill
+  layout is pixel-identical (media query is ≤768px scoped); search
+  submit on both tabs navigates to `/search-results` with the expected
+  query params; keyboard focus on `.cg-search-btn` confirmed visible
+  (`:focus-visible` matches, `outline-style:auto`, no `outline:none` rule
+  applies to buttons — only `input,select` in the existing stylesheet).
+  Console: only the documented pre-existing local-only `/api/*` 503 and
+  `/_vercel/image` 404s, zero new errors. `grep -rn prod_ *.html`: empty.
+  No root `.js` touched (script tags stay `?v=116`). Committed "fix:
+  mobile hero layout — compact nav, stacked search card, wrapped chips
+  (11.17)" on perf/pagespeed9, not pushed.
