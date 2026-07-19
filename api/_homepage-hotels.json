@@ -33,7 +33,7 @@
     },
     {
       "id": "lp1beec",
-      "name": "H\u00f4tel Des Grands Voyageurs",
+      "name": "Hôtel Des Grands Voyageurs",
       "city": "Paris",
       "address": "92 Rue De Vaugirard",
       "image": "https://static.cupid.travel/hotels/528466229.jpg",
@@ -60,9 +60,9 @@
     },
     {
       "id": "lp6557b133",
-      "name": "Umilt\u00e0 36 - Preferred Hotels & Resorts",
+      "name": "Umiltà 36 - Preferred Hotels & Resorts",
       "city": "Rome",
-      "address": "Via dell'Umilt\u00e0 36",
+      "address": "Via dell'Umiltà 36",
       "image": "https://static.cupid.travel/hotels/593208650.jpg",
       "rating": 9.8,
       "reviewCount": 2713
@@ -105,7 +105,7 @@
     },
     {
       "id": "lp51fe7",
-      "name": "H\u00f4tel Dame des Arts",
+      "name": "Hôtel Dame des Arts",
       "city": "Paris",
       "address": "4 Rue Danton",
       "image": "https://static.cupid.travel/hotels/421438913.jpg",
@@ -150,7 +150,7 @@
     },
     {
       "id": "lpb2c3c",
-      "name": "Al Bandar Rotana \u2013 Dubai Creek",
+      "name": "Al Bandar Rotana – Dubai Creek",
       "city": "Dubai",
       "address": "Baniyas Road, Deira",
       "image": "https://static.cupid.travel/hotels/ex_678ac174_z.jpg",
@@ -347,6 +347,298 @@
       "image": "https://static.cupid.travel/hotels/597766385.jpg",
       "rating": 9.2,
       "reviewCount": 2572
+    }
+  ],
+  "luxury": [
+    {
+      "id": "lp10249d",
+      "name": "Mandarin Oriental Jumeira, Dubai",
+      "city": "Dubai",
+      "address": "Jumeira 1, Jumeirah Road, Dubai",
+      "image": "https://static.cupid.travel/hotels/ex_2debbc87_z.jpg",
+      "reviewCount": 87,
+      "rating": 0,
+      "hasRate": false
+    },
+    {
+      "id": "lp1ab1f",
+      "name": "Excelsior Hotel Gallia, a Luxury Collection Hotel, Milan",
+      "city": "Milan",
+      "address": "Piazza Duca D'Aosta 9",
+      "image": "https://static.cupid.travel/hotels/346586230.jpg",
+      "reviewCount": 992,
+      "rating": 9.2,
+      "hasRate": false
+    },
+    {
+      "id": "lp1af45",
+      "name": "Hôtel Napoleon Paris",
+      "city": "Paris",
+      "address": "40, avenue de Friedland",
+      "image": "https://static.cupid.travel/hotels/87375257.jpg",
+      "reviewCount": 908,
+      "rating": 9.2,
+      "hasRate": false
+    },
+    {
+      "id": "lp1b845",
+      "name": "St. James' Court, A Taj Hotel, London",
+      "city": "London",
+      "address": "41-54 Buckingham Gate",
+      "image": "https://static.cupid.travel/hotels/477275249.jpg",
+      "reviewCount": 7008,
+      "rating": 8.8,
+      "hasRate": true
+    },
+    {
+      "id": "lp1b9e7",
+      "name": "Rome Cavalieri, A Waldorf Astoria Hotel",
+      "city": "Rome",
+      "address": "Via Cadlolo 101",
+      "image": "https://static.cupid.travel/hotels/484082798.jpg",
+      "reviewCount": 1101,
+      "rating": 9,
+      "hasRate": true
+    },
+    {
+      "id": "lp1b9f6",
+      "name": "London Hilton on Park Lane",
+      "city": "London",
+      "address": "22 Park Lane",
+      "image": "https://static.cupid.travel/hotels/492133770.jpg",
+      "reviewCount": 2199,
+      "rating": 8,
+      "hasRate": true
+    },
+    {
+      "id": "lp1db0a1",
+      "name": "THE BLOSSOM HIBIYA",
+      "city": "Tokyo",
+      "address": "Minato-ku Shinbashi 1-1-13",
+      "image": "https://static.cupid.travel/hotels/216140703.jpg",
+      "reviewCount": 9147,
+      "rating": 9.1,
+      "hasRate": true
+    },
+    {
+      "id": "lp1e3405",
+      "name": "Address Sky View, Downtown Dubai",
+      "city": "Dubai",
+      "address": "Sheikh Mohammed Bin Rashed Boulevard, Downtown PO Box 11196, Dubai, Dubai",
+      "image": "https://static.cupid.travel/hotels/ex_e7402a4a_z.jpg",
+      "reviewCount": 133,
+      "rating": 9.2,
+      "hasRate": false
+    },
+    {
+      "id": "lp20554",
+      "name": "Hyatt Regency London - The Churchill",
+      "city": "London",
+      "address": "30 Portman Square",
+      "image": "https://static.cupid.travel/hotels/465541557.jpg",
+      "reviewCount": 2685,
+      "rating": 9,
+      "hasRate": false
+    },
+    {
+      "id": "lp2275e",
+      "name": "The St. Regis Rome",
+      "city": "Rome",
+      "address": "Via Vittorio Emanuele Orlando 3",
+      "image": "https://static.cupid.travel/hotels/469174310.jpg",
+      "reviewCount": 312,
+      "rating": 9.4,
+      "hasRate": false
+    },
+    {
+      "id": "lp27e2f",
+      "name": "Pullman Paris Tour Eiffel",
+      "city": "Paris",
+      "address": "18 avenue de Suffren, Entrée au 22 rue Jean Rey, Paris, Paris, 75015",
+      "image": "https://static.cupid.travel/hotels/ex_061cccdc_z.jpg",
+      "reviewCount": 257,
+      "rating": 8.6,
+      "hasRate": true
+    },
+    {
+      "id": "lp2a16c",
+      "name": "Jumeirah Burj Al Arab Dubai",
+      "city": "Dubai",
+      "address": "Jumeirah Beach Road, Dubai",
+      "image": "https://static.cupid.travel/hotels/ex_ce0e0ec5_z.jpg",
+      "reviewCount": 129,
+      "rating": 9.4,
+      "hasRate": false
+    },
+    {
+      "id": "lp2a32f",
+      "name": "The Savoy",
+      "city": "London",
+      "address": "Strand",
+      "image": "https://static.cupid.travel/hotels/177109798.jpg",
+      "reviewCount": 2245,
+      "rating": 9.4,
+      "hasRate": false
+    },
+    {
+      "id": "lp2b241",
+      "name": "Novotel Paris Les Halles",
+      "city": "Paris",
+      "address": "8 Place Marguerite de Navarre",
+      "image": "https://static.cupid.travel/hotels/328444480.jpg",
+      "reviewCount": 4307,
+      "rating": 8.6,
+      "hasRate": true
+    },
+    {
+      "id": "lp2ba5e",
+      "name": "UNA Hotels Galles Milano",
+      "city": "Milan",
+      "address": "Piazza Lima 2",
+      "image": "https://static.cupid.travel/hotels/468587792.jpg",
+      "reviewCount": 8798,
+      "rating": 8.4,
+      "hasRate": false
+    },
+    {
+      "id": "lp2f61f",
+      "name": "Hotel Splendide Royal - The Leading Hotels of the World",
+      "city": "Rome",
+      "address": "Via Di Porta Pinciana 14",
+      "image": "https://static.cupid.travel/hotels/53482587.jpg",
+      "reviewCount": 545,
+      "rating": 9.1,
+      "hasRate": false
+    },
+    {
+      "id": "lp2f87f",
+      "name": "Melia Milano",
+      "city": "Milan",
+      "address": "Via Masaccio 19, Milan, MI, 20149",
+      "image": "https://static.cupid.travel/hotels/ex_800ad29e_z.jpg",
+      "reviewCount": 3979,
+      "rating": 8.6,
+      "hasRate": false
+    },
+    {
+      "id": "lp32483",
+      "name": "The Royal Park Hotel Iconic Tokyo Shiodome",
+      "city": "Tokyo",
+      "address": "Minato-ku, Higashishimbashi 1-6-3",
+      "image": "https://static.cupid.travel/hotels/30886591.jpg",
+      "reviewCount": 9395,
+      "rating": 8.8,
+      "hasRate": true
+    },
+    {
+      "id": "lp37b85",
+      "name": "The Prince Park Tower Tokyo - Preferred Hotels & Resorts, LVX Collection",
+      "city": "Tokyo",
+      "address": "Minato-ku, Shiba Koen 4-8-1 ",
+      "image": "https://static.cupid.travel/hotels/362054404.jpg",
+      "reviewCount": 4717,
+      "rating": 8.8,
+      "hasRate": true
+    },
+    {
+      "id": "lp3e709",
+      "name": "The Peninsula Tokyo",
+      "city": "Tokyo",
+      "address": "1-8-1 Yuraku-cho, Chiyoda-ku, Tokyo, Tokyo-to, 100-0006",
+      "image": "https://static.cupid.travel/hotels/ex_b51d3c88_z.jpg",
+      "reviewCount": 121,
+      "rating": 9.4,
+      "hasRate": false
+    },
+    {
+      "id": "lp4f068",
+      "name": "Sofitel Dubai Jumeirah Beach",
+      "city": "Dubai",
+      "address": "Jumeirah Beach - Dubai Marina, PO Box 473828, Dubai",
+      "image": "https://static.cupid.travel/hotels/ex_56f05253_z.jpg",
+      "reviewCount": 123,
+      "rating": 9,
+      "hasRate": true
+    },
+    {
+      "id": "lp59713",
+      "name": "Shangri-La Paris",
+      "city": "Paris",
+      "address": "10 Avenue D'Iéna",
+      "image": "https://static.cupid.travel/hotels/406065982.jpg",
+      "reviewCount": 285,
+      "rating": 9.5,
+      "hasRate": true
+    },
+    {
+      "id": "lp5d5c1",
+      "name": "Villa Agrippina, a Gran Meliá Hotel - The Leading Hotels of The World",
+      "city": "Rome",
+      "address": "Via Del Gianicolo 3",
+      "image": "https://static.cupid.travel/hotels/511440569.jpg",
+      "reviewCount": 716,
+      "rating": 9.2,
+      "hasRate": true
+    },
+    {
+      "id": "lp65560928",
+      "name": "Tokyo Bay Shiomi Prince Hotel",
+      "city": "Tokyo",
+      "address": "Koto-ku Shiomi 2-8-16",
+      "image": "https://static.cupid.travel/hotels/300681318.jpg",
+      "reviewCount": 8755,
+      "rating": 9.1,
+      "hasRate": true
+    },
+    {
+      "id": "lp680a4",
+      "name": "Magna Pars- L'Hotel à Parfum Small Luxury Hotels of the World",
+      "city": "Milan",
+      "address": "Via Forcella 6, Milan, MI, 20144",
+      "image": "https://static.cupid.travel/hotels/ex_e704ab59_z.jpg",
+      "reviewCount": 157,
+      "rating": 9.4,
+      "hasRate": false
+    },
+    {
+      "id": "lp6f715",
+      "name": "Shangri-La The Shard, London",
+      "city": "London",
+      "address": "31 St Thomas Street",
+      "image": "https://static.cupid.travel/hotels/40691107.jpg",
+      "reviewCount": 2687,
+      "rating": 10,
+      "hasRate": false
+    },
+    {
+      "id": "lp7246c",
+      "name": "The Peninsula Paris",
+      "city": "Paris",
+      "address": "19 Avenue Kléber, Paris, Paris, 75116",
+      "image": "https://static.cupid.travel/hotels/ex_298ded30_z.jpg",
+      "reviewCount": 119,
+      "rating": 9.6,
+      "hasRate": false
+    },
+    {
+      "id": "lp72e2c",
+      "name": "Four Seasons Resort Dubai at Jumeirah Beach",
+      "city": "Dubai",
+      "address": "Jumeirah Road, Dubai, 128777",
+      "image": "https://static.cupid.travel/hotels/ex_5be10268_z.jpg",
+      "reviewCount": 112,
+      "rating": 9.4,
+      "hasRate": false
+    },
+    {
+      "id": "lpaab61",
+      "name": "Hassler Roma",
+      "city": "Rome",
+      "address": "Piazza Trinita Dei Monti 6, Rome, RM, 00187",
+      "image": "https://static.cupid.travel/hotels/ex_74a7f292_z.jpg",
+      "reviewCount": 56,
+      "rating": 9.4,
+      "hasRate": false
     }
   ]
 }

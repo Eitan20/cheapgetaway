@@ -214,17 +214,19 @@
               <span>{{ hotel.address }}</span>
             </p>
             <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding-top:10px;">
+              <sc-if value="{{ hotel.hasScore }}" hint-placeholder-val="{{ true }}">
               <div style="display:flex;align-items:center;gap:9px;">
                 <span style="background:#0e1556;color:#fff;font-weight:800;font-size:14px;padding:6px 9px;border-radius:10px 10px 10px 2px;">{{ hotel.score }}</span>
                 <span style="display:flex;flex-direction:column;font-size:12px;line-height:1.35;"><strong style="color:#0b0f1f;">{{ hotel.label }}</strong><span style="color:#52586b;font-weight:600;">{{ hotel.reviews }} reviews</span></span>
               </div>
+              </sc-if>
               <sc-if value="{{ hotel.hasPrice }}" hint-placeholder-val="{{ true }}">
               <div style="display:flex;flex-direction:column;align-items:flex-end;font-size:11px;color:#52586b;font-weight:600;line-height:1.4;">
                 <sc-if value="{{ hotel.hasStrike }}" hint-placeholder-val="">
                   <span style="text-decoration:line-through;color:#9aa0b4;font-size:14px;font-weight:700;">{{ hotel.priceLabel }}</span>
                 </sc-if>
                 <strong style="font-size:19px;color:#ff6500;font-weight:900;display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>{{ hotel.memberLabel }}</strong>
-                <span>per night · member rate</span>
+                <span>1 room x 1 night incl. taxes</span>
               </div>
               </sc-if>
             </div>
@@ -525,12 +527,46 @@ const US_POOL = [
     { id: 'lp6556cb5a', name: 'AC Hotel by Marriott Phoenix Downtown', city: 'Phoenix', address: '414 NORTH 5TH STREET', image: 'https://static.cupid.travel/hotels/453377090.jpg', rating: 9.6, reviewCount: 935 },
     { id: 'lp103727', name: 'Hyatt Regency Seattle', city: 'Seattle', address: '808 Howell St', image: 'https://static.cupid.travel/hotels/597766385.jpg', rating: 9.2, reviewCount: 2572 }
   ];
+const LUX_POOL = [
+    { id: 'lp10249d', name: 'Mandarin Oriental Jumeira, Dubai', city: 'Dubai', address: 'Jumeira 1, Jumeirah Road, Dubai', image: 'https://static.cupid.travel/hotels/ex_2debbc87_z.jpg', rating: 0, reviewCount: 87 },
+    { id: 'lp1ab1f', name: 'Excelsior Hotel Gallia, a Luxury Collection Hotel, Milan', city: 'Milan', address: 'Piazza Duca D\'Aosta 9', image: 'https://static.cupid.travel/hotels/346586230.jpg', rating: 9.2, reviewCount: 992 },
+    { id: 'lp1af45', name: 'Hôtel Napoleon Paris', city: 'Paris', address: '40, avenue de Friedland', image: 'https://static.cupid.travel/hotels/87375257.jpg', rating: 9.2, reviewCount: 908 },
+    { id: 'lp1b845', name: 'St. James\' Court, A Taj Hotel, London', city: 'London', address: '41-54 Buckingham Gate', image: 'https://static.cupid.travel/hotels/477275249.jpg', rating: 8.8, reviewCount: 7008 },
+    { id: 'lp1b9e7', name: 'Rome Cavalieri, A Waldorf Astoria Hotel', city: 'Rome', address: 'Via Cadlolo 101', image: 'https://static.cupid.travel/hotels/484082798.jpg', rating: 9, reviewCount: 1101 },
+    { id: 'lp1b9f6', name: 'London Hilton on Park Lane', city: 'London', address: '22 Park Lane', image: 'https://static.cupid.travel/hotels/492133770.jpg', rating: 8, reviewCount: 2199 },
+    { id: 'lp1db0a1', name: 'THE BLOSSOM HIBIYA', city: 'Tokyo', address: 'Minato-ku Shinbashi 1-1-13', image: 'https://static.cupid.travel/hotels/216140703.jpg', rating: 9.1, reviewCount: 9147 },
+    { id: 'lp1e3405', name: 'Address Sky View, Downtown Dubai', city: 'Dubai', address: 'Sheikh Mohammed Bin Rashed Boulevard, Downtown PO Box 11196, Dubai, Dubai', image: 'https://static.cupid.travel/hotels/ex_e7402a4a_z.jpg', rating: 9.2, reviewCount: 133 },
+    { id: 'lp20554', name: 'Hyatt Regency London - The Churchill', city: 'London', address: '30 Portman Square', image: 'https://static.cupid.travel/hotels/465541557.jpg', rating: 9, reviewCount: 2685 },
+    { id: 'lp2275e', name: 'The St. Regis Rome', city: 'Rome', address: 'Via Vittorio Emanuele Orlando 3', image: 'https://static.cupid.travel/hotels/469174310.jpg', rating: 9.4, reviewCount: 312 },
+    { id: 'lp27e2f', name: 'Pullman Paris Tour Eiffel', city: 'Paris', address: '18 avenue de Suffren, Entrée au 22 rue Jean Rey, Paris, Paris, 75015', image: 'https://static.cupid.travel/hotels/ex_061cccdc_z.jpg', rating: 8.6, reviewCount: 257 },
+    { id: 'lp2a16c', name: 'Jumeirah Burj Al Arab Dubai', city: 'Dubai', address: 'Jumeirah Beach Road, Dubai', image: 'https://static.cupid.travel/hotels/ex_ce0e0ec5_z.jpg', rating: 9.4, reviewCount: 129 },
+    { id: 'lp2a32f', name: 'The Savoy', city: 'London', address: 'Strand', image: 'https://static.cupid.travel/hotels/177109798.jpg', rating: 9.4, reviewCount: 2245 },
+    { id: 'lp2b241', name: 'Novotel Paris Les Halles', city: 'Paris', address: '8 Place Marguerite de Navarre', image: 'https://static.cupid.travel/hotels/328444480.jpg', rating: 8.6, reviewCount: 4307 },
+    { id: 'lp2ba5e', name: 'UNA Hotels Galles Milano', city: 'Milan', address: 'Piazza Lima 2', image: 'https://static.cupid.travel/hotels/468587792.jpg', rating: 8.4, reviewCount: 8798 },
+    { id: 'lp2f61f', name: 'Hotel Splendide Royal - The Leading Hotels of the World', city: 'Rome', address: 'Via Di Porta Pinciana 14', image: 'https://static.cupid.travel/hotels/53482587.jpg', rating: 9.1, reviewCount: 545 },
+    { id: 'lp2f87f', name: 'Melia Milano', city: 'Milan', address: 'Via Masaccio 19, Milan, MI, 20149', image: 'https://static.cupid.travel/hotels/ex_800ad29e_z.jpg', rating: 8.6, reviewCount: 3979 },
+    { id: 'lp32483', name: 'The Royal Park Hotel Iconic Tokyo Shiodome', city: 'Tokyo', address: 'Minato-ku, Higashishimbashi 1-6-3', image: 'https://static.cupid.travel/hotels/30886591.jpg', rating: 8.8, reviewCount: 9395 },
+    { id: 'lp37b85', name: 'The Prince Park Tower Tokyo - Preferred Hotels & Resorts, LVX Collection', city: 'Tokyo', address: 'Minato-ku, Shiba Koen 4-8-1 ', image: 'https://static.cupid.travel/hotels/362054404.jpg', rating: 8.8, reviewCount: 4717 },
+    { id: 'lp3e709', name: 'The Peninsula Tokyo', city: 'Tokyo', address: '1-8-1 Yuraku-cho, Chiyoda-ku, Tokyo, Tokyo-to, 100-0006', image: 'https://static.cupid.travel/hotels/ex_b51d3c88_z.jpg', rating: 9.4, reviewCount: 121 },
+    { id: 'lp4f068', name: 'Sofitel Dubai Jumeirah Beach', city: 'Dubai', address: 'Jumeirah Beach - Dubai Marina, PO Box 473828, Dubai', image: 'https://static.cupid.travel/hotels/ex_56f05253_z.jpg', rating: 9, reviewCount: 123 },
+    { id: 'lp59713', name: 'Shangri-La Paris', city: 'Paris', address: '10 Avenue D\'Iéna', image: 'https://static.cupid.travel/hotels/406065982.jpg', rating: 9.5, reviewCount: 285 },
+    { id: 'lp5d5c1', name: 'Villa Agrippina, a Gran Meliá Hotel - The Leading Hotels of The World', city: 'Rome', address: 'Via Del Gianicolo 3', image: 'https://static.cupid.travel/hotels/511440569.jpg', rating: 9.2, reviewCount: 716 },
+    { id: 'lp65560928', name: 'Tokyo Bay Shiomi Prince Hotel', city: 'Tokyo', address: 'Koto-ku Shiomi 2-8-16', image: 'https://static.cupid.travel/hotels/300681318.jpg', rating: 9.1, reviewCount: 8755 },
+    { id: 'lp680a4', name: 'Magna Pars- L\'Hotel à Parfum Small Luxury Hotels of the World', city: 'Milan', address: 'Via Forcella 6, Milan, MI, 20144', image: 'https://static.cupid.travel/hotels/ex_e704ab59_z.jpg', rating: 9.4, reviewCount: 157 },
+    { id: 'lp6f715', name: 'Shangri-La The Shard, London', city: 'London', address: '31 St Thomas Street', image: 'https://static.cupid.travel/hotels/40691107.jpg', rating: 10, reviewCount: 2687 },
+    { id: 'lp7246c', name: 'The Peninsula Paris', city: 'Paris', address: '19 Avenue Kléber, Paris, Paris, 75116', image: 'https://static.cupid.travel/hotels/ex_298ded30_z.jpg', rating: 9.6, reviewCount: 119 },
+    { id: 'lp72e2c', name: 'Four Seasons Resort Dubai at Jumeirah Beach', city: 'Dubai', address: 'Jumeirah Road, Dubai, 128777', image: 'https://static.cupid.travel/hotels/ex_5be10268_z.jpg', rating: 9.4, reviewCount: 112 },
+    { id: 'lpaab61', name: 'Hassler Roma', city: 'Rome', address: 'Piazza Trinita Dei Monti 6, Rome, RM, 00187', image: 'https://static.cupid.travel/hotels/ex_74a7f292_z.jpg', rating: 9.4, reviewCount: 56 }
+  ];
+
 
 class Component extends DCLogic {
   state = { recPage: 0, mode: 'standard',
     datesOpen: false, guestsOpen: false, stayCheckin: '', stayCheckout: '', stayGuests: 2,
     destSugs: [], destPlaceId: '',
-    ratesReady: false, ratesFailed: false, rateMap: {}, homeCheckin: '', homeCheckout: '' };
+    ratesReady: false,
+    luxOk: false, luxRateMap: {}, luxCheckin: '', luxCheckout: '',
+    wkOk: false, wkRateMap: {}, wkCheckin: '', wkCheckout: '' };
   async apiGet(path) {
     const res = await cgApiFetch(path, { headers: { 'accept': 'application/json' } });
     if (!res.ok) throw new Error('API ' + res.status);
@@ -550,25 +586,50 @@ class Component extends DCLogic {
     const fmt = (x) => x.toISOString().split('T')[0];
     return { checkin: fmt(checkinDate), checkout: fmt(checkoutDate) };
   }
+  // Fallback dates for the luxury pool (zzzello parity: 1 night, exactly 90
+  // days out) used only if /api/recommended's luxury block is unavailable —
+  // matches api/recommended.js's luxuryDates() algorithm.
+  luxuryDates() {
+    const d = new Date();
+    const checkinDate = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 90);
+    const checkoutDate = new Date(checkinDate.getFullYear(), checkinDate.getMonth(), checkinDate.getDate() + 1);
+    const fmt = (x) => x.toISOString().split('T')[0];
+    return { checkin: fmt(checkinDate), checkout: fmt(checkoutDate) };
+  }
   async fetchHomeRates() {
-    // Server-priced recommended hotels: one edge-cached GET replaces the old
+    // Server-priced hotel sections: one edge-cached GET replaces the old
     // client-side POST /hotels/rates + sessionStorage cache (see
     // api/recommended.js — same architecture as zzzello.com's homepage).
+    // Response has two independent blocks — luxury (Recommended section,
+    // 90-days-out 1-night pricing) and weekend (Deals/Weekend sections,
+    // next Fri->Sun pricing) — either can be missing on a partial upstream
+    // failure, so each is handled independently.
+    let data = null;
     try {
       const res = await fetch('/api/recommended', { headers: { 'accept': 'application/json' } });
       if (!res.ok) throw new Error('recommended ' + res.status);
-      const data = await res.json();
-      this.setState({
-        homeCheckin: data.checkin,
-        homeCheckout: data.checkout,
-        rateMap: data.rates || {},
-        ratesReady: true,
-        ratesFailed: false
-      });
+      data = await res.json();
     } catch (e) {
-      const { checkin, checkout } = this.nextWeekendDates();
-      this.setState({ homeCheckin: checkin, homeCheckout: checkout, rateMap: {}, ratesReady: true, ratesFailed: true });
+      data = null;
     }
+
+    const lux = data && data.luxury;
+    const wk = data && data.weekend;
+
+    const luxFallback = this.luxuryDates();
+    const wkFallback = this.nextWeekendDates();
+
+    this.setState({
+      luxOk: !!lux,
+      luxRateMap: (lux && lux.rates) || {},
+      luxCheckin: (lux && lux.checkin) || luxFallback.checkin,
+      luxCheckout: (lux && lux.checkout) || luxFallback.checkout,
+      wkOk: !!wk,
+      wkRateMap: (wk && wk.rates) || {},
+      wkCheckin: (wk && wk.checkin) || wkFallback.checkin,
+      wkCheckout: (wk && wk.checkout) || wkFallback.checkout,
+      ratesReady: true
+    });
   }
   buildHotelEntry(h, checkin, checkout, rateMap) {
     const rate = rateMap[h.id];
@@ -621,17 +682,25 @@ class Component extends DCLogic {
     window.removeEventListener('scroll', this._scrollHandler);
   }
   renderVals() {
-    const { recPage, mode, ratesReady, ratesFailed, rateMap, homeCheckin, homeCheckout } = this.state;
-    const checkin = homeCheckin || this.iso(1), checkout = homeCheckout || this.iso(3);
-    const filterByRate = ratesReady && !ratesFailed;
+    const {
+      recPage, mode, ratesReady,
+      luxOk, luxRateMap, luxCheckin, luxCheckout,
+      wkOk, wkRateMap, wkCheckin, wkCheckout
+    } = this.state;
+    const checkin = luxCheckin || this.iso(90), checkout = luxCheckout || this.iso(91);
+    const wCheckin = wkCheckin || this.iso(1), wCheckout = wkCheckout || this.iso(3);
+    const filterLux = ratesReady && luxOk;
+    const filterWk = ratesReady && wkOk;
 
-    const recSource = filterByRate ? REC_POOL.filter(h => rateMap[h.id]) : REC_POOL;
+    const recSource = filterLux ? LUX_POOL.filter(h => luxRateMap[h.id]) : LUX_POOL;
     const recList = recSource.map(h => {
-      const e = this.buildHotelEntry(h, checkin, checkout, rateMap);
+      const e = this.buildHotelEntry(h, checkin, checkout, luxRateMap);
+      const hasScore = h.rating > 0;
       return {
         ...e,
-        score: h.rating.toFixed(1),
-        label: this.label(h.rating),
+        hasScore,
+        score: hasScore ? h.rating.toFixed(1) : '',
+        label: hasScore ? this.label(h.rating) : '',
         reviews: h.reviewCount.toLocaleString(),
         memberLabel: e.hasPrice ? "US$" + Math.round(e.perNight).toLocaleString() : '',
         priceLabel: e.hasStrike ? "US$" + Math.round(e.sspPerNight).toLocaleString() : '',
@@ -642,14 +711,14 @@ class Component extends DCLogic {
     const safeRecPage = Math.min(recPage, pageCount - 1);
     const recVisible = recList.slice(safeRecPage * pageSize, safeRecPage * pageSize + pageSize);
 
-    const usAvail = filterByRate ? US_POOL.filter(h => rateMap[h.id]) : US_POOL;
+    const usAvail = filterWk ? US_POOL.filter(h => wkRateMap[h.id]) : US_POOL;
     const topDealsPool = this.selectDiverse(usAvail, 8);
     const usedIds = new Set(topDealsPool.map(h => h.id));
     const weekendPool = usAvail.length < 12
       ? this.selectDiverse(usAvail, 4)
       : this.selectDiverse(usAvail.filter(h => !usedIds.has(h.id)), 4);
     const mkDeal = (h) => {
-      const e = this.buildHotelEntry(h, checkin, checkout, rateMap);
+      const e = this.buildHotelEntry(h, wCheckin, wCheckout, wkRateMap);
       return {
         ...e,
         rating: h.rating.toFixed(1),
