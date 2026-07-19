@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js" defer></script>
 <script src="./cg-api.js" defer></script>
+<script src="./cg-rates.js" defer></script>
 </head>
 <body>
 <x-dc>
@@ -27,7 +28,7 @@
 
 <nav style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);">
   <div style="max-width:1000px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;">
-    <a href="/" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" width="2000" height="500" style="height:40px;display:block;"></a>
+    <a href="/" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" width="2000" height="500" style="height:40px; width:auto;display:block;"></a>
     <div style="display:flex;align-items:center;gap:18px;">
       <button onClick="{{ authAction }}" style="border:none;background:transparent;cursor:pointer;font-weight:700;font-size:14px;color:#0e1556;" style-hover="color:#38b6ff;">{{ authLabel }}</button>
       <a href="/" style="background:#38b6ff;color:#fff;font-weight:800;font-size:14px;padding:9px 20px;border-radius:999px;" style-hover="background:#2da1e6;color:#fff;">Find a stay</a>
@@ -137,7 +138,12 @@ class Component extends DCLogic {
       const cancelled = t.status === 'cancelled';
       const upcoming = !cancelled && new Date(t.checkin + 'T12:00:00') > new Date();
       return {
-        imgEl: React.createElement('img', { src: t.image || 'assets/hotel-fallback-sm.webp', alt: t.hotelName, style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
+        imgEl: React.createElement('img', {
+          src: (typeof cgImg === 'function') ? cgImg(t.image || 'assets/hotel-fallback-sm.webp', 384) : (t.image || 'assets/hotel-fallback-sm.webp'),
+          alt: t.hotelName, loading: 'lazy', decoding: 'async',
+          onError: (e) => { const orig = t.image || 'assets/hotel-fallback-sm.webp'; if (e.target.src !== orig) { e.target.src = orig; } },
+          style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' }
+        }),
         hotelName: t.hotelName, address: t.address || '—', confirmation: t.confirmation || t.id,
         hotelHref: '/hotel-detail?hotelId=' + encodeURIComponent(t.hotelId || ''),
         statusLabel: cancelled ? 'Cancelled' : upcoming ? 'Upcoming' : 'Completed',

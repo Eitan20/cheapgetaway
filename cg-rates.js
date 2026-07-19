@@ -10,6 +10,11 @@
 //   cgPerNight(total, nights)    -> number
 //   CG_STRIKE                    -> 1.02 (strike shown only if ssp > total * CG_STRIKE)
 //   cgMoney(amount, currency)    -> formatted display string, e.g. "US$1,234"
+//   cgImg(url, w)                -> Vercel Image Optimization proxy URL for
+//                                    absolute http(s) URLs (dynamic hotel
+//                                    photos); local asset paths pass through
+//                                    unchanged. w must be one of vercel.json's
+//                                    configured images.sizes (384/640/960).
 
 (function (global) {
   function cgNights(checkin, checkout) {
@@ -64,9 +69,16 @@
     return prefix + n.toLocaleString();
   }
 
+  function cgImg(url, w) {
+    if (!url || typeof url !== 'string') return url;
+    if (!/^https?:\/\//i.test(url)) return url;
+    return '/_vercel/image?url=' + encodeURIComponent(url) + '&w=' + w + '&q=70';
+  }
+
   global.cgNights = cgNights;
   global.cgBestRate = cgBestRate;
   global.cgPerNight = cgPerNight;
   global.CG_STRIKE = CG_STRIKE;
   global.cgMoney = cgMoney;
+  global.cgImg = cgImg;
 })(typeof window !== 'undefined' ? window : this);

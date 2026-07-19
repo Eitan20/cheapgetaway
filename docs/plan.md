@@ -375,3 +375,37 @@ webps; no cache headers in vercel.json. Work on branch `perf/pagespeed`.
 - [ ] **11.4 Orchestrator review + merge**: diff vs this phase, run local
   Playwright spot-check, merge to main, push (Vercel auto-deploys), then
   re-run PSI and record scores here.
+- [x] **11.4 done 2026-07-19**: merged ff 0948992 → main, pushed, deployed.
+  Local Lighthouse (mobile, live site): perf 68→79, a11y 86→96, SEO 83→100,
+  FCP 2.0s, LCP 5.1s (was 10.7), TBT 0ms, CLS 0. Remaining: dynamic hotel
+  photos from static.cupid.travel (full-size ~0.4–1 MB JPEGs into ~400px
+  cards, 8.8 MB est. waste, 1h cache — now THE payload/LCP problem; CDN has
+  no resize variants, verified 404s), cg-logo.png aspect-ratio REGRESSION
+  (width="2000" attr + CSS height:54px → displayed 2000×54), brand-orange
+  #ff6500 small-text contrast (2.95:1, design decision — flag to user).
+- [x] **11.5 Proxy-resize hotel images + fix logo ratio** (developer,
+  branch perf/pagespeed2):
+  a) vercel.json top-level `"images"` config: sizes [384,640,960],
+     formats ["image/webp"], minimumCacheTTL 2592000, remotePatterns for
+     https static.cupid.travel + static.nuitee.cloud (photos) — enables
+     `/_vercel/image?url=<enc>&w=640&q=70` (Vercel Image Optimization for
+     static sites).
+  b) One shared helper `cgImg(url, w)` in cg-rates.js (already loaded on
+     index/search-results/hotel-detail/checkout): returns
+     `/_vercel/image?url=${encodeURIComponent(url)}&w=${w}&q=70` for
+     http(s) URLs, url unchanged otherwise. Wire it into every dynamic
+     hotel-image sink: index.html imgEl/card templates (w=640),
+     search-results result cards (w=640), hotel-detail gallery main
+     (w=960) + thumbs (w=384), checkout + my-trips summary imgs (w=384).
+     Each <img> gets onerror fallback to the original URL (dev server has
+     no /_vercel/image; graceful 404→original swap, guard infinite loop).
+     Video poster attr too if it uses main_photo.
+  c) Logo fix everywhere cg-logo/logo-cheapgetaway width/height attrs were
+     added in 11.2: ensure CSS `width:auto` accompanies fixed CSS height
+     (or drop the attrs where CSS sets height only) so displayed ratio is
+     4:1 again. Verify in Playwright: nav logo ~216×54, not stretched.
+  d) Verify: dev server + Playwright (fallback path renders imgs), grep
+     no prod_, commit, DO NOT push (orchestrator merges).
+- [ ] **11.6 Orchestrator: review, merge, push, re-run Lighthouse on live
+  (expect /_vercel/image live), record final scores. Flag #ff6500 contrast
+  tradeoff to user.**

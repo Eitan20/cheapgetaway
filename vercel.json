@@ -1,6 +1,15 @@
 {
   "framework": null,
   "cleanUrls": true,
+  "images": {
+    "sizes": [384, 640, 960],
+    "formats": ["image/webp"],
+    "minimumCacheTTL": 2592000,
+    "remotePatterns": [
+      { "protocol": "https", "hostname": "static.cupid.travel" },
+      { "protocol": "https", "hostname": "static.nuitee.cloud" }
+    ]
+  },
   "redirects": [
     {
       "source": "/travorium-landing",

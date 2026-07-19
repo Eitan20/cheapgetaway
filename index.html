@@ -64,7 +64,7 @@
 
 <nav style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);">
   <div class="cg-nav-row" style="max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
-    <a href="/" style="display:flex;align-items:center;"><img id="cg-nav-logo" src="assets/cg-logo.png" alt="cheapgetaway.com" width="2000" height="500" style="height:54px;display:block;transition:height .25s ease;"></a>
+    <a href="/" style="display:flex;align-items:center;"><img id="cg-nav-logo" src="assets/cg-logo.png" alt="cheapgetaway.com" width="2000" height="500" style="height:54px; width:auto;display:block;transition:height .25s ease;"></a>
     <div class="cg-nav-links" style="display:flex;align-items:center;gap:28px;font-weight:700;font-size:15px;">
       <a href="#deals" style="color:#0e1556;" style-hover="color:#38b6ff;">Deals</a>
       <a href="#weekend" style="color:#0e1556;" style-hover="color:#38b6ff;">Weekend</a>
@@ -579,7 +579,14 @@ class Component extends DCLogic {
   }
   step(k, d, min, max) { return () => this.setState(s => ({ [k]: Math.max(min, Math.min(max, s[k] + d)) })); }
   iso(offsetDays) { const d = new Date(); d.setDate(d.getDate() + offsetDays); return d.toISOString().split('T')[0]; }
-  imgEl(src, alt, abs) { return React.createElement('img', { src, alt: alt || '', loading: 'lazy', style: abs ? { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' } : { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }); }
+  imgEl(src, alt, abs, w) {
+    const proxied = (typeof cgImg === 'function') ? cgImg(src, w || 640) : src;
+    return React.createElement('img', {
+      src: proxied, alt: alt || '', loading: 'lazy',
+      onError: (e) => { if (e.target.src !== src) { e.target.src = src; } },
+      style: abs ? { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' } : { width: '100%', height: '100%', objectFit: 'cover', display: 'block' }
+    });
+  }
   label(s) { return s >= 9.5 ? "Exceptional" : s >= 9 ? "Wonderful" : s >= 8.5 ? "Excellent" : "Very good"; }
   nextWeekendDates() {
     const d = new Date();

@@ -37,7 +37,7 @@
 
 <nav style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);">
   <div style="max-width:1100px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;">
-    <a href="/" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" width="2000" height="500" style="height:40px;display:block;"></a>
+    <a href="/" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" width="2000" height="500" style="height:40px; width:auto;display:block;"></a>
     <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#52586b;">
       <span style="color:#1d9e55;display:flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1d9e55" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>Secure checkout</span>
     </div>
@@ -503,7 +503,7 @@ class Component extends DCLogic {
       sdkError: paymentPhase ? S.sdkError : '',
       onRetryPayment: () => { this._paymentInit = false; this.setState({ sdkError: '' }); },
       supportMailto: supportMailto,
-      hotelImgEl: React.createElement('img', { src: img, alt: hotel.name || 'Hotel', style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
+      hotelImgEl: React.createElement('img', { src: (typeof cgImg === 'function') ? cgImg(img, 384) : img, alt: hotel.name || 'Hotel', loading: 'lazy', decoding: 'async', onError: (e) => { if (e.target.src !== img) { e.target.src = img; } }, style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
       hotelName: hotel.name || 'Loading…', starsRow: '★★★★★'.slice(0, stars),
       addressLine: [hotel.address, hotel.city].filter(Boolean).join(', '),
       roomName: P.room, board: P.board,
