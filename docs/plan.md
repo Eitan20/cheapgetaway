@@ -552,3 +552,13 @@ webps; no cache headers in vercel.json. Work on branch `perf/pagespeed`.
   support.js (11.11)" on perf/pagespeed5, not pushed.
 - [ ] **11.12 Orchestrator: merge, push, live-verify /_vercel/image static
   imgs + v116, final Lighthouse, record, close.**
+- [x] **11.12 done 2026-07-19**: merged a7e0371 → main, deployed, live-verified
+  (all 25 homepage imgs via /_vercel/image + srcset, 0 broken, minified
+  support.js boots index + hotel-detail with 0 console errors, v=116 live).
+  Final live Lighthouse mobile COLD cache: perf 92, a11y 96, BP 100,
+  SEO 100 — LCP 2.9s, TBT 10ms, CLS 0, weight 530 KiB (baseline was
+  perf 68, LCP 10.7s, 4,973 KiB). Warm-cache runs score 100. Remaining
+  (accepted): ~174 KiB image headroom, 10 KiB third-party cloudflareinsights
+  beacon cache, #ff6500 small-text contrast (user decision). REMINDERS:
+  editing any /assets file → RENAME it (immutable 1y cache); editing any
+  root .js → bump ?v= on script tags (currently 116). Phase 11 closed.
