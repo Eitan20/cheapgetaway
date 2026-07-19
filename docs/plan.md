@@ -697,3 +697,12 @@ webps; no cache headers in vercel.json. Work on branch `perf/pagespeed`.
   e) Committed "perf: zero-CLS font fallback, hide pre-boot template, srcset cap (11.15)" on perf/pagespeed7, not pushed.
 - [ ] **11.16 Orchestrator: merge 11.13+11.15, push, final PSI-equivalent
   Lighthouse, record, close.**
+- [x] **11.16 done 2026-07-19**: merged 11.13 (orange #ff6500→#c04c00,
+  chip text #b74800) + 11.15 (Nunito/Fredoka metric-matched fallback
+  @font-faces, static x-dc{display:none}, featured-beach srcset cap,
+  hotel-detail q60 helper) + cyan-CTA navy-text fix (bfbec7e) → main,
+  deployed. Final live Lighthouse mobile: perf 91-94 cold / ~100 warm,
+  **a11y 100** (contrast passes), BP 100, SEO 100, CLS 0, TBT 10ms,
+  weight 586 KiB. Phase 11 fully closed. Brand color note: interactive
+  orange is now #c04c00 sitewide (washes rgba(192,76,0,x)); cyan #38b6ff
+  buttons use navy #0e1556 text.
