@@ -428,3 +428,25 @@ webps; no cache headers in vercel.json. Work on branch `perf/pagespeed`.
   console errors), grep prod_ empty, commit, do not push.
 - [ ] **11.8 Orchestrator: merge, push, confirm live cgImg + /_vercel/image
   requests in browser, final Lighthouse, record scores.**
+- [x] **11.8 done 2026-07-19**: ?v=115 busted Cloudflare cache; cgImg live,
+  all 15 dynamic hotel imgs confirmed served via /_vercel/image in-browser.
+  Lighthouse (mobile, live): perf 88, a11y 96, BP 100, SEO 100 — FCP 1.1s,
+  SI 1.1s, LCP 3.9s, TBT 0, CLS 0, bytes 991 KiB (was 4,973). LCP element =
+  hero section, gated on support.js → runtime-injected unpkg React chain.
+- [x] **11.9 done 2026-07-19**: added `<link rel="preload" as="script"
+  crossorigin href="...react.../react.production.min.js">` + react-dom
+  equivalent, right after the unpkg preconnect, in the real <head> of all 11
+  pages loading support.js. support.js's `loadScript()` sets `integrity` +
+  `crossOrigin="anonymous"` on the injected <script> (since window.__resources
+  is unset in prod, `cdnScriptFor` always returns the SRI path), so preload
+  used matching `crossorigin` (anonymous) — no credentials-mode mismatch.
+  Verified via dev server (python3 -m http.server) + Playwright on index.html
+  and hotel-detail.html: no new console errors (only pre-existing local
+  /api/* 404s from missing Vercel functions), and response-headers on the
+  preload vs. script-consumed network entries for react.production.min.js
+  were byte-identical (same `date`/`age`/`cf-ray`/`fly-request-id`),
+  confirming a single real network fetch reused by the script tag. `grep -rn
+  prod_` across the 11 pages returned no matches. Committed "perf: preload
+  react umd scripts (11.9)" on perf/pagespeed4, not pushed.
+- [ ] **11.10 Orchestrator: merge, push, final Lighthouse, record, close
+  phase.**
