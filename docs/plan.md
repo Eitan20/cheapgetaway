@@ -450,3 +450,11 @@ webps; no cache headers in vercel.json. Work on branch `perf/pagespeed`.
   react umd scripts (11.9)" on perf/pagespeed4, not pushed.
 - [ ] **11.10 Orchestrator: merge, push, final Lighthouse, record, close
   phase.**
+- [x] **11.10 done 2026-07-19**: merged dffd273 → main, deployed. Final live
+  Lighthouse (mobile): perf 85 cold-cache / **100 warm-cache** (LCP 1.4s,
+  FCP 1.1s, SI 1.1s warm; 3.9s LCP cold), a11y 96, best-practices 100,
+  SEO 100, TBT 0ms, CLS 0, page weight 850–990 KiB (was 4,973 KiB).
+  Baseline PSI 2026-07-19 was perf 68 / a11y 86 / BP 100 / SEO 83, LCP
+  10.7s. OPEN (user decision): brand orange #ff6500 small-text contrast
+  2.95:1 fails WCAG AA (needs ~#cc4e00 for 4.5:1) — visible brand change,
+  not applied. Phase 11 closed.
