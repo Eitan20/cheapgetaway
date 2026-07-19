@@ -163,3 +163,49 @@ LiteAPI docs: display `retailRate.total` (customer pays), strikethrough from
   second call: hide the price chip (existing no-price behavior), don't fake.
   Refund/board metadata comes from the matched cheapest rate in the second
   response. Then orchestrator re-verifies (7.2) and commits + pushes.
+
+## Phase 8 — zzzello-style server-priced recommended hotels
+
+Recon (orchestrator, 2026-07-18): zzzello.com's homepage calls its OWN
+backend `GET /v1/hotels/recommended?currency=USD` (NOT a LiteAPI endpoint —
+LiteAPI has none) returning ~29 curated hotels with a server-computed nightly
+`price` — so cards render instantly with prices, identically for every
+visitor. We replicate the architecture:
+
+- [x] **8.1 `/api/recommended` Vercel function + homepage wiring**
+  (developer; commits 436f71a + hotfixes 531025b/2e05b37 — two deploy
+  gotchas: no package.json → api/*.js must be CommonJS, and .vercelignore
+  excludes docs/ → registry moved to api/_homepage-hotels.json):
+  - New `api/recommended.js` (same handler style as api/liteapi.js):
+    computes next-Fri→Sun dates (same algorithm as index.html
+    nextWeekendDates, UTC-safe), reads the hotel ids from
+    `docs/homepage-hotels.json` (recommended + us pools), makes ONE
+    server-side LiteAPI `POST /hotels/rates` (api.liteapi.travel/v3.0,
+    LITEAPI_KEY env — never in code) with body exactly
+    `{ hotelIds, checkin, checkout, occupancies: [{ adults: 2 }],
+    currency: 'USD', guestNationality: 'US' }` (same shape/key order as the
+    pages use — see Phase 7 body-cache gotcha), reduces each hotel via the
+    same cheapest-rate logic as cg-rates.js cgBestRate (duplicate the ~15
+    lines in the function; it can't load browser globals), and responds
+    `{ checkin, checkout, nights, rates: { [hotelId]: { total, ssp,
+    currency } } }` with `Cache-Control: public, s-maxage=600,
+    stale-while-revalidate=3600` so Vercel's edge serves it instantly.
+    On LiteAPI failure: 503 JSON, no fake data. Never call prebook/book.
+  - index.html `fetchHomeRates()`: replace the client-side POST
+    /hotels/rates + sessionStorage cache with a single
+    `fetch('/api/recommended')`; use its `checkin/checkout` for state +
+    card links and its `rates` as the rateMap. Keep the existing failure
+    path (ratesFailed → cards without price chips). Delete the
+    sessionStorage cache code (edge cache replaces it).
+  - Card polish to match zzzello's clarity: under the per-night price add
+    the existing-style muted sub-line "per night · incl. taxes" if the
+    template doesn't already say so (keep current design language, no
+    redesign).
+  - Local verify: node --check on api/recommended.js + index script;
+    `node scripts/dev-server.mjs` requires LITEAPI_KEY so instead unit-run
+    the reducer against a captured /hotels/rates response; grep that no
+    client-side hotels/rates call remains in index.html.
+- [x] **8.2 Review + live verify + ship** (orchestrator, 2026-07-18):
+  prod `GET /api/recommended` returns rates (edge-cached, ~0.18s);
+  homepage↔detail verified 3/3 on prod (lp31b8d US$226, lpaa0d7 US$109,
+  lp1b30d1 US$52 — identical on both pages).
