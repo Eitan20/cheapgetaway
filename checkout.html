@@ -9,6 +9,7 @@
 <script src="./support.js?v=116" defer></script>
 <script src="./cg-api.js?v=116" defer></script>
 <script src="./cg-rates.js?v=116" defer></script>
+<style>x-dc{display:none}</style>
 </head>
 <body>
 <x-dc>
@@ -21,11 +22,12 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap"></noscript>
 <style>
-  html,body{margin:0;padding:0;background:#f6f7fb;font-family:'Nunito',sans-serif;color:#0b0f1f;}
+  @font-face{font-family:'Nunito Fallback';src:local('Arial');ascent-override:101.1%;descent-override:35.3%;line-gap-override:0%;size-adjust:98.4%;}
+  html,body{margin:0;padding:0;background:#f6f7fb;font-family:'Nunito','Nunito Fallback',sans-serif;color:#0b0f1f;}
   a{color:#0e1556;text-decoration:none;}
   a:hover{color:#38b6ff;}
   *{box-sizing:border-box;}
-  input,button,select{font-family:'Nunito',sans-serif;}
+  input,button,select{font-family:'Nunito','Nunito Fallback',sans-serif;}
   input:focus{outline:none;}
   @keyframes cg-shimmer{0%{background-position:-400px 0;}100%{background-position:400px 0;}}
   @keyframes cg-spin{to{transform:rotate(360deg);}}

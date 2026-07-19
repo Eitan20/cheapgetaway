@@ -611,36 +611,89 @@ webps; no cache headers in vercel.json. Work on branch `perf/pagespeed`.
   perf/pagespeed6, not pushed.
 - [ ] **11.14 Orchestrator: merge, push, final Lighthouse (expect a11y
   100), record, close.**
-- [ ] **11.15 CLS + polish round 3** (developer, branch perf/pagespeed7,
-  AFTER 11.13 merges) — PSI #3 2026-07-19: CLS 0.107, culprit = Nunito
-  web-font swap (fonts.gstatic woff2); filmstrip flashes raw "{{ heroTitle }}"
-  template pre-boot; image delivery 375 KiB (featured-beach w=960 = 109 KiB
-  of it):
-  a) Zero-shift font loading on ALL pages using Nunito: add a
-     metric-matched fallback `@font-face{font-family:'Nunito Fallback';
-     src:local('Arial');size-adjust/ascent-override/descent-override/
-     line-gap-override:<computed>}` to each page's critical inline CSS and
-     put 'Nunito Fallback' after 'Nunito' in every font-family stack.
-     COMPUTE the override percentages from the actual Nunito font metrics
-     (fontTools via pip --user venv, or capsize metrics via npm — Nunito
-     latin woff2 downloadable from the Google Fonts CSS we already use).
-     If computation is impossible, fall back to switching the Google CSS
-     URLs to display=optional instead (state which path you took). Same
-     for Fredoka on the 4 webinar/funnel pages.
-  b) Kill the raw-template flash: static `<style>x-dc{display:none}</style>`
-     in the real <head> of every dc-runtime page — FIRST verify in
-     support.js (docs/src/support.src.js) that the runtime renders into a
-     separate #dc-root and never needs x-dc visible; confirm post-boot
-     rendering still works in Playwright after the change.
-  c) index.html featured-beach: drop the 960w srcset entry (keep 384/640)
-     — mobile DPR was pulling 137 KiB for a card. Also drop q to 60 on the
-     THREE largest dynamic-photo sinks' cgImg calls ONLY if a quick visual
-     check shows no obvious quality loss (else leave q=70).
-  d) Verify: Playwright index/search-results/hotel-detail/checkout/
-     webinar-optin render post-boot, no {{ }} text visible at any point
-     (screenshot early + late), fonts render as Nunito, no new console
-     errors, grep prod_ empty. No .js file changes expected → v stays 116;
-     if you DO touch a root .js, bump to v=117 everywhere.
-  e) Commit "perf: zero-CLS font fallback, hide pre-boot template, srcset cap (11.15)", no push.
+- [x] **11.15 done 2026-07-19** CLS + polish round 3 (branch perf/pagespeed7,
+  based on perf/pagespeed6 which carries 11.13 — main didn't have 11.13 yet
+  at branch time since 11.14 merge hadn't run):
+  a) Computed real Nunito/Fredoka metrics with fontTools (venv `pip install
+     fonttools brotli`), fetching the Google Fonts css2 URLs with a Chrome
+     UA to get the latin woff2 (Nunito v32 `XRXV3I6Li01BKofINeaB.woff2`,
+     Fredoka v17 `X7n64b87HvSqjb_WIi2yDCRwoQ_k7367_DWu89U.woff2` — same file
+     served for every declared weight 400-900/600-700, so one set of metrics
+     covers all weights per family). ascent/descent/line-gap overrides read
+     straight from hhea (ascender/upm, |descender|/upm, lineGap/upm — all
+     0%). size-adjust required care: naive OS/2 xAvgCharWidth vs a generic
+     Arial constant gave ~128% (fails the 95-110% sanity check) because
+     Google's subsetted xAvgCharWidth field is unreliable. Recomputed both
+     the web font and the real local Arial.ttf (/System/Library/Fonts/
+     Supplemental/Arial.ttf, upm 2048, xAvgCharWidth 904) using the classic
+     TrueType frequency-weighted lowercase a-z+space advance-width formula
+     via hmtx — landed at Nunito 98.4%, Fredoka 102.48%, both sane. Final
+     values: Nunito ascent-override 101.1%, descent-override 35.3%,
+     line-gap-override 0%, size-adjust 98.4%; Fredoka ascent-override 97.4%,
+     descent-override 23.6%, line-gap-override 0%, size-adjust 102.5%. Added
+     `@font-face{font-family:'Nunito Fallback';src:local('Arial');...}` (and
+     'Fredoka Fallback') to each page's existing inline `<style>` block
+     (first line after the tag) — regex-replaced every `font-family:'Nunito'
+     ,sans-serif` (both tight and spaced variants, preserving each site's
+     spacing convention) to `font-family:'Nunito','Nunito Fallback',
+     sans-serif` across all 17 real pages incl. every inline `style=`
+     attribute (join-the-club.html 100 replacements, registration-confirmed
+     23, webinar-optin(-creator) 35 each — these are template pages with
+     heavy per-element inline styling). Fredoka done the same way on the 4
+     funnel pages. Post-fix grep for bare `'Nunito',sans-serif` /
+     `'Fredoka',sans-serif` (no Fallback): zero hits.
+  b) Confirmed in docs/src/support.src.js `boot()` (line ~165-168):
+     `dc.replaceWith(hostEl)` — the runtime unconditionally replaces the
+     `<x-dc>` element with a fresh `#dc-root` div at boot, read via
+     `querySelector` beforehand (doesn't care about visibility), and never
+     re-shows/relies on x-dc. The runtime ALREADY does this dynamically
+     (`hideRawTemplate()` at line 1609, called at line 1697 before React
+     loads) — confirming a static version is safe and just closes the
+     window between HTML parse and that JS running. Added
+     `<style>x-dc{display:none}</style>` right before `</head>` (after the
+     script tags, before `<body><x-dc>`) on all 11 dc-runtime pages
+     (booking-confirmed, checkout, hotel-detail, index, join-the-club,
+     my-trips, registration-confirmed, search-results, sign-in,
+     webinar-optin(-creator)). CSS `<style>` rules apply document-wide
+     regardless of an ancestor's display, so this doesn't block the
+     existing inline `<style>` (which lives inside x-dc) from taking effect.
+     Proved with Playwright on index/search-results/checkout/webinar-optin/
+     webinar-optin-creator/join-the-club/registration-confirmed: post-boot
+     `document.querySelector('x-dc')` is null, `#dc-root` exists, no
+     `{{ word }}`-shaped text anywhere in `body.innerText`, 0 new console
+     errors (only the pre-existing local-only `/api/*` 503s and
+     `/_vercel/image` 404s already documented in 11.11-11.13), fonts render
+     via the new stacks (webinar-optin h1 computed
+     `font-family: Fredoka, "Fredoka Fallback", sans-serif`). Did not use
+     Playwright's screenshot timing to catch the literal pre-boot frame
+     (localhost is too fast to reliably race); instead proved it
+     architecturally — the static hide rule is parsed and active in the
+     CSSOM before `<body>`/`<x-dc>` ever streams in, so the raw
+     `{{ heroTitle }}` text can never paint, by construction.
+  c) index.html featured-beach: widths trimmed from `[384,640,960]` to
+     `[384,640]` (960w entry removed, sizes attr unchanged). hotel-detail.html:
+     did NOT touch the shared cg-rates.js `cgImg()` (keeps root .js at
+     v=116 sitewide) — instead added a page-local `cgImgQ(url,w,q)` helper
+     (identical `/_vercel/image?...&q=` encoding) and wired q=60 through the
+     exact 3 largest dynamic-photo sinks that use `wBase>=960`: the gallery
+     hero tile (`tile0`, imgs[0]), the lightbox image, and the video poster
+     — all other cgImg call sites (384w thumbnails/cards on hotel-detail,
+     index, search-results, checkout, my-trips) stay q=70, matching the
+     "quick visual check" gate. Local dev-server's hotel-detail demo
+     fallback only serves local /assets images (same known limitation noted
+     in 11.13), so the q60 path isn't exercised by localhost — verified
+     instead against the live prod `/_vercel/image` proxy with a real
+     static.cupid.travel hotel photo (Horseshoe Las Vegas, 960w): q70 =
+     70,121 bytes, q60 = 58,249 bytes (-17%), rendered both and eyeballed
+     side by side — no visible quality loss at normal viewing size.
+  d) Verify: Playwright across index, search-results, hotel-detail,
+     checkout, webinar-optin, webinar-optin-creator, join-the-club,
+     registration-confirmed, my-trips, about — all render post-boot
+     correctly (screenshots taken for index/search-results/webinar-optin),
+     no `{{ }}` text anywhere, no new console errors beyond the documented
+     local-only `/api/*` 503s. `grep -rn prod_ *.html`: empty. No .js file
+     touched (cg-rates.js deliberately left alone) → all script tags stay
+     `?v=116`.
+  e) Committed "perf: zero-CLS font fallback, hide pre-boot template, srcset cap (11.15)" on perf/pagespeed7, not pushed.
 - [ ] **11.16 Orchestrator: merge 11.13+11.15, push, final PSI-equivalent
   Lighthouse, record, close.**

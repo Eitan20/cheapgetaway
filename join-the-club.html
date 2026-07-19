@@ -7,6 +7,7 @@
 <link rel="preload" as="script" crossorigin href="https://unpkg.com/react@18.3.1/umd/react.production.min.js">
 <link rel="preload" as="script" crossorigin href="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js">
 <script src="./support.js?v=116" defer></script>
+<style>x-dc{display:none}</style>
 </head>
 <body>
 <x-dc>
@@ -19,6 +20,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap"></noscript>
 <style>
+  @font-face{font-family:'Fredoka Fallback';src:local('Arial');ascent-override:97.4%;descent-override:23.6%;line-gap-override:0%;size-adjust:102.5%;}
+  @font-face{font-family:'Nunito Fallback';src:local('Arial');ascent-override:101.1%;descent-override:35.3%;line-gap-override:0%;size-adjust:98.4%;}
   html { scroll-behavior: smooth; }
   body { margin: 0; background: #FDF6E3; -webkit-font-smoothing: antialiased; }
   a { color: #1A2258; text-decoration: none; }
@@ -57,7 +60,7 @@
 </style>
 </helmet>
 
-<div data-screen-label="Travorium landing v2" style="font-family: 'Nunito', sans-serif; background: #FDF6E3; color: #1A2258; overflow-x: hidden; position: relative;">
+<div data-screen-label="Travorium landing v2" style="font-family: 'Nunito', 'Nunito Fallback', sans-serif; background: #FDF6E3; color: #1A2258; overflow-x: hidden; position: relative;">
 
   <!-- ============ HEADER ============ -->
   <header style="position: relative; z-index: 6; background: #FED770; display: flex; justify-content: center; padding: 26px min(6vw, 72px) 8px;">
@@ -69,18 +72,18 @@
     <img src="assets/hero-wide.jpg" alt="" width="1600" height="666" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; z-index: 0;">
     {{ clouds }}
     <div data-hero-content="" style="position: relative; z-index: 3; width: min(620px, calc(100vw - 24px)); margin-left: auto; margin-right: clamp(12px, 4vw, 64px); padding: clamp(18px, 2.6vw, 44px) clamp(16px, 2vw, 32px) 0; text-align: center; display: flex; flex-direction: column; align-items: center; box-sizing: border-box;">
-      <div data-reveal="" style="display: inline-flex; align-items: center; gap: 9px; background: #FFFFFF; border: 3px solid #1A2258; border-radius: 999px; padding: 8px 16px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(11px, 1.1vw, 13px); letter-spacing: 0.05em; text-transform: uppercase; box-shadow: 5px 5px 0 #1A2258; max-width: 100%;">
+      <div data-reveal="" style="display: inline-flex; align-items: center; gap: 9px; background: #FFFFFF; border: 3px solid #1A2258; border-radius: 999px; padding: 8px 16px; font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: clamp(11px, 1.1vw, 13px); letter-spacing: 0.05em; text-transform: uppercase; box-shadow: 5px 5px 0 #1A2258; max-width: 100%;">
         <span style="width: 9px; height: 9px; border-radius: 50%; background: #FF6B8A; flex-shrink: 0;"></span>
         You watched the webinar — this is the proof
       </div>
-      <h1 data-reveal="" data-hero-h1="" style="font-family: 'Fredoka', sans-serif; font-size: clamp(34px, 4.4vw, 64px); line-height: 1.04; letter-spacing: -0.02em; font-weight: 700; margin: 20px 0 0;">
+      <h1 data-reveal="" data-hero-h1="" style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-size: clamp(34px, 4.4vw, 64px); line-height: 1.04; letter-spacing: -0.02em; font-weight: 700; margin: 20px 0 0;">
         Everyone on this page <span style="color: #FFFFFF; text-shadow: 4px 4px 0 #1A2258; -webkit-text-stroke: 2px #1A2258;">said yes</span> to the invite you're holding.
       </h1>
       <p data-reveal="" style="font-size: clamp(16px, 1.5vw, 21px); line-height: 1.6; font-weight: 700; color: #1A2258; max-width: 640px; margin: 20px auto 0; background: rgba(255,255,255,0.72); backdrop-filter: blur(8px); border-radius: 20px; padding: 16px 24px;">
         Travorium is an invite-only travel club: member pricing on hotels, resorts and cruises — plus a referral income stream for people who can't stop talking about their trips. You've seen how it works. Now watch what members actually do with it.
       </p>
       <div data-reveal="" style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 34px; flex-wrap: wrap;">
-        <a href="https://travorium.com/enroll.php?sponsor=106720" target="_blank" rel="noopener" onClick="{{ trackEnroll }}" style="background: #FF6B8A; color: #FFFFFF; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 19px; padding: 17px 34px; border-radius: 999px; border: 3px solid #1A2258; animation: cg-pop 2.4s ease-in-out infinite;" style-hover="background: #FF87A1; color: #FFFFFF;">{{ ctaLabel }} →</a>
+        <a href="https://travorium.com/enroll.php?sponsor=106720" target="_blank" rel="noopener" onClick="{{ trackEnroll }}" style="background: #FF6B8A; color: #FFFFFF; font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 19px; padding: 17px 34px; border-radius: 999px; border: 3px solid #1A2258; animation: cg-pop 2.4s ease-in-out infinite;" style-hover="background: #FF87A1; color: #FFFFFF;">{{ ctaLabel }} →</a>
         <span style="font-size: 14px; font-weight: 800; color: #1A2258; line-height: 1.4; background: rgba(255,255,255,0.72); backdrop-filter: blur(8px); border-radius: 14px; padding: 10px 16px;">2-minute enrollment<br>You join under Team Cheap Getaway</span>
       </div>
     </div>
@@ -94,8 +97,8 @@
   <!-- ============ WATCH FIRST ============ -->
   <section data-screen-label="Watch first" style="position: relative; padding: clamp(64px, 8vw, 120px) min(6vw, 72px) 0; display: flex; flex-direction: column; align-items: center; gap: clamp(34px, 4vw, 54px);">
     <div data-reveal="" style="max-width: 860px; text-align: center;">
-      <div style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #E2554F;">▶ One member · press play</div>
-      <h2 style="font-family: 'Fredoka', sans-serif; font-size: clamp(32px, 3.8vw, 58px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; margin: 14px 0 0;">Don't take our word for it. Take his.</h2>
+      <div style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #E2554F;">▶ One member · press play</div>
+      <h2 style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-size: clamp(32px, 3.8vw, 58px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; margin: 14px 0 0;">Don't take our word for it. Take his.</h2>
       <p style="font-size: clamp(16px, 1.3vw, 19px); line-height: 1.6; font-weight: 600; color: rgba(26,34,88,0.8); max-width: 700px; margin: 18px auto 0;">
         He drove a city bus in Chicago before he found this travel club. Here's his story, unscripted.
       </p>
@@ -109,8 +112,8 @@
           <button data-play-overlay="" aria-label="Play video" style="position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; background: rgba(26,34,88,0.16); border: 0; padding: 0; cursor: pointer; transition: opacity 0.3s ease;"><span style="position: relative; display: flex; align-items: center; justify-content: center; width: clamp(56px, 24%, 78px); height: clamp(56px, 24%, 78px);"><span style="position: absolute; inset: 0; border-radius: 50%; border: 3px solid rgba(255,255,255,0.9); animation: cg-ping 1.8s cubic-bezier(0,0,0.2,1) infinite;"></span><span style="position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%; background: #FFFFFF; box-shadow: 0 6px 20px rgba(26,34,88,0.45);"><span style="display: block; width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 20px solid #1A2258; margin-left: 5px;"></span></span></span></button>
         </div>
         <div style="padding: 16px 20px 20px;">
-          <div style="display: inline-block; background: #FFD976; color: #1A2258; border: 2px solid #1A2258; border-radius: 999px; padding: 5px 13px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;">Former Chicago bus driver</div>
-          <div style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(17px, 1.5vw, 20px); color: #1A2258; line-height: 1.25; margin-top: 12px;">He traded the bus route for a passport. If he can build this, so can you.</div>
+          <div style="display: inline-block; background: #FFD976; color: #1A2258; border: 2px solid #1A2258; border-radius: 999px; padding: 5px 13px; font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;">Former Chicago bus driver</div>
+          <div style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: clamp(17px, 1.5vw, 20px); color: #1A2258; line-height: 1.25; margin-top: 12px;">He traded the bus route for a passport. If he can build this, so can you.</div>
         </div>
       </div>
 
@@ -122,15 +125,15 @@
 
     <!-- header -->
     <div data-reveal="" style="display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; border-bottom: 3px solid #1A2258; padding-bottom: 18px;">
-      <span style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 42px); color: #FFD976; -webkit-text-stroke: 2px #1A2258; text-shadow: 3px 3px 0 #1A2258;">01</span>
-      <h2 style="font-family: 'Fredoka', sans-serif; font-size: clamp(28px, 3.4vw, 52px); font-weight: 700; letter-spacing: -0.02em; margin: 0;">Case study: Julian Bernard</h2>
+      <span style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 42px); color: #FFD976; -webkit-text-stroke: 2px #1A2258; text-shadow: 3px 3px 0 #1A2258;">01</span>
+      <h2 style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-size: clamp(28px, 3.4vw, 52px); font-weight: 700; letter-spacing: -0.02em; margin: 0;">Case study: Julian Bernard</h2>
       <span style="margin-left: auto; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.65);">The earner</span>
     </div>
 
     <!-- the story, short -->
     <div style="display: flex; flex-wrap: wrap; gap: clamp(32px, 5vw, 72px); align-items: center; justify-content: center; margin-top: clamp(36px, 4vw, 56px);">
       <div data-reveal="" style="flex: 1 1 460px; min-width: 0;">
-        <div style="font-family: 'Fredoka', sans-serif; font-size: clamp(34px, 4.2vw, 64px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05;">
+        <div style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-size: clamp(34px, 4.2vw, 64px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05;">
           <span style="color: #FFD976; -webkit-text-stroke: 2px #1A2258; text-shadow: 4px 4px 0 #1A2258;">$10K a month</span>, recurring. And Ambassador in under 90 days.
         </div>
         <p style="font-size: clamp(16px, 1.3vw, 19px); font-weight: 600; line-height: 1.6; color: rgba(26,34,88,0.85); max-width: 620px; margin: 24px 0 0;">
@@ -138,15 +141,15 @@
         </p>
         <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-top: 28px;">
           <div style="background: #FFFFFF; border: 3px solid #1A2258; border-radius: 18px; padding: 16px 22px; box-shadow: 6px 6px 0 #1A2258; transform: rotate(-1deg);">
-            <div style="font-family: 'Fredoka', sans-serif; font-size: 26px; font-weight: 700;">&lt; 90 days</div>
+            <div style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-size: 26px; font-weight: 700;">&lt; 90 days</div>
             <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 800; color: rgba(26,34,88,0.6);">to Ambassador rank</div>
           </div>
           <div style="background: #FFFFFF; border: 3px solid #1A2258; border-radius: 18px; padding: 16px 22px; box-shadow: 6px 6px 0 #1A2258; transform: rotate(1deg);">
-            <div style="font-family: 'Fredoka', sans-serif; font-size: 26px; font-weight: 700;">$10K / mo</div>
+            <div style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-size: 26px; font-weight: 700;">$10K / mo</div>
             <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 800; color: rgba(26,34,88,0.6);">recurring, self-reported</div>
           </div>
           <div style="background: #FFFFFF; border: 3px solid #1A2258; border-radius: 18px; padding: 16px 22px; box-shadow: 6px 6px 0 #1A2258; transform: rotate(-0.6deg);">
-            <div style="font-family: 'Fredoka', sans-serif; font-size: 26px; font-weight: 700;">$0</div>
+            <div style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-size: 26px; font-weight: 700;">$0</div>
             <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 800; color: rgba(26,34,88,0.6);">membership since day one</div>
           </div>
         </div>
@@ -163,7 +166,7 @@
     <div data-reveal="" style="max-width: 360px; margin: clamp(44px, 5vw, 64px) auto 0;">
       <div style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #FFD976; transform: rotate(-0.9deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
         <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="6K7PQDGwU7A" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/6K7PQDGwU7A/hqdefault.jpg" alt="Julian Bernard — the full presentation" width="480" height="360" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
-        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">The full presentation</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #FF6B8A; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Watch</span></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 17px;">The full presentation</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #FF6B8A; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Watch</span></div>
       </div>
     </div>
   </section>
@@ -171,8 +174,8 @@
   <!-- ============ CHAPTER 02 — THE FEED ============ -->
   <section data-screen-label="02 The Feed" style="position: relative; padding: clamp(72px, 9vw, 130px) min(6vw, 72px) 0;">
     <div data-reveal="" style="display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; border-bottom: 3px solid #1A2258; padding-bottom: 18px;">
-      <span style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 42px); color: #FFFFFF; -webkit-text-stroke: 2px #1A2258; text-shadow: 3px 3px 0 #1A2258;">02</span>
-      <h2 style="font-family: 'Fredoka', sans-serif; font-size: clamp(28px, 3.4vw, 52px); font-weight: 700; letter-spacing: -0.02em; margin: 0;">This is what members post</h2>
+      <span style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 42px); color: #FFFFFF; -webkit-text-stroke: 2px #1A2258; text-shadow: 3px 3px 0 #1A2258;">02</span>
+      <h2 style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-size: clamp(28px, 3.4vw, 52px); font-weight: 700; letter-spacing: -0.02em; margin: 0;">This is what members post</h2>
       <span style="margin-left: auto; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.6);">The feed</span>
     </div>
     <p data-reveal="" style="font-size: clamp(16px, 1.3vw, 19px); font-weight: 600; line-height: 1.6; color: rgba(26,34,88,0.8); max-width: 720px; margin: 24px 0 0;">
@@ -208,11 +211,11 @@
           <video src="https://pub-54b940016abb48e8954b15df69868e4c.r2.dev/cheapgetaway/4_ina-ukraine-canada-testimonial.mp4#t=0.3" title="Member travel reel" playsinline preload="metadata" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: #000000;"></video><button data-play-overlay="" aria-label="Play video" style="position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; background: rgba(26,34,88,0.16); border: 0; padding: 0; cursor: pointer; transition: opacity 0.3s ease;"><span style="position: relative; display: flex; align-items: center; justify-content: center; width: clamp(56px, 24%, 78px); height: clamp(56px, 24%, 78px);"><span style="position: absolute; inset: 0; border-radius: 50%; border: 3px solid rgba(255,255,255,0.9); animation: cg-ping 1.8s cubic-bezier(0,0,0.2,1) infinite;"></span><span style="position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%; background: #FFFFFF; box-shadow: 0 6px 20px rgba(26,34,88,0.45);"><span style="display: block; width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 20px solid #1A2258; margin-left: 5px;"></span></span></span></button>
         </div>
       </div>
-      <button onClick="{{ feedPrev }}" aria-label="Previous reels" style="position: absolute; top: 50%; left: -6px; transform: translateY(-50%); z-index: 5; width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; border: 3px solid #1A2258; box-shadow: 4px 4px 0 #1A2258; color: #1A2258; font-family: 'Fredoka', sans-serif; font-size: 30px; font-weight: 700; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0 4px 3px 0;" style-hover="background: #FFD976; color: #1A2258;">‹</button>
-      <button onClick="{{ feedNext }}" aria-label="Next reels" style="position: absolute; top: 50%; right: -6px; transform: translateY(-50%); z-index: 5; width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; border: 3px solid #1A2258; box-shadow: 4px 4px 0 #1A2258; color: #1A2258; font-family: 'Fredoka', sans-serif; font-size: 30px; font-weight: 700; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0 0 3px 4px;" style-hover="background: #FFD976; color: #1A2258;">›</button>
+      <button onClick="{{ feedPrev }}" aria-label="Previous reels" style="position: absolute; top: 50%; left: -6px; transform: translateY(-50%); z-index: 5; width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; border: 3px solid #1A2258; box-shadow: 4px 4px 0 #1A2258; color: #1A2258; font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-size: 30px; font-weight: 700; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0 4px 3px 0;" style-hover="background: #FFD976; color: #1A2258;">‹</button>
+      <button onClick="{{ feedNext }}" aria-label="Next reels" style="position: absolute; top: 50%; right: -6px; transform: translateY(-50%); z-index: 5; width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; border: 3px solid #1A2258; box-shadow: 4px 4px 0 #1A2258; color: #1A2258; font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-size: 30px; font-weight: 700; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0 0 3px 4px;" style-hover="background: #FFD976; color: #1A2258;">›</button>
     </div>
     <div data-reveal="" style="display: flex; justify-content: center; margin-top: 44px;">
-      <a href="https://travorium.com/enroll.php?sponsor=106720" target="_blank" rel="noopener" onClick="{{ trackEnroll }}" style="background: #FFFFFF; color: #1A2258; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px; padding: 15px 30px; border-radius: 999px; border: 3px solid #1A2258; box-shadow: 6px 6px 0 #1A2258;" style-hover="transform: translate(-2px,-2px); color: #1A2258; box-shadow: 8px 8px 0 #1A2258;">Trade your feed for a passport → {{ ctaLabel }}</a>
+      <a href="https://travorium.com/enroll.php?sponsor=106720" target="_blank" rel="noopener" onClick="{{ trackEnroll }}" style="background: #FFFFFF; color: #1A2258; font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 17px; padding: 15px 30px; border-radius: 999px; border: 3px solid #1A2258; box-shadow: 6px 6px 0 #1A2258;" style-hover="transform: translate(-2px,-2px); color: #1A2258; box-shadow: 8px 8px 0 #1A2258;">Trade your feed for a passport → {{ ctaLabel }}</a>
     </div>
   </section>
 
@@ -221,19 +224,19 @@
 
     <!-- header -->
     <div data-reveal="" style="display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; border-bottom: 3px solid rgba(255,217,118,0.4); padding-bottom: 18px;">
-      <span style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 42px); color: #FFD976; text-shadow: 3px 3px 0 #0E1440;">03</span>
-      <h2 style="font-family: 'Fredoka', sans-serif; font-size: clamp(28px, 3.4vw, 52px); font-weight: 700; letter-spacing: -0.02em; margin: 0; color: #FDF6E3;">Case study: Larisa Berg</h2>
+      <span style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 42px); color: #FFD976; text-shadow: 3px 3px 0 #0E1440;">03</span>
+      <h2 style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-size: clamp(28px, 3.4vw, 52px); font-weight: 700; letter-spacing: -0.02em; margin: 0; color: #FDF6E3;">Case study: Larisa Berg</h2>
       <span style="margin-left: auto; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 800; color: rgba(253,246,227,0.55);">The one who went all in</span>
     </div>
 
     <!-- hook -->
     <div data-reveal="" style="max-width: 1000px; margin: clamp(34px, 4vw, 52px) 0 0;">
-      <div style="display: flex; flex-wrap: wrap; gap: 8px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 22px;">
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 22px;">
         <span style="background:#FFD976; color:#1A2258; border:2px solid #0E1440; border-radius:999px; padding:5px 13px;">Mother of eight</span>
         <span style="background:#3EC6D0; color:#1A2258; border:2px solid #0E1440; border-radius:999px; padding:5px 13px;">Ex coffee-shop owner</span>
         <span style="background:#FF6B8A; color:#FFFFFF; border:2px solid #0E1440; border-radius:999px; padding:5px 13px;">Three-Star Ambassador</span>
       </div>
-      <h3 style="font-family: 'Fredoka', sans-serif; font-size: clamp(30px, 4.2vw, 62px); line-height: 1.04; letter-spacing: -0.02em; font-weight: 700; margin: 0; color: #FDF6E3; text-wrap: pretty;">
+      <h3 style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-size: clamp(30px, 4.2vw, 62px); line-height: 1.04; letter-spacing: -0.02em; font-weight: 700; margin: 0; color: #FDF6E3; text-wrap: pretty;">
         Larisa woke at 4am to bake the bread for her own shop. Today, the company pays her <span style="color:#FFD976;">$20,000 a month</span> — on the days she works and the days she doesn't.
       </h3>
     </div>
@@ -258,12 +261,12 @@
         <div style="background:#FFFFFF; border:4px solid #0E1440; border-radius:24px; overflow:hidden; box-shadow:12px 12px 0 #3EC6D0;">
           <div style="padding:20px 24px; border-bottom:3px solid #1A2258;">
             <div style="font-size:12px; letter-spacing:0.12em; text-transform:uppercase; font-weight:800; color:#FF6B8A;">Before</div>
-            <div style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:17px; color:#1A2258; margin-top:6px; line-height:1.35;">4am shifts · a bakery · a coffee shop · eight kids · two years to her first paycheck</div>
+            <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:600; font-size:17px; color:#1A2258; margin-top:6px; line-height:1.35;">4am shifts · a bakery · a coffee shop · eight kids · two years to her first paycheck</div>
           </div>
           <div style="text-align:center; font-size:26px; color:#3EC6D0; padding:6px 0; background:#FDF6E3; border-bottom:3px solid #1A2258;">↓</div>
           <div style="padding:20px 24px; background:#FFD976;">
             <div style="font-size:12px; letter-spacing:0.12em; text-transform:uppercase; font-weight:800; color:#1A2258;">Now</div>
-            <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:20px; color:#1A2258; margin-top:6px; line-height:1.3;">$20,000 a month, paid whether she works or not — and the businesses? Sold.</div>
+            <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:700; font-size:20px; color:#1A2258; margin-top:6px; line-height:1.3;">$20,000 a month, paid whether she works or not — and the businesses? Sold.</div>
           </div>
         </div>
       </div>
@@ -271,8 +274,8 @@
 
     <!-- mechanism pull quote -->
     <div data-reveal="" style="max-width: 960px; margin: clamp(56px,7vw,92px) auto 0; text-align:center;">
-      <div style="font-family:'Fredoka',sans-serif; font-size:clamp(56px,8vw,110px); line-height:0.7; color:#FFD976; opacity:0.45;">“</div>
-      <blockquote style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(28px,4vw,52px); line-height:1.12; letter-spacing:-0.02em; color:#FFD976; margin:0;">
+      <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:clamp(56px,8vw,110px); line-height:0.7; color:#FFD976; opacity:0.45;">“</div>
+      <blockquote style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:700; font-size:clamp(28px,4vw,52px); line-height:1.12; letter-spacing:-0.02em; color:#FFD976; margin:0;">
         I do sales once. But I get paid every single day, every single week, every single month.
       </blockquote>
       <div style="margin-top:20px; font-size:14px; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:rgba(253,246,227,0.7);">— Larisa Berg</div>
@@ -284,23 +287,23 @@
     <!-- proof stats -->
     <div data-reveal="" style="display:flex; gap:16px; flex-wrap:wrap; justify-content:center; margin-top: clamp(48px,6vw,72px);">
       <div style="background:#FFFFFF; border:3px solid #0E1440; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #3EC6D0; transform:rotate(-1.5deg); min-width:150px;">
-        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">$20K<span style="font-size:0.5em; font-weight:600;">/mo</span></div>
+        <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">$20K<span style="font-size:0.5em; font-weight:600;">/mo</span></div>
         <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">residual + bonuses</div>
       </div>
       <div style="background:#FFFFFF; border:3px solid #0E1440; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #FF6B8A; transform:rotate(1.2deg); min-width:150px;">
-        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">~9<span style="font-size:0.5em; font-weight:600;"> mo</span></div>
+        <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">~9<span style="font-size:0.5em; font-weight:600;"> mo</span></div>
         <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">to replace family income</div>
       </div>
       <div style="background:#FFFFFF; border:3px solid #0E1440; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #58B368; transform:rotate(-0.8deg); min-width:150px;">
-        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">~$2M</div>
+        <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">~$2M</div>
         <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">paid out in &lt;3 years*</div>
       </div>
       <div style="background:#FFFFFF; border:3px solid #0E1440; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #3FA9F5; transform:rotate(1deg); min-width:150px;">
-        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">20K+</div>
+        <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">20K+</div>
         <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">partners on their team*</div>
       </div>
       <div style="background:#FFFFFF; border:3px solid #0E1440; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #FFD976; transform:rotate(-1.1deg); min-width:150px;">
-        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">3★</div>
+        <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">3★</div>
         <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">Ambassador rank today</div>
       </div>
     </div>
@@ -310,23 +313,23 @@
 
     <!-- why she went all in -->
     <div data-reveal="" style="margin-top: clamp(56px,7vw,92px);">
-      <h3 style="font-family:'Fredoka',sans-serif; font-size:clamp(24px,2.8vw,40px); font-weight:700; letter-spacing:-0.02em; color:#FDF6E3; margin:0 0 6px; text-align:center;">Why she went all in</h3>
+      <h3 style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:clamp(24px,2.8vw,40px); font-weight:700; letter-spacing:-0.02em; color:#FDF6E3; margin:0 0 6px; text-align:center;">Why she went all in</h3>
       <p style="text-align:center; font-size:clamp(15px,1.2vw,18px); font-weight:600; color:rgba(253,246,227,0.7); margin:0 auto 32px; max-width:560px;">Four reasons — and every one of them is on the table for you, on the exact same terms.</p>
       <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:20px;">
         <div style="background:#FFFFFF; border:3px solid #0E1440; border-radius:20px; padding:24px; box-shadow:7px 7px 0 #FFD976; transform:rotate(-0.8deg);">
-          <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">The work happens once</div>
+          <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">The work happens once</div>
           <p style="font-size:15px; line-height:1.55; font-weight:600; color:rgba(26,34,88,0.78); margin:0;">Book a trip, post what you saved. The referral income keeps paying long after you've unpacked.</p>
         </div>
         <div style="background:#FFFFFF; border:3px solid #0E1440; border-radius:20px; padding:24px; box-shadow:7px 7px 0 #3EC6D0; transform:rotate(0.7deg);">
-          <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">She travels for pocket change</div>
+          <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">She travels for pocket change</div>
           <p style="font-size:15px; line-height:1.55; font-weight:600; color:rgba(26,34,88,0.78); margin:0;">Vegas, 5 nights, $98. Dubai, 6 nights, 5-star, about $31 in points. One booking beat the public sites by roughly $3,000.</p>
         </div>
         <div style="background:#FFFFFF; border:3px solid #0E1440; border-radius:20px; padding:24px; box-shadow:7px 7px 0 #FF6B8A; transform:rotate(-0.6deg);">
-          <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">No contract, ever</div>
+          <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">No contract, ever</div>
           <p style="font-size:15px; line-height:1.55; font-weight:600; color:rgba(26,34,88,0.78); margin:0;">Keep your job. Treat it as Plan B. Larisa's Plan B quietly became Plan A — then she sold the businesses.</p>
         </div>
         <div style="background:#FFFFFF; border:3px solid #0E1440; border-radius:20px; padding:24px; box-shadow:7px 7px 0 #58B368; transform:rotate(0.9deg);">
-          <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">It pays for itself</div>
+          <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">It pays for itself</div>
           <p style="font-size:15px; line-height:1.55; font-weight:600; color:rgba(26,34,88,0.78); margin:0;">Refer three friends who love it and the company covers your monthly. She hasn't paid for hers in three years.</p>
         </div>
       </div>
@@ -336,30 +339,30 @@
     <div data-reveal="" style="max-width:820px; margin:clamp(56px,7vw,92px) auto 0; text-align:center;">
       <div style="font-size:13px; letter-spacing:0.12em; text-transform:uppercase; font-weight:800; color:#FFD976; margin-bottom:14px;">Her real why</div>
       <p style="font-size:clamp(16px,1.3vw,19px); font-weight:600; color:rgba(253,246,227,0.82); margin:0;">Ask Larisa what keeps her going and she won't say money. She'll say her eight kids.</p>
-      <blockquote style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(24px,3vw,42px); line-height:1.16; letter-spacing:-0.02em; color:#FDF6E3; margin:20px 0 0;">“My kids are not an excuse not to win. They are the reason I'm winning.”</blockquote>
+      <blockquote style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:700; font-size:clamp(24px,3vw,42px); line-height:1.16; letter-spacing:-0.02em; color:#FDF6E3; margin:20px 0 0;">“My kids are not an excuse not to win. They are the reason I'm winning.”</blockquote>
       <p style="font-size:clamp(15px,1.2vw,18px); font-weight:600; color:rgba(253,246,227,0.72); margin:20px auto 0; max-width:600px;">It's the one thing she tells everyone who starts: know your why. Once you know it, a “no” stops being a wall.</p>
     </div>
 
     <!-- close: why not you -->
     <div data-reveal="" style="max-width:860px; margin:clamp(56px,7vw,88px) auto 0; text-align:center; border-top:3px solid rgba(255,217,118,0.4); padding-top:clamp(40px,5vw,60px);">
       <p style="font-size:clamp(16px,1.3vw,19px); font-weight:600; line-height:1.65; color:rgba(253,246,227,0.82); margin:0;">She tells one story more than any other. A woman in her seventies who'd worked fifty years. Larisa asked what her boss had ever given her for it. Nothing. Empty eyes — and one question: <em>“Why didn't I hear about this before?”</em></p>
-      <h3 style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(28px,3.8vw,52px); line-height:1.08; letter-spacing:-0.02em; color:#FDF6E3; margin:26px 0 0; text-wrap:pretty;">If somebody out there could do this — <span style="color:#FFD976;">why not you?</span></h3>
+      <h3 style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:700; font-size:clamp(28px,3.8vw,52px); line-height:1.08; letter-spacing:-0.02em; color:#FDF6E3; margin:26px 0 0; text-wrap:pretty;">If somebody out there could do this — <span style="color:#FFD976;">why not you?</span></h3>
       <div style="margin-top:34px; display:flex; flex-direction:column; align-items:center; gap:14px;">
-        <a href="https://travorium.com/enroll.php?sponsor=106720" target="_blank" rel="noopener" onClick="{{ trackEnroll }}" style="background:#FFD976; color:#1A2258; font-family:'Fredoka',sans-serif; font-weight:600; font-size:clamp(18px,1.6vw,22px); padding:18px 40px; border-radius:999px; border:3px solid #0E1440; box-shadow:7px 7px 0 #FF6B8A;" style-hover="transform:translate(-2px,-2px); color:#1A2258; box-shadow:9px 9px 0 #FF6B8A;">{{ ctaLabel }} →</a>
+        <a href="https://travorium.com/enroll.php?sponsor=106720" target="_blank" rel="noopener" onClick="{{ trackEnroll }}" style="background:#FFD976; color:#1A2258; font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:600; font-size:clamp(18px,1.6vw,22px); padding:18px 40px; border-radius:999px; border:3px solid #0E1440; box-shadow:7px 7px 0 #FF6B8A;" style-hover="transform:translate(-2px,-2px); color:#1A2258; box-shadow:9px 9px 0 #FF6B8A;">{{ ctaLabel }} →</a>
         <span style="font-size:13px; font-weight:700; color:rgba(253,246,227,0.6);">Same terms she started on · No contract · You join under Team Cheap Getaway</span>
       </div>
     </div>
 
     <!-- see it in her own words -->
-    <h3 data-reveal="" style="font-family:'Fredoka',sans-serif; font-size:clamp(22px,2.6vw,36px); font-weight:700; letter-spacing:-0.02em; color:#FDF6E3; margin:clamp(56px,7vw,88px) 0 0; text-align:center;">See it in her own words</h3>
+    <h3 data-reveal="" style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:clamp(22px,2.6vw,36px); font-weight:700; letter-spacing:-0.02em; color:#FDF6E3; margin:clamp(56px,7vw,88px) 0 0; text-align:center;">See it in her own words</h3>
     <div data-center-grid="" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 26px; margin-top: 34px;">
       <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #FF6B8A; transform: rotate(-0.9deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
         <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="ml3r9HYHqFM" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/ml3r9HYHqFM/hqdefault.jpg" alt="Larisa Berg — recognized on stage" width="480" height="360" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
-        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Larisa — awarded on stage</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #FF6B8A; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">English</span></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 17px;">Larisa — awarded on stage</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #FF6B8A; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">English</span></div>
       </div>
       <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #58B368; transform: rotate(-0.7deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
         <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="OlkLpr092kA" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/OlkLpr092kA/hqdefault.jpg" alt="Larisa presenting the business" width="480" height="360" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
-        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Larisa presenting the business</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">English</span></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 17px;">Larisa presenting the business</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">English</span></div>
       </div>
     </div>
   </section>
@@ -367,8 +370,8 @@
   <!-- ============ CHAPTER 01 — WINNERS ============ -->
   <section data-screen-label="04 Stories winners" style="position: relative; padding: clamp(72px, 9vw, 130px) min(6vw, 72px) 0;">
     <div data-reveal="" style="display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; border-bottom: 3px solid #1A2258; padding-bottom: 18px;">
-      <span style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 42px); color: #FFFFFF; -webkit-text-stroke: 2px #1A2258; text-shadow: 3px 3px 0 #1A2258;">04</span>
-      <h2 style="font-family: 'Fredoka', sans-serif; font-size: clamp(28px, 3.4vw, 52px); font-weight: 700; letter-spacing: -0.02em; margin: 0;">Travorium Stories winners</h2>
+      <span style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 42px); color: #FFFFFF; -webkit-text-stroke: 2px #1A2258; text-shadow: 3px 3px 0 #1A2258;">04</span>
+      <h2 style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-size: clamp(28px, 3.4vw, 52px); font-weight: 700; letter-spacing: -0.02em; margin: 0;">Travorium Stories winners</h2>
       <span style="margin-left: auto; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.6);">Real members · real trips</span>
     </div>
     <p data-reveal="" style="font-size: clamp(16px, 1.3vw, 19px); font-weight: 600; line-height: 1.6; color: rgba(26,34,88,0.8); max-width: 720px; margin: 24px 0 0;">
@@ -377,47 +380,47 @@
     <div data-even-grid="" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 26px; margin-top: 34px;">
       <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #3EC6D0; transform: rotate(-1deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
         <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="IindnsObnhU" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/IindnsObnhU/hqdefault.jpg" alt="Cindy Cachin — Málaga" width="480" height="360" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
-        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Cindy Cachin</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Málaga</span></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 17px;">Cindy Cachin</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Málaga</span></div>
       </div>
       <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #FF6B8A; transform: rotate(1.2deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
         <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="B_zZRg7ejqI" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/B_zZRg7ejqI/hqdefault.jpg" alt="Cholpon — Sri Lanka" width="480" height="360" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
-        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Cholpon</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Sri Lanka</span></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 17px;">Cholpon</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Sri Lanka</span></div>
       </div>
       <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #58B368; transform: rotate(-0.8deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
         <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="iqhoh10jFbw" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/iqhoh10jFbw/hqdefault.jpg" alt="Ainur Zhaliybayeva — New Orleans" width="480" height="360" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
-        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Ainur Zhaliybayeva</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">New Orleans</span></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 17px;">Ainur Zhaliybayeva</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">New Orleans</span></div>
       </div>
       <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #FF6B8A; transform: rotate(0.9deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
         <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="V-i7hKt8daQ" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/V-i7hKt8daQ/hqdefault.jpg" alt="Sibel Yilmaz — Budapest" width="480" height="360" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
-        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Sibel Yilmaz</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Budapest</span></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 17px;">Sibel Yilmaz</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Budapest</span></div>
       </div>
       <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #58B368; transform: rotate(-1.1deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
         <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="cM25ZdxohQ8" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/cM25ZdxohQ8/hqdefault.jpg" alt="Keith Brown — Venice" width="480" height="360" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
-        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Keith Brown</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Venice</span></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 17px;">Keith Brown</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Venice</span></div>
       </div>
       <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #3EC6D0; transform: rotate(1deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
         <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="1xqewKIyI4c" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/1xqewKIyI4c/hqdefault.jpg" alt="Stephanie Dionne — Roatán" width="480" height="360" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
-        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Stephanie Dionne</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Roatán</span></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 17px;">Stephanie Dionne</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Roatán</span></div>
       </div>
       <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #FF6B8A; transform: rotate(-1.3deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
         <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="3P2bklcDyd8" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/3P2bklcDyd8/hqdefault.jpg" alt="Stephanie — Cairo" width="480" height="360" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
-        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Stephanie</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Cairo</span></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 17px;">Stephanie</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Cairo</span></div>
       </div>
       <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #3EC6D0; transform: rotate(1.1deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
         <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="npo3W_NldCM" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/npo3W_NldCM/hqdefault.jpg" alt="Zarina — Almaty" width="480" height="360" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
-        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Zarina</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Almaty</span></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 17px;">Zarina</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Almaty</span></div>
       </div>
       <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #58B368; transform: rotate(-0.7deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
         <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="KhPbln6YVOk" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/KhPbln6YVOk/hqdefault.jpg" alt="Dave — Orlando" width="480" height="360" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
-        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Dave</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Orlando</span></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 17px;">Dave</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Orlando</span></div>
       </div>
       <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #FF6B8A; transform: rotate(1deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
         <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="5HxCvBGc2Vc" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/5HxCvBGc2Vc/hqdefault.jpg" alt="Zhazira — Phuket" width="480" height="360" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
-        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Zhazira</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Phuket</span></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 17px;">Zhazira</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Phuket</span></div>
       </div>
     </div>
     <div data-reveal="" style="display: flex; justify-content: center; margin-top: 44px;">
-      <a href="https://travorium.com/enroll.php?sponsor=106720" target="_blank" rel="noopener" onClick="{{ trackEnroll }}" style="background: #FFFFFF; color: #1A2258; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px; padding: 15px 30px; border-radius: 999px; border: 3px solid #1A2258; box-shadow: 6px 6px 0 #1A2258;" style-hover="transform: translate(-2px,-2px); color: #1A2258; box-shadow: 8px 8px 0 #1A2258;">Your trip could be next → {{ ctaLabel }}</a>
+      <a href="https://travorium.com/enroll.php?sponsor=106720" target="_blank" rel="noopener" onClick="{{ trackEnroll }}" style="background: #FFFFFF; color: #1A2258; font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 17px; padding: 15px 30px; border-radius: 999px; border: 3px solid #1A2258; box-shadow: 6px 6px 0 #1A2258;" style-hover="transform: translate(-2px,-2px); color: #1A2258; box-shadow: 8px 8px 0 #1A2258;">Your trip could be next → {{ ctaLabel }}</a>
     </div>
   </section>
 
@@ -426,19 +429,19 @@
 
     <!-- header -->
     <div data-reveal="" style="display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; border-bottom: 3px solid #1A2258; padding-bottom: 18px;">
-      <span style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 42px); color: #1A2258; text-shadow: 3px 3px 0 #FFD976;">05</span>
-      <h2 style="font-family: 'Fredoka', sans-serif; font-size: clamp(28px, 3.4vw, 52px); font-weight: 700; letter-spacing: -0.02em; margin: 0; color:#1A2258;">Case study: Igor Nikitskiy</h2>
+      <span style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 42px); color: #1A2258; text-shadow: 3px 3px 0 #FFD976;">05</span>
+      <h2 style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-size: clamp(28px, 3.4vw, 52px); font-weight: 700; letter-spacing: -0.02em; margin: 0; color:#1A2258;">Case study: Igor Nikitskiy</h2>
       <span style="margin-left: auto; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.55);">Larisa's husband · 5★</span>
     </div>
 
     <!-- hook -->
     <div data-reveal="" style="max-width: 1000px; margin: clamp(34px, 4vw, 52px) 0 0;">
-      <div style="display: flex; flex-wrap: wrap; gap: 8px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 22px;">
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 22px;">
         <span style="background:#FFD976; color:#1A2258; border:2px solid #1A2258; border-radius:999px; padding:5px 13px;">Licensed contractor</span>
         <span style="background:#3EC6D0; color:#1A2258; border:2px solid #1A2258; border-radius:999px; padding:5px 13px;">Father of eight</span>
         <span style="background:#FF6B8A; color:#FFFFFF; border:2px solid #1A2258; border-radius:999px; padding:5px 13px;">Five-Star Ambassador</span>
       </div>
-      <h3 style="font-family: 'Fredoka', sans-serif; font-size: clamp(30px, 4.2vw, 62px); line-height: 1.06; letter-spacing: -0.02em; font-weight: 700; margin: 0; color: #1A2258; text-wrap: pretty;">
+      <h3 style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-size: clamp(30px, 4.2vw, 62px); line-height: 1.06; letter-spacing: -0.02em; font-weight: 700; margin: 0; color: #1A2258; text-wrap: pretty;">
         His buddies laughed at his $10 commission checks. Then Igor ignored the account for a whole month, logged in — and found <span style="background:#FFD976; color:#1A2258; padding:0 10px; border-radius:8px; box-shadow:3px 3px 0 #1A2258; white-space:nowrap;">$3,200</span> waiting.
       </h3>
     </div>
@@ -463,12 +466,12 @@
         <div style="background:#FFFFFF; border:4px solid #1A2258; border-radius:24px; overflow:hidden; box-shadow:12px 12px 0 #3EC6D0;">
           <div style="padding:20px 24px; border-bottom:3px solid #1A2258;">
             <div style="font-size:12px; letter-spacing:0.12em; text-transform:uppercase; font-weight:800; color:#FF6B8A;">Before</div>
-            <div style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:17px; color:#1A2258; margin-top:6px; line-height:1.35;">Licensed contractor · own construction company · 8 kids · nearly bought a $70k timeshare</div>
+            <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:600; font-size:17px; color:#1A2258; margin-top:6px; line-height:1.35;">Licensed contractor · own construction company · 8 kids · nearly bought a $70k timeshare</div>
           </div>
           <div style="text-align:center; font-size:26px; color:#3EC6D0; padding:6px 0; background:#FDF6E3; border-bottom:3px solid #1A2258;">↓</div>
           <div style="padding:20px 24px; background:#1A2258;">
             <div style="font-size:12px; letter-spacing:0.12em; text-transform:uppercase; font-weight:800; color:#FFD976;">Now</div>
-            <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:20px; color:#FDF6E3; margin-top:6px; line-height:1.3;">Five-Star Ambassador, ~$50,000 a month. Construction company closed. Café sold.</div>
+            <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:700; font-size:20px; color:#FDF6E3; margin-top:6px; line-height:1.3;">Five-Star Ambassador, ~$50,000 a month. Construction company closed. Café sold.</div>
           </div>
         </div>
       </div>
@@ -479,53 +482,53 @@
       <div style="font-size:13px; letter-spacing:0.12em; text-transform:uppercase; font-weight:800; color:#E2554F; margin-bottom:22px;">It started with $4.10</div>
       <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:14px;">
         <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:16px; padding:14px 20px; box-shadow:5px 5px 0 #3EC6D0; transform:rotate(-1.2deg); min-width:130px;">
-          <div style="font-family:'Fredoka',sans-serif; font-size:26px; font-weight:700; color:#1A2258; line-height:1;">$4.10</div>
+          <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:26px; font-weight:700; color:#1A2258; line-height:1;">$4.10</div>
           <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">first commission</div>
         </div>
-        <span style="font-family:'Fredoka',sans-serif; font-size:26px; font-weight:700; color:#1A2258;">→</span>
+        <span style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:26px; font-weight:700; color:#1A2258;">→</span>
         <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:16px; padding:14px 20px; box-shadow:5px 5px 0 #FF6B8A; transform:rotate(1deg); min-width:130px;">
-          <div style="font-family:'Fredoka',sans-serif; font-size:26px; font-weight:700; color:#1A2258; line-height:1;">$10</div>
+          <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:26px; font-weight:700; color:#1A2258; line-height:1;">$10</div>
           <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">they laughed</div>
         </div>
-        <span style="font-family:'Fredoka',sans-serif; font-size:26px; font-weight:700; color:#1A2258;">→</span>
+        <span style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:26px; font-weight:700; color:#1A2258;">→</span>
         <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:16px; padding:14px 20px; box-shadow:5px 5px 0 #3FA9F5; transform:rotate(-0.8deg); min-width:130px;">
-          <div style="font-family:'Fredoka',sans-serif; font-size:26px; font-weight:700; color:#1A2258; line-height:1;">1 month</div>
+          <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:26px; font-weight:700; color:#1A2258; line-height:1;">1 month</div>
           <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">he did nothing</div>
         </div>
-        <span style="font-family:'Fredoka',sans-serif; font-size:26px; font-weight:700; color:#1A2258;">→</span>
+        <span style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:26px; font-weight:700; color:#1A2258;">→</span>
         <div style="background:#FFD976; border:3px solid #1A2258; border-radius:16px; padding:14px 24px; box-shadow:5px 5px 0 #1A2258; transform:rotate(1.4deg); min-width:140px;">
-          <div style="font-family:'Fredoka',sans-serif; font-size:34px; font-weight:700; color:#1A2258; line-height:1;">$3,200</div>
+          <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:34px; font-weight:700; color:#1A2258; line-height:1;">$3,200</div>
           <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.7); margin-top:6px;">he couldn't sleep</div>
         </div>
       </div>
-      <blockquote style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(22px,2.8vw,38px); line-height:1.18; letter-spacing:-0.02em; color:#1A2258; margin:36px auto 0; max-width:760px;">“That's the moment I lost my sleep. I ran upstairs to my wife — ‘Look. Look at this.’”</blockquote>
+      <blockquote style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:700; font-size:clamp(22px,2.8vw,38px); line-height:1.18; letter-spacing:-0.02em; color:#1A2258; margin:36px auto 0; max-width:760px;">“That's the moment I lost my sleep. I ran upstairs to my wife — ‘Look. Look at this.’”</blockquote>
       <p style="font-size:clamp(14px,1.15vw,17px); font-weight:700; color:rgba(26,34,88,0.7); margin:18px auto 0; max-width:620px;">His favorite line, borrowed from Warren Buffett: <em>“If you don't find a way to make money while you sleep, you'll work until you die.”</em></p>
     </div>
 
     <!-- proof stats -->
     <div data-reveal="" style="display:flex; gap:16px; flex-wrap:wrap; justify-content:center; margin-top: clamp(48px,6vw,72px);">
       <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #FFD976; transform:rotate(-1.4deg); min-width:150px;">
-        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">5★</div>
+        <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">5★</div>
         <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">his rank today</div>
       </div>
       <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #3EC6D0; transform:rotate(1.1deg); min-width:150px;">
-        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">~$50K<span style="font-size:0.5em; font-weight:600;">/mo</span></div>
+        <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">~$50K<span style="font-size:0.5em; font-weight:600;">/mo</span></div>
         <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">Igor · residual + bonuses</div>
       </div>
       <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #FF6B8A; transform:rotate(-0.8deg); min-width:150px;">
-        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">~$70K<span style="font-size:0.5em; font-weight:600;">/mo</span></div>
+        <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">~$70K<span style="font-size:0.5em; font-weight:600;">/mo</span></div>
         <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">household (with Larisa)</div>
       </div>
       <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #58B368; transform:rotate(1deg); min-width:150px;">
-        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">$1M+</div>
+        <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">$1M+</div>
         <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">first million, ~2 mo ago</div>
       </div>
       <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #3FA9F5; transform:rotate(-1.1deg); min-width:150px;">
-        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">17</div>
+        <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">17</div>
         <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">trips in his first 2 yrs</div>
       </div>
       <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:18px; padding:16px 22px; box-shadow:6px 6px 0 #FFD976; transform:rotate(0.9deg); min-width:150px;">
-        <div style="font-family:'Fredoka',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">~2.5<span style="font-size:0.5em; font-weight:600;"> yrs</span></div>
+        <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:clamp(26px,2.6vw,34px); font-weight:700; color:#1A2258; line-height:1;">~2.5<span style="font-size:0.5em; font-weight:600;"> yrs</span></div>
         <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; font-weight:800; color:rgba(26,34,88,0.6); margin-top:6px;">time in the business</div>
       </div>
     </div>
@@ -535,23 +538,23 @@
 
     <!-- why you -->
     <div data-reveal="" style="margin-top: clamp(56px,7vw,92px);">
-      <h3 style="font-family:'Fredoka',sans-serif; font-size:clamp(24px,2.8vw,40px); font-weight:700; letter-spacing:-0.02em; color:#1A2258; margin:0 0 6px; text-align:center;">Why he says you can do it too</h3>
+      <h3 style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:clamp(24px,2.8vw,40px); font-weight:700; letter-spacing:-0.02em; color:#1A2258; margin:0 0 6px; text-align:center;">Why he says you can do it too</h3>
       <p style="text-align:center; font-size:clamp(15px,1.2vw,18px); font-weight:600; color:rgba(26,34,88,0.7); margin:0 auto 32px; max-width:560px;">His argument isn't “get rich.” It's simpler than that — and harder to wave off.</p>
       <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:20px;">
         <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:20px; padding:24px; box-shadow:7px 7px 0 #FFD976; transform:rotate(-0.8deg);">
-          <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">You already sell every day</div>
+          <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">You already sell every day</div>
           <p style="font-size:15px; line-height:1.55; font-weight:600; color:rgba(26,34,88,0.78); margin:0;">You sold yourself into your job and onto your résumé. “You were born to sell” — the skill isn't the wall you think it is.</p>
         </div>
         <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:20px; padding:24px; box-shadow:7px 7px 0 #3EC6D0; transform:rotate(0.7deg);">
-          <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">It pays while you sleep</div>
+          <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">It pays while you sleep</div>
           <p style="font-size:15px; line-height:1.55; font-weight:600; color:rgba(26,34,88,0.78); margin:0;">His proudest month is the one he ignored. $3,200 landed anyway — the income keeps working when you don't.</p>
         </div>
         <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:20px; padding:24px; box-shadow:7px 7px 0 #FF6B8A; transform:rotate(-0.6deg);">
-          <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">Nothing to lug around</div>
+          <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">Nothing to lug around</div>
           <p style="font-size:15px; line-height:1.55; font-weight:600; color:rgba(26,34,88,0.78); margin:0;">No bottles, shampoos or vitamins to peddle. Just a membership people keep using — like Netflix or Uber.</p>
         </div>
         <div style="background:#FFFFFF; border:3px solid #1A2258; border-radius:20px; padding:24px; box-shadow:7px 7px 0 #58B368; transform:rotate(0.9deg);">
-          <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">Tiny entry, no ceiling</div>
+          <div style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:700; font-size:19px; color:#1A2258; margin-bottom:8px;">Tiny entry, no ceiling</div>
           <p style="font-size:15px; line-height:1.55; font-weight:600; color:rgba(26,34,88,0.78); margin:0;">His whole plan: sell 10 memberships in your life, teach 10 people to do the same. He asked about the limit — there isn't one.</p>
         </div>
       </div>
@@ -561,34 +564,34 @@
     <div data-reveal="" style="max-width:820px; margin:clamp(56px,7vw,92px) auto 0; text-align:center;">
       <div style="font-size:13px; letter-spacing:0.12em; text-transform:uppercase; font-weight:800; color:#E2554F; margin-bottom:14px;">A two-person business</div>
       <p style="font-size:clamp(16px,1.3vw,19px); font-weight:600; color:rgba(26,34,88,0.82); margin:0;">Igor's blunt about it: alone, he wouldn't have made it. Two positions — him and Larisa — built together, side by side.</p>
-      <blockquote style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(23px,3vw,40px); line-height:1.16; letter-spacing:-0.02em; color:#1A2258; margin:20px 0 0;">“If I work here the way I worked in my café, I'll become a millionaire.”</blockquote>
+      <blockquote style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:700; font-size:clamp(23px,3vw,40px); line-height:1.16; letter-spacing:-0.02em; color:#1A2258; margin:20px 0 0;">“If I work here the way I worked in my café, I'll become a millionaire.”</blockquote>
       <p style="font-size:clamp(15px,1.2vw,18px); font-weight:700; color:rgba(26,34,88,0.72); margin:14px auto 0; max-width:600px;">— Larisa, before they started. Igor's note on the webinar: <strong>her words came true.</strong></p>
     </div>
 
     <!-- close -->
     <div data-reveal="" style="max-width:860px; margin:clamp(56px,7vw,88px) auto 0; text-align:center; border-top:3px solid rgba(26,34,88,0.15); padding-top:clamp(40px,5vw,60px);">
       <p style="font-size:clamp(16px,1.3vw,19px); font-weight:600; line-height:1.65; color:rgba(26,34,88,0.82); margin:0;">Ask Igor for advice and it runs about four words long.</p>
-      <h3 style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(28px,3.8vw,52px); line-height:1.08; letter-spacing:-0.02em; color:#1A2258; margin:18px 0 0; text-wrap:pretty;">“If you want to change something — <span style="background:#FFD976; padding:0 10px; border-radius:8px; box-shadow:3px 3px 0 #1A2258; white-space:nowrap;">just jump on board</span> and start.”</h3>
+      <h3 style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:700; font-size:clamp(28px,3.8vw,52px); line-height:1.08; letter-spacing:-0.02em; color:#1A2258; margin:18px 0 0; text-wrap:pretty;">“If you want to change something — <span style="background:#FFD976; padding:0 10px; border-radius:8px; box-shadow:3px 3px 0 #1A2258; white-space:nowrap;">just jump on board</span> and start.”</h3>
       <div style="margin-top:34px; display:flex; flex-direction:column; align-items:center; gap:14px;">
-        <a href="https://travorium.com/enroll.php?sponsor=106720" target="_blank" rel="noopener" onClick="{{ trackEnroll }}" style="background:#FF6B8A; color:#FFFFFF; font-family:'Fredoka',sans-serif; font-weight:600; font-size:clamp(18px,1.6vw,22px); padding:18px 40px; border-radius:999px; border:3px solid #1A2258; animation: cg-pop 2.4s ease-in-out infinite;" style-hover="background:#FF87A1; color:#FFFFFF;">{{ ctaLabel }} →</a>
+        <a href="https://travorium.com/enroll.php?sponsor=106720" target="_blank" rel="noopener" onClick="{{ trackEnroll }}" style="background:#FF6B8A; color:#FFFFFF; font-family:'Fredoka','Fredoka Fallback',sans-serif; font-weight:600; font-size:clamp(18px,1.6vw,22px); padding:18px 40px; border-radius:999px; border:3px solid #1A2258; animation: cg-pop 2.4s ease-in-out infinite;" style-hover="background:#FF87A1; color:#FFFFFF;">{{ ctaLabel }} →</a>
         <span style="font-size:13px; font-weight:700; color:rgba(26,34,88,0.6);">Register as a couple or solo · No contract · You join under Team Cheap Getaway</span>
       </div>
     </div>
 
     <!-- see it in his own words -->
-    <h3 data-reveal="" style="font-family:'Fredoka',sans-serif; font-size:clamp(22px,2.6vw,36px); font-weight:700; letter-spacing:-0.02em; color:#1A2258; margin:clamp(56px,7vw,88px) 0 0; text-align:center;">See it in his own words</h3>
+    <h3 data-reveal="" style="font-family:'Fredoka','Fredoka Fallback',sans-serif; font-size:clamp(22px,2.6vw,36px); font-weight:700; letter-spacing:-0.02em; color:#1A2258; margin:clamp(56px,7vw,88px) 0 0; text-align:center;">See it in his own words</h3>
     <div data-center-grid="" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 26px; margin-top: 34px;">
       <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #3EC6D0; transform: rotate(-0.9deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
         <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="xdpqeZ_Aelw" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/xdpqeZ_Aelw/hqdefault.jpg" alt="Igor Nikitskiy Ambassador story" width="480" height="360" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
-        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Igor's Ambassador story</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #FF6B8A; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">English</span></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 17px;">Igor's Ambassador story</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #FF6B8A; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">English</span></div>
       </div>
       <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #FFD976; transform: rotate(0.7deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
         <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="e0mFc3SkkgI" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/e0mFc3SkkgI/hqdefault.jpg" alt="Igor Nikitskiy full presentation" width="480" height="360" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
-        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">The full presentation</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Russian</span></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 17px;">The full presentation</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Russian</span></div>
       </div>
       <div data-reveal="" style="background: #FFFFFF; border: 4px solid #1A2258; border-radius: 22px; overflow: hidden; box-shadow: 9px 9px 0 #58B368; transform: rotate(-0.6deg); transition: transform 0.3s ease;" style-hover="transform: rotate(0deg) scale(1.02);">
         <div style="position: relative; aspect-ratio: 16 / 9; background: #FDF6E3; border-bottom: 3px solid #1A2258; overflow: hidden;"><div onClick="{{ playVideo }}" data-video-id="jeeGQUMfJ9k" style="position: absolute; inset: 0; cursor: pointer;"><img src="https://i.ytimg.com/vi/jeeGQUMfJ9k/hqdefault.jpg" alt="Larisa and Igor presenting together" width="480" height="360" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div></div>
-        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px;">Larisa &amp; Igor, together</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Russian</span></div>
+        <div style="padding: 14px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;"><strong style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 17px;">Larisa &amp; Igor, together</strong><span style="font-size: 12px; font-weight: 800; color: #FFFFFF; background: #3FA9F5; border: 2px solid #1A2258; border-radius: 999px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.08em;">Russian</span></div>
       </div>
     </div>
   </section>
@@ -596,8 +599,8 @@
   <!-- ============ CHAPTER 06 — MEMBER STORIES ============ -->
   <section data-screen-label="06 Member stories" style="position: relative; padding: clamp(72px, 9vw, 130px) min(6vw, 72px) clamp(44px, 6vw, 80px);">
     <div data-reveal="" style="display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; border-bottom: 3px solid #1A2258; padding-bottom: 18px;">
-      <span style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 42px); color: #FFFFFF; -webkit-text-stroke: 2px #1A2258; text-shadow: 3px 3px 0 #1A2258;">06</span>
-      <h2 style="font-family: 'Fredoka', sans-serif; font-size: clamp(28px, 3.4vw, 52px); font-weight: 700; letter-spacing: -0.02em; margin: 0;">Real stories, real savings</h2>
+      <span style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 42px); color: #FFFFFF; -webkit-text-stroke: 2px #1A2258; text-shadow: 3px 3px 0 #1A2258;">06</span>
+      <h2 style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-size: clamp(28px, 3.4vw, 52px); font-weight: 700; letter-spacing: -0.02em; margin: 0;">Real stories, real savings</h2>
       <span style="margin-left: auto; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.6);">Straight from members</span>
     </div>
     <p data-reveal="" style="font-size: clamp(16px, 1.3vw, 19px); font-weight: 600; line-height: 1.6; color: rgba(26,34,88,0.8); max-width: 760px; margin: 24px 0 0;">
@@ -617,15 +620,15 @@
           <div style="padding: 16px 18px 18px; display: flex; flex-direction: column;">
             <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
               <div style="min-width: 0;">
-                <div style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 18px; color: #1A2258; line-height: 1.2;">{{ s.name }}</div>
+                <div style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 18px; color: #1A2258; line-height: 1.2;">{{ s.name }}</div>
                 <div style="font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.55); margin-top: 4px;">{{ s.place }}</div>
               </div>
               <div style="flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
-                <span style="background: #58B368; color: #FFFFFF; border: 2px solid #1A2258; border-radius: 999px; padding: 5px 12px; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 13px; white-space: nowrap;">Saved {{ s.saved }}</span>
+                <span style="background: #58B368; color: #FFFFFF; border: 2px solid #1A2258; border-radius: 999px; padding: 5px 12px; font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 700; font-size: 13px; white-space: nowrap;">Saved {{ s.saved }}</span>
                 <span style="font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 800; color: #1A2258; background: #EFE7CF; border: 1.5px solid #1A2258; border-radius: 999px; padding: 2px 9px; white-space: nowrap;">{{ s.lang }}</span>
               </div>
             </div>
-            <button onClick="{{ toggleStory }}" data-story-toggle="" aria-expanded="false" style="margin-top: 16px; align-self: flex-start; background: #FFD976; color: #1A2258; border: 3px solid #1A2258; border-radius: 999px; padding: 9px 18px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; box-shadow: 3px 3px 0 #1A2258;" style-hover="transform: translate(-1px,-1px); color: #1A2258; box-shadow: 4px 4px 0 #1A2258;">Read the full story</button>
+            <button onClick="{{ toggleStory }}" data-story-toggle="" aria-expanded="false" style="margin-top: 16px; align-self: flex-start; background: #FFD976; color: #1A2258; border: 3px solid #1A2258; border-radius: 999px; padding: 9px 18px; font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; box-shadow: 3px 3px 0 #1A2258;" style-hover="transform: translate(-1px,-1px); color: #1A2258; box-shadow: 4px 4px 0 #1A2258;">Read the full story</button>
             <div data-story-body="" data-open="0" style="max-height: 0; opacity: 0; overflow: hidden; margin-top: 0; transition: max-height 0.45s ease, opacity 0.3s ease, margin-top 0.4s ease; font-size: 15px; line-height: 1.6; font-weight: 600; color: rgba(26,34,88,0.8);">{{ s.story }}</div>
           </div>
         </div>
@@ -643,15 +646,15 @@
           <div style="padding: 16px 18px 18px; display: flex; flex-direction: column;">
             <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
               <div style="min-width: 0;">
-                <div style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 18px; color: #1A2258; line-height: 1.2;">{{ s.name }}</div>
+                <div style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 18px; color: #1A2258; line-height: 1.2;">{{ s.name }}</div>
                 <div style="font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 800; color: rgba(26,34,88,0.55); margin-top: 4px;">{{ s.place }}</div>
               </div>
               <div style="flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
-                <span style="background: #58B368; color: #FFFFFF; border: 2px solid #1A2258; border-radius: 999px; padding: 5px 12px; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 13px; white-space: nowrap;">Saved {{ s.saved }}</span>
+                <span style="background: #58B368; color: #FFFFFF; border: 2px solid #1A2258; border-radius: 999px; padding: 5px 12px; font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 700; font-size: 13px; white-space: nowrap;">Saved {{ s.saved }}</span>
                 <span style="font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 800; color: #1A2258; background: #EFE7CF; border: 1.5px solid #1A2258; border-radius: 999px; padding: 2px 9px; white-space: nowrap;">{{ s.lang }}</span>
               </div>
             </div>
-            <button onClick="{{ toggleStory }}" data-story-toggle="" aria-expanded="false" style="margin-top: 16px; align-self: flex-start; background: #FFD976; color: #1A2258; border: 3px solid #1A2258; border-radius: 999px; padding: 9px 18px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; box-shadow: 3px 3px 0 #1A2258;" style-hover="transform: translate(-1px,-1px); color: #1A2258; box-shadow: 4px 4px 0 #1A2258;">Read the full story</button>
+            <button onClick="{{ toggleStory }}" data-story-toggle="" aria-expanded="false" style="margin-top: 16px; align-self: flex-start; background: #FFD976; color: #1A2258; border: 3px solid #1A2258; border-radius: 999px; padding: 9px 18px; font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; box-shadow: 3px 3px 0 #1A2258;" style-hover="transform: translate(-1px,-1px); color: #1A2258; box-shadow: 4px 4px 0 #1A2258;">Read the full story</button>
             <div data-story-body="" data-open="0" style="max-height: 0; opacity: 0; overflow: hidden; margin-top: 0; transition: max-height 0.45s ease, opacity 0.3s ease, margin-top 0.4s ease; font-size: 15px; line-height: 1.6; font-weight: 600; color: rgba(26,34,88,0.8);">{{ s.story }}</div>
           </div>
         </div>
@@ -663,15 +666,15 @@
   <section data-screen-label="Final CTA" style="position: relative; background: #FFD976; border-top: 4px solid #1A2258; padding: clamp(90px, 11vw, 150px) min(6vw, 72px); text-align: center; overflow: hidden;">
     {{ ctaClouds }}
     <div style="position: relative; z-index: 2; max-width: 880px; margin: 0 auto;">
-      <div data-reveal="" style="display: inline-block; background: #FFFFFF; border: 3px solid #1A2258; border-radius: 999px; padding: 9px 20px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; box-shadow: 5px 5px 0 #1A2258;">The webinar was the pitch — this page was the evidence</div>
-      <h2 data-reveal="" style="font-family: 'Fredoka', sans-serif; font-size: clamp(38px, 5.2vw, 78px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.02; margin: 26px 0 0;">
+      <div data-reveal="" style="display: inline-block; background: #FFFFFF; border: 3px solid #1A2258; border-radius: 999px; padding: 9px 20px; font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; box-shadow: 5px 5px 0 #1A2258;">The webinar was the pitch — this page was the evidence</div>
+      <h2 data-reveal="" style="font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-size: clamp(38px, 5.2vw, 78px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.02; margin: 26px 0 0;">
         The only person not <span style="color: #FFFFFF; -webkit-text-stroke: 2px #1A2258; text-shadow: 4px 4px 0 #1A2258;">in the videos yet</span> is you.
       </h2>
       <p data-reveal="" style="font-size: clamp(16px, 1.4vw, 20px); font-weight: 600; line-height: 1.6; color: rgba(26,34,88,0.8); max-width: 620px; margin: 24px auto 0;">
         Join through this link and you enroll directly under Team Cheap Getaway — the people who will actually pick up the phone when you ask how Julian did it.
       </p>
       <div data-reveal="" style="margin-top: 38px; display: flex; flex-direction: column; align-items: center; gap: 16px;">
-        <a href="https://travorium.com/enroll.php?sponsor=106720" target="_blank" rel="noopener" onClick="{{ trackEnroll }}" style="background: #FF6B8A; color: #FFFFFF; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(19px, 1.7vw, 24px); padding: 21px 46px; border-radius: 999px; border: 4px solid #1A2258; animation: cg-pop 2.4s ease-in-out infinite;" style-hover="background: #FF87A1; color: #FFFFFF;">{{ ctaLabel }} →</a>
+        <a href="https://travorium.com/enroll.php?sponsor=106720" target="_blank" rel="noopener" onClick="{{ trackEnroll }}" style="background: #FF6B8A; color: #FFFFFF; font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: clamp(19px, 1.7vw, 24px); padding: 21px 46px; border-radius: 999px; border: 4px solid #1A2258; animation: cg-pop 2.4s ease-in-out infinite;" style-hover="background: #FF87A1; color: #FFFFFF;">{{ ctaLabel }} →</a>
         <span style="font-size: 14px; font-weight: 700; color: rgba(26,34,88,0.65);">2-minute enrollment · Cancel anytime · You're joining a team, not just a website</span>
       </div>
     </div>
@@ -689,7 +692,7 @@
   <div style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; display: flex; justify-content: center; padding: 14px 16px; pointer-events: none; transform: {{ stickyTransform }}; transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);">
     <div style="pointer-events: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 14px; background: #FFFFFF; border: 3px solid #1A2258; border-radius: 22px; padding: 10px 14px; box-shadow: 7px 7px 0 #1A2258; max-width: calc(100vw - 24px); box-sizing: border-box;">
       <span style="font-size: clamp(12.5px, 2.6vw, 15px); font-weight: 800; color: #1A2258; text-align: center; line-height: 1.25;">Invite-only · you're in through <span style="color: #3FA9F5;">Team Cheap Getaway</span></span>
-      <a href="https://travorium.com/enroll.php?sponsor=106720" target="_blank" rel="noopener" onClick="{{ trackEnroll }}" style="background: #FF6B8A; color: #FFFFFF; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 15px; padding: 12px 24px; border-radius: 999px; border: 3px solid #1A2258; white-space: nowrap;" style-hover="background: #FF87A1; color: #FFFFFF;">{{ ctaLabel }} →</a>
+      <a href="https://travorium.com/enroll.php?sponsor=106720" target="_blank" rel="noopener" onClick="{{ trackEnroll }}" style="background: #FF6B8A; color: #FFFFFF; font-family: 'Fredoka', 'Fredoka Fallback', sans-serif; font-weight: 600; font-size: 15px; padding: 12px 24px; border-radius: 999px; border: 3px solid #1A2258; white-space: nowrap;" style-hover="background: #FF87A1; color: #FFFFFF;">{{ ctaLabel }} →</a>
     </div>
   </div>
 

@@ -9,6 +9,7 @@
 <script src="./support.js?v=116" defer></script>
 <script src="./cg-api.js?v=116" defer></script>
 <script src="./cg-rates.js?v=116" defer></script>
+<style>x-dc{display:none}</style>
 </head>
 <body>
 <x-dc>
@@ -21,12 +22,13 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap"></noscript>
 <style>
-  html,body{margin:0;padding:0;background:#fff;font-family:'Nunito',sans-serif;color:#1a2b3c;}
+  @font-face{font-family:'Nunito Fallback';src:local('Arial');ascent-override:101.1%;descent-override:35.3%;line-gap-override:0%;size-adjust:98.4%;}
+  html,body{margin:0;padding:0;background:#fff;font-family:'Nunito','Nunito Fallback',sans-serif;color:#1a2b3c;}
   html{scroll-behavior:smooth;}
   a{color:#16202c;text-decoration:none;}
   a:hover{color:#38b6ff;}
   *{box-sizing:border-box;}
-  input,button,select{font-family:'Nunito',sans-serif;}
+  input,button,select{font-family:'Nunito','Nunito Fallback',sans-serif;}
   input:focus,select:focus{outline:none;}
   @keyframes cg-shimmer{0%{background-position:-400px 0;}100%{background-position:400px 0;}}
   .cg-scroll{scrollbar-width:none;}
@@ -593,24 +595,34 @@ class Component extends DCLogic {
     { title: 'Luxurious amenities', text: 'Indulge in the exquisite wellness center and rooftop terrace, providing stunning city views and a serene escape from the bustling streets below.' }
   ]; }
 
+  // Vercel Image Optimization proxy URL, same encoding as cg-rates.js'
+  // cgImg() but with an explicit quality param — used only for this page's
+  // 3 largest dynamic-photo sinks (960w hero tile, lightbox, video poster)
+  // where q60 vs q70 showed no visible loss but ~17% fewer bytes (11.15c).
+  cgImgQ(url, w, q) {
+    if (!url || typeof url !== 'string' || !/^https?:\/\//i.test(url)) return url;
+    return '/_vercel/image?url=' + encodeURIComponent(url) + '&w=' + w + '&q=' + q;
+  }
   imgEl(src, alt, style, w) {
     const wBase = w || 384;
     const isAbs = typeof cgImg === 'function' && typeof src === 'string' && /^https?:\/\//i.test(src);
-    const proxied = (typeof cgImg === 'function') ? cgImg(src, wBase) : src;
+    const large = wBase >= 960;
+    const q = large ? 60 : 70;
+    const proxied = isAbs ? this.cgImgQ(src, wBase, q) : ((typeof cgImg === 'function') ? cgImg(src, wBase) : src);
     const props = {
       src: proxied, alt: alt || '', loading: 'lazy', decoding: 'async',
       onError: (e) => { if (e.target.src !== src) { e.target.srcset = ''; e.target.src = src; } },
       style: style || { width: '100%', height: '100%', objectFit: 'cover', display: 'block' }
     };
     if (isAbs) {
-      const widths = wBase >= 960 ? [384, 640, 960] : [384, 640];
-      props.srcSet = widths.map(x => cgImg(src, x) + ' ' + x + 'w').join(', ');
-      props.sizes = wBase >= 960 ? '(max-width:768px) 100vw, 800px' : '(max-width:768px) 25vw, 150px';
+      const widths = large ? [384, 640, 960] : [384, 640];
+      props.srcSet = widths.map(x => this.cgImgQ(src, x, q) + ' ' + x + 'w').join(', ');
+      props.sizes = large ? '(max-width:768px) 100vw, 800px' : '(max-width:768px) 25vw, 150px';
     }
     return React.createElement('img', props);
   }
   videoEl(src, poster) {
-    const proxiedPoster = (typeof cgImg === 'function') ? cgImg(poster, 960) : poster;
+    const proxiedPoster = (typeof poster === 'string' && /^https?:\/\//i.test(poster)) ? this.cgImgQ(poster, 960, 60) : poster;
     return React.createElement('video', {
       src, poster: proxiedPoster, autoPlay: true, muted: true, loop: true, playsInline: true, preload: 'metadata',
       style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' },
