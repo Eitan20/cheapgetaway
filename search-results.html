@@ -343,7 +343,35 @@ class Component extends DCLogic {
       else if (S.fBreakfast) body.boardType = 'BI';
       const r = await this.api('/hotels/rates', { method: 'POST', body: JSON.stringify(body) });
       const hotels = r.hotels || [];
-      const rows = (r.data || []).map(x => ({ ...x, hotelData: x.hotelData || hotels.find(h => h.id === x.hotelId) || {} }));
+      const firstRows = (r.data || []).map(x => ({ ...x, hotelData: x.hotelData || hotels.find(h => h.id === x.hotelId) || {} }));
+      let rows = firstRows;
+      // LiteAPI caches /hotels/rates per request body, and aiSearch/placeId
+      // based responses can carry stale/partial rate sets. Re-price via a
+      // second hotelIds-based call (same shape the homepage/detail page use)
+      // so prices agree across pages; keep the first call's hotelData
+      // (name/photo/rating/geo) either way.
+      const hotelIds = firstRows.map(x => x.hotelId).filter(Boolean);
+      if (hotelIds.length) {
+        try {
+          const r2 = await this.api('/hotels/rates', { method: 'POST', body: JSON.stringify({
+            hotelIds, checkin: P.checkin, checkout: P.checkout, occupancies: [{ adults: P.adults }],
+            currency: 'USD', guestNationality: 'US'
+          }) });
+          const rateMap = {};
+          (r2.data || []).forEach(x => { rateMap[x.hotelId] = x; });
+          rows = firstRows.map(x => {
+            const priced = rateMap[x.hotelId];
+            // Hotel absent/rate-less in the second response: drop its rates
+            // rather than keep the (possibly stale) first-response rate, so
+            // it falls into the existing no-price rendering below.
+            return { ...x, roomTypes: priced ? (priced.roomTypes || []) : [] };
+          });
+        } catch (e2) {
+          // Second call failed entirely: fall back to the first response's
+          // rates rather than showing nothing.
+          rows = firstRows;
+        }
+      }
       this.setState({ loading: false, demo: false, results: rows });
     } catch (e) {
       this.setState({ loading: false, demo: true, results: this.demoResults() });
