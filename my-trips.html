@@ -27,7 +27,7 @@
 
 <nav style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);">
   <div style="max-width:1000px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;">
-    <a href="/" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:40px;display:block;"></a>
+    <a href="/" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" width="2000" height="500" style="height:40px;display:block;"></a>
     <div style="display:flex;align-items:center;gap:18px;">
       <button onClick="{{ authAction }}" style="border:none;background:transparent;cursor:pointer;font-weight:700;font-size:14px;color:#0e1556;" style-hover="color:#38b6ff;">{{ authLabel }}</button>
       <a href="/" style="background:#38b6ff;color:#fff;font-weight:800;font-size:14px;padding:9px 20px;border-radius:999px;" style-hover="background:#2da1e6;color:#fff;">Find a stay</a>
@@ -49,7 +49,7 @@
           <div style="flex:1 1 320px;min-width:0;padding:20px 24px;display:flex;flex-direction:column;gap:8px;">
             <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
               <span style="background:{{ t.statusBg }};color:{{ t.statusColor }};font-weight:900;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;padding:4px 12px;border-radius:999px;">{{ t.statusLabel }}</span>
-              <span style="font-size:12px;font-weight:700;color:#9aa0b4;">Confirmation {{ t.confirmation }}</span>
+              <span style="font-size:12px;font-weight:700;color:#5d6478;">Confirmation {{ t.confirmation }}</span>
             </div>
             <a href="{{ t.hotelHref }}" style="font-size:18px;font-weight:900;color:#0e1556;line-height:1.25;" style-hover="color:#38b6ff;">{{ t.hotelName }}</a>
             <span style="font-size:12.5px;color:#52586b;font-weight:600;">{{ t.address }}</span>
@@ -65,7 +65,7 @@
               <button onClick="{{ t.cancel }}" style="background:#fff;border:1.5px solid rgba(226,85,79,0.4);color:#e2554f;font-weight:800;font-size:13px;padding:9px 18px;border-radius:999px;cursor:pointer;" style-hover="background:rgba(226,85,79,0.06);">Cancel booking</button>
             </sc-if>
             <sc-if value="{{ t.cancelled }}" hint-placeholder-val="">
-              <span style="font-size:12.5px;font-weight:800;color:#9aa0b4;">Refund on its way</span>
+              <span style="font-size:12.5px;font-weight:800;color:#5d6478;">Refund on its way</span>
             </sc-if>
           </div>
         </article>
@@ -88,7 +88,7 @@
 <footer style="border-top:1.5px solid rgba(14,21,86,0.08);background:#fff;padding:22px 24px;display:flex;align-items:center;justify-content:center;gap:22px;font-size:12.5px;font-weight:700;color:#52586b;flex-wrap:wrap;">
   <a href="/" style="color:#52586b;" style-hover="color:#38b6ff;">Home</a>
   <a href="/webinar-optin" style="color:#52586b;" style-hover="color:#38b6ff;">Join the club</a>
-  <span style="color:#9aa0b4;">© 2026 cheapgetaway.com</span>
+  <span style="color:#5d6478;">© 2026 cheapgetaway.com</span>
 </footer>
 </x-dc>
 <script type="text/x-dc" data-dc-script>

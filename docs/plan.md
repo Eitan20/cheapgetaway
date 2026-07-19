@@ -344,7 +344,7 @@ webps; no cache headers in vercel.json. Work on branch `perf/pagespeed`.
      max-age=604800, stale-while-revalidate=2592000`; `/(.*)\.js` →
      `public, max-age=86400, stale-while-revalidate=604800`. Keep existing
      cleanUrls/redirects/rewrites intact.
-- [ ] **11.2 Images + contrast + a11y** (developer, same branch):
+- [x] **11.2 Images + contrast + a11y** (developer, same branch):
   a) Verify unreferenced (grep all html/js/css), then delete from deploy:
      assets/reference-theme.png, assets/hero-wide.jpg, assets/hero-bg.webp
      (if unused), root-level screenshot PNGs (stays-*.png, flights-*.png).

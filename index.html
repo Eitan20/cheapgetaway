@@ -64,7 +64,7 @@
 
 <nav style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);">
   <div class="cg-nav-row" style="max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
-    <a href="/" style="display:flex;align-items:center;"><img id="cg-nav-logo" src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:54px;display:block;transition:height .25s ease;"></a>
+    <a href="/" style="display:flex;align-items:center;"><img id="cg-nav-logo" src="assets/cg-logo.png" alt="cheapgetaway.com" width="2000" height="500" style="height:54px;display:block;transition:height .25s ease;"></a>
     <div class="cg-nav-links" style="display:flex;align-items:center;gap:28px;font-weight:700;font-size:15px;">
       <a href="#deals" style="color:#0e1556;" style-hover="color:#38b6ff;">Deals</a>
       <a href="#weekend" style="color:#0e1556;" style-hover="color:#38b6ff;">Weekend</a>
@@ -228,7 +228,7 @@
               <sc-if value="{{ hotel.hasPrice }}" hint-placeholder-val="{{ true }}">
               <div style="display:flex;flex-direction:column;align-items:flex-end;font-size:11px;color:#52586b;font-weight:600;line-height:1.4;">
                 <sc-if value="{{ hotel.hasStrike }}" hint-placeholder-val="">
-                  <span style="text-decoration:line-through;color:#9aa0b4;font-size:14px;font-weight:700;">{{ hotel.priceLabel }}</span>
+                  <span style="text-decoration:line-through;color:#5d6478;font-size:14px;font-weight:700;">{{ hotel.priceLabel }}</span>
                 </sc-if>
                 <strong style="font-size:19px;color:#ff6500;font-weight:900;display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>{{ hotel.memberLabel }}</strong>
                 <span>1 room x 1 night incl. taxes</span>
@@ -259,7 +259,7 @@
         <div style="display:flex;flex-direction:column;gap:10px;">
           <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#f6f7fb;border-radius:12px;">
             <span style="font-weight:700;font-size:14px;color:#52586b;">Public price</span>
-            <span style="font-weight:800;font-size:18px;color:#9aa0b4;text-decoration:line-through;">$1,684</span>
+            <span style="font-weight:800;font-size:18px;color:#5d6478;text-decoration:line-through;">$1,684</span>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:rgba(255,101,0,0.08);border:1.5px solid rgba(255,101,0,0.35);border-radius:12px;">
             <span style="font-weight:800;font-size:14px;color:#ff6500;display:flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>Member price</span>
@@ -282,22 +282,22 @@
     </div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:220px 220px;gap:18px;">
       <a href="/search-results?ai=Beachfront%20resorts%20in%20Miami%20with%20pools" style="grid-column:span 2;grid-row:span 2;position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
-        <img src="assets/featured-beach.webp" alt="Beach Escapes" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+        <img src="assets/featured-beach.webp" alt="Turquoise ocean water and white sand beach lined with palm trees" width="900" height="1116" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
         <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(11,15,31,0.72) 0%, rgba(11,15,31,0) 55%);"></div>
         <div style="position:absolute;left:22px;bottom:20px;color:#fff;"><h3 style="margin:0;font-size:24px;font-weight:900;">Beach Escapes</h3><p style="margin:2px 0 0;font-weight:600;opacity:0.9;">Sun, sand, and savings</p></div>
       </a>
       <a href="/search-results?ai=Top-rated%20hotels%20near%20Times%20Square%20New%20York" style="grid-column:span 2;position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
-        <img src="assets/featured-roadtrip.webp" alt="City Breaks" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+        <img src="assets/featured-roadtrip.webp" alt="City skyline lit up at night with busy downtown streets" width="1200" height="800" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
         <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(11,15,31,0.72) 0%, rgba(11,15,31,0) 55%);"></div>
         <div style="position:absolute;left:22px;bottom:20px;color:#fff;"><h3 style="margin:0;font-size:22px;font-weight:900;">City Breaks</h3><p style="margin:2px 0 0;font-weight:600;opacity:0.9;">Neon lights and late nights</p></div>
       </a>
       <a href="/search-results?ai=Mountain%20cabin%20resorts%20near%20Denver%20Colorado" style="position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
-        <img src="assets/featured-mountain.webp" alt="Mountain Retreats" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+        <img src="assets/featured-mountain.webp" alt="Snow-capped mountain cabin with a wood-burning fireplace" width="1200" height="800" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
         <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(11,15,31,0.72) 0%, rgba(11,15,31,0) 55%);"></div>
         <div style="position:absolute;left:18px;bottom:16px;color:#fff;"><h3 style="margin:0;font-size:18px;font-weight:900;">Mountain Retreats</h3><p style="margin:2px 0 0;font-weight:600;font-size:13px;opacity:0.9;">Cabins and cozy fireplaces</p></div>
       </a>
       <a href="/search-results?ai=Desert%20resorts%20with%20pools%20in%20Scottsdale%20Arizona" style="position:relative;border-radius:22px;overflow:hidden;display:block;" style-hover="opacity:0.96;">
-        <img src="assets/featured-forest.webp" alt="Desert Vibes" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+        <img src="assets/featured-forest.webp" alt="Desert resort pool surrounded by palm trees at sunset" width="1200" height="795" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
         <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(11,15,31,0.72) 0%, rgba(11,15,31,0) 55%);"></div>
         <div style="position:absolute;left:18px;bottom:16px;color:#fff;"><h3 style="margin:0;font-size:18px;font-weight:900;">Desert Vibes</h3><p style="margin:2px 0 0;font-weight:600;font-size:13px;opacity:0.9;">Oasis luxury</p></div>
       </a>
@@ -422,7 +422,7 @@
         <span style="margin-top:auto;font-size:13px;font-weight:800;color:#52586b;">Yulia K. · Member since 2024</span>
       </div>
     </div>
-    <p style="margin:14px 4px 0;font-size:12px;font-weight:600;color:#9aa0b4;">Savings and earnings are self-reported by individual members and are not typical or guaranteed.</p>
+    <p style="margin:14px 4px 0;font-size:12px;font-weight:600;color:#5d6478;">Savings and earnings are self-reported by individual members and are not typical or guaranteed.</p>
   </section>
 
   <section style="background:#fff;border-radius:24px;box-shadow:0 8px 24px rgba(14,21,86,0.06);padding:44px 32px;">
@@ -450,7 +450,7 @@
     <p style="margin:18px auto 0;font-size:17px;font-weight:600;line-height:1.65;color:#52586b;max-width:600px;">Every crossed-out price on this page is a trip you could be taking for less. The walkthrough takes two minutes — watch it, do the math on your next trip, then decide.</p>
     <div style="margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:12px;">
       <a href="/webinar-optin" style="background:#ff6500;color:#fff;font-weight:900;font-size:18px;padding:16px 38px;border-radius:999px;box-shadow:0 12px 32px rgba(255,101,0,0.35);" style-hover="background:#e65a00;color:#fff;">Unlock member prices</a>
-      <span style="font-size:13px;font-weight:700;color:#9aa0b4;">2-minute signup · Cancel anytime · You join a team, not just a website</span>
+      <span style="font-size:13px;font-weight:700;color:#5d6478;">2-minute signup · Cancel anytime · You join a team, not just a website</span>
     </div>
   </section>
 </main>
@@ -459,7 +459,7 @@
   <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:36px;">
     <div style="display:flex;flex-wrap:wrap;gap:48px;justify-content:space-between;">
       <div style="max-width:300px;display:flex;flex-direction:column;gap:12px;">
-        <img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:34px;width:fit-content;background:#fff;border-radius:10px;padding:6px 12px;">
+        <img src="assets/cg-logo.png" alt="cheapgetaway.com" width="2000" height="500" style="height:34px;width:fit-content;background:#fff;border-radius:10px;padding:6px 12px;">
         <p style="margin:0;font-size:14px;font-weight:600;line-height:1.6;color:rgba(255,255,255,0.7);">Seriously good stays at seriously low prices. Real-time rates from suppliers worldwide.</p>
       </div>
       <div style="display:flex;gap:64px;flex-wrap:wrap;">

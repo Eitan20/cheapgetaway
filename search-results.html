@@ -49,7 +49,7 @@
 
 <nav style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(14,21,86,0.08);">
   <div style="max-width:1280px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
-    <a href="/" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:34px;display:block;"></a>
+    <a href="/" style="display:flex;align-items:center;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" width="2000" height="500" style="height:34px;display:block;"></a>
     <form onSubmit="{{ navSearch }}" class="cg-sr-navform" style="display:flex;align-items:center;gap:2px;background:#fff;border:1.5px solid rgba(14,21,86,0.14);border-radius:999px;padding:6px 6px 6px 18px;font-size:13.5px;font-weight:800;color:#0e1556;box-shadow:0 2px 8px rgba(14,21,86,0.04);flex:0 1 460px;">
       <input id="cg-nav-q" type="text" defaultValue="{{ queryVal }}" placeholder="Where to?" class="cg-sr-navq" style="border:none;background:transparent;font-size:13.5px;font-weight:800;color:#0e1556;width:110px;flex:1;">
       <span class="cg-sr-navdiv" style="width:1px;height:16px;background:rgba(14,21,86,0.14);margin:0 12px;"></span>
@@ -106,7 +106,7 @@
           <div>
             <div style="font-size:13.5px;font-weight:900;color:#0e1556;margin-bottom:12px;">Brand</div>
             <sc-for list="{{ brandOpts }}" as="b" hint-placeholder-count="3">
-              <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" checked="{{ b.on }}" onChange="{{ b.toggle }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;"><span style="flex:1;">{{ b.name }}</span><span style="font-size:12px;color:#9aa0b4;font-weight:700;">{{ b.count }}</span></label>
+              <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" checked="{{ b.on }}" onChange="{{ b.toggle }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;"><span style="flex:1;">{{ b.name }}</span><span style="font-size:12px;color:#5d6478;font-weight:700;">{{ b.count }}</span></label>
             </sc-for>
           </div>
         </sc-if>
@@ -154,7 +154,7 @@
           <div>
             <div style="font-size:13.5px;font-weight:900;color:#0e1556;margin-bottom:12px;">Neighborhood</div>
             <sc-for list="{{ hoodOpts }}" as="nb" hint-placeholder-count="3">
-              <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" checked="{{ nb.on }}" onChange="{{ nb.toggle }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;"><span style="flex:1;">{{ nb.name }}</span><span style="font-size:12px;color:#9aa0b4;font-weight:700;">{{ nb.count }}</span></label>
+              <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:700;color:#0b0f1f;padding:6px 0;cursor:pointer;"><input type="checkbox" checked="{{ nb.on }}" onChange="{{ nb.toggle }}" style="width:18px;height:18px;accent-color:#38b6ff;flex-shrink:0;"><span style="flex:1;">{{ nb.name }}</span><span style="font-size:12px;color:#5d6478;font-weight:700;">{{ nb.count }}</span></label>
             </sc-for>
           </div>
         </sc-if>
@@ -232,7 +232,7 @@
                 <span style="background:#1d9e55;color:#fff;font-weight:900;font-size:11.5px;padding:4px 10px;border-radius:999px;margin-bottom:4px;">{{ h.offPct }} off</span>
               </sc-if>
               <span style="display:flex;align-items:baseline;gap:8px;">
-                <sc-if value="{{ h.strike }}" hint-placeholder-val=""><span style="text-decoration:line-through;color:#9aa0b4;font-size:13px;font-weight:700;">{{ h.strike }}</span></sc-if>
+                <sc-if value="{{ h.strike }}" hint-placeholder-val=""><span style="text-decoration:line-through;color:#5d6478;font-size:13px;font-weight:700;">{{ h.strike }}</span></sc-if>
                 <strong style="font-size:21px;color:#0e1556;font-weight:900;">{{ h.price }}</strong>
                 <span style="font-size:11.5px;color:#52586b;font-weight:600;">/ night</span>
               </span>
@@ -247,13 +247,13 @@
 </main>
 
 <footer style="border-top:1.5px solid rgba(14,21,86,0.08);background:#fff;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
-  <img src="assets/cg-logo.png" alt="cheapgetaway.com" style="height:26px;">
+  <img src="assets/cg-logo.png" alt="cheapgetaway.com" width="2000" height="500" style="height:26px;">
   <div style="display:flex;gap:22px;font-size:12.5px;font-weight:700;color:#52586b;flex-wrap:wrap;">
     <a href="/" style="color:#52586b;" style-hover="color:#38b6ff;">Home</a>
     <a href="/webinar-optin" style="color:#52586b;" style-hover="color:#38b6ff;">Join the club</a>
     <a href="/webinar-optin-creator" style="color:#52586b;" style-hover="color:#38b6ff;">For creators</a>
   </div>
-  <span style="font-size:12px;font-weight:700;color:#9aa0b4;">© 2026 cheapgetaway.com</span>
+  <span style="font-size:12px;font-weight:700;color:#5d6478;">© 2026 cheapgetaway.com</span>
 </footer>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
