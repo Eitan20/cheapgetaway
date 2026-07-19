@@ -209,3 +209,40 @@ visitor. We replicate the architecture:
   prod `GET /api/recommended` returns rates (edge-cached, ~0.18s);
   homepage↔detail verified 3/3 on prod (lp31b8d US$226, lpaa0d7 US$109,
   lp1b30d1 US$52 — identical on both pages).
+
+- [x] **8.3 Full zzzello parity for Recommended section** (developer,
+  commit 74dddeb; 12/29 luxury hotels had rates at +90d/1n).
+  User decision: mirror zzzello's remaining differences. Their section =
+  luxury hotels in Dubai/Milan/Paris/London/Rome/Tokyo, priced for a
+  1-night stay exactly 90 days out, card sub-line "1 room x 1 night
+  incl. taxes". Source data: their 29 recommended hotels (LiteAPI lp…
+  ids) captured in `.playwright-mcp/zzzello-recommended.json`
+  (id/name/city/address/main_photo/reviewsCount; `rating` is 0 in their
+  payload — enrich from our LiteAPI `/data/hotel`).
+  Scope:
+  a) Build a `luxury` pool in `api/_homepage-hotels.json` from those 29
+     ids: name/city/address/image from the capture, rating+reviewCount
+     enriched via prod proxy `GET /data/hotel?hotelId=…` (read-only);
+     validate availability with a `POST /hotels/rates` for the new dates
+     and keep every hotel that returns a rate (~2x oversupply is the
+     point; render only priced ones). Keep `recommended`/`us` pools
+     untouched (Deals/Weekend still use them).
+  b) `api/recommended.js`: two date bases — `luxury` block priced for
+     checkin = today+90d UTC, checkout +1 night; `weekend` block =
+     existing next-Fri→Sun for the old pools. Two upstream hotelIds
+     calls (same body shape rule), respond
+     `{ luxury: {checkin, checkout, nights, rates}, weekend: {…} }`.
+     Same cache headers. Backward-compat not needed (only index.html
+     consumes it; update it in the same commit).
+  c) index.html: Recommended section renders the luxury pool priced from
+     `luxury` block (links carry the 90-day dates); price line = per
+     night with muted sub-line "1 room x 1 night incl. taxes"; Deals +
+     Weekend sections keep the `weekend` block + existing labels. Bake
+     the luxury pool into index.html the same way REC_POOL is baked
+     (static array), sourced from the updated registry.
+  d) No layout redesign — existing card markup/carousel/pagination.
+- [x] **8.4 Review + verify + ship** (orchestrator, 2026-07-18): prod
+  endpoint serves both blocks (luxury 2026-10-17→18, 12 rates; weekend
+  2026-07-24→26, 35 rates); homepage↔detail verified 3/3 luxury
+  (lp1b9f6 US$448, lp1b845 US$396, lp1b9e7 US$763); sub-line only on
+  Recommended cards; pushed 74dddeb.
