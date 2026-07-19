@@ -246,3 +246,37 @@ visitor. We replicate the architecture:
   2026-07-24→26, 35 rates); homepage↔detail verified 3/3 luxury
   (lp1b9f6 US$448, lp1b845 US$396, lp1b9e7 US$763); sub-line only on
   Recommended cards; pushed 74dddeb.
+
+## Phase 9 — Hotel detail redesign (2026-07-18, reference: ~/Downloads/"Hotel Detail.html" bundler export)
+
+- [x] **9.1 Rebuild hotel-detail.html 1:1 from the reference template** (developer).
+  Reference markup+script extracted to the session scratchpad `template.html`
+  (lines 13–639 = `<x-dc>` markup incl. helmet; 640–1103 = DC Component).
+  Use both verbatim EXCEPT the adaptations below:
+  a) Head: keep repo convention — `support.js`, `cg-api.js`, `cg-rates.js`
+     scripts + Google-Fonts Nunito link (400;600;700;800;900). DROP the
+     reference's embedded @font-face uuid blocks; KEEP its second style
+     block (cg-shimmer, .cg-scroll, base rules) verbatim.
+  b) API: NO direct liteAPI, NO embedded key (reference contains the leaked
+     `prod_836dbd63…` key — must not appear in the shipped file). Use
+     `cgApiFetch()` proxy exactly as the current page's `api()` does.
+  c) Links: `Cheapgetaway Home.dc.html`→`/`, `Webinar Optin General.dc.html`
+     →`/webinar-optin`, `Webinar Optin- Creator.dc.html`→`/webinar-optin-creator`,
+     `My Trips.dc.html`→`/my-trips`, `Checkout.dc.html`→`/checkout`
+     (same query params — checkout.html matches offerId by room/board/price).
+     Drop the now-dead `.dc.html` click interceptor. Logo uuid → assets/cg-logo.png.
+  d) Demo images: `window.__resources.X || 'assets/…'` → plain `assets/…`.
+  e) Keep our video hero: tile0 = videoEl(hotel.videoUrl, poster imgs[0])
+     with videoFailed→image fallback (copy videoEl + state flag from the
+     current page); other tiles/lightbox stay images-only per reference.
+  f) Keep flatRates cheapest-first sort (rate-consistency rule) and use
+     cgNights/CG_STRIKE from cg-rates.js for nights + strike threshold.
+  g) Similar-hotels section is NOT in the reference — drop it (archive note
+     only; git history keeps the code).
+- [x] **9.2 Verify locally** (developer): `node scripts/dev-server.mjs`,
+  Playwright against `/hotel-detail?hotelId=lp1a278` — gallery, sticky tabs
+  scroll-spy, room groups + rate rows, breakfast/free-cancel filters,
+  change-search re-fetch, reviews sort/load-more/expand, Ask AI, checkout
+  href shape. NEVER call rates/prebook or rates/book. Grep shipped file for
+  `prod_` (must be absent).
+- [x] **9.3 Orchestrator review + merge** (orchestrator, 2026-07-18): diff reviewed (no key/leak, proxy-only, /checkout params intact, video hero + CG_STRIKE/cgNights kept), local Playwright pass in demo mode, merged 1a325f3 ff into main.
