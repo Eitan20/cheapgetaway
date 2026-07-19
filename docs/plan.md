@@ -409,3 +409,22 @@ webps; no cache headers in vercel.json. Work on branch `perf/pagespeed`.
 - [ ] **11.6 Orchestrator: review, merge, push, re-run Lighthouse on live
   (expect /_vercel/image live), record final scores. Flag #ff6500 contrast
   tradeoff to user.**
+- [x] **11.6 partial 2026-07-19**: merged dc5ccfd → main, deployed. Lighthouse
+  (mobile, live): perf 79→84, BP 96→100 (logo ratio fixed), SEO 100, a11y 96,
+  LCP 4.3s, bytes 9,273→4,471 KiB. BUT found domain is proxied by CLOUDFLARE
+  in front of Vercel: Cloudflare cached old cg-rates.js under our new
+  max-age=86400 js header → live page has no cgImg → hotel imgs still direct
+  (~4.1 MiB waste). Also: support.js injects react/react-dom from unpkg.com
+  at runtime (render-critical, no preconnect). Remaining a11y: brand orange
+  #ff6500 small-text contrast 2.95:1 — design decision, flag to user.
+- [x] **11.7 Cache-bust scripts + unpkg preconnect** (developer, branch
+  perf/pagespeed3): a) version-string ALL local script references so every
+  future deploy busts Cloudflare/browser caches: `support.js?v=115`,
+  `cg-api.js?v=115`, `cg-rates.js?v=115` on every page that loads them
+  (grep all 17 html files). b) add `<link rel="preconnect"
+  href="https://unpkg.com" crossorigin>` to the real <head> of pages that
+  boot the dc-runtime (all pages loading support.js). c) verify dev-server
+  + Playwright (index/search-results/hotel-detail/checkout render, no new
+  console errors), grep prod_ empty, commit, do not push.
+- [ ] **11.8 Orchestrator: merge, push, confirm live cgImg + /_vercel/image
+  requests in browser, final Lighthouse, record scores.**
