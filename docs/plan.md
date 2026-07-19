@@ -365,7 +365,7 @@ webps; no cache headers in vercel.json. Work on branch `perf/pagespeed`.
   e) Redundant alt text: fix imgs whose alt duplicates adjacent text or
      says "image/photo/logo of"; keep alts meaningful, decorative imgs
      get alt="".
-- [ ] **11.3 Verify locally** (developer, same branch): `node
+- [x] **11.3 Verify locally** (developer, same branch): `node
   scripts/dev-server.mjs` + Playwright — homepage renders w/ prices,
   search-results, hotel-detail gallery/rates, checkout page loads (NEVER
   call rates/prebook or rates/book), webinar-optin form present, fonts
