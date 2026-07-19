@@ -280,3 +280,23 @@ visitor. We replicate the architecture:
   href shape. NEVER call rates/prebook or rates/book. Grep shipped file for
   `prod_` (must be absent).
 - [x] **9.3 Orchestrator review + merge** (orchestrator, 2026-07-18): diff reviewed (no key/leak, proxy-only, /checkout params intact, video hero + CG_STRIKE/cgNights kept), local Playwright pass in demo mode, merged 1a325f3 ff into main.
+
+## Phase 10 — About page + legal hardening (modeled on zzzello, 2026-07-18)
+
+Context: researcher audit of app.zzzello.com/privacy, /terms, /contact. Key
+adoptable protections: not-merchant-of-record + booking-provider delegation
+(they use Nuitée — same company as our liteAPI backend), 18+ eligibility,
+info-accuracy disclaimer, booking-not-final-until-provider-confirms, payment
+authorization scope (taxes/fees/no-shows), cancellation-varies-by-rate,
+user indemnity, liability cap (greater of amount paid or $100), governing
+law w/ consumer-protection carve-out. Gaps in theirs we ALSO add: affiliate/
+commission disclosure, cookies section (we already have one), security
+disclaimer + GDPR/CCPA-style rights in privacy. Do NOT copy their text
+verbatim — same protections, our own wording. Keep the existing "not legal
+advice" placeholder footer on both pages.
+
+- [x] 10.1 (developer) Create about.html + contact.html in existing legal-page
+  shell style (Nunito, navy #0e1556, cyan #38b6ff accent, same nav/footer);
+  rewrite terms.html and strengthen privacy.html per clause list above;
+  fix dead footer links (#) in index.html → /about, /contact.
+- [x] 10.2 (orchestrator) Review diff, verify links/rendering, report.
