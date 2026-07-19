@@ -106,3 +106,60 @@ Feasibility (verified by orchestrator with direct API calls):
 - [x] **6.3 Verify + merge + live smoke** (orchestrator). Flag to user:
   membership $1,684/$612 card + member-stories savings are illustrative
   marketing copy, not API data — keep/rewrite/delete is user's call.
+
+## Phase 7 — Rate consistency: homepage vs detail page
+
+Root causes found (orchestrator + researcher, 2026-07-18):
+- hotel-detail.html `flatRates()` (l.440) keeps raw API order and renders only
+  the first 6 rates (l.596) — the cheapest rate (the one the homepage shows)
+  can be absent from the visible list.
+- Homepage shows per-night = total ÷ hardcoded 2 (index.html:606); detail page
+  shows raw stay totals — users read this as a price mismatch.
+- Homepage sessionStorage cache TTL is 1h (index.html:581) → stale vs the
+  detail page's fresh fetch.
+- Strike threshold differs: 3% homepage (index.html:607) vs 2% detail/search.
+LiteAPI docs: display `retailRate.total` (customer pays), strikethrough from
+`suggestedSellingPrice`; `roomMapping` does not affect pricing.
+
+- [ ] **7.1 Shared rate helper + page fixes** (developer):
+  - New `cg-rates.js` (loaded after `cg-api.js` on index, search-results,
+    hotel-detail, checkout): `cgNights(checkin, checkout)`,
+    `cgBestRate(rateRow)` (cheapest `retailRate.total[0]` across roomTypes,
+    returns `{total, ssp, currency}`), `cgPerNight(total, nights)`,
+    `CG_STRIKE = 1.02`, `cgMoney(amount)`.
+  - hotel-detail.html: sort flattened rates ascending by
+    `retailRate.total[0].amount` before slicing to 6 (cheapest always visible,
+    first); on each rate card show per-night price (total ÷ nights) as the
+    headline with "US$X total for N nights" as the sub-line, so the cheapest
+    card's per-night equals the homepage number.
+  - index.html: per-night = total ÷ `cgNights(checkin, checkout)` (kill the
+    hardcoded ÷2); strike threshold 1.03 → shared 1.02; cache TTL 1h → 10min.
+  - search-results.html: drop `maxRatesPerHotel: 1` (order not guaranteed
+    cheapest) and select the cheapest via `cgBestRate` like the homepage;
+    use the shared helper for nights/threshold.
+  - No visual redesign; keep existing markup/classes, only price logic/labels.
+- [x] **7.1** done — commit 1f7de46 on fix/rate-consistency.
+- [x] **7.2 Verify consistency end-to-end** (orchestrator): serve locally,
+  click homepage card → detail page; assert homepage per-night == cheapest
+  detail card per-night for the same hotel/dates/occupancy; repeat via
+  search-results; then commit + push.
+  - 2026-07-18 status: homepage↔detail verified MATCHING (4/4 hotels via
+    live API + browser click-through: US$226/night on both, detail cards
+    sorted cheapest-first). Search-results still mismatched (US$177 vs
+    US$166) → root cause: LiteAPI caches /hotels/rates responses per
+    request body, and aiSearch-based responses return stale/partial rate
+    sets (verified: identical params, different JSON key order → n=6
+    min=331.34 vs n=1 min=353.30, each stable). aiSearch rates ≠ hotelIds
+    rates; hotelIds-based calls agree with each other. → task 7.3.
+- [x] **7.3 Search-results: price via hotelIds like homepage** (developer,
+  commit bb57cd0; live smoke 5/5 hotels match detail-page-style call;
+  browser re-verify: search US$166 == detail US$166 for lp29976):
+  in search-results.html, keep the aiSearch/placeId call for the hotel LIST
+  (hotel metadata via includeHotelData), but ignore its rates; take the
+  returned hotelIds (≤25) and issue a second `POST /hotels/rates` with
+  `{ hotelIds, checkin, checkout, occupancies, currency, guestNationality }`
+  (exact same body shape/key order as index.html fetchHomeRates) and price
+  the cards from that response via cgBestRate. Hotels with no rate in the
+  second call: hide the price chip (existing no-price behavior), don't fake.
+  Refund/board metadata comes from the matched cheapest rate in the second
+  response. Then orchestrator re-verifies (7.2) and commits + pushes.
