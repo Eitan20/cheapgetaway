@@ -13,13 +13,16 @@
 // endpoints, e.g. aiSearch) can return different/stale rate sets for the same
 // hotelIds+dates (see docs/plan.md Phase 7 notes). Never change this shape
 // without re-verifying against the live API.
+//
+// This file is CommonJS (module.exports), not ESM — the repo has no
+// package.json, so Vercel's Node runtime treats api/*.js as CommonJS (same
+// as api/liteapi.js). A static literal require() path (not a dynamic
+// fs.readFile) is used for the hotel registry so Vercel's file tracing
+// bundles docs/homepage-hotels.json with the function.
 
-import { readFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
-import { join, dirname } from 'node:path';
+const HOTEL_REGISTRY = require('../docs/homepage-hotels.json');
 
 const LITEAPI_BASE = 'https://api.liteapi.travel/v3.0';
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 // Same algorithm as index.html's nextWeekendDates() (UTC-safe: uses Date.UTC
 // throughout so the server's local timezone can never shift the result).
@@ -72,17 +75,15 @@ function cgNights(checkin, checkout) {
   }
 }
 
-async function loadHotelIds() {
-  const raw = await readFile(join(ROOT, 'docs', 'homepage-hotels.json'), 'utf8');
-  const json = JSON.parse(raw);
-  const recommended = Array.isArray(json.recommended) ? json.recommended : [];
-  const us = Array.isArray(json.us) ? json.us : [];
+function loadHotelIds() {
+  const recommended = Array.isArray(HOTEL_REGISTRY.recommended) ? HOTEL_REGISTRY.recommended : [];
+  const us = Array.isArray(HOTEL_REGISTRY.us) ? HOTEL_REGISTRY.us : [];
   const ids = recommended.concat(us).map((h) => h.id).filter(Boolean);
   // De-dupe while preserving order, just in case the two pools overlap.
   return Array.from(new Set(ids));
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   const method = (req.method || 'GET').toUpperCase();
   if (method !== 'GET') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -100,7 +101,7 @@ export default async function handler(req, res) {
 
   let hotelIds;
   try {
-    hotelIds = await loadHotelIds();
+    hotelIds = loadHotelIds();
   } catch (err) {
     res.status(503).json({ error: 'hotel-ids-unavailable', detail: String(err) });
     return;
@@ -164,4 +165,4 @@ export default async function handler(req, res) {
   res.setHeader('content-type', 'application/json');
   res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=3600');
   res.send(JSON.stringify({ checkin, checkout, nights, rates }));
-}
+};
