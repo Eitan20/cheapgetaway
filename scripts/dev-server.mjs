@@ -22,6 +22,7 @@ const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; cha
 
 const { default: liteapiHandler } = await import(pathToFileURL(join(ROOT, 'api', 'liteapi.js')).href);
 const { default: bookingEmailHandler } = await import(pathToFileURL(join(ROOT, 'api', 'booking-email.js')).href);
+const { default: recommendedHandler } = await import(pathToFileURL(join(ROOT, 'api', 'recommended.js')).href);
 
 function makeRes(res) {
   const api = {
@@ -52,6 +53,16 @@ const server = createServer(async (req, res) => {
   // /api/booking-email -> real exported handler (Node req/res, no rewrite needed).
   if (pathname === '/api/booking-email') {
     try { await bookingEmailHandler(req, makeRes(res)); }
+    catch (err) { res.statusCode = 500; res.end(JSON.stringify({ error: 'handler threw', detail: String(err) })); }
+    return;
+  }
+
+  // /api/recommended -> real exported handler (Node req/res, no rewrite needed).
+  if (pathname === '/api/recommended') {
+    const query = {};
+    for (const [k, v] of url.searchParams) query[k] = v;
+    req.query = query;
+    try { await recommendedHandler(req, makeRes(res)); }
     catch (err) { res.statusCode = 500; res.end(JSON.stringify({ error: 'handler threw', detail: String(err) })); }
     return;
   }

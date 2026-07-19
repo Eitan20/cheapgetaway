@@ -550,45 +550,24 @@ class Component extends DCLogic {
     const fmt = (x) => x.toISOString().split('T')[0];
     return { checkin: fmt(checkinDate), checkout: fmt(checkoutDate) };
   }
-  parseRateMap(data) {
-    const rows = (data && data.data) || (Array.isArray(data) ? data : []) || [];
-    const map = {};
-    rows.forEach(x => {
-      const hotelId = x.hotelId || x.id;
-      if (!hotelId) return;
-      const best = cgBestRate(x);
-      if (best) map[hotelId] = best;
-    });
-    return map;
-  }
   async fetchHomeRates() {
-    const { checkin, checkout } = this.nextWeekendDates();
-    this.setState({ homeCheckin: checkin, homeCheckout: checkout });
-    const cacheKey = 'cg_home_rates_' + checkin;
+    // Server-priced recommended hotels: one edge-cached GET replaces the old
+    // client-side POST /hotels/rates + sessionStorage cache (see
+    // api/recommended.js — same architecture as zzzello.com's homepage).
     try {
-      const raw = sessionStorage.getItem(cacheKey);
-      if (raw) {
-        const cached = JSON.parse(raw);
-        if (cached && cached.ts && (Date.now() - cached.ts) < 600000 && cached.rateMap) {
-          this.setState({ rateMap: cached.rateMap, ratesReady: true, ratesFailed: false });
-          return;
-        }
-      }
-    } catch (e) {}
-    try {
-      const hotelIds = REC_POOL.concat(US_POOL).map(h => h.id);
-      const res = await cgApiFetch('/hotels/rates', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ hotelIds, checkin, checkout, occupancies: [{ adults: 2 }], currency: 'USD', guestNationality: 'US' })
-      });
-      if (!res.ok) throw new Error('rates ' + res.status);
+      const res = await fetch('/api/recommended', { headers: { 'accept': 'application/json' } });
+      if (!res.ok) throw new Error('recommended ' + res.status);
       const data = await res.json();
-      const rateMap = this.parseRateMap(data);
-      try { sessionStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), rateMap })); } catch (e) {}
-      this.setState({ rateMap, ratesReady: true, ratesFailed: false });
+      this.setState({
+        homeCheckin: data.checkin,
+        homeCheckout: data.checkout,
+        rateMap: data.rates || {},
+        ratesReady: true,
+        ratesFailed: false
+      });
     } catch (e) {
-      this.setState({ rateMap: {}, ratesReady: true, ratesFailed: true });
+      const { checkin, checkout } = this.nextWeekendDates();
+      this.setState({ homeCheckin: checkin, homeCheckout: checkout, rateMap: {}, ratesReady: true, ratesFailed: true });
     }
   }
   buildHotelEntry(h, checkin, checkout, rateMap) {
