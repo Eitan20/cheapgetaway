@@ -16,11 +16,13 @@
 //
 // This file is CommonJS (module.exports), not ESM — the repo has no
 // package.json, so Vercel's Node runtime treats api/*.js as CommonJS (same
-// as api/liteapi.js). A static literal require() path (not a dynamic
-// fs.readFile) is used for the hotel registry so Vercel's file tracing
-// bundles docs/homepage-hotels.json with the function.
+// as api/liteapi.js). The hotel registry lives at api/_homepage-hotels.json
+// (not docs/) because .vercelignore excludes the whole docs/ directory from
+// deployment; the underscore prefix keeps Vercel from treating the JSON as
+// its own function, matching the api/_welcome-email.js convention. A static
+// literal require() path is used so Vercel's file tracing bundles it.
 
-const HOTEL_REGISTRY = require('../docs/homepage-hotels.json');
+const HOTEL_REGISTRY = require('./_homepage-hotels.json');
 
 const LITEAPI_BASE = 'https://api.liteapi.travel/v3.0';
 
