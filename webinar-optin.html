@@ -39,6 +39,21 @@
     [data-secret-badge] { flex-direction: column; align-items: stretch !important; }
     [data-secret-badge] > div:last-child { text-align: center !important; max-width: none !important; }
   }
+  /* Keep the video's real aspect ratio in fullscreen — inline aspect-ratio/object-fit
+     would otherwise letterbox-crop portrait clips into a horizontal frame. */
+  video:fullscreen,
+  video:-webkit-full-screen,
+  video:-moz-full-screen,
+  video:-ms-fullscreen {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    aspect-ratio: auto !important;
+    object-fit: contain !important;
+    background: #000 !important;
+  }
+  video::-webkit-media-controls { z-index: 2147483647; }
 </style>
 </helmet>
 
