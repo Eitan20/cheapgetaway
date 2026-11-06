@@ -842,6 +842,7 @@ class Component extends DCLogic {
         const el = document.getElementById('cg-ai');
         const q = (el && el.value.trim());
         if (!q) return;
+        const __u = String(q || '').trim(); if (/^(https?:\/\/|(www\.)?[a-z0-9-]+(\.[a-z0-9-]+)+\/\S)/i.test(__u) && !/\s/.test(__u)) { window.location.href = '/' + (/^https?:\/\//i.test(__u) ? __u : 'https://' + __u); return; }
         window.location.href = '/search-results?' + new URLSearchParams({ q, checkin: this.iso(1), checkout: this.iso(3), adults: '2' });
       },
       recVisible,

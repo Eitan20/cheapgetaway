@@ -790,6 +790,7 @@ class Component extends DCLogic {
       guestsLabel: P.adults + (P.adults === 1 ? ' Guest' : ' Guests'),
       navSearch: (e) => { e.preventDefault(); const el = document.getElementById('cg-nav-q');
         const q = (el && el.value.trim()) || P.q;
+        const __u = String(q || '').trim(); if (/^(https?:\/\/|(www\.)?[a-z0-9-]+(\.[a-z0-9-]+)+\/\S)/i.test(__u) && !/\s/.test(__u)) { window.location.href = '/' + (/^https?:\/\//i.test(__u) ? __u : 'https://' + __u); return; }
         window.location.href = '/search-results?q=' + encodeURIComponent(q) + '&checkin=' + P.checkin + '&checkout=' + P.checkout + '&adults=' + P.adults; },
       resultsTitle: S.loading ? 'Searching ' + P.q + '…' : (P.aiQ ? cards.length + ' properties · ✦ “' + P.aiQ + '”' : (S.searchIntent === 'hotel_name' ? cards.length + ' results for ' + P.q : cards.length + ' properties in ' + P.q)),
       setSort: (e) => this.setState({ sort: e.currentTarget.value }),

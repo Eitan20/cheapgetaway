@@ -3,7 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { parseHotelUrl, segmentWords, decodeGoogleEntity, nameQueryVariants, identityScore, pickBest } from '../api/import-url.js';
 
-const P = (u) => parseHotelUrl('https://www.cheapgetaway.com/' + u.replace(/^https?:\/\//, ''));
+const P = (u) => parseHotelUrl('https://www.cheapgetaway.com/' + u); // canonical /https://… wrap
 
 test('booking hyphenless slugs segment into words', () => {
   assert.deepEqual(segmentWords('novotellondontower'), ['novotel', 'london', 'tower']);
@@ -79,4 +79,13 @@ test('identity scoring rejects same-city different hotels', () => {
     { id: 'ny', name: 'Waldorf Astoria New York', city: 'New York' }
   ], { hotelName: 'The Waldorf Astoria', cityName: 'New York' });
   assert.equal(w.row.id, 'ny');
+});
+
+test('canonical /https:// wrap, collapsed https:/ and legacy host-only wraps all decode', () => {
+  const u = 'https://www.expedia.com/Vienna-Hotels-Hotel-Sacher-Wien.h25831.Hotel-Information';
+  for (const w of ['https://www.cheapgetaway.com/' + u, 'https://www.cheapgetaway.com/https:/www.expedia.com/Vienna-Hotels-Hotel-Sacher-Wien.h25831.Hotel-Information', 'https://www.cheapgetaway.com/www.expedia.com/Vienna-Hotels-Hotel-Sacher-Wien.h25831.Hotel-Information', '/https://www.expedia.com/Vienna-Hotels-Hotel-Sacher-Wien.h25831.Hotel-Information']) {
+    const p = parseHotelUrl(w);
+    assert.equal(p.hotelName, 'Hotel Sacher Wien', w);
+    assert.equal(p.countryCode, 'AT');
+  }
 });

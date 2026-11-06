@@ -68,9 +68,10 @@
       '</div>';
     document.getElementById('paste-form').addEventListener('submit', function (e) {
       e.preventDefault();
-      var next = new URL('/import', location.origin);
-      next.searchParams.set('u', e.target.url.value.trim());
-      location.assign(next.toString());
+      var v = e.target.url.value.trim();
+      if (!/^https?:\/\//i.test(v)) v = 'https://' + v.replace(/^\/+/, '');
+      // Canonical wrap: cheapgetaway.com/ + full https:// URL
+      location.assign(location.origin + '/' + v);
     });
   }
 
