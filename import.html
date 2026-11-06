@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./cg-analytics.js?v=1" defer></script>
+<title>Finding your hotel — cheapgetaway.com</title>
+<meta name="description" content="Paste an Expedia hotel link to find the same stay and dates on cheapgetaway.com.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap"></noscript>
+<style>
+  @font-face{font-family:'Nunito Fallback';src:local('Arial');ascent-override:101.1%;descent-override:35.3%;line-gap-override:0%;size-adjust:98.4%;}
+  html,body{margin:0;padding:0;min-height:100%;background:#f3f4f8;font-family:'Nunito','Nunito Fallback',sans-serif;color:#0b0f1f;}
+  *{box-sizing:border-box;}
+  .wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px 64px;text-align:center;}
+  .logo{height:44px;width:auto;margin-bottom:36px;}
+  .spinner{width:58px;height:58px;border-radius:50%;border:5px solid rgba(14,21,86,0.12);border-top-color:#0e1556;border-right-color:#38b6ff;animation:spin .75s linear infinite;margin:0 auto 22px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .status{margin:0;font-size:15px;font-weight:900;letter-spacing:0.14em;text-transform:uppercase;color:#0e1556;}
+  .sub{margin:10px 0 0;font-size:15px;font-weight:700;color:#52586b;}
+  .hotel{margin:18px 0 0;font-size:22px;font-weight:900;color:#0b0f1f;}
+  .save{margin:18px auto 0;display:inline-flex;align-items:center;gap:10px;background:#fff;border-radius:16px;padding:14px 22px;box-shadow:0 12px 32px rgba(14,21,86,0.08);}
+  .save strong{font-size:22px;color:#38b6ff;font-weight:900;}
+  .save span{font-size:14px;font-weight:700;color:#52586b;}
+  .error{max-width:520px;width:100%;}
+  .error h1{margin:0 0 10px;font-size:26px;font-weight:900;color:#0e1556;}
+  .error p{margin:0 0 18px;font-size:15px;line-height:1.6;color:#3a3f56;font-weight:600;}
+  .paste{width:100%;display:flex;flex-direction:column;gap:12px;}
+  .paste input{width:100%;border:1.5px solid rgba(14,21,86,0.15);border-radius:14px;padding:14px 16px;font-size:15px;font-weight:700;color:#0b0f1f;background:#fff;font-family:inherit;}
+  .paste input:focus{outline:none;border-color:#38b6ff;}
+  .paste button{background:#FF6B8A;color:#fff;border:none;cursor:pointer;font-weight:900;font-size:15px;padding:14px 22px;border-radius:999px;font-family:inherit;}
+  .paste button:hover{background:#FF87A1;}
+  .hint{margin-top:16px;font-size:13px;color:#52586b;font-weight:600;line-height:1.5;}
+  .hint code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;background:#fff;padding:2px 6px;border-radius:6px;}
+</style>
+</head>
+<body>
+  <div class="wrap" id="app">
+    <a href="/"><img class="logo" src="/assets/cg-logo.png" alt="cheapgetaway.com"></a>
+    <div id="panel">
+      <div class="spinner" aria-hidden="true"></div>
+      <p class="status" id="status">Detecting hotel and dates</p>
+      <p class="sub" id="sub">Looking up price on Expedia.com</p>
+    </div>
+  </div>
+<script>
+(function () {
+  var MIN_MS = 1600;
+  var started = Date.now();
+  var panel = document.getElementById('panel');
+  var statusEl = document.getElementById('status');
+  var subEl = document.getElementById('sub');
+
+  function showError(msg) {
+    panel.innerHTML =
+      '<div class="error">' +
+        '<h1>Couldn’t read that Expedia link</h1>' +
+        '<p>' + escapeHtml(msg || 'Paste a hotel page link from Expedia and we’ll match the same stay and dates here.') + '</p>' +
+        '<form class="paste" id="paste-form">' +
+          '<input name="url" type="url" inputmode="url" autocomplete="off" placeholder="https://www.expedia.com/…Hotel-Information?chkin=…" required>' +
+          '<button type="submit">Find this hotel</button>' +
+        '</form>' +
+        '<p class="hint">Or type <code>cheapgetaway.com/</code> in front of any Expedia hotel URL in your address bar, then hit Enter.</p>' +
+      '</div>';
+    document.getElementById('paste-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var next = new URL('/import', location.origin);
+      next.searchParams.set('u', e.target.url.value.trim());
+      location.assign(next.toString());
+    });
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (ch) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch];
+    });
+  }
+
+  function formatMoney(amount, currency) {
+    try {
+      return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency || 'USD', maximumFractionDigits: 0 }).format(amount);
+    } catch (err) {
+      return '$' + Math.round(amount);
+    }
+  }
+
+  function incomingUrl() {
+    var params = new URLSearchParams(location.search);
+    if (params.get('u')) return params.get('u');
+    if (params.get('url')) return params.get('url');
+    var path = location.pathname || '';
+    if (path === '/import' || path === '/import.html' || path === '/') return '';
+    return location.origin + path + location.search;
+  }
+
+  function go(path) {
+    var wait = Math.max(0, MIN_MS - (Date.now() - started));
+    setTimeout(function () { location.replace(path); }, wait);
+  }
+
+  var raw = incomingUrl();
+  if (!raw) {
+    showError('');
+    return;
+  }
+
+  fetch('/api/import-url', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ url: raw })
+  }).then(function (res) { return res.json(); }).then(function (data) {
+    if (!data || !data.ok || !data.searchResultsPath) {
+      showError(data && data.error === 'unsupported-host'
+        ? 'That link isn’t an Expedia hotel page.'
+        : 'We couldn’t find a hotel name or dates in that link.');
+      return;
+    }
+    statusEl.textContent = 'Hotel matched';
+    var bits = [];
+    if (data.hotelName) bits.push(data.hotelName);
+    if (data.checkin && data.checkout) bits.push(data.checkin + ' → ' + data.checkout);
+    if (data.adults) bits.push(data.adults + (data.adults === 1 ? ' adult' : ' adults'));
+    subEl.textContent = bits.join(' · ') || 'Opening live rates…';
+    if (data.hotelName) {
+      var title = document.createElement('p');
+      title.className = 'hotel';
+      title.textContent = data.hotelName;
+      panel.appendChild(title);
+    }
+    if (data.competitorPrice) {
+      var save = document.createElement('div');
+      save.className = 'save';
+      save.innerHTML = '<strong>Checking member rates</strong><span>Compared to Expedia</span>';
+      panel.appendChild(save);
+    }
+    go(data.searchResultsPath);
+  }).catch(function () {
+    showError('Something went wrong looking that up. Try pasting the link again.');
+  });
+})();
+</script>
+</body>
+</html>
