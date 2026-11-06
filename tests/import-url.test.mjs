@@ -178,3 +178,15 @@ test('brand city: New Yorker defaults to New York', () => {
   assert.equal(a.cityName, 'New York');
   assert.equal(a.countryCode, 'US');
 });
+
+test('W brand keeps a space; brick keeps Barcelona; cityhotelams splits', () => {
+  assert.equal(P('https://www.booking.com/hotel/th/w-bangkok.html').hotelName, 'W Bangkok');
+  assert.equal(P('https://www.hotels.com/ho120975/w-toronto-toronto-canada/').hotelName, 'W Toronto');
+  const b = P('https://www.booking.com/hotel/es/brick-barcelona.html');
+  assert.equal(b.hotelName, 'Brick');
+  assert.equal(b.cityName, 'Barcelona');
+  const c = P('https://www.booking.com/hotel/nl/cityhotelams.html');
+  assert.equal(c.hotelName, 'City Hotel Amsterdam');
+  assert.equal(c.cityName, 'Amsterdam');
+  assert.equal(P('https://www.booking.com/hotel/pt/marquesdepombal.html').hotelName, 'Marques De Pombal');
+});

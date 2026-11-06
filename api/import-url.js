@@ -296,6 +296,9 @@ function applyBrandCity(info) {
 // Hyphenless Booking slugs ("hoteartemisamsterdam", "pensionaviano",
 // "rathauspark"): peel a known trailing city and a known leading type word,
 // keep the rest whole instead of splitting it into dictionary fragments.
+const CITY_ABBREV = { ams: 'amsterdam', nyc: 'new york', lon: 'london', paris: 'paris', bcn: 'barcelona', mil: 'milan', rom: 'rome', vie: 'vienna', dxb: 'dubai', bkk: 'bangkok' };
+const SHORT_CONN = new Set(['de', 'di', 'del', 'da', 'du', 'la', 'le', 'el', 'von', 'van', 'of', 'at', 'by']);
+
 function splitBookingSlug(raw, countryCode) {
   let s = String(raw || '').toLowerCase();
   const out = [];
@@ -305,15 +308,24 @@ function splitBookingSlug(raw, countryCode) {
     const cc = CITY_TO_COUNTRY[tail] || WORLD_CITIES[tail];
     if (cc && (!countryCode || cc === countryCode)) { city = tail; s = s.slice(0, -k); break; }
   }
+  // Country-scoped city abbreviations ("cityhotelams" NL → amsterdam)
+  if (!city) {
+    for (const [abbr, full] of Object.entries(CITY_ABBREV)) {
+      if (!s.endsWith(abbr) || s.length - abbr.length < 4) continue;
+      const cc = CITY_TO_COUNTRY[full] || WORLD_CITIES[full];
+      if (cc && (!countryCode || cc === countryCode)) { city = full; s = s.slice(0, -abbr.length); break; }
+    }
+  }
   for (const pre of BOOKING_PREFIXES) {
     if (s.startsWith(pre) && s.length - pre.length >= 4) { out.push(pre === 'hote' ? 'hotel' : pre); s = s.slice(pre.length); break; }
   }
   if (s) {
-    // Split the remainder only when every piece is a real ≥4-letter word
-    // ("novotellondontower" → novotel london tower; not "rath aus park").
+    // Split when pieces are real words; allow short connectors (de/di/la).
     const seg = s.length > 8 ? segmentWords(s) : [s];
     const dict = segDict();
-    if (seg.length > 1 && seg.every((w) => w.length >= 4 && dict.has(w))) out.push(...seg);
+    const ok = seg.length > 1 && seg.every((w) => (w.length >= 4 && dict.has(w)) || SHORT_CONN.has(w))
+      && seg.some((w) => w.length >= 4 && dict.has(w));
+    if (ok) out.push(...seg);
     else out.push(s);
   }
   if (city) out.push(city);
@@ -339,15 +351,23 @@ function hotelFromBookingPath(pathname) {
   // keep the city words as part of the name instead.
   const stub = normKey(loc.hotelName);
   if (loc.cityName && isWeakHotelStub(loc.hotelName) && !stub.includes(normKey(loc.cityName))) {
-    // "d"+"amsterdam" → "Damsterdam" (→ D'Amsterdam variant); "new"+"berlin" → "New Berlin"
-    const name = stub.length <= 1 ? titleCase(stub + normKey(loc.cityName).replace(/ /g, '')) : titleCase(stub + ' ' + normKey(loc.cityName));
+    // "d"+"amsterdam" → "Damsterdam"; "w"+"bangkok" → "W Bangkok"
+    let name;
+    if (stub.length <= 1) {
+      name = /^[dlo]$/i.test(stub)
+        ? titleCase(stub + normKey(loc.cityName).replace(/ /g, ''))
+        : titleCase(stub + ' ' + normKey(loc.cityName));
+    } else {
+      name = titleCase(stub + ' ' + normKey(loc.cityName));
+    }
     return { hotelName: name, cityName: loc.cityName, countryCode: countryCode, hotelId: '' };
   }
   if (!loc.hotelName) return { hotelName: titleCase(slug.replace(/-/g, ' ')) + (slug.length <= 2 ? ' Hotel' : ''), cityName: '', countryCode, hotelId: '' };
   if (normKey(loc.hotelName).replace(/ /g, '').length <= 2) loc.hotelName += ' Hotel';
   // Single-token slug that is itself a famous city in another country
-  // ("/hotel/rs/amsterdam"): keep country from the path, clear false city.
-  if (!/[ -]/.test(normKey(loc.hotelName)) && cityCc(normKey(loc.hotelName)) && cityCc(normKey(loc.hotelName)) !== countryCode) {
+  // ("/hotel/rs/amsterdam"): keep country from the path. Do NOT fire when we
+  // already peeled a path-matching city ("brick-barcelona" → Brick + Barcelona).
+  if (!loc.cityName && !/[ -]/.test(normKey(loc.hotelName)) && cityCc(normKey(loc.hotelName)) && cityCc(normKey(loc.hotelName)) !== countryCode) {
     return { hotelName: titleCase(loc.hotelName) + ' Hotel', cityName: '', countryCode, hotelId: '' };
   }
   return { ...loc, countryCode: countryCode, hotelId: '' };
@@ -635,9 +655,14 @@ function parseLocationSlug(slug, preferCc) {
   // apostrophe variant path still fires.
   if (cityName && isWeakHotelStub(hotelName) && !normKey(hotelName).includes(normKey(cityName))) {
     const stub = normKey(hotelName);
-    hotelName = stub.length <= 1
-      ? titleCase(stub + normKey(cityName).replace(/ /g, ''))
-      : titleCase((stub + ' ' + cityName).trim());
+    if (stub.length <= 1) {
+      // d/l/o → Damsterdam / Loscar apostrophe path; W/A → "W Bangkok"
+      hotelName = /^[dlo]$/i.test(stub)
+        ? titleCase(stub + normKey(cityName).replace(/ /g, ''))
+        : titleCase(stub + ' ' + cityName);
+    } else {
+      hotelName = titleCase((stub + ' ' + cityName).trim());
+    }
   }
   return { hotelName, cityName: titleCase(cityName), countryCode: countryCode || preferCc || '' };
 }
@@ -1071,6 +1096,13 @@ export function nameQueryVariants(parsed) {
   if (/^ac\b/i.test(name) || /\bac hotel\b/i.test(name)) {
     add(name.replace(/^ac\b/i, 'AC Hotel'));
     if (parsed.cityName) add('AC Hotel ' + parsed.cityName + (name.match(/ginza/i) ? ' Ginza' : ''));
+  }
+  // W Hotels: "W Bangkok" / "Wtoronto" → "W Hotel" + city
+  if (/^w\b/i.test(name) || /^w[a-z]{3,}$/i.test(name.replace(/\s/g, ''))) {
+    const city = parsed.cityName || name.replace(/^w\s*/i, '');
+    add('W ' + city);
+    add('W Hotel ' + city);
+    add('W ' + city + ' Hotel');
   }
   return out;
 }
