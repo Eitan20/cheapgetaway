@@ -32,7 +32,11 @@
   input:focus,select:focus{outline:none;}
   @keyframes cg-shimmer{0%{background-position:-400px 0;}100%{background-position:400px 0;}}
   input[type=range]{accent-color:#38b6ff;}
+  @media (max-width: 1050px) {
+    .cg-club-card{grid-template-columns:minmax(0,1fr)!important;gap:20px!important;}
+  }
   @media (max-width: 480px) {
+    .cg-club-card{padding:22px 18px!important;}
     .cg-sr-main{flex-direction:column!important;padding:16px 16px 60px!important;}
     .cg-sr-aside{flex:1 1 auto!important;width:100%!important;position:static!important;top:auto!important;}
     aside label{padding:10px 0!important;min-height:40px!important;}
@@ -248,6 +252,19 @@
           </div>
         </div>
       </article>
+      <sc-if value="{{ h.showClub }}" hint-placeholder-val="">
+        <article class="cg-club-card" style="background:#0e1556;color:#fff;border-radius:18px;padding:24px 26px;box-shadow:0 2px 8px rgba(14,21,86,0.04);display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:26px;align-items:center;">
+<div><span style="display:inline-flex;align-items:center;gap:6px;background:rgba(56,182,255,0.18);color:#38b6ff;font-weight:800;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;padding:5px 10px;border-radius:999px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>Why prices are crossed out</span>
+<h2 style="font-size:25px;line-height:1.14;font-weight:900;max-width:450px;margin:12px 0 9px;">{{ clubHeadline }}</h2>
+<p style="font-size:13px;line-height:1.55;font-weight:600;color:rgba(255,255,255,0.85);margin:0;max-width:440px;">Hotels can't publish their lowest rates on public sites — other booking sites would revolt. Members get the same room, same dates, and routinely pay 40–65% less. No coupon hunting.</p>
+<a href="/webinar-optin" style="background:#FF6B8A;color:#fff;font-size:13px;font-weight:900;padding:10px 20px;border-radius:999px;display:inline-block;margin-top:15px;box-shadow:0 8px 24px rgba(255,107,138,0.28);" style-hover="background:#FF87A1;color:#fff;">See how the club works</a>
+<div style="font-size:10.5px;font-weight:700;color:rgba(255,255,255,0.6);margin-top:8px;">Free walkthrough · 2 minutes · No card needed</div></div>
+<sc-if value="{{ clubHasExample }}" hint-placeholder-val=""><div style="background:#fff;border-radius:16px;padding:16px;color:#0e1556;">
+<div style="font-size:10px;letter-spacing:.05em;font-weight:800;text-transform:uppercase;color:#52586b;margin-bottom:10px;">{{ clubExampleLabel }}</div>
+<div style="background:#f6f7fb;border-radius:10px;padding:8px 11px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#52586b;font-weight:700;">Public price <strong style="font-size:16px;text-decoration:line-through;color:#5d6478;">{{ clubPublicPrice }}</strong></div>
+<div style="background:rgba(192,76,0,0.08);border:1.5px solid rgba(192,76,0,0.35);border-radius:10px;padding:7px 10px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#b74800;font-weight:800;margin-top:6px;"><span style="display:flex;align-items:center;gap:5px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>Member price</span><strong style="font-size:19px;font-weight:900;">{{ clubMemberPrice }}</strong></div>
+<div style="background:rgba(56,182,255,0.1);border-radius:10px;padding:8px 11px;display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:800;margin-top:6px;">You keep <strong style="font-size:18px;font-weight:900;">{{ clubSavings }}</strong></div><div style="color:#52586b;font-size:9px;line-height:1.4;margin-top:8px;">Typical club savings on a stay like this, not a live quote for these hotels.</div></div></sc-if></article>
+      </sc-if>
     </sc-for>
   </section>
 </main>
@@ -659,7 +676,7 @@ class Component extends DCLogic {
       }));
       const refundable = rate && (!rate.cancellationPolicies || rate.cancellationPolicies.refundableTag !== 'NRFN');
       const board = String((rate && rate.boardName) || '').toLowerCase();
-      return { hd, total, sspAmt, refundable, perNight: cgPerNight(total, nights), board,
+      return { hd, total, sspAmt, currency: (best && best.currency) || 'USD', refundable, perNight: cgPerNight(total, nights), board,
         lat: Number(hd.latitude || hd.lat) || null, lng: Number(hd.longitude || hd.lng || hd.lon) || null,
         brand: hd.chain || hd.chain_name || '', hood: hd.district || hd.zone || hd.neighborhood || '',
         rating: Number(hd.rating) || 0, stars: Math.max(1, Math.min(5, Math.round(Number(hd.stars) || 4))),
@@ -694,7 +711,7 @@ class Component extends DCLogic {
     const distFrom = (S.searchIntent === 'hotel_name' && S.cityHint)
       ? S.cityHint
       : ((P.q || '').split(',')[0] || 'center');
-    const cards = f.map(r => {
+    const cards = f.map((r, index) => {
       const img = r.hd.main_photo || r.hd.thumbnail || (r.hd.images && r.hd.images[0] && r.hd.images[0].url) || 'assets/hotel-fallback-sm.webp';
       const isAbsImg = typeof cgImg === 'function' && typeof img === 'string' && /^https?:\/\//i.test(img);
       const proxiedImg = (typeof cgImg === 'function') ? cgImg(img, 640) : img;
@@ -702,21 +719,42 @@ class Component extends DCLogic {
       if (isAbsImg) { imgProps.srcSet = [384, 640].map(x => cgImg(img, x) + ' ' + x + 'w').join(', '); imgProps.sizes = '(max-width:480px) 100vw, 240px'; }
       const off = r.sspAmt > r.total * CG_STRIKE ? Math.round((1 - r.total / r.sspAmt) * 100) : 0;
       return {
+        showClub: index === 0 && !S.loading,
         name: r.name, stars: '★★★★★'.slice(0, r.stars),
         address: [r.hd.address, r.hd.city || r.hd.city_name].filter(Boolean).join(', '),
         imgEl: React.createElement('img', imgProps),
         refundable: r.refundable,
         score: r.rating ? r.rating.toFixed(1) : '—', scoreLabel: r.rating ? this.scoreWord(r.rating) : '',
         reviews: r.hd.review_count ? Number(r.hd.review_count).toLocaleString() + ' reviews' : '',
-        price: cgMoney(r.perNight),
-        strike: r.sspAmt > r.total * CG_STRIKE ? cgMoney(cgPerNight(r.sspAmt, nights)) : '',
+        price: cgMoney(r.perNight, r.currency),
+        strike: r.sspAmt > r.total * CG_STRIKE ? cgMoney(cgPerNight(r.sspAmt, nights), r.currency) : '',
         offPct: off ? off + '%' : '',
         distLabel: r.dist != null ? r.dist.toFixed(1) + ' mi from ' + distFrom : '',
         stayNote: nights + (nights === 1 ? ' night' : ' nights') + ', 1 room, incl. taxes & fees',
         href: '/hotel-detail?hotelId=' + encodeURIComponent(r.hotelId) + '&checkin=' + P.checkin + '&checkout=' + P.checkout + '&adults=' + P.adults
       };
     });
+    const first = f[0];
+    const hotelCity = first ? (first.hd.city || first.hd.city_name || '') : '';
+    // A hotel query is not a city. Use resolved geography, or omit the city.
+    const clubCity = String(S.searchIntent === 'hotel_name'
+      ? (S.cityHint || hotelCity)
+      : (S.cityHint || (P.aiQ ? hotelCity : (P.q || '').split(',')[0]))).trim();
+    // SSP is a suggested public stay total, not a member quote. Ignore tiny
+    // supplier strikes (<10% above retail); retail itself is public-facing.
+    const publicTotal = first ? (Number.isFinite(first.sspAmt) && first.sspAmt >= first.total * 1.10
+      ? first.sspAmt : first.total) : 0;
+    const hasExample = Number.isFinite(publicTotal) && publicTotal > 0 && Math.round(publicTotal) > 0;
+    const publicRounded = hasExample ? Math.round(publicTotal) : 0;
+    const memberRounded = Math.round(publicRounded * 0.5);
+    const currency = first ? first.currency : 'USD';
     return {
+      clubHeadline: 'The ' + (clubCity ? clubCity + ' ' : '') + "price you see isn't what members pay.",
+      clubHasExample: hasExample,
+      clubExampleLabel: 'Example · ' + (clubCity || 'Your stay') + ', ' + nights + (nights === 1 ? ' night' : ' nights'),
+      clubPublicPrice: cgMoney(publicRounded, currency),
+      clubMemberPrice: cgMoney(memberRounded, currency),
+      clubSavings: cgMoney(publicRounded - memberRounded, currency),
       loading: S.loading,
       demoBanner: S.demo ? 'Demo results shown — live LiteAPI results load automatically when the API is reachable.' : '',
       queryVal: P.q, navDates: this.fmtDate(P.checkin) + ' – ' + this.fmtDate(P.checkout),

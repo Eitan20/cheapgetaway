@@ -236,6 +236,8 @@
 
       <sc-if value="{{ hasRates }}" hint-placeholder-val="">
         <div style="display:flex;flex-direction:column;gap:26px;margin-top:24px;">
+          <div style="border:1px solid rgba(14,21,86,0.14);border-radius:12px;padding:14px 17px;background:#fff;display:flex;align-items:center;gap:13px;flex-wrap:wrap;box-shadow:0 2px 8px rgba(14,21,86,0.04);">
+<span style="color:#0e1556;flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg></span><div style="flex:1 1 230px"><strong style="font-size:14px;font-weight:800;color:#0e1556;">A little club knowledge before you book.</strong><div style="font-size:12px;color:#5a6a7a;font-weight:600;margin-top:3px;">Explore private hotel rates. Availability and savings vary.</div></div><div style="text-align:right;flex-shrink:0;"><a href="/webinar-optin" style="font-size:12.5px;font-weight:800;color:#0e1556;text-decoration:underline;text-underline-offset:3px;">See how the club works →</a><div style="font-size:10.5px;color:#7b8794;font-weight:600;margin-top:4px;">Free walkthrough · 2 min</div></div></div>
           <sc-for list="{{ roomGroups }}" as="g" hint-placeholder-count="2">
             <div style="background:#fbfcfd;border:1px solid #eef1f4;border-radius:16px;padding:26px;display:grid;grid-template-columns:290px 1fr;gap:30px;align-items:start;">
               <div style="display:flex;flex-direction:column;gap:14px;">
