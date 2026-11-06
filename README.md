@@ -14,7 +14,7 @@ All pages live at the repository root.
 |---|---|
 | `index.html` | Site entry — main hotel search hub |
 | `search-results.html` | Hotel search results |
-| `import.html` | Expedia URL lead magnet — loading screen, then same hotel/dates on search-results |
+| `import.html` | Hotel URL lead magnet — loading screen, then same hotel/dates on search-results (Expedia, Hotels.com, Booking.com, and other hotel pages) |
 | `hotel-detail.html` | Hotel detail — rooms/rates, prebook |
 | `checkout.html` | Hotel booking checkout — prebook → LiteAPI Payment SDK → book |
 | `booking-confirmed.html` | Hotel booking confirmation |

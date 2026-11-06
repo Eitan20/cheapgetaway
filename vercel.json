@@ -2,12 +2,24 @@
   "framework": null,
   "cleanUrls": true,
   "images": {
-    "sizes": [384, 640, 960],
-    "formats": ["image/webp"],
+    "sizes": [
+      384,
+      640,
+      960
+    ],
+    "formats": [
+      "image/webp"
+    ],
     "minimumCacheTTL": 2592000,
     "remotePatterns": [
-      { "protocol": "https", "hostname": "static.cupid.travel" },
-      { "protocol": "https", "hostname": "static.nuitee.cloud" }
+      {
+        "protocol": "https",
+        "hostname": "static.cupid.travel"
+      },
+      {
+        "protocol": "https",
+        "hostname": "static.nuitee.cloud"
+      }
     ]
   },
   "redirects": [
@@ -28,6 +40,78 @@
     },
     {
       "source": "/www.expedia.com/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/hotels.com/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/www.hotels.com/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/booking.com/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/www.booking.com/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/kayak.com/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/www.kayak.com/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/priceline.com/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/www.priceline.com/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/agoda.com/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/www.agoda.com/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/tripadvisor.com/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/www.tripadvisor.com/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/orbitz.com/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/www.orbitz.com/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/travelocity.com/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/www.travelocity.com/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/google.com/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/www.google.com/:path*",
       "destination": "/import.html"
     }
   ],
