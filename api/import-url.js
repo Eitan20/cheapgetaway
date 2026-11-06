@@ -276,6 +276,12 @@ function hotelFromBookingPath(pathname) {
 
 function hotelFromKayakPath(pathname) {
   const decoded = decodeURIComponent(pathname || '');
+  // /Tokyo-Hotels-Park-Hyatt-Tokyo.12345.ksp
+  const ksp = decoded.match(/\/([^/]+?)-Hotels-([^/]+?)\.\d+\.ksp/i);
+  if (ksp) {
+    const cityName = ksp[1].replace(/-/g, ' ');
+    return { hotelName: ksp[2].replace(/-/g, ' '), cityName, countryCode: countryFromCity(cityName), hotelId: '' };
+  }
   const match = decoded.match(/\/hotels\/([^/]+)/i);
   if (!match) return emptyHotel();
   const raw = match[1];
@@ -309,7 +315,7 @@ function hotelFromAgodaPath(pathname) {
   const cityMatch = cityPart.match(/^(.+)-([a-z]{2})$/i);
   const cityName = (cityMatch ? cityMatch[1] : cityPart).replace(/-/g, ' ');
   const countryCode = cityMatch ? cityMatch[2].toUpperCase() : countryFromCity(cityName);
-  const loc = parseLocationSlug(match[1]);
+  const loc = parseLocationSlug(match[1].replace(/-h\d+$/i, '').replace(/_\d+$/, ''));
   return {
     hotelName: loc.hotelName,
     cityName: loc.cityName || cityName,
@@ -806,7 +812,12 @@ export function identityScore(candidate, wanted, cityName) {
   if (cz === wz) return 1;
   const ct = new Set(nameTokens(candidate));
   const cityT = new Set(nameTokens(cityName || ''));
-  const wt = nameTokens(wanted).filter((t) => !cityT.has(t) || ct.has(t));
+  // Drop a trailing full city phrase ("Hotel Sacher Wien Vienna"), never a
+  // lone city-ish word inside the name ("1 Hotel South Beach" in Miami Beach).
+  let wt = nameTokens(wanted);
+  const cityList = nameTokens(cityName || '');
+  if (cityList.length && wt.length > cityList.length && wt.slice(-cityList.length).join(' ') === cityList.join(' ')
+      && !cityList.every((t) => ct.has(t))) wt = wt.slice(0, -cityList.length);
   if (!wt.length) return cz.includes(wz) ? 0.8 : 0;
   let hit = 0;
   for (const t of wt) {
@@ -814,12 +825,14 @@ export function identityScore(candidate, wanted, cityName) {
     else if ([...ct].some((x) => (x.length >= 4 && t.length >= 4) && (x.startsWith(t) || t.startsWith(x)))) hit += 0.7;
   }
   const recall = hit / wt.length;
+  if (recall < 0.5) return recall * 0.5;
   const wset = new Set(wt);
   const ctl = [...ct].filter((t) => !cityT.has(t) || wset.has(t));
   const precision = ctl.length ? Math.min(1, hit / ctl.length) : 1;
   let score = recall * 0.55 + precision * 0.45;
   if (precision < 0.5) score *= 0.7;
-  if (cz.includes(wz) || wz.includes(cz)) score = Math.max(score, 0.85);
+  const near = Math.min(cz.length, wz.length) / Math.max(cz.length, wz.length) >= 0.6;
+  if (near && (cz.includes(wz) || wz.includes(cz))) score = Math.max(score, 0.85);
   return score;
 }
 
@@ -876,10 +889,15 @@ async function lookupLite(apiKey, hotelName, countryCode, cityName) {
   if (cityName) qs.set('cityName', cityName);
   qs.set('limit', '10');
   try {
-    const res = await fetch(LITEAPI_BASE + '/data/hotels?' + qs.toString(), {
-      headers: { 'X-API-Key': apiKey, accept: 'application/json' }
-    });
-    if (!res.ok) return [];
+    let res = null;
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      res = await fetch(LITEAPI_BASE + '/data/hotels?' + qs.toString(), {
+        headers: { 'X-API-Key': apiKey, accept: 'application/json' }
+      });
+      if (res.status !== 429 && res.status < 500) break;
+      await new Promise((r) => setTimeout(r, 350 * (attempt + 1)));
+    }
+    if (!res || !res.ok) return [];
     const json = await res.json();
     return Array.isArray(json && json.data) ? json.data : [];
   } catch {
@@ -903,6 +921,14 @@ export function pickBest(rows, parsed) {
   for (const row of rows || []) {
     if (!row || !row.name) continue;
     let score = identityScore(row.name, parsed.hotelName, parsed.cityName);
+    // "Hotel Renew" for "Hotel Renew Waikiki Beach": every candidate word is in
+    // the wanted name, one of them distinctive, and the city agrees.
+    if (score < 0.75 && row.city && parsed.cityName && cityCompatible(row.city, parsed.cityName)) {
+      const cw = nameTokens(row.name);
+      const ww = new Set(nameTokens(parsed.hotelName));
+      const weak = new Set(['south', 'north', 'east', 'west', 'city', 'new', 'old', 'park', 'inn', 'suites', 'resort', 'beach']);
+      if (cw.length && cw.every((t) => ww.has(t)) && cw.some((t) => t.length >= 5 && !GENERIC_TOKENS.has(t) && !weak.has(t))) score = 0.75;
+    }
     if (parsed.cityName && row.city && normKey(row.city) === normKey(parsed.cityName)) score += 0.03;
     else if (parsed.cityName && row.city && !cityCompatible(row.city, parsed.cityName)) score -= 0.1;
     if (!best || score > best.score) best = { row, score };
@@ -945,7 +971,7 @@ async function resolveLiteHotel(parsed) {
       results.forEach(consider);
     }
   }
-  if (!best || best.score < 0.6) return null;
+  if (!best || best.score < 0.7) return null;
   const row = best.row;
   return { id: row.id || '', name: row.name, city: row.city || parsed.cityName, country: (row.country || parsed.countryCode || '').toUpperCase(), score: best.score };
 }
