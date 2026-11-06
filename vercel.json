@@ -29,22 +29,6 @@
     {
       "source": "/www.expedia.com/:path*",
       "destination": "/import.html"
-    },
-    {
-      "source": "/https://www.expedia.com/:path*",
-      "destination": "/import.html"
-    },
-    {
-      "source": "/https:/www.expedia.com/:path*",
-      "destination": "/import.html"
-    },
-    {
-      "source": "/http://www.expedia.com/:path*",
-      "destination": "/import.html"
-    },
-    {
-      "source": "/http:/www.expedia.com/:path*",
-      "destination": "/import.html"
     }
   ],
   "headers": [
