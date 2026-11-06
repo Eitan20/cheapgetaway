@@ -144,6 +144,8 @@ test('hotels.com strips marketing noise and peels lake buena vista', () => {
   const d = P('https://www.hotels.com/ho2981195328/');
   assert.equal(d.ok, false);
   assert.equal(d.error, 'no-hotel-or-destination');
+  assert.equal(d.expediaHotelId, '2981195328');
+  assert.match(d.scrapableUrl, /hotels\.com\/ho2981195328/);
 });
 
 test('booking country-aware peel, amp entity, trailing digit, intercontinental', () => {

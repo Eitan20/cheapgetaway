@@ -4,3 +4,7 @@ node_modules/
 .playwright-mcp/
 .env
 .env.local
+
+.env.crw
+.crw.env.raw
+.crw.key

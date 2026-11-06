@@ -5,6 +5,7 @@
 // Never fetches the competitor page (no SSRF).
 
 import WORLD_CITIES from './_cities.js';
+import { needsScrapeFallback, tryCrwHotelFallback } from './_crw-fallback.js';
 
 const LITEAPI_BASE = 'https://api.liteapi.travel/v3.0';
 
@@ -185,7 +186,13 @@ export function parseHotelUrl(raw) {
       ok: false, error: info.googleMid ? 'google-entity' : 'no-hotel-or-destination', host: parsed.hostname,
       googleMid: info.googleMid || '', source, sourceLabel: SOURCE_LABELS[source] || 'the hotel site',
       checkin: dates.checkin, checkout: dates.checkout, adults,
-      competitorPrice: null, competitorCurrency: 'USD', expediaHotelId: ''
+      competitorPrice: null, competitorCurrency: 'USD',
+      expediaHotelId: info.hotelId || '',
+      // Kept for miss-only FastCRW fallback (never fetched from this Worker).
+      scrapableUrl: parsed.href,
+      hotelName: '',
+      cityName: '',
+      countryCode: info.countryCode || ''
     };
   }
 
@@ -850,6 +857,33 @@ export default async function handler(req, res) {
     const wd = await wikidataFromMid(parsed.googleMid);
     if (wd) parsed = { ...parsed, ok: true, hotelName: wd.hotelName, cityName: wd.cityName, countryCode: wd.countryCode, error: undefined };
   }
+  // Miss-only FastCRW fallback (Hostinger VPS). Never runs when URL parse
+  // already extracted a hotel name. Short timeout + queue/session caps;
+  // on slow/busy/error keep the URL-parser result (fast-fail).
+  let crwMeta = null;
+  if (needsScrapeFallback(parsed)) {
+    const sessionId = String(
+      (body && (body.sessionId || body.sid)) ||
+      (req.headers && (req.headers['x-cg-session'] || req.headers['x-session-id'])) ||
+      ''
+    ).slice(0, 80);
+    const pageUrl = parsed.scrapableUrl || unwrapImportUrl(raw);
+    const scraped = await tryCrwHotelFallback(pageUrl, {
+      sessionId,
+      source: parsed.source || ''
+    });
+    if (scraped && scraped.hotelName) {
+      crwMeta = scraped.meta || { provider: 'crw' };
+      parsed = {
+        ...parsed,
+        ok: true,
+        hotelName: scraped.hotelName,
+        cityName: scraped.cityName || parsed.cityName || '',
+        countryCode: parsed.countryCode || countryFromCity(scraped.cityName || ''),
+        error: undefined
+      };
+    }
+  }
   if (!parsed.ok) {
     res.status(200).json(parsed);
     return;
@@ -887,7 +921,9 @@ export default async function handler(req, res) {
     expediaHotelId: parsed.expediaHotelId,
     liteHotelId: (resolved && resolved.id) || '',
     query,
-    searchResultsPath: ''
+    searchResultsPath: '',
+    scrapeUsed: Boolean(crwMeta),
+    scrapeMs: crwMeta && crwMeta.ms != null ? crwMeta.ms : undefined
   };
   payload.searchResultsPath = buildSearchPath(payload);
   res.status(200).json(payload);
