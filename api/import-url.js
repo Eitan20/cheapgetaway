@@ -214,29 +214,49 @@ function nameScore(candidate, wanted) {
   return i >= 4 ? 40 + i : 0;
 }
 
+function hotelNameVariants(name) {
+  const n = String(name || '').trim();
+  const out = [];
+  if (n) out.push(n);
+  // Expedia slugs drop apostrophes: Loscar → L'oscar, Oneill → O'neill.
+  if (n && !/['’]/.test(n) && n.length > 2) out.push(n[0] + "'" + n.slice(1));
+  return [...new Set(out)];
+}
+
+async function lookupLiteHotels(apiKey, hotelName, parsed) {
+  const qs = new URLSearchParams();
+  qs.set('hotelName', hotelName);
+  if (parsed.countryCode) qs.set('countryCode', parsed.countryCode);
+  if (parsed.cityName) qs.set('cityName', parsed.cityName);
+  qs.set('limit', '8');
+  const res = await fetch(LITEAPI_BASE + '/data/hotels?' + qs.toString(), {
+    headers: { 'X-API-Key': apiKey, accept: 'application/json' }
+  });
+  if (!res.ok) return [];
+  const json = await res.json();
+  return Array.isArray(json && json.data) ? json.data : [];
+}
+
 async function resolveLiteHotel(parsed) {
   const apiKey = process.env.LITEAPI_KEY;
   if (!apiKey || !parsed.hotelName) return null;
 
-  const qs = new URLSearchParams();
-  qs.set('hotelName', parsed.hotelName);
-  if (parsed.countryCode) qs.set('countryCode', parsed.countryCode);
-  if (parsed.cityName) qs.set('cityName', parsed.cityName);
-  qs.set('limit', '8');
-
   try {
-    const res = await fetch(LITEAPI_BASE + '/data/hotels?' + qs.toString(), {
-      headers: { 'X-API-Key': apiKey, accept: 'application/json' }
-    });
-    if (!res.ok) return null;
-    const json = await res.json();
-    const rows = Array.isArray(json && json.data) ? json.data : [];
+    let rows = [];
+    let usedName = parsed.hotelName;
+    for (const name of hotelNameVariants(parsed.hotelName)) {
+      rows = await lookupLiteHotels(apiKey, name, parsed);
+      if (rows.length) {
+        usedName = name;
+        break;
+      }
+    }
     if (!rows.length) return null;
-    const wanted = [parsed.hotelName, parsed.cityName].filter(Boolean).join(' ');
+    const wanted = [usedName, parsed.cityName].filter(Boolean).join(' ');
     let best = rows[0];
     let bestScore = -1;
     for (const row of rows) {
-      const score = nameScore(row && row.name, wanted) + nameScore(row && row.name, parsed.hotelName);
+      const score = nameScore(row && row.name, wanted) + nameScore(row && row.name, usedName);
       if (score > bestScore) {
         best = row;
         bestScore = score;
