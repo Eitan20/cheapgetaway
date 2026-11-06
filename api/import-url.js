@@ -4,6 +4,8 @@
 // resolves the real property name/id (e.g. Loscar → L'oscar London).
 // Never fetches the competitor page (no SSRF).
 
+import WORLD_CITIES from './_cities.js';
+
 const LITEAPI_BASE = 'https://api.liteapi.travel/v3.0';
 
 const CITY_TO_COUNTRY = {
@@ -27,6 +29,13 @@ const CITY_TO_COUNTRY = {
   athens: 'GR', budapest: 'HU', warsaw: 'PL', 'mexico city': 'MX', cancun: 'MX'
 };
 
+const REGION_TO_COUNTRY = {};
+
+function normKey(value) {
+  return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+    .replace(/['’]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+}
+
 const COUNTRY_NAME_TO_CODE = {
   'united kingdom': 'GB', uk: 'GB', england: 'GB', scotland: 'GB', wales: 'GB',
   'great britain': 'GB', britain: 'GB',
@@ -40,6 +49,32 @@ const COUNTRY_NAME_TO_CODE = {
   norway: 'NO', finland: 'FI', greece: 'GR', hungary: 'HU', poland: 'PL',
   mexico: 'MX'
 };
+
+// Every ISO-3166 region name (Intl) + US states / regions travel sites put in slugs.
+(function extendCountries() {
+  try {
+    const dn = new Intl.DisplayNames(['en'], { type: 'region' });
+    const A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    for (const a of A) for (const b of A) {
+      const code = a + b;
+      let name = '';
+      try { name = dn.of(code); } catch { name = ''; }
+      if (!name || name === code || /unknown/i.test(name)) continue;
+      const key = normKey(name);
+      if (key && !COUNTRY_NAME_TO_CODE[key]) COUNTRY_NAME_TO_CODE[key] = code;
+    }
+  } catch { /* Intl without region names */ }
+  const US_STATES = ['alabama', 'alaska', 'arizona', 'arkansas', 'california', 'colorado', 'connecticut', 'delaware', 'florida', 'hawaii', 'idaho', 'illinois', 'indiana', 'iowa', 'kansas', 'kentucky', 'louisiana', 'maine', 'maryland', 'massachusetts', 'michigan', 'minnesota', 'mississippi', 'missouri', 'montana', 'nebraska', 'nevada', 'new hampshire', 'new jersey', 'new mexico', 'new york', 'north carolina', 'north dakota', 'ohio', 'oklahoma', 'oregon', 'pennsylvania', 'rhode island', 'south carolina', 'south dakota', 'tennessee', 'texas', 'utah', 'vermont', 'virginia', 'washington', 'west virginia', 'wisconsin', 'wyoming', 'district of columbia'];
+  for (const st of US_STATES) REGION_TO_COUNTRY[st] = 'US';
+  for (const r of ['ontario', 'quebec', 'british columbia', 'alberta', 'nova scotia', 'manitoba']) REGION_TO_COUNTRY[r] = 'CA';
+  Object.assign(REGION_TO_COUNTRY, {
+    oahu: 'US', maui: 'US', 'big island': 'US', kauai: 'US', 'french riviera': 'FR', 'cote d azur': 'FR',
+    'provence alpes cote d azur': 'FR', 'ile de france': 'FR', lazio: 'IT', tuscany: 'IT', lombardy: 'IT', veneto: 'IT',
+    catalonia: 'ES', andalucia: 'ES', bavaria: 'DE', 'new south wales': 'AU', victoria: 'AU', queensland: 'AU',
+    bali: 'ID', phuket: 'TH', 'metro manila': 'PH', luzon: 'PH', 'greater london': 'GB', 'england': 'GB', 'scotland': 'GB',
+    'kanto': 'JP', 'kansai': 'JP', 'kyoto prefecture': 'JP', 'tokyo prefecture': 'JP', 'quintana roo': 'MX', 'yucatan': 'MX'
+  });
+})();
 
 const SOURCE_LABELS = {
   expedia: 'Expedia',
@@ -134,12 +169,20 @@ export function parseHotelUrl(raw) {
     info.countryCode = info.countryCode || dest.countryCode;
   }
   info.countryCode = info.countryCode || countryFromCity(info.cityName);
+  const CITY_ALIASES = { 'new york city': 'New York', nyc: 'New York', 'washington dc': 'Washington', 'washington d c': 'Washington', roma: 'Rome', wien: 'Vienna', 'hong kong': 'Hong Kong' };
+  if (info.cityName && CITY_ALIASES[normKey(info.cityName)]) info.cityName = CITY_ALIASES[normKey(info.cityName)];
+  else if (info.cityName && info.cityName === info.cityName.toLowerCase()) info.cityName = titleCase(info.cityName);
 
   const competitorPrice = parsePrice(qs.get('top_dp') || qs.get('top_price') || qs.get('price'));
   const competitorCurrency = (qs.get('top_cur') || qs.get('currency') || qs.get('selected_currency') || 'USD').toUpperCase();
 
   if (!info.hotelName && !info.cityName) {
-    return { ok: false, error: 'no-hotel-or-destination', host: parsed.hostname };
+    return {
+      ok: false, error: info.googleMid ? 'google-entity' : 'no-hotel-or-destination', host: parsed.hostname,
+      googleMid: info.googleMid || '', source, sourceLabel: SOURCE_LABELS[source] || 'the hotel site',
+      checkin: dates.checkin, checkout: dates.checkout, adults,
+      competitorPrice: null, competitorCurrency: 'USD', expediaHotelId: ''
+    };
   }
 
   return {
@@ -225,7 +268,8 @@ function hotelFromBookingPath(pathname) {
   const match = decoded.match(/\/hotel\/([a-z]{2})\/([^/?#]+)/i);
   if (!match) return hotelFromGenericPath(pathname);
   const countryCode = match[1].toUpperCase();
-  const slug = match[2].replace(/\.html?$/i, '');
+  let slug = match[2].replace(/\.html?$/i, '').replace(/\.[a-z]{2}(-[a-z]{2})?$/i, '');
+  if (!/[-_]/.test(slug)) slug = segmentWords(slug).join('-');
   const loc = parseLocationSlug(slug);
   return { ...loc, countryCode: loc.countryCode || countryCode, hotelId: '' };
 }
@@ -236,7 +280,7 @@ function hotelFromKayakPath(pathname) {
   if (!match) return emptyHotel();
   const raw = match[1];
   const idMatch = raw.match(/-h(\d+)/i);
-  const token = raw.replace(/-c\d+.*$/i, '');
+  const token = raw.replace(/-(?:c|p|h)\d+(?:-.*)?$/i, '');
   const parts = token.split(',').map((s) => s.replace(/-/g, ' ').trim()).filter(Boolean);
   let countryCode = '';
   let cityName = '';
@@ -278,7 +322,24 @@ function hotelFromTripadvisorPath(pathname) {
   const decoded = decodeURIComponent(pathname || '');
   const match = decoded.match(/Hotel_Review-[^-]+-[^-]+-Reviews-(.+?)(?:\.html)?$/i);
   if (!match) return emptyHotel();
-  const parts = match[1].split('-');
+  // Review pagination (Reviews-or50-Name) is not part of the hotel name.
+  const parts = match[1].replace(/^(?:or\d+-)+/i, '').split('-');
+  if (parts.length >= 2) {
+    const locBits = parts[parts.length - 1].split('_').filter(Boolean);
+    const hotelName = parts.slice(0, -1).join(' ').replace(/_/g, ' ').trim();
+    // Longest leading run of location bits that is a known city; the rest
+    // (state / region / country) only decides the country code.
+    for (let n = Math.min(4, locBits.length); n >= 1; n -= 1) {
+      const city = locBits.slice(0, n).join(' ');
+      if (isKnownCity(city)) {
+        const tail = locBits.slice(n);
+        let cc = '';
+        for (let k = 0; k < tail.length && !cc; k += 1) cc = countryFromName(tail.slice(k).join(' '));
+        for (let k = tail.length; k > 0 && !cc; k -= 1) cc = countryFromName(tail.slice(0, k).join(' '));
+        return { hotelName, cityName: city, countryCode: cc || countryFromCity(city), hotelId: '' };
+      }
+    }
+  }
   let cityName = '';
   let countryCode = '';
   let hotelParts = parts;
@@ -307,16 +368,34 @@ function hotelFromGoogle(parsed) {
   const q = parsed.searchParams.get('q') || parsed.searchParams.get('qs') || '';
   let hotelName = q.trim();
   let cityName = '';
-  const match = decodeURIComponent(parsed.pathname || '').match(/\/travel\/hotels\/([^/]+)/i);
+  const path = decodeURIComponent(parsed.pathname || '');
+  const match = path.match(/\/travel\/hotels\/([^/]+)/i);
   if (match && !/^entity$/i.test(match[1])) {
-    cityName = match[1].replace(/-/g, ' ');
+    cityName = match[1].replace(/[-+]/g, ' ');
     if (!hotelName) hotelName = cityName;
   }
-  return { hotelName, cityName, countryCode: countryFromCity(cityName), hotelId: '' };
+  const place = path.match(/\/maps\/place\/([^/@]+)/i);
+  if (!hotelName && place) {
+    const bits = place[1].replace(/\+/g, ' ').split(',').map((x) => x.trim()).filter(Boolean);
+    hotelName = bits[0] || '';
+    if (!cityName && bits.length > 1) cityName = bits.slice(1).map((b) => b.replace(/\b[A-Z]{2}\s*\d{4,}.*$/, '').replace(/\d+/g, '').trim()).find((b) => isKnownCity(b)) || '';
+  }
+  // ?q=Hotel Name, City → split on comma
+  if (hotelName.includes(',') && !cityName) {
+    const bits = hotelName.split(',').map((x) => x.trim());
+    hotelName = bits[0];
+    cityName = bits.slice(1).find((b) => isKnownCity(b)) || '';
+  }
+  const ent = path.match(/\/entity\/([A-Za-z0-9_-]{8,})/);
+  const googleMid = (!hotelName && ent) ? decodeGoogleEntity(ent[1]).mid : '';
+  return { hotelName, cityName, countryCode: countryFromCity(cityName), hotelId: '', googleMid };
 }
 
 function hotelFromPricelinePath(pathname) {
   const decoded = decodeURIComponent(pathname || '');
+  // /hotel-deals/en-us/P5000463463/H30001603/hotel-relax-marrakech.ssp
+  const deals = decoded.match(/\/hotel-deals\/(?:[a-z]{2}-[a-z]{2}\/)?(?:[^/]+\/)*?([a-z0-9-]+)\.ssp/i);
+  if (deals) return { ...parseLocationSlug(deals[1]), hotelId: '' };
   const named = decoded.match(/\/(?:hotel|hotels|hw)\/([^/]+)/i);
   if (named && !/^\d+$/.test(named[1])) {
     return { ...parseLocationSlug(named[1]), hotelId: '' };
@@ -386,9 +465,9 @@ function parseLocationSlug(slug) {
   for (let n = 3; n >= 1; n -= 1) {
     if (parts.length <= n) continue;
     const candidate = parts.slice(-n).join(' ');
-    if (CITY_TO_COUNTRY[candidate]) {
+    if (CITY_TO_COUNTRY[candidate] || WORLD_CITIES[candidate]) {
       cityName = candidate;
-      if (!countryCode) countryCode = CITY_TO_COUNTRY[candidate];
+      if (!countryCode) countryCode = CITY_TO_COUNTRY[candidate] || WORLD_CITIES[candidate];
       parts = parts.slice(0, -n);
       while (parts.length >= n && parts.slice(-n).join(' ') === candidate) {
         parts = parts.slice(0, -n);
@@ -430,12 +509,18 @@ function countryFromCity(city) {
   if (CITY_TO_COUNTRY[key]) return CITY_TO_COUNTRY[key];
   const beforeComma = key.split(',')[0].trim();
   if (beforeComma && CITY_TO_COUNTRY[beforeComma]) return CITY_TO_COUNTRY[beforeComma];
-  return '';
+  const nk = normKey(beforeComma);
+  return CITY_TO_COUNTRY[nk] || WORLD_CITIES[nk] || '';
+}
+
+export function isKnownCity(name) {
+  const nk = normKey(name);
+  return !!(nk && (CITY_TO_COUNTRY[nk] || WORLD_CITIES[nk]));
 }
 
 function countryFromName(name) {
-  const key = String(name || '').trim().toLowerCase().replace(/\s+/g, ' ');
-  return COUNTRY_NAME_TO_CODE[key] || '';
+  const key = normKey(name);
+  return COUNTRY_NAME_TO_CODE[key] || REGION_TO_COUNTRY[key] || '';
 }
 
 function datesFromUrl(parsed) {
@@ -512,78 +597,16 @@ function parsePrice(value) {
   return Number.isFinite(n) ? n : null;
 }
 
-function nameScore(candidate, wanted) {
-  const a = String(candidate || '').toLowerCase().replace(/[^a-z0-9]+/g, '');
-  const b = String(wanted || '').toLowerCase().replace(/[^a-z0-9]+/g, '');
-  if (!a || !b) return 0;
-  if (a === b) return 100;
-  if (a.includes(b) || b.includes(a)) return 80;
-  let i = 0;
-  while (i < a.length && i < b.length && a[i] === b[i]) i += 1;
-  return i >= 4 ? 40 + i : 0;
-}
-
-function hotelNameVariants(name) {
-  const n = String(name || '').trim();
-  const out = [];
-  if (n) out.push(n);
-  // Expedia/Hotels.com slugs drop apostrophes: Loscar → L'oscar, Oneill → O'neill.
-  if (n && !/['’]/.test(n) && n.length > 2) out.push(n[0] + "'" + n.slice(1));
-  // Booking-style "L Oscar" / "l oscar" → L'oscar
-  if (/^l\s+/i.test(n) && !/['’]/.test(n)) out.push("L'" + n.replace(/^l\s+/i, ''));
-  return [...new Set(out)];
-}
-
-async function lookupLiteHotels(apiKey, hotelName, parsed) {
-  const qs = new URLSearchParams();
-  qs.set('hotelName', hotelName);
-  if (parsed.countryCode) qs.set('countryCode', parsed.countryCode);
-  if (parsed.cityName) qs.set('cityName', parsed.cityName);
-  qs.set('limit', '8');
-  const res = await fetch(LITEAPI_BASE + '/data/hotels?' + qs.toString(), {
-    headers: { 'X-API-Key': apiKey, accept: 'application/json' }
-  });
-  if (!res.ok) return [];
-  const json = await res.json();
-  return Array.isArray(json && json.data) ? json.data : [];
-}
-
-async function resolveLiteHotel(parsed) {
-  const apiKey = process.env.LITEAPI_KEY;
-  if (!apiKey || !parsed.hotelName) return null;
-
-  try {
-    let rows = [];
-    let usedName = parsed.hotelName;
-    for (const name of hotelNameVariants(parsed.hotelName)) {
-      rows = await lookupLiteHotels(apiKey, name, parsed);
-      if (rows.length) {
-        usedName = name;
-        break;
-      }
-    }
-    if (!rows.length) return null;
-    const wanted = [usedName, parsed.cityName].filter(Boolean).join(' ');
-    let best = rows[0];
-    let bestScore = -1;
-    for (const row of rows) {
-      const score = nameScore(row && row.name, wanted) + nameScore(row && row.name, usedName);
-      if (score > bestScore) {
-        best = row;
-        bestScore = score;
-      }
-    }
-    if (!best || !best.name) return null;
-    return { id: best.id || '', name: best.name, city: best.city || parsed.cityName, country: best.country || parsed.countryCode };
-  } catch {
-    return null;
-  }
-}
-
 function buildSearchPath(fields) {
   const q = fields.query || fields.hotelName || fields.cityName || '';
   const qs = new URLSearchParams();
   if (q) qs.set('q', q);
+  if (fields.liteHotelId) {
+    qs.set('hotelId', fields.liteHotelId);
+    if (fields.hotelName) qs.set('hn', fields.hotelName);
+    if (fields.cityName) qs.set('city', fields.cityName);
+    if (fields.countryCode) qs.set('cc', fields.countryCode);
+  }
   if (fields.adults) qs.set('adults', String(fields.adults));
   if (fields.checkin) qs.set('checkin', fields.checkin);
   if (fields.checkout) qs.set('checkout', fields.checkout);
@@ -611,7 +634,11 @@ export default async function handler(req, res) {
   }
 
   const raw = (body && body.url) || (req.query && (req.query.url || req.query.u)) || '';
-  const parsed = parseHotelUrl(raw);
+  let parsed = parseHotelUrl(raw);
+  if (!parsed.ok && parsed.googleMid) {
+    const wd = await wikidataFromMid(parsed.googleMid);
+    if (wd) parsed = { ...parsed, ok: true, hotelName: wd.hotelName, cityName: wd.cityName, countryCode: wd.countryCode, error: undefined };
+  }
   if (!parsed.ok) {
     res.status(200).json(parsed);
     return;
@@ -673,4 +700,252 @@ function readJsonBody(req) {
     });
     req.on('error', reject);
   });
+}
+
+// ---------------------------------------------------------------------------
+// Hyphenless slug segmentation (booking.com/hotel/gb/novotellondontower) —
+// dictionary DP over hotel vocabulary + brand names + world city words.
+const SEG_WORDS = new Set(`
+the a an and of at by on in de la le les du des del di da el los las san santa st saint
+hotel hotels hostel inn inns suites suite resort resorts spa lodge motel house residence residences apartments apartment
+apartamentos aparthotel boutique grand royal palace park plaza tower towers bridge city central centre center
+downtown airport beach bay harbour harbor marina river view garden gardens court square street road gate hill
+north south east west new old castle manor hall villa villas place point station collection signature
+luxury premier deluxe executive international continental imperial regency regent crown king kings queen queens
+london paris rome york bay island lake mountain valley sea ocean shore club golf country west end
+novotel ibis mercure sofitel pullman accor hilton doubletree hampton embassy conrad waldorf astoria marriott
+courtyard residence sheraton westin renaissance ritz carlton four seasons hyatt andaz holiday express crowne
+intercontinental radisson blu best western premier travelodge premier jurys thistle park inn citizenm yotel
+omni fairmont kempinski shangri mandarin oriental peninsula langham rosewood aman belmond melia nh barcelo
+hard rock wyndham ramada days super la quinta comfort quality clarion sleep motel one moxy aloft element
+w edition ace standard hoxton generator selina pod zoku canopy curio tapestry tribute autograph kimpton
+staybridge candlewood vienna ibis budget easy hotel the belgrave shoreditch soho mayfair kensington chelsea
+covent garden westminster victoria paddington piccadilly bloomsbury camden greenwich canary wharf tower hill
+`.split(/\s+/).filter(Boolean));
+let SEG_DICT = null;
+function segDict() {
+  if (SEG_DICT) return SEG_DICT;
+  SEG_DICT = new Set(SEG_WORDS);
+  for (const k of Object.keys(WORLD_CITIES)) for (const w of k.split(' ')) if (w.length >= 4) SEG_DICT.add(w);
+  return SEG_DICT;
+}
+export function segmentWords(raw) {
+  const s = String(raw || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  if (!s) return [];
+  const dict = segDict();
+  const n = s.length;
+  const cost = new Array(n + 1).fill(Infinity);
+  const back = new Array(n + 1).fill(0);
+  cost[0] = 0;
+  for (let i = 1; i <= n; i += 1) {
+    for (let j = Math.max(0, i - 20); j < i; j += 1) {
+      const w = s.slice(j, i);
+      const c = dict.has(w) ? (SEG_WORDS.has(w) ? 1 : 1.6) : (w.length === 1 ? 6 : 4 + w.length * 2);
+      if (cost[j] + c < cost[i]) { cost[i] = cost[j] + c; back[i] = j; }
+    }
+  }
+  const out = [];
+  for (let i = n; i > 0; i = back[i]) out.unshift(s.slice(back[i], i));
+  // merge consecutive unknown fragments back together
+  const merged = [];
+  for (const w of out) {
+    if (merged.length && !dict.has(w) && !dict.has(merged[merged.length - 1])) merged[merged.length - 1] += w;
+    else merged.push(w);
+  }
+  return merged;
+}
+
+// ---------------------------------------------------------------------------
+// Google Hotels entity ids: base64url protobuf. Some carry a Knowledge Graph
+// MID (/m/… or /g/…); those resolve via Wikidata (P646 / P2671). CID-only ids
+// are opaque without fetching Google, which we never do.
+export function decodeGoogleEntity(id) {
+  try {
+    const b = Buffer.from(String(id).replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString('latin1');
+    const mid = b.match(/\/[mg]\/[0-9a-z_]{4,14}/i);
+    return { mid: mid ? mid[0] : '' };
+  } catch {
+    return { mid: '' };
+  }
+}
+
+async function wikidataFromMid(mid) {
+  if (!/^\/[mg]\/[0-9a-z_]{4,14}$/i.test(mid)) return null;
+  const prop = mid.startsWith('/m/') ? 'P646' : 'P2671';
+  const sparql = `SELECT ?itemLabel ?cityLabel ?cc WHERE { ?item wdt:${prop} "${mid}" . OPTIONAL { ?item wdt:P131 ?city . } OPTIONAL { ?item wdt:P17 ?c . ?c wdt:P297 ?cc . } SERVICE wikibase:label { bd:serviceParam wikibase:language "en". } } LIMIT 1`;
+  try {
+    const ctl = new AbortController();
+    const t = setTimeout(() => ctl.abort(), 3500);
+    const res = await fetch('https://query.wikidata.org/sparql?format=json&query=' + encodeURIComponent(sparql), {
+      headers: { accept: 'application/sparql-results+json', 'user-agent': 'CheapGetaway-import/1.0 (https://www.cheapgetaway.com)' },
+      signal: ctl.signal
+    });
+    clearTimeout(t);
+    if (!res.ok) return null;
+    const j = await res.json();
+    const row = j && j.results && j.results.bindings && j.results.bindings[0];
+    if (!row || !row.itemLabel) return null;
+    return { hotelName: row.itemLabel.value, cityName: row.cityLabel ? row.cityLabel.value : '', countryCode: row.cc ? row.cc.value : '' };
+  } catch {
+    return null;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Hotel identity scoring + LiteAPI resolution.
+const NAME_STOP = new Set(['the', 'a', 'an', 'and', 'of', 'at', 'by', 'hotel', 'hotels', 'by', 'de', 'la', 'le', 'il', 'el', 'a', 'member', 'collection', 'luxury', 'ihg', 'marriott', 'hilton']);
+function nameTokens(s) {
+  return normKey(s).split(' ').filter((t) => t && !NAME_STOP.has(t));
+}
+export function identityScore(candidate, wanted, cityName) {
+  const c = normKey(candidate);
+  const w = normKey(wanted);
+  if (!c || !w) return 0;
+  const cz = c.replace(/ /g, '');
+  const wz = w.replace(/ /g, '');
+  if (cz === wz) return 1;
+  const ct = new Set(nameTokens(candidate));
+  const cityT = new Set(nameTokens(cityName || ''));
+  const wt = nameTokens(wanted).filter((t) => !cityT.has(t) || ct.has(t));
+  if (!wt.length) return cz.includes(wz) ? 0.8 : 0;
+  let hit = 0;
+  for (const t of wt) {
+    if (ct.has(t)) hit += 1;
+    else if ([...ct].some((x) => (x.length >= 4 && t.length >= 4) && (x.startsWith(t) || t.startsWith(x)))) hit += 0.7;
+  }
+  const recall = hit / wt.length;
+  const wset = new Set(wt);
+  const ctl = [...ct].filter((t) => !cityT.has(t) || wset.has(t));
+  const precision = ctl.length ? Math.min(1, hit / ctl.length) : 1;
+  let score = recall * 0.55 + precision * 0.45;
+  if (precision < 0.5) score *= 0.7;
+  if (cz.includes(wz) || wz.includes(cz)) score = Math.max(score, 0.85);
+  return score;
+}
+
+const GENERIC_TOKENS = new Set(['resort', 'resorts', 'suites', 'hotels', 'apartments', 'residence', 'residences', 'collection', 'downtown', 'airport', 'international', 'boutique', 'luxury', 'grand', 'plaza', 'palace', 'beach', 'tower', 'center', 'centre', 'central', 'express', 'garden', 'gardens', 'royal', 'house', 'hostel', 'signature', 'member', 'design', 'curio', 'autograph', 'tribute', 'holiday', 'hampton', 'marriott', 'hilton', 'sheraton', 'westin', 'courtyard', 'novotel', 'mercure', 'radisson', 'hyatt', 'regency', 'doubletree', 'embassy', 'crowne', 'premier', 'comfort', 'quality', 'ramada', 'wyndham', 'best', 'western', 'square', 'street', 'station', 'bridge', 'river', 'harbour', 'harbor', 'marina', 'village', 'island']);
+
+function apostropheVariants(name) {
+  const out = [];
+  const tokens = String(name || '').split(' ');
+  tokens.forEach((tok, i) => {
+    // DInghilterra → d'Inghilterra, OHare → O'Hare, Loscar → L'oscar
+    if (/^[DLOdlo][A-Z][a-z]/.test(tok) || /^[DLOdlo][aeiouhAEIOUH][a-z]{2,}/.test(tok)) {
+      const t2 = tokens.slice();
+      t2[i] = tok[0] + "'" + tok.slice(1);
+      out.push(t2.join(' '));
+    }
+  });
+  return out;
+}
+
+export function nameQueryVariants(parsed) {
+  const name = String(parsed.hotelName || '').replace(/\s+/g, ' ').trim();
+  const out = [];
+  const add = (n) => { const v = String(n || '').replace(/\s+/g, ' ').trim(); if (v.length >= 2 && !out.includes(v)) out.push(v); };
+  add(name);
+  for (const v of apostropheVariants(name)) { add(v); add(v.replace(/'/g, '\u2019')); }
+  // LiteAPI hotelName is substring-matched: a bare distinctive token survives
+  // apostrophe/brand/punctuation differences (DInghilterra → "Inghilterra").
+  const cityTok = new Set(nameTokens(parsed.cityName || ''));
+  const distinct = String(name).split(' ')
+    .map((t) => (/^[DLO][A-Z][a-z]/.test(t) ? t.slice(1) : t).replace(/[^\p{L}\p{N}]/gu, ''))
+    .filter((t) => t.length >= 5 && !NAME_STOP.has(t.toLowerCase()) && !cityTok.has(normKey(t)) && !GENERIC_TOKENS.has(t.toLowerCase()))
+    .sort((a, b) => b.length - a.length);
+  add(name.replace(/\b(hotel|the)\b/gi, ' '));
+  // Brand-y suffixes ("…, a Luxury Collection Hotel", "- Starhotels Collezione")
+  add(name.replace(/\s*[,(-].*$/, ''));
+  // Drop apostrophe-broken tokens entirely: "Hyatt Regency OHare" → "Hyatt Regency"
+  const toks = name.split(' ');
+  if (toks.length >= 3) add(toks.filter((t) => !/^[DLO][A-Z][a-z]/.test(t)).join(' '));
+  if (parsed.cityName && !normKey(name).includes(normKey(parsed.cityName))) add(name + ' ' + parsed.cityName);
+  // Leading article / "Hotel" prefix differences
+  add(name.replace(/^(the|hotel)\s+/i, ''));
+  if (toks.length >= 3) add(toks.slice(0, 3).join(' '));
+  if (toks.length >= 2) add(toks.slice(0, 2).join(' '));
+  if (distinct[0]) add(distinct[0]);
+  return out;
+}
+
+const FALLBACK_COUNTRIES = ['US', 'GB', 'FR', 'IT', 'ES', 'DE', 'MX', 'CA', 'AU', 'JP', 'TH', 'AE', 'AT', 'CH', 'NL', 'PT', 'GR', 'TR', 'IN', 'ID', 'PH', 'SG', 'CN', 'HK', 'BR', 'IE'];
+
+async function lookupLite(apiKey, hotelName, countryCode, cityName) {
+  const qs = new URLSearchParams();
+  qs.set('hotelName', hotelName);
+  if (countryCode) qs.set('countryCode', countryCode);
+  if (cityName) qs.set('cityName', cityName);
+  qs.set('limit', '10');
+  try {
+    const res = await fetch(LITEAPI_BASE + '/data/hotels?' + qs.toString(), {
+      headers: { 'X-API-Key': apiKey, accept: 'application/json' }
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return Array.isArray(json && json.data) ? json.data : [];
+  } catch {
+    return [];
+  }
+}
+
+function cityCompatible(a, b) {
+  const x = normKey(a);
+  const y = normKey(b);
+  if (!x || !y) return true;
+  if (x.includes(y) || y.includes(x)) return true;
+  const xt = x.split(' ');
+  const yt = y.split(' ');
+  const weak = new Set(['city', 'saint', 'sankt', 'san', 'santa', 'new', 'port', 'north', 'south', 'east', 'west', 'beach', 'park']);
+  return xt.some((t) => t.length >= 4 && !weak.has(t) && yt.includes(t));
+}
+
+export function pickBest(rows, parsed) {
+  let best = null;
+  for (const row of rows || []) {
+    if (!row || !row.name) continue;
+    let score = identityScore(row.name, parsed.hotelName, parsed.cityName);
+    if (parsed.cityName && row.city && normKey(row.city) === normKey(parsed.cityName)) score += 0.03;
+    else if (parsed.cityName && row.city && !cityCompatible(row.city, parsed.cityName)) score -= 0.1;
+    if (!best || score > best.score) best = { row, score };
+  }
+  return best;
+}
+
+async function resolveLiteHotel(parsed) {
+  const apiKey = process.env.LITEAPI_KEY;
+  if (!apiKey || !parsed.hotelName) return null;
+  const names = nameQueryVariants(parsed).slice(0, 10);
+  const cc = parsed.countryCode;
+  let best = null;
+  const consider = (rows) => {
+    const b = pickBest(rows, parsed);
+    if (b && (!best || b.score > best.score)) best = b;
+  };
+  const plans = [];
+  if (cc) {
+    for (const n of names) {
+      plans.push([n, cc, '']);
+      if (parsed.cityName) plans.push([n, cc, parsed.cityName]);
+    }
+  }
+  // Round 1: country-scoped variants in parallel.
+  if (plans.length) {
+    for (let i = 0; i < plans.length && (!best || best.score < 0.95); i += 8) {
+      const results = await Promise.all(plans.slice(i, i + 8).map(([n, c, city]) => lookupLite(apiKey, n, c, city)));
+      results.forEach(consider);
+    }
+  }
+  // Round 2: unknown/wrong country — sweep common countries in parallel.
+  if (!best || best.score < 0.8) {
+    const sweep = FALLBACK_COUNTRIES.filter((c) => c !== cc);
+    const sweepNames = names.slice(0, 1).concat(names.filter((n) => n !== names[0] && !/\s/.test(n)).slice(-1));
+    const jobs = [];
+    for (const c of sweep) for (const n of sweepNames) jobs.push([n, c]);
+    for (let i = 0; i < jobs.length && (!best || best.score < 0.8); i += 8) {
+      const results = await Promise.all(jobs.slice(i, i + 8).map(([n, c]) => lookupLite(apiKey, n, c, '')));
+      results.forEach(consider);
+    }
+  }
+  if (!best || best.score < 0.6) return null;
+  const row = best.row;
+  return { id: row.id || '', name: row.name, city: row.city || parsed.cityName, country: (row.country || parsed.countryCode || '').toUpperCase(), score: best.score };
 }
