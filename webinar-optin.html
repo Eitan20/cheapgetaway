@@ -334,26 +334,39 @@
 class Component extends DCLogic {
   state = { submitted: false, firstName: '', email: '', error: '', now: Date.now() };
 
-  nextSessionTs() {
+  nextSessionTs(now) {
+    const clock = now == null ? Date.now() : now;
     const iv = Math.max(5, this.props.sessionIntervalMin ?? 5) * 60000;
-    const LIVE_WINDOW_MS = 60 * 60000; // stored ts stays valid up to 60min after it hits
+    const nextBoundary = Math.ceil((clock + 1000) / iv) * iv;
     try {
       const stored = Number(localStorage.getItem('cg_webinar_session_ts'));
-      if (stored && Date.now() < stored + LIVE_WINDOW_MS) return stored;
-      const next = Math.ceil((Date.now() + 1000) / iv) * iv;
-      localStorage.setItem('cg_webinar_session_ts', String(next));
-      return next;
+      // Only reuse a stored session that has not started yet. A past timestamp
+      // used to stay pinned for 60 minutes, which froze the countdown at 00:00:00.
+      if (stored && stored > clock) return stored;
+      localStorage.setItem('cg_webinar_session_ts', String(nextBoundary));
+      return nextBoundary;
     } catch (err) {
-      return Math.ceil((Date.now() + 1000) / iv) * iv;
+      return nextBoundary;
     }
   }
 
+  syncNow = () => {
+    this.setState({ now: Date.now() });
+  };
+
   componentDidMount() {
-    this._timer = setInterval(() => this.setState({ now: Date.now() }), 1000);
+    this._timer = setInterval(this.syncNow, 1000);
+    document.addEventListener('visibilitychange', this.syncNow);
+    window.addEventListener('focus', this.syncNow);
+    window.addEventListener('pageshow', this.syncNow);
+    this.syncNow();
   }
 
   componentWillUnmount() {
     if (this._timer) clearInterval(this._timer);
+    document.removeEventListener('visibilitychange', this.syncNow);
+    window.removeEventListener('focus', this.syncNow);
+    window.removeEventListener('pageshow', this.syncNow);
   }
 
   constructor(props) {
