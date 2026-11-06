@@ -115,7 +115,43 @@
       "destination": "/import.html"
     },
     {
-      "source": "/:host((?:[a-z0-9-]+\\.)?(?:expedia|hotels|hoteles|booking|kayak|priceline|agoda|tripadvisor|orbitz|travelocity|cheaptickets|google)(?:\\.[a-z]{2,3}){1,2})/:path*",
+      "source": "/:sub([a-z0-9-]+).expedia.:tld([a-z.]+)/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/:sub([a-z0-9-]+).hotels.:tld([a-z.]+)/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/:sub([a-z0-9-]+).booking.:tld([a-z.]+)/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/:sub([a-z0-9-]+).kayak.:tld([a-z.]+)/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/:sub([a-z0-9-]+).priceline.:tld([a-z.]+)/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/:sub([a-z0-9-]+).agoda.:tld([a-z.]+)/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/:sub([a-z0-9-]+).tripadvisor.:tld([a-z.]+)/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/:sub([a-z0-9-]+).orbitz.:tld([a-z.]+)/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/:sub([a-z0-9-]+).travelocity.:tld([a-z.]+)/:path*",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/:sub([a-z0-9-]+).google.:tld([a-z.]+)/:path*",
       "destination": "/import.html"
     }
   ],
