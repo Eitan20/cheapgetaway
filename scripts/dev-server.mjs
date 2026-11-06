@@ -23,6 +23,7 @@ const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; cha
 const { default: liteapiHandler } = await import(pathToFileURL(join(ROOT, 'api', 'liteapi.js')).href);
 const { default: bookingEmailHandler } = await import(pathToFileURL(join(ROOT, 'api', 'booking-email.js')).href);
 const { default: recommendedHandler } = await import(pathToFileURL(join(ROOT, 'api', 'recommended.js')).href);
+const { default: searchIntentHandler } = await import(pathToFileURL(join(ROOT, 'api', 'search-intent.js')).href);
 
 function makeRes(res) {
   const api = {
@@ -63,6 +64,13 @@ const server = createServer(async (req, res) => {
     for (const [k, v] of url.searchParams) query[k] = v;
     req.query = query;
     try { await recommendedHandler(req, makeRes(res)); }
+    catch (err) { res.statusCode = 500; res.end(JSON.stringify({ error: 'handler threw', detail: String(err) })); }
+    return;
+  }
+
+  // /api/search-intent -> Jev classification (TYPESAFE_API_KEY).
+  if (pathname === '/api/search-intent') {
+    try { await searchIntentHandler(req, makeRes(res)); }
     catch (err) { res.statusCode = 500; res.end(JSON.stringify({ error: 'handler threw', detail: String(err) })); }
     return;
   }
