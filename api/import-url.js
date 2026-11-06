@@ -877,6 +877,11 @@ export function nameQueryVariants(parsed) {
   if (toks.length >= 3) add(toks.slice(0, 3).join(' '));
   if (toks.length >= 2) add(toks.slice(0, 2).join(' '));
   if (distinct[0]) add(distinct[0]);
+  // German/Nordic slug transliteration: moevenpick → Mövenpick / Movenpick
+  if (/(oe|ue|ae)/i.test(name)) {
+    add(name.replace(/oe/g, 'ö').replace(/ue/g, 'ü').replace(/ae/g, 'ä'));
+    add(name.replace(/oe/g, 'o').replace(/ue/g, 'u').replace(/ae/g, 'a'));
+  }
   return out;
 }
 
@@ -928,6 +933,13 @@ export function pickBest(rows, parsed) {
       const ww = new Set(nameTokens(parsed.hotelName));
       const weak = new Set(['south', 'north', 'east', 'west', 'city', 'new', 'old', 'park', 'inn', 'suites', 'resort', 'beach']);
       if (cw.length && cw.every((t) => ww.has(t)) && cw.some((t) => t.length >= 5 && !GENERIC_TOKENS.has(t) && !weak.has(t))) score = 0.75;
+      // Long noisy slugs: candidate matches the leading wanted words
+      // ("The Strat Hotel Casino Skypod Bw Premier…" → "The STRAT Hotel, Casino & Tower").
+      const wl = nameTokens(parsed.hotelName);
+      let lead = 0;
+      while (lead < wl.length && cw.includes(wl[lead])) lead += 1;
+      const leadDistinct = wl.slice(0, lead).some((t) => t.length >= 4 && !GENERIC_TOKENS.has(t) && !weak.has(t));
+      if (score < 0.75 && lead >= 2 && leadDistinct && lead / cw.length >= 0.6) score = 0.75;
     }
     if (parsed.cityName && row.city && normKey(row.city) === normKey(parsed.cityName)) score += 0.03;
     else if (parsed.cityName && row.city && !cityCompatible(row.city, parsed.cityName)) score -= 0.1;
@@ -939,8 +951,23 @@ export function pickBest(rows, parsed) {
 async function resolveLiteHotel(parsed) {
   const apiKey = process.env.LITEAPI_KEY;
   if (!apiKey || !parsed.hotelName) return null;
-  const names = nameQueryVariants(parsed).slice(0, 10);
-  const cc = parsed.countryCode;
+  const names = nameQueryVariants(parsed).slice(0, 14);
+  let cc = parsed.countryCode;
+  // No country: look for a known city phrase anywhere in the name
+  // (priceline …/holiday-inn-new-york-city-times-square.ssp).
+  if (!cc) {
+    const toks = normKey(parsed.hotelName).split(' ');
+    outer: for (let n = 3; n >= 1; n -= 1) {
+      for (let i = 0; i + n <= toks.length; i += 1) {
+        const phrase = toks.slice(i, i + n).join(' ');
+        if (phrase.length >= 4 && (CITY_TO_COUNTRY[phrase] || WORLD_CITIES[phrase])) {
+          cc = CITY_TO_COUNTRY[phrase] || WORLD_CITIES[phrase];
+          if (!parsed.cityName) parsed = { ...parsed, cityName: titleCase(phrase) };
+          break outer;
+        }
+      }
+    }
+  }
   let best = null;
   const consider = (rows) => {
     const b = pickBest(rows, parsed);
