@@ -45,6 +45,11 @@ upsert; requires `GHL_API_TOKEN` + `GHL_LOCATION_ID`).
    `"framework": null` so Vercel serves the site statically (no Next.js build).
 3. Set the environment variable `LITEAPI_KEY` (Production) to your liteAPI
    production key.
+3b. `TYPESAFE_API_KEY` (Production) — TypeSafe / Jev key used by
+   `api/search-intent.js` to classify landing search queries as a specific
+   hotel name, a place, or an AI vibe before calling LiteAPI rates. Server-side
+   only; never put this key in client JS. Without it, search falls back to the
+   previous place/`aiSearch` behavior.
 4. `GHL_API_TOKEN` + `GHL_LOCATION_ID` (recommended, primary signup path) —
    set both to have webinar signups upserted directly into GoHighLevel via
    the Contacts API (`POST /contacts/upsert`), tagged `webinar-registrant`.

@@ -326,9 +326,30 @@ class Component extends DCLogic {
     try {
       const body = { checkin: P.checkin, checkout: P.checkout, occupancies: [{ adults: P.adults }],
         currency: 'USD', guestNationality: 'US', includeHotelData: true, limit: 25 };
-      if (P.aiQ) body.aiSearch = P.aiQ;
-      else if (P.placeId) body.placeId = P.placeId;
-      else body.aiSearch = 'hotels in ' + P.q;
+      if (P.aiQ) {
+        body.aiSearch = P.aiQ;
+      } else if (P.placeId) {
+        body.placeId = P.placeId;
+      } else {
+        let intent = { intent: 'place' };
+        try {
+          const ir = await fetch('/api/search-intent', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json', 'accept': 'application/json' },
+            body: JSON.stringify({ q: P.q, checkin: P.checkin, checkout: P.checkout, adults: P.adults })
+          });
+          if (ir.ok) intent = await ir.json();
+        } catch (eIntent) { /* keep place fallback */ }
+        if (intent && intent.intent === 'hotel_name') {
+          body.hotelName = (intent.hotelName || P.q || '').trim() || P.q;
+          if (intent.cityHint) body.city = intent.cityHint;
+          if (intent.countryHint) body.country = intent.countryHint;
+        } else if (intent && intent.intent === 'ai_vibe') {
+          body.aiSearch = P.q;
+        } else {
+          body.aiSearch = 'hotels in ' + P.q;
+        }
+      }
       let fac = [];
       if (S.fParking) fac = fac.concat(this.facIds(['parking']));
       if (S.fPool) fac = fac.concat(this.facIds(['swimming pool', 'pool']));
