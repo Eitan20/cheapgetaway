@@ -32,13 +32,28 @@
   input:focus,select:focus{outline:none;}
   @keyframes cg-shimmer{0%{background-position:-400px 0;}100%{background-position:400px 0;}}
   input[type=range]{accent-color:#38b6ff;}
+  .cg-sr-filters-btn{display:none;}
+  .cg-sr-filters-backdrop{display:none;}
+  .cg-sr-filters-close{display:none;}
+  .cg-sr-dates{position:relative;display:flex;align-items:center;}
+  .cg-sr-dates-btn{border:none;background:transparent;cursor:pointer;padding:0;font:inherit;color:inherit;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;}
+  .cg-sr-dates-pop{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%);z-index:70;width:320px;background:#fff;border-radius:22px;box-shadow:0 24px 64px rgba(11,15,31,0.3);padding:22px;display:flex;flex-direction:column;gap:14px;text-align:left;}
   @media (max-width: 1050px) {
     .cg-club-card{grid-template-columns:minmax(0,1fr)!important;gap:20px!important;}
   }
+  @media (max-width: 768px) {
+    .cg-sr-filters-btn{display:inline-flex!important;align-items:center;justify-content:center;gap:7px;border:1.5px solid rgba(14,21,86,0.14);background:#fff;border-radius:999px;padding:9px 14px;font-size:13px;font-weight:800;color:#0e1556;cursor:pointer;min-height:40px;box-shadow:0 2px 8px rgba(14,21,86,0.04);}
+    .cg-sr-filters-backdrop{display:none;position:fixed;inset:0;z-index:70;background:rgba(11,15,31,0.45);border:none;padding:0;margin:0;cursor:pointer;}
+    .cg-sr-main.cg-sr-filters-open .cg-sr-filters-backdrop{display:block!important;}
+    .cg-sr-aside{position:fixed!important;top:0!important;right:0!important;bottom:0!important;left:auto!important;width:min(340px,92vw)!important;flex:none!important;z-index:80!important;transform:translateX(110%);transition:transform .22s ease;overflow-y:auto;overflow-x:hidden;padding:16px 14px 28px!important;background:#f6f7fb;box-shadow:-12px 0 40px rgba(14,21,86,0.22);gap:14px!important;pointer-events:none;visibility:hidden;}
+    .cg-sr-main.cg-sr-filters-open .cg-sr-aside{transform:translateX(0);pointer-events:auto;visibility:visible;}
+    .cg-sr-filters-close{display:inline-flex!important;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(14,21,86,0.14);background:#fff;color:#0e1556;cursor:pointer;flex-shrink:0;}
+    .cg-sr-main{flex-direction:column!important;padding:16px 16px 60px!important;}
+    .cg-sr-toolbar{width:100%;justify-content:space-between!important;}
+    .cg-sr-dates-pop{left:auto;right:0;transform:none;width:min(320px,92vw);}
+  }
   @media (max-width: 480px) {
     .cg-club-card{padding:22px 18px!important;}
-    .cg-sr-main{flex-direction:column!important;padding:16px 16px 60px!important;}
-    .cg-sr-aside{flex:1 1 auto!important;width:100%!important;position:static!important;top:auto!important;}
     aside label{padding:10px 0!important;min-height:40px!important;}
     .cg-sr-clearfilters{padding:10px 14px!important;min-height:40px!important;}
     section select{padding:11px 14px!important;min-height:40px!important;}
@@ -53,6 +68,7 @@
     .cg-sr-navq{width:auto!important;min-width:0!important;flex:1 1 40px!important;}
     .cg-sr-navdiv{margin:0 8px!important;flex-shrink:0!important;}
     .cg-sr-navseg{min-width:0!important;max-width:78px!important;flex:0 1 auto!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;font-size:11px!important;}
+    .cg-sr-dates-btn{max-width:78px;overflow:hidden;text-overflow:ellipsis;}
   }
 </style>
 </helmet>
@@ -63,7 +79,23 @@
     <form onSubmit="{{ navSearch }}" class="cg-sr-navform" style="display:flex;align-items:center;gap:2px;background:#fff;border:1.5px solid rgba(14,21,86,0.14);border-radius:999px;padding:6px 6px 6px 18px;font-size:13.5px;font-weight:800;color:#0e1556;box-shadow:0 2px 8px rgba(14,21,86,0.04);flex:0 1 460px;">
       <input id="cg-nav-q" type="text" defaultValue="{{ queryVal }}" placeholder="Where to?" class="cg-sr-navq" style="border:none;background:transparent;font-size:13.5px;font-weight:800;color:#0e1556;width:110px;flex:1;">
       <span class="cg-sr-navdiv" style="width:1px;height:16px;background:rgba(14,21,86,0.14);margin:0 12px;"></span>
-      <span class="cg-sr-navseg" style="white-space:nowrap;">{{ navDates }}</span>
+      <div data-cg-pop="" class="cg-sr-dates cg-sr-navseg">
+        <button type="button" class="cg-sr-dates-btn" onClick="{{ toggleDates }}" aria-label="Edit dates" aria-expanded="{{ datesOpen }}">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#52586b" stroke-width="2.2" stroke-linecap="round" style="flex-shrink:0;"><rect x="3" y="5" width="18" height="16" rx="2"></rect><line x1="3" y1="10" x2="21" y2="10"></line><line x1="8" y1="3" x2="8" y2="7"></line><line x1="16" y1="3" x2="16" y2="7"></line></svg>
+          {{ navDates }}
+        </button>
+        <sc-if value="{{ datesOpen }}" hint-placeholder-val="">
+          <div class="cg-sr-dates-pop">
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Check-in
+              <input type="date" defaultValue="{{ stayCheckin }}" onChange="{{ setStayCheckin }}" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:11px 14px;font-size:14.5px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+            </label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#52586b;">Check-out
+              <input type="date" defaultValue="{{ stayCheckout }}" onChange="{{ setStayCheckout }}" style="border:1.5px solid rgba(14,21,86,0.15);border-radius:12px;padding:11px 14px;font-size:14.5px;font-weight:700;color:#0b0f1f;background:#f6f7fb;" style-focus="border-color:#38b6ff;background:#fff;">
+            </label>
+            <button type="button" onClick="{{ applyDates }}" style="align-self:flex-end;background:#0e1556;color:#fff;border:none;cursor:pointer;font-weight:800;font-size:13.5px;padding:10px 24px;border-radius:999px;" style-hover="background:#1a2470;">Done</button>
+          </div>
+        </sc-if>
+      </div>
       <span class="cg-sr-navdiv" style="width:1px;height:16px;background:rgba(14,21,86,0.14);margin:0 12px;"></span>
       <span class="cg-sr-navseg" style="white-space:nowrap;">{{ guestsLabel }}</span>
       <button type="submit" aria-label="Search" style="margin-left:12px;width:32px;height:32px;border-radius:50%;background:#38b6ff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg></button>
@@ -72,13 +104,17 @@
   </div>
 </nav>
 
-<main class="cg-sr-main" style="max-width:1280px;margin:0 auto;padding:20px 24px 70px;display:flex;gap:24px;align-items:flex-start;">
+<main class="cg-sr-main {{ filtersOpenClass }}" style="max-width:1280px;margin:0 auto;padding:20px 24px 70px;display:flex;gap:24px;align-items:flex-start;">
+  <button type="button" class="cg-sr-filters-backdrop" onClick="{{ closeFilters }}" aria-label="Close filters"></button>
 
   <aside class="cg-sr-aside" style="flex:0 0 250px;display:flex;flex-direction:column;gap:16px;position:sticky;top:76px;">
     <div style="background:#fff;border-radius:16px;padding:20px;box-shadow:0 2px 8px rgba(14,21,86,0.04);">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:10px;">
         <strong style="font-size:15px;font-weight:900;color:#0e1556;">Filters</strong>
-        <button class="cg-sr-clearfilters" onClick="{{ clearFilters }}" style="background:none;border:1.5px solid rgba(14,21,86,0.14);border-radius:999px;padding:5px 12px;font-size:11.5px;font-weight:800;color:#52586b;cursor:pointer;" style-hover="border-color:#38b6ff;color:#38b6ff;">Clear filters</button>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button class="cg-sr-clearfilters" onClick="{{ clearFilters }}" style="background:none;border:1.5px solid rgba(14,21,86,0.14);border-radius:999px;padding:5px 12px;font-size:11.5px;font-weight:800;color:#52586b;cursor:pointer;" style-hover="border-color:#38b6ff;color:#38b6ff;">Clear filters</button>
+          <button type="button" class="cg-sr-filters-close" onClick="{{ closeFilters }}" aria-label="Close filters"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg></button>
+        </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:20px;">
         <div>
@@ -170,28 +206,29 @@
         </sc-if>
       </div>
     </div>
-    <div style="background:#0e1556;border-radius:16px;padding:20px;color:#fff;display:flex;flex-direction:column;gap:10px;">
-      <strong style="font-size:14px;font-weight:900;display:flex;align-items:center;gap:7px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38b6ff" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>Member prices</strong>
-      <p style="margin:0;font-size:12.5px;font-weight:600;line-height:1.55;color:rgba(255,255,255,0.75);">Club members see these same rooms 40–65% cheaper. The crossed-out price is what everyone else pays.</p>
-      <a href="/webinar-optin" style="background:#FF6B8A;color:#fff;text-align:center;font-weight:800;font-size:13px;padding:10px 16px;border-radius:999px;" style-hover="background:#FF87A1;color:#fff;">Unlock member prices</a>
-    </div>
   </aside>
 
   <section style="flex:1;min-width:0;display:flex;flex-direction:column;gap:14px;">
     <sc-if value="{{ demoBanner }}" hint-placeholder-val="">
       <div style="background:rgba(56,182,255,0.1);border:1.5px solid rgba(56,182,255,0.35);border-radius:12px;padding:10px 16px;font-size:13px;font-weight:700;color:#0e1556;">{{ demoBanner }}</div>
     </sc-if>
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
-      <h1 style="margin:0;font-size:18px;font-weight:900;color:#0e1556;">{{ resultsTitle }}</h1>
-      <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#52586b;">
-        Sort by
-        <select onChange="{{ setSort }}" style="border:1.5px solid rgba(14,21,86,0.14);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:800;color:#0e1556;background:#fff;cursor:pointer;">
-          <option value="top">Our top picks</option>
-          <option value="priceAsc">Price: low to high</option>
-          <option value="priceDesc">Price: high to low</option>
-          <option value="rating">Guest rating</option>
-        </select>
-      </label>
+    <div class="cg-sr-toolbar" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+      <h1 style="margin:0;font-size:18px;font-weight:900;color:#0e1556;flex:1 1 auto;min-width:0;">{{ resultsTitle }}</h1>
+      <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;margin-left:auto;">
+        <button type="button" class="cg-sr-filters-btn" onClick="{{ openFilters }}" aria-label="Open filters">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"></line><line x1="7" y1="12" x2="17" y2="12"></line><line x1="10" y1="17" x2="14" y2="17"></line></svg>
+          Filters
+        </button>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#52586b;">
+          Sort by
+          <select onChange="{{ setSort }}" style="border:1.5px solid rgba(14,21,86,0.14);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:800;color:#0e1556;background:#fff;cursor:pointer;">
+            <option value="top">Our top picks</option>
+            <option value="priceAsc">Price: low to high</option>
+            <option value="priceDesc">Price: high to low</option>
+            <option value="rating">Guest rating</option>
+          </select>
+        </label>
+      </div>
     </div>
 
     <sc-if value="{{ loading }}" hint-placeholder-val="{{ true }}">
@@ -283,6 +320,7 @@
 class Component extends DCLogic {
   state = { loading: true, results: [], demo: false, sort: 'top',
     searchIntent: 'place', hotelNameQuery: '', cityHint: '',
+    datesOpen: false, filtersOpen: false, stayCheckin: '', stayCheckout: '',
     fName: '', fPriceCap: 1000, fRefundable: false, fStar5: false, fStar4: false, fStar3: false, fRating9: false, fRating8: false,
     fParking: false, fBreakfast: false, fPool: false, fFitness: false, fTypeHotel: false, fTypeApartment: false,
     fDistance: 'any', fPolicy: 'any', fMeal: 'any', fBrands: {}, fHoods: {},
@@ -327,6 +365,12 @@ class Component extends DCLogic {
     };
     document.addEventListener('click', this._navHandler, true);
     const P = this.params(); this._P = P;
+    this.setState({ stayCheckin: P.checkin, stayCheckout: P.checkout });
+    this._popHandler = (e) => {
+      if (e.target && e.target.closest && e.target.closest('[data-cg-pop]')) return;
+      if (this.state.datesOpen) this.setState({ datesOpen: false });
+    };
+    document.addEventListener('click', this._popHandler);
     this.api('/data/facilities').then(r => {
       (r.data || []).forEach(f => { this.facMap[String(f.facility || f.name || '').toLowerCase()] = f.facility_id || f.facilityId || f.id; });
     }).catch(() => {});
@@ -629,7 +673,11 @@ class Component extends DCLogic {
         searchIntent: 'place', hotelNameQuery: '', cityHint: '' });
     }
   }
-  componentWillUnmount() { document.removeEventListener('click', this._navHandler, true); }
+  componentWillUnmount() {
+    if (this._navHandler) document.removeEventListener('click', this._navHandler, true);
+    if (this._popHandler) document.removeEventListener('click', this._popHandler);
+    document.body.style.overflow = '';
+  }
 
   demoResults() {
     const mk = (id, name, address, city, img, rating, stars, reviews, total, ssp, rfn) => ({
@@ -786,12 +834,33 @@ class Component extends DCLogic {
       clubSavings: cgMoney(publicRounded - memberRounded, currency),
       loading: S.loading,
       demoBanner: S.demo ? 'Demo results shown — live LiteAPI results load automatically when the API is reachable.' : '',
-      queryVal: P.q, navDates: this.fmtDate(P.checkin) + ' – ' + this.fmtDate(P.checkout),
+      queryVal: P.q, navDates: this.fmtDate(S.stayCheckin || P.checkin) + ' – ' + this.fmtDate(S.stayCheckout || P.checkout),
       guestsLabel: P.adults + (P.adults === 1 ? ' Guest' : ' Guests'),
+      datesOpen: S.datesOpen,
+      stayCheckin: S.stayCheckin || P.checkin,
+      stayCheckout: S.stayCheckout || P.checkout,
+      toggleDates: (e) => { if (e && e.preventDefault) e.preventDefault(); if (e && e.stopPropagation) e.stopPropagation(); this.setState(s => ({ datesOpen: !s.datesOpen })); },
+      setStayCheckin: (e) => this.setState({ stayCheckin: e.currentTarget.value }),
+      setStayCheckout: (e) => this.setState({ stayCheckout: e.currentTarget.value }),
+      applyDates: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        const checkin = S.stayCheckin || P.checkin;
+        const checkout = S.stayCheckout || P.checkout;
+        const params = new URLSearchParams(window.location.search);
+        params.set('checkin', checkin);
+        params.set('checkout', checkout);
+        if (!params.get('q') && P.q) params.set('q', P.q);
+        if (!params.get('adults')) params.set('adults', String(P.adults));
+        window.location.href = '/search-results?' + params.toString();
+      },
+      filtersOpenClass: S.filtersOpen ? 'cg-sr-filters-open' : '',
+      openFilters: () => { document.body.style.overflow = 'hidden'; this.setState({ filtersOpen: true, datesOpen: false }); },
+      closeFilters: () => { document.body.style.overflow = ''; this.setState({ filtersOpen: false }); },
       navSearch: (e) => { e.preventDefault(); const el = document.getElementById('cg-nav-q');
         const q = (el && el.value.trim()) || P.q;
         const __u = String(q || '').trim(); if (/^(https?:\/\/|(www\.)?[a-z0-9-]+(\.[a-z0-9-]+)+\/\S)/i.test(__u) && !/\s/.test(__u)) { window.location.href = '/' + (/^https?:\/\//i.test(__u) ? __u : 'https://' + __u); return; }
-        window.location.href = '/search-results?q=' + encodeURIComponent(q) + '&checkin=' + P.checkin + '&checkout=' + P.checkout + '&adults=' + P.adults; },
+        const checkin = S.stayCheckin || P.checkin, checkout = S.stayCheckout || P.checkout;
+        window.location.href = '/search-results?q=' + encodeURIComponent(q) + '&checkin=' + checkin + '&checkout=' + checkout + '&adults=' + P.adults; },
       resultsTitle: S.loading ? 'Searching ' + P.q + '…' : (P.aiQ ? cards.length + ' properties · ✦ “' + P.aiQ + '”' : (S.searchIntent === 'hotel_name' ? cards.length + ' results for ' + P.q : cards.length + ' properties in ' + P.q)),
       setSort: (e) => this.setState({ sort: e.currentTarget.value }),
       setNameFilter: this.set('fName'), setPriceCap: this.set('fPriceCap'),
