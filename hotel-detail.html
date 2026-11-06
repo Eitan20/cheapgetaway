@@ -38,28 +38,90 @@
   .cg-scroll::-webkit-scrollbar-thumb{background:transparent;border-radius:999px;}
   .cg-scroll.cg-scrolling{scrollbar-width:thin;scrollbar-color:#c3ccd5 transparent;}
   .cg-scroll.cg-scrolling::-webkit-scrollbar-thumb{background:#c3ccd5;}
+  .cg-hd-gallery img,.cg-hd-gallery video,.cg-hd-room-photo img{width:100%;height:100%;object-fit:cover;display:block;max-width:100%;}
+  .cg-hd-lightbox-img{max-width:90vw;max-height:74vh;width:auto;height:auto;object-fit:contain;border-radius:14px;}
+  @media (max-width: 768px) {
+    .cg-hd-nav-spacer{height:118px!important;}
+    .cg-hd-nav-row{flex-wrap:wrap!important;gap:10px!important;padding:10px 14px!important;align-items:center!important;}
+    .cg-hd-nav-logo img{height:28px!important;}
+    .cg-hd-nav-join{padding:9px 14px!important;font-size:13px!important;white-space:nowrap;}
+    .cg-hd-nav-search-wrap{flex:1 1 100%!important;order:3;min-width:0!important;justify-content:stretch!important;}
+    .cg-hd-nav-pill{width:100%!important;max-width:100%!important;justify-content:space-between!important;padding:6px 6px 6px 12px!important;gap:0!important;box-sizing:border-box!important;overflow:visible!important;}
+    .cg-hd-nav-pill > span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12.5px!important;}
+    .cg-hd-nav-pill .cg-hd-nav-div{margin:0 8px!important;flex-shrink:0;}
+    .cg-hd-nav-search-btn{margin-left:8px!important;flex-shrink:0!important;}
+    .cg-hd-main{padding:16px 14px 56px!important;}
+    .cg-hd-gallery{
+      display:flex!important;
+      grid-template-columns:none!important;
+      grid-template-rows:none!important;
+      overflow-x:auto!important;
+      overflow-y:hidden!important;
+      scroll-snap-type:x mandatory;
+      -webkit-overflow-scrolling:touch;
+      gap:8px!important;
+      margin-top:16px!important;
+      padding-bottom:2px;
+      scrollbar-width:none;
+    }
+    .cg-hd-gallery::-webkit-scrollbar{display:none;}
+    .cg-hd-gallery > .cg-hd-tile{
+      flex:0 0 min(86vw,340px)!important;
+      width:min(86vw,340px)!important;
+      height:220px!important;
+      grid-row:auto!important;
+      scroll-snap-align:start;
+      border-radius:14px!important;
+      overflow:hidden!important;
+      position:relative;
+    }
+    .cg-hd-gallery > .cg-hd-tile:first-child{
+      flex-basis:min(92vw,380px)!important;
+      width:min(92vw,380px)!important;
+      height:240px!important;
+    }
+    .cg-hd-gallery img,.cg-hd-gallery video{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;max-width:none!important;}
+    .cg-hd-showall{bottom:10px!important;right:10px!important;padding:8px 12px!important;font-size:12px!important;}
+    .cg-hd-lightbox{padding:16px!important;}
+    .cg-hd-lightbox-img{max-width:100%!important;max-height:70vh!important;width:auto!important;height:auto!important;}
+    .cg-hd-room-card{grid-template-columns:1fr!important;gap:16px!important;padding:16px!important;}
+    .cg-hd-room-photo{height:200px!important;width:100%!important;}
+    .cg-hd-rate-row{grid-template-columns:1fr!important;gap:14px!important;padding:18px 16px!important;}
+    .cg-hd-rate-price{border-left:none!important;padding-left:0!important;}
+    .cg-hd-rate-cta{width:100%!important;text-align:center!important;display:block!important;}
+    .cg-hd-reviews-grid{grid-template-columns:1fr!important;gap:22px!important;}
+    .cg-hd-section-pad{padding:20px 16px!important;}
+    .cg-hd-ask{padding:20px 16px!important;}
+    .cg-hd-tabs{gap:18px!important;}
+    .cg-hd-sticky-tabs{top:118px!important;}
+  }
+  @media (max-width: 480px) {
+    .cg-hd-nav-spacer{height:126px!important;}
+    .cg-hd-gallery > .cg-hd-tile{flex-basis:88vw!important;width:88vw!important;height:210px!important;}
+    .cg-hd-gallery > .cg-hd-tile:first-child{flex-basis:92vw!important;width:92vw!important;height:230px!important;}
+  }
 </style>
 </helmet>
 
-<div style="height:61px;"></div>
+<div class="cg-hd-nav-spacer" style="height:61px;"></div>
 <nav style="position:fixed;top:0;left:0;right:0;z-index:60;background:#fff;border-bottom:1px solid #eef1f4;">
-  <div style="max-width:1280px;margin:0 auto;padding:11px 24px;display:flex;align-items:center;gap:22px;">
-    <a href="/" style="display:flex;align-items:center;flex-shrink:0;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" width="2000" height="500" style="height:32px; width:auto;display:block;"></a>
-    <div style="flex:1;display:flex;justify-content:center;">
-      <div style="display:flex;align-items:center;background:#fff;border:1px solid #e3e8ee;border-radius:999px;padding:6px 6px 6px 22px;font-size:14px;font-weight:700;color:#1a2b3c;box-shadow:0 2px 10px rgba(20,35,60,0.05);">
+  <div class="cg-hd-nav-row" style="max-width:1280px;margin:0 auto;padding:11px 24px;display:flex;align-items:center;gap:22px;">
+    <a href="/" class="cg-hd-nav-logo" style="display:flex;align-items:center;flex-shrink:0;"><img src="assets/cg-logo.png" alt="cheapgetaway.com" width="2000" height="500" style="height:32px; width:auto;display:block;"></a>
+    <div class="cg-hd-nav-search-wrap" style="flex:1;display:flex;justify-content:center;min-width:0;">
+      <div class="cg-hd-nav-pill" style="display:flex;align-items:center;background:#fff;border:1px solid #e3e8ee;border-radius:999px;padding:6px 6px 6px 22px;font-size:14px;font-weight:700;color:#1a2b3c;box-shadow:0 2px 10px rgba(20,35,60,0.05);max-width:100%;min-width:0;">
         <span>{{ navCity }}</span>
-        <span style="width:1px;height:18px;background:#e3e8ee;margin:0 16px;"></span>
+        <span class="cg-hd-nav-div" style="width:1px;height:18px;background:#e3e8ee;margin:0 16px;"></span>
         <span>{{ navDates }}</span>
-        <span style="width:1px;height:18px;background:#e3e8ee;margin:0 16px;"></span>
+        <span class="cg-hd-nav-div" style="width:1px;height:18px;background:#e3e8ee;margin:0 16px;"></span>
         <span>{{ guestsLabel }}</span>
-        <a href="/" aria-label="Search" style="margin-left:16px;width:36px;height:36px;border-radius:50%;background:#38b6ff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" sc-camel-view-box="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg></a>
+        <a href="/" aria-label="Search" class="cg-hd-nav-search-btn" style="margin-left:16px;width:36px;height:36px;border-radius:50%;background:#38b6ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="15" height="15" sc-camel-view-box="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg></a>
       </div>
     </div>
-    <a href="/webinar-optin" style="flex-shrink:0;background:#FF6B8A;color:#fff;font-weight:800;font-size:14px;padding:9px 20px;border-radius:999px;box-shadow:0 8px 24px rgba(255,107,138,0.28);" style-hover="background:#FF87A1;color:#fff;">Join the club</a>
+    <a href="/webinar-optin" class="cg-hd-nav-join" style="flex-shrink:0;background:#FF6B8A;color:#fff;font-weight:800;font-size:14px;padding:9px 20px;border-radius:999px;box-shadow:0 8px 24px rgba(255,107,138,0.28);" style-hover="background:#FF87A1;color:#fff;">Join the club</a>
   </div>
 </nav>
 
-<main style="max-width:1280px;margin:0 auto;padding:26px 24px 70px;display:flex;flex-direction:column;gap:0;">
+<main class="cg-hd-main" style="max-width:1280px;margin:0 auto;padding:26px 24px 70px;display:flex;flex-direction:column;gap:0;">
 
   <a href="/" style="display:flex;align-items:center;gap:12px;font-size:15px;font-weight:800;color:#1a2b3c;padding:2px 0;" style-hover="color:#38b6ff;">
     <span style="width:34px;height:34px;border-radius:50%;background:#fff;border:1px solid #e3e8ee;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="14 6 8 12 14 18"></polyline></svg></span>
@@ -99,14 +161,14 @@
       </button>
     </div>
 
-    <section style="display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:222px 222px;gap:12px;margin-top:22px;">
-      <div sc-camel-on-click="{{ openGallery }}" style="grid-row:span 2;border-radius:12px;overflow:hidden;background:#eef0f6;cursor:pointer;">{{ tile0 }}</div>
-      <div sc-camel-on-click="{{ openGallery }}" style="overflow:hidden;background:#eef0f6;cursor:pointer;border-radius:12px;">{{ tile1 }}</div>
-      <div sc-camel-on-click="{{ openGallery }}" style="overflow:hidden;background:#eef0f6;cursor:pointer;border-radius:12px;">{{ tile2 }}</div>
-      <div sc-camel-on-click="{{ openGallery }}" style="overflow:hidden;background:#eef0f6;cursor:pointer;border-radius:12px;">{{ tile3 }}</div>
-      <div sc-camel-on-click="{{ openGallery }}" style="position:relative;overflow:hidden;background:#eef0f6;cursor:pointer;border-radius:12px;">
+    <section class="cg-hd-gallery" style="display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:222px 222px;gap:12px;margin-top:22px;">
+      <div class="cg-hd-tile" sc-camel-on-click="{{ openGallery }}" style="grid-row:span 2;border-radius:12px;overflow:hidden;background:#eef0f6;cursor:pointer;">{{ tile0 }}</div>
+      <div class="cg-hd-tile" sc-camel-on-click="{{ openGallery }}" style="overflow:hidden;background:#eef0f6;cursor:pointer;border-radius:12px;">{{ tile1 }}</div>
+      <div class="cg-hd-tile" sc-camel-on-click="{{ openGallery }}" style="overflow:hidden;background:#eef0f6;cursor:pointer;border-radius:12px;">{{ tile2 }}</div>
+      <div class="cg-hd-tile" sc-camel-on-click="{{ openGallery }}" style="overflow:hidden;background:#eef0f6;cursor:pointer;border-radius:12px;">{{ tile3 }}</div>
+      <div class="cg-hd-tile" sc-camel-on-click="{{ openGallery }}" style="position:relative;overflow:hidden;background:#eef0f6;cursor:pointer;border-radius:12px;">
         {{ tile4 }}
-        <span style="position:absolute;bottom:12px;right:12px;background:rgba(255,255,255,0.96);border-radius:999px;padding:8px 16px;font-weight:700;font-size:13px;color:#16202c;display:flex;align-items:center;gap:7px;">
+        <span class="cg-hd-showall" style="position:absolute;bottom:12px;right:12px;background:rgba(255,255,255,0.96);border-radius:999px;padding:8px 16px;font-weight:700;font-size:13px;color:#16202c;display:flex;align-items:center;gap:7px;">
           <svg width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="8.5" cy="10" r="1.5"></circle><path d="M21 15l-5-5-5 5-3-3-5 5"></path></svg>
           Show all pictures
         </span>
@@ -114,7 +176,7 @@
     </section>
 
     <sc-if value="{{ lightbox }}" hint-placeholder-val="">
-      <div sc-camel-on-click="{{ closeGallery }}" style="position:fixed;inset:0;z-index:100;background:rgba(11,15,31,0.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px;">
+      <div class="cg-hd-lightbox" sc-camel-on-click="{{ closeGallery }}" style="position:fixed;inset:0;z-index:100;background:rgba(11,15,31,0.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px;">
         {{ lightboxImgEl }}
         <div style="display:flex;align-items:center;gap:18px;">
           <button sc-camel-on-click="{{ lightboxPrev }}" style="width:46px;height:46px;border-radius:50%;border:none;background:rgba(255,255,255,0.15);color:#fff;cursor:pointer;font-size:18px;font-weight:900;">‹</button>
@@ -124,8 +186,8 @@
       </div>
     </sc-if>
 
-    <div style="position:sticky;top:60px;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:16px;background:#fff;border-bottom:1px solid #eef1f4;margin-top:8px;">
-      <div style="display:flex;gap:30px;font-size:15px;font-weight:700;overflow-x:auto;">
+    <div class="cg-hd-sticky-tabs" style="position:sticky;top:60px;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:16px;background:#fff;border-bottom:1px solid #eef1f4;margin-top:8px;">
+      <div class="cg-hd-tabs" style="display:flex;gap:30px;font-size:15px;font-weight:700;overflow-x:auto;-webkit-overflow-scrolling:touch;">
         <sc-for list="{{ navTabs }}" as="tab" hint-placeholder-count="5">
           <a href="{{ tab.href }}" style="color:{{ tab.color }};padding:16px 0 13px;border-bottom:{{ tab.border }};white-space:nowrap;font-weight:{{ tab.weight }};display:flex;align-items:center;gap:6px;" style-hover="color:#16202c;">{{ tab.label }}<sc-if value="{{ tab.beta }}" hint-placeholder-val=""><span style="background:#fff;border:1px solid #ffd9a8;color:#ff9838;font-size:10.5px;font-weight:800;padding:2px 9px;border-radius:999px;">Beta</span></sc-if></a>
         </sc-for>
@@ -239,10 +301,10 @@
           <div style="border:1px solid rgba(14,21,86,0.14);border-radius:12px;padding:14px 17px;background:#fff;display:flex;align-items:center;gap:13px;flex-wrap:wrap;box-shadow:0 2px 8px rgba(14,21,86,0.04);">
 <span style="color:#0e1556;flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg></span><div style="flex:1 1 230px"><strong style="font-size:14px;font-weight:800;color:#0e1556;">A little club knowledge before you book.</strong><div style="font-size:12px;color:#5a6a7a;font-weight:600;margin-top:3px;">Explore private hotel rates. Availability and savings vary.</div></div><div style="text-align:right;flex-shrink:0;"><a href="/webinar-optin" style="font-size:12.5px;font-weight:800;color:#0e1556;text-decoration:underline;text-underline-offset:3px;">See how the club works →</a><div style="font-size:10.5px;color:#7b8794;font-weight:600;margin-top:4px;">Free walkthrough · 2 min</div></div></div>
           <sc-for list="{{ roomGroups }}" as="g" hint-placeholder-count="2">
-            <div style="background:#fbfcfd;border:1px solid #eef1f4;border-radius:16px;padding:26px;display:grid;grid-template-columns:290px 1fr;gap:30px;align-items:start;">
-              <div style="display:flex;flex-direction:column;gap:14px;">
+            <div class="cg-hd-room-card" style="background:#fbfcfd;border:1px solid #eef1f4;border-radius:16px;padding:26px;display:grid;grid-template-columns:290px 1fr;gap:30px;align-items:start;">
+              <div style="display:flex;flex-direction:column;gap:14px;min-width:0;">
                 <h3 style="margin:0;font-size:18px;font-weight:800;color:#16202c;line-height:1.35;">{{ g.title }}</h3>
-                <div style="position:relative;border-radius:12px;overflow:hidden;height:180px;background:#eef0f6;">
+                <div class="cg-hd-room-photo" style="position:relative;border-radius:12px;overflow:hidden;height:180px;background:#eef0f6;width:100%;">
                   {{ g.imgEl }}
                   <button sc-camel-on-click="{{ g.prevImg }}" aria-label="Previous photo" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);color:#16202c;cursor:pointer;font-size:16px;font-weight:900;display:flex;align-items:center;justify-content:center;">‹</button>
                   <button sc-camel-on-click="{{ g.nextImg }}" aria-label="Next photo" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);color:#16202c;cursor:pointer;font-size:16px;font-weight:900;display:flex;align-items:center;justify-content:center;">›</button>
@@ -267,13 +329,13 @@
               </div>
               <div style="background:#fff;border:1px solid #eef1f4;border-radius:14px;display:flex;flex-direction:column;">
                 <sc-for list="{{ g.rateRows }}" as="r" hint-placeholder-count="3">
-                  <div style="display:grid;grid-template-columns:1.1fr 1fr auto;gap:20px;align-items:center;padding:26px 28px;border-top:{{ r.rowBorder }};">
-                    <div style="display:flex;flex-direction:column;gap:10px;">
+                  <div class="cg-hd-rate-row" style="display:grid;grid-template-columns:1.1fr 1fr auto;gap:20px;align-items:center;padding:26px 28px;border-top:{{ r.rowBorder }};">
+                    <div style="display:flex;flex-direction:column;gap:10px;min-width:0;">
                       <div style="font-size:16.5px;font-weight:800;color:#16202c;">{{ r.board }}</div>
                       <span style="display:flex;align-items:flex-start;gap:8px;font-size:14px;font-weight:600;color:{{ r.mealColor }};">{{ r.mealIcon }}{{ r.mealLine }}</span>
                       <span style="display:flex;align-items:flex-start;gap:8px;font-size:14px;font-weight:600;color:{{ r.refundColor }};">{{ r.refundIcon }}{{ r.refundLine }}</span>
                     </div>
-                    <div style="display:flex;flex-direction:column;gap:5px;border-left:1px solid #f2f4f7;padding-left:24px;">
+                    <div class="cg-hd-rate-price" style="display:flex;flex-direction:column;gap:5px;border-left:1px solid #f2f4f7;padding-left:24px;min-width:0;">
                       <sc-if value="{{ r.discount }}" hint-placeholder-val="">
                         <span style="align-self:flex-start;display:flex;align-items:center;gap:6px;background:#21a94c;color:#fff;font-size:12.5px;font-weight:800;padding:5px 12px;border-radius:8px;"><svg width="12" height="12" sc-camel-view-box="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20.6 13.4L12 22 2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"></path><circle cx="7.5" cy="7.5" r="1.5" fill="#fff" stroke="none"></circle></svg>{{ r.discount }} OFF</span>
                       </sc-if>
@@ -281,7 +343,7 @@
                       <sc-if value="{{ r.strike }}" hint-placeholder-val=""><span style="text-decoration:line-through;color:#9aa5b1;font-size:15px;font-weight:700;">{{ r.strike }}</span></sc-if>
                       <span style="font-size:13px;color:#7b8794;font-weight:600;margin-top:4px;">{{ r.stayLine }}</span>
                     </div>
-                    <a href="{{ r.href }}" style="background:#FF6B8A;color:#fff;font-weight:800;font-size:14.5px;padding:13px 26px;border-radius:999px;white-space:nowrap;" style-hover="background:#FF87A1;color:#fff;">Choose room</a>
+                    <a href="{{ r.href }}" class="cg-hd-rate-cta" style="background:#FF6B8A;color:#fff;font-weight:800;font-size:14.5px;padding:13px 26px;border-radius:999px;white-space:nowrap;text-align:center;" style-hover="background:#FF87A1;color:#fff;">Choose room</a>
                   </div>
                 </sc-for>
               </div>
@@ -298,7 +360,7 @@
       </sc-if>
     </section>
 
-    <section id="ask-ai" style="margin-top:52px;background:#fff;border-radius:20px;padding:30px 32px;box-shadow:0 0 0 1px #f6d9ee,0 0 0 4px rgba(244,168,220,0.16),0 10px 40px rgba(233,30,140,0.08);">
+    <section id="ask-ai" class="cg-hd-ask" style="margin-top:52px;background:#fff;border-radius:20px;padding:30px 32px;box-shadow:0 0 0 1px #f6d9ee,0 0 0 4px rgba(244,168,220,0.16),0 10px 40px rgba(233,30,140,0.08);">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
         <div>
           <h2 style="margin:0;font-size:24px;font-weight:900;color:#2b2136;">Ask AI about this hotel</h2>
@@ -328,7 +390,7 @@
     </section>
 
     <sc-if value="{{ hasReviews }}" hint-placeholder-val="">
-      <section id="reviews" style="margin-top:52px;background:#fff;border:1px solid #eef1f4;border-radius:16px;padding:30px 32px;">
+      <section id="reviews" class="cg-hd-section-pad" style="margin-top:52px;background:#fff;border:1px solid #eef1f4;border-radius:16px;padding:30px 32px;">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;">
           <div>
             <h2 style="margin:0 0 18px;font-size:22px;font-weight:900;color:#16202c;">Guest reviews</h2>
@@ -343,7 +405,7 @@
             <option value="lowest">Lowest rated</option>
           </sc-raw-select>
         </div>
-        <div style="display:grid;grid-template-columns:280px 1fr;gap:40px;margin-top:26px;align-items:start;">
+        <div class="cg-hd-reviews-grid" style="display:grid;grid-template-columns:280px 1fr;gap:40px;margin-top:26px;align-items:start;">
           <div style="display:flex;flex-direction:column;gap:30px;">
             <sc-if value="{{ hasLikeCats }}" hint-placeholder-val="">
               <div>
@@ -397,7 +459,7 @@
       </section>
     </sc-if>
 
-    <section id="description" style="margin-top:52px;background:#fff;border:1px solid #eef1f4;border-radius:16px;padding:30px 32px;">
+    <section id="description" class="cg-hd-section-pad" style="margin-top:52px;background:#fff;border:1px solid #eef1f4;border-radius:16px;padding:30px 32px;">
       <h2 style="margin:0 0 16px;font-size:22px;font-weight:900;color:#16202c;">Property Description</h2>
       <p style="margin:0;font-size:15px;font-weight:500;line-height:1.8;color:#3c4a58;white-space:pre-line;">{{ description }}</p>
     </section>
@@ -612,11 +674,15 @@ class Component extends DCLogic {
     const large = wBase >= 960;
     const q = large ? 60 : 70;
     const proxied = isAbs ? this.cgImgQ(src, wBase, q) : ((typeof cgImg === 'function') ? cgImg(src, wBase) : src);
+    const styleIn = style ? Object.assign({}, style) : null;
+    const className = styleIn && styleIn.className ? styleIn.className : '';
+    if (styleIn && 'className' in styleIn) delete styleIn.className;
     const props = {
       src: proxied, alt: alt || '', loading: 'lazy', decoding: 'async',
       onError: (e) => { if (e.target.src !== src) { e.target.srcset = ''; e.target.src = src; } },
-      style: style || { width: '100%', height: '100%', objectFit: 'cover', display: 'block' }
+      style: styleIn || { width: '100%', height: '100%', objectFit: 'cover', display: 'block', maxWidth: '100%' }
     };
+    if (className) props.className = className;
     if (isAbs) {
       const widths = large ? [384, 640, 960] : [384, 640];
       props.srcSet = widths.map(x => this.cgImgQ(src, x, q) + ' ' + x + 'w').join(', ');
@@ -877,7 +943,7 @@ class Component extends DCLogic {
     return {
       ...base,
       tile0, tile1: this.imgEl(imgs[1], '', null, 384), tile2: this.imgEl(imgs[2], '', null, 384), tile3: this.imgEl(imgs[3], '', null, 384), tile4: this.imgEl(imgs[4], '', null, 384),
-      lightboxImgEl: this.imgEl(imgs[S.imgIdx % n], '', { maxWidth: '90vw', maxHeight: '74vh', borderRadius: '14px', objectFit: 'contain' }, 960),
+      lightboxImgEl: this.imgEl(imgs[S.imgIdx % n], '', { maxWidth: '90vw', maxHeight: '74vh', width: 'auto', height: 'auto', borderRadius: '14px', objectFit: 'contain', className: 'cg-hd-lightbox-img' }, 960),
       lightboxCount: (S.imgIdx % n) + 1 + ' / ' + n,
       lightboxPrev: (e) => { e.stopPropagation(); this.setState(s => ({ imgIdx: (s.imgIdx - 1 + n) % n })); },
       lightboxNext: (e) => { e.stopPropagation(); this.setState(s => ({ imgIdx: (s.imgIdx + 1) % n })); },
