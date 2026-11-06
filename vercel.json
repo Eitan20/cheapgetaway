@@ -113,6 +113,10 @@
     {
       "source": "/www.google.com/:path*",
       "destination": "/import.html"
+    },
+    {
+      "source": "/:host((?:[a-z0-9-]+\\.)?(?:expedia|hotels|hoteles|booking|kayak|priceline|agoda|tripadvisor|orbitz|travelocity|cheaptickets|google)(?:\\.[a-z]{2,3}){1,2})/:path*",
+      "destination": "/import.html"
     }
   ],
   "headers": [

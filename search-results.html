@@ -299,6 +299,10 @@ class Component extends DCLogic {
       aiQ: p.get('ai') || '',
       q: p.get('q') || p.get('aiQuery') || p.get('placeName') || p.get('ai') || 'Las Vegas',
       placeId: p.get('placeId') || '',
+      // Wrap imports (/api/import-url) pass the resolved LiteAPI id so the
+      // intended hotel is pinned #1 by identity, not by fuzzy name match.
+      hotelId: p.get('hotelId') || '',
+      hn: p.get('hn') || '', city: p.get('city') || '', cc: p.get('cc') || '',
       checkin: p.get('checkin') || iso(ci), checkout: p.get('checkout') || iso(co),
       adults: Number(p.get('adults') || 2)
     };
@@ -429,7 +433,10 @@ class Component extends DCLogic {
         currency: 'USD', guestNationality: 'US', includeHotelData: true, limit: 25 };
       const body = { ...baseBody };
       let intentMeta = { intent: 'place', hotelName: '', cityHint: '', countryHint: '' };
-      if (P.aiQ) {
+      if (P.hotelId) {
+        intentMeta = { intent: 'hotel_name', hotelName: P.hn || P.q, cityHint: P.city || '', countryHint: P.cc || '' };
+        body.hotelIds = [P.hotelId];
+      } else if (P.aiQ) {
         body.aiSearch = P.aiQ;
         intentMeta = { intent: 'ai_vibe', hotelName: '', cityHint: '', countryHint: '' };
       } else {
@@ -539,6 +546,24 @@ class Component extends DCLogic {
       const hotels = r.hotels || [];
       const firstRows = (r.data || []).map(x => ({ ...x, hotelData: x.hotelData || hotels.find(h => h.id === x.hotelId) || {} }));
       let rows = firstRows;
+      if (P.hotelId) {
+        // Pinned import: make sure the hotel exists as a row even without
+        // live rates, then add same-city neighbours below it.
+        if (!rows.some(x => x.hotelId === P.hotelId)) {
+          let hd = {};
+          try { const dh = await this.api('/data/hotel?hotelId=' + encodeURIComponent(P.hotelId)); hd = (dh && dh.data) || {}; } catch (eH) { hd = {}; }
+          rows = [{ hotelId: P.hotelId, hotelData: { ...hd, name: hd.name || P.hn || P.q, city_name: hd.city || P.city, main_photo: hd.main_photo || (hd.hotelImages && hd.hotelImages[0] && hd.hotelImages[0].url) || '' }, roomTypes: [] }];
+        }
+        if (P.city && P.cc) {
+          try {
+            const nb = await this.postRates({ ...baseBody, cityName: P.city, countryCode: P.cc, limit: 20 });
+            if (nb.ok && nb.json) {
+              const nh = nb.json.hotels || [];
+              (nb.json.data || []).forEach(x => { if (x.hotelId !== P.hotelId) rows.push({ ...x, hotelData: x.hotelData || nh.find(h => h.id === x.hotelId) || {} }); });
+            }
+          } catch (eNb) { /* pinned row alone is fine */ }
+        }
+      }
       // Places placeId sets are neighborhood-ranked. If the named hotel is missing,
       // pull it by hotelIds and prepend so pin has something to float to #1.
       if (P.placeId && intentMeta.intent === 'hotel_name') {
@@ -585,7 +610,7 @@ class Component extends DCLogic {
             // Hotel absent/rate-less in the second response: drop its rates
             // rather than keep the (possibly stale) first-response rate, so
             // it falls into the existing no-price rendering below.
-            return { ...x, roomTypes: priced ? (priced.roomTypes || []) : [] };
+            return { ...x, roomTypes: priced ? (priced.roomTypes || []) : (x.hotelId === P.hotelId ? (x.roomTypes || []) : []) };
           });
         } catch (e2) {
           // Second call failed entirely: fall back to the prior rows
@@ -681,7 +706,7 @@ class Component extends DCLogic {
         brand: hd.chain || hd.chain_name || '', hood: hd.district || hd.zone || hd.neighborhood || '',
         rating: Number(hd.rating) || 0, stars: Math.max(1, Math.min(5, Math.round(Number(hd.stars) || 4))),
         name: hd.name || 'Hotel', hotelId: x.hotelId };
-    }).filter(r => r.total > 0);
+    }).filter(r => r.total > 0 || (P.hotelId && r.hotelId === P.hotelId));
     const geo = rows.filter(r => r.lat && r.lng);
     const ctr = geo.length ? { lat: geo.reduce((a, r) => a + r.lat, 0) / geo.length, lng: geo.reduce((a, r) => a + r.lng, 0) / geo.length } : null;
     rows.forEach(r => { r.dist = ctr && r.lat && r.lng ? this.miles(ctr.lat, ctr.lng, r.lat, r.lng) : null; });
@@ -689,7 +714,7 @@ class Component extends DCLogic {
     const activeHoods = Object.keys(S.fHoods).filter(k => S.fHoods[k]);
     let f = rows.filter(r =>
       (!S.fName || r.name.toLowerCase().includes(S.fName.toLowerCase())) &&
-      r.perNight <= Number(S.fPriceCap) &&
+      (Number(S.fPriceCap) >= 1000 || r.perNight <= Number(S.fPriceCap) || (P.hotelId && r.hotelId === P.hotelId)) &&
       (!S.fRefundable || r.refundable) &&
       ((!S.fStar5 && !S.fStar4 && !S.fStar3) || (S.fStar5 && r.stars === 5) || (S.fStar4 && r.stars === 4) || (S.fStar3 && r.stars <= 3)) &&
       ((!S.fRating9 && !S.fRating8) || (S.fRating9 && r.rating >= 9) || (S.fRating8 && r.rating >= 8)) &&
@@ -707,6 +732,10 @@ class Component extends DCLogic {
       const q = P.q;
       const hn = S.hotelNameQuery || P.q;
       f = f.slice().sort((a, b) => this.nameMatchScore(b.name, q, hn) - this.nameMatchScore(a.name, q, hn));
+    }
+    if (P.hotelId) {
+      const pin = f.filter(r => r.hotelId === P.hotelId);
+      if (pin.length) f = pin.concat(f.filter(r => r.hotelId !== P.hotelId));
     }
     const distFrom = (S.searchIntent === 'hotel_name' && S.cityHint)
       ? S.cityHint
@@ -726,7 +755,7 @@ class Component extends DCLogic {
         refundable: r.refundable,
         score: r.rating ? r.rating.toFixed(1) : '—', scoreLabel: r.rating ? this.scoreWord(r.rating) : '',
         reviews: r.hd.review_count ? Number(r.hd.review_count).toLocaleString() + ' reviews' : '',
-        price: cgMoney(r.perNight, r.currency),
+        price: r.total > 0 ? cgMoney(r.perNight, r.currency) : 'See dates',
         strike: r.sspAmt > r.total * CG_STRIKE ? cgMoney(cgPerNight(r.sspAmt, nights), r.currency) : '',
         offPct: off ? off + '%' : '',
         distLabel: r.dist != null ? r.dist.toFixed(1) + ' mi from ' + distFrom : '',
