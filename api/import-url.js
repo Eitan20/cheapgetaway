@@ -11,7 +11,7 @@ const LITEAPI_BASE = 'https://api.liteapi.travel/v3.0';
 const CITY_TO_COUNTRY = {
   london: 'GB', manchester: 'GB', edinburgh: 'GB', birmingham: 'GB', liverpool: 'GB', glasgow: 'GB', bristol: 'GB',
   paris: 'FR', lyon: 'FR', marseille: 'FR', nice: 'FR',
-  'new york': 'US', nyc: 'US', 'los angeles': 'US', la: 'US', 'las vegas': 'US', miami: 'US', chicago: 'US',
+  'new york': 'US',  'los angeles': 'US', 'las vegas': 'US', miami: 'US', chicago: 'US',
   'san francisco': 'US', boston: 'US', seattle: 'US', washington: 'US', 'washington dc': 'US', dc: 'US',
   orlando: 'US', dallas: 'US', houston: 'US', atlanta: 'US', denver: 'US', phoenix: 'US', 'san diego': 'US',
   austin: 'US', nashville: 'US', 'new orleans': 'US', honolulu: 'US',
@@ -28,6 +28,7 @@ const CITY_TO_COUNTRY = {
   zurich: 'CH', geneva: 'CH', copenhagen: 'DK', stockholm: 'SE', oslo: 'NO', helsinki: 'FI',
   athens: 'GR', budapest: 'HU', warsaw: 'PL', 'mexico city': 'MX', cancun: 'MX',
   'lake buena vista': 'US', 'buena vista': 'US', 'punta sam': 'MX', 'riviera maya': 'MX',
+  marrakech: 'MA', marrakesh: 'MA', stamford: 'US', scottsdale: 'US', gatlinburg: 'US',
   'miami beach': 'US', 'times square': 'US', 'disney springs': 'US'
 };
 
@@ -563,10 +564,30 @@ function hotelFromGenericPath(pathname) {
   return { ...parseLocationSlug(best), hotelId: '' };
 }
 
-const NOT_A_CITY = new Set(['airport', 'beach', 'downtown', 'center', 'centre', 'central', 'park', 'resort', 'spa', 'hotel', 'suites', 'inn', 'plaza', 'tower', 'station', 'harbour', 'harbor', 'marina', 'garden', 'gardens', 'bay', 'village', 'city', 'square', 'opera', 'palace', 'vista', 'best', 'dome', 'mitte', 'old town', 'dong jing', 'adult', 'adults', 'only', 'inclusive', 'opening', 'summer', 'winter', 'spring']);
+const NOT_A_CITY = new Set(['airport', 'beach', 'downtown', 'center', 'centre', 'central', 'park', 'resort', 'spa', 'hotel', 'suites', 'inn', 'plaza', 'tower', 'station', 'harbour', 'harbor', 'marina', 'garden', 'gardens', 'bay', 'village', 'city', 'square', 'opera', 'palace', 'vista', 'best', 'dome', 'mitte', 'old town', 'dong jing', 'olympia', 'adult', 'adults', 'only', 'inclusive', 'opening', 'summer', 'winter', 'spring']);
 
 function cityCc(candidate) {
   return CITY_TO_COUNTRY[candidate] || WORLD_CITIES[candidate] || '';
+}
+
+// Trailing city peel: prefer the hard-coded travel cities. WORLD_CITIES has
+// 55k entries including neighborhoods / false friends (olympia, brick, vista,
+// best, la) that steal the real city and send LiteAPI to the wrong country.
+function peelCityCc(candidate, preferCc) {
+  if (!candidate || candidate.length <= 2) return '';
+  if (NOT_A_CITY.has(candidate)) return '';
+  if (CITY_TO_COUNTRY[candidate]) {
+    const cc = CITY_TO_COUNTRY[candidate];
+    if (preferCc && cc !== preferCc) return '';
+    return cc;
+  }
+  const cc = WORLD_CITIES[candidate];
+  if (!cc) return '';
+  if (preferCc) return cc === preferCc ? cc : '';
+  // No path country: allow longer / multi-word WORLD_CITIES (Marrakech), never
+  // 2–5 letter false friends (la/best/vista already blocked above / by length).
+  if (candidate.includes(' ') || candidate.length >= 6) return cc;
+  return '';
 }
 
 function cityMatchesCountry(candidate, wantCc) {
@@ -606,22 +627,25 @@ function parseLocationSlug(slug, preferCc) {
   if (preferCc) countryCode = countryCode || preferCc;
   let parts = rest.split(/[-]+/).filter(Boolean);
   let cityName = '';
-  // Prefer longer trailing city phrases that match preferCc / known cities.
+  // Prefer longer trailing city phrases. Use peelCityCc so obscure WORLD_CITIES
+  // hits cannot override a real city earlier in the slug (sydney vs olympia).
   for (let n = 4; n >= 1; n -= 1) {
     if (parts.length <= n) continue;
     const candidate = parts.slice(-n).join(' ');
-    if (NOT_A_CITY.has(candidate)) continue;
-    const cc = cityCc(candidate);
+    const cc = peelCityCc(candidate, preferCc || countryCode || '');
     if (!cc) continue;
-    if (preferCc && cc !== preferCc && !cityMatchesCountry(candidate, preferCc)) continue;
-    // Don't peel if what's left is an empty/weak hotel stub — keep the city
-    // words in the hotel name and record city separately below.
+    // If an earlier major city sits in the left side, don't steal the name's
+    // trailing words as the city ("…sydney-the-olympia").
     const left = parts.slice(0, -n);
+    let earlierMajor = false;
+    for (let k = 3; k >= 1 && !earlierMajor; k -= 1) {
+      for (let i = 0; i + k <= left.length; i += 1) {
+        if (CITY_TO_COUNTRY[left.slice(i, i + k).join(' ')]) { earlierMajor = true; break; }
+      }
+    }
+    if (earlierMajor && !CITY_TO_COUNTRY[candidate]) continue;
     const leftName = left.join(' ');
     if (isWeakHotelStub(leftName) && n === 1 && candidate.split(' ').length === 1) {
-      // Multi-char weak leftovers ("best", "blue", "new"): keep city in the
-      // name. Single-letter leftovers ("d"+"amsterdam") still peel so we can
-      // form Damsterdam for the apostrophe variant path.
       if (normKey(leftName).replace(/ /g, '').length > 1) continue;
     }
     cityName = candidate;
@@ -639,10 +663,8 @@ function parseLocationSlug(slug, preferCc) {
     for (let n = 3; n >= 1; n -= 1) {
       for (let i = 0; i + n <= parts.length; i += 1) {
         const candidate = parts.slice(i, i + n).join(' ');
-        if (NOT_A_CITY.has(candidate)) continue;
-        const cc = cityCc(candidate);
+        const cc = peelCityCc(candidate, preferCc || countryCode || '');
         if (!cc) continue;
-        if (preferCc && cc !== preferCc) continue;
         cityName = candidate;
         if (!countryCode) countryCode = cc;
         break;

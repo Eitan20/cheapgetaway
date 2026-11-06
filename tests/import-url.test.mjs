@@ -190,3 +190,13 @@ test('W brand keeps a space; brick keeps Barcelona; cityhotelams splits', () => 
   assert.equal(c.cityName, 'Amsterdam');
   assert.equal(P('https://www.booking.com/hotel/pt/marquesdepombal.html').hotelName, 'Marques De Pombal');
 });
+
+test('hotels.com does not peel olympia over sydney; la is not a city', () => {
+  const a = P('https://www.hotels.com/ho3800495168/25hours-hotel-sydney-the-olympia/');
+  assert.equal(a.cityName, 'Sydney');
+  assert.equal(a.countryCode, 'AU');
+  assert.match(a.hotelName, /Olympia/i);
+  const b = P('https://www.hotels.com/ho3340583872/la-fondation/');
+  assert.equal(b.hotelName, 'La Fondation');
+  assert.equal(b.cityName, '');
+});
