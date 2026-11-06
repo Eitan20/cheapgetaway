@@ -265,6 +265,7 @@
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   state = { loading: true, results: [], demo: false, sort: 'top',
+    searchIntent: 'place', hotelNameQuery: '', cityHint: '',
     fName: '', fPriceCap: 1000, fRefundable: false, fStar5: false, fStar4: false, fStar3: false, fRating9: false, fRating8: false,
     fParking: false, fBreakfast: false, fPool: false, fFitness: false, fTypeHotel: false, fTypeApartment: false,
     fDistance: 'any', fPolicy: 'any', fMeal: 'any', fBrands: {}, fHoods: {},
@@ -326,8 +327,10 @@ class Component extends DCLogic {
     try {
       const body = { checkin: P.checkin, checkout: P.checkout, occupancies: [{ adults: P.adults }],
         currency: 'USD', guestNationality: 'US', includeHotelData: true, limit: 25 };
+      let intentMeta = { intent: 'place', hotelName: '', cityHint: '' };
       if (P.aiQ) {
         body.aiSearch = P.aiQ;
+        intentMeta = { intent: 'ai_vibe', hotelName: '', cityHint: '' };
       } else if (P.placeId) {
         body.placeId = P.placeId;
       } else {
@@ -340,11 +343,16 @@ class Component extends DCLogic {
           });
           if (ir.ok) intent = await ir.json();
         } catch (eIntent) { /* keep place fallback */ }
-        if (intent && intent.intent === 'hotel_name') {
-          body.hotelName = (intent.hotelName || P.q || '').trim() || P.q;
-          if (intent.cityHint) body.city = intent.cityHint;
-          if (intent.countryHint) body.country = intent.countryHint;
-        } else if (intent && intent.intent === 'ai_vibe') {
+        intentMeta = {
+          intent: (intent && intent.intent) || 'place',
+          hotelName: (intent && intent.hotelName) || '',
+          cityHint: (intent && intent.cityHint) || ''
+        };
+        if (intentMeta.intent === 'hotel_name') {
+          body.hotelName = (intentMeta.hotelName || P.q || '').trim() || P.q;
+          if (intentMeta.cityHint) body.city = intentMeta.cityHint;
+          if (intent && intent.countryHint) body.country = intent.countryHint;
+        } else if (intentMeta.intent === 'ai_vibe') {
           body.aiSearch = P.q;
         } else {
           body.aiSearch = 'hotels in ' + P.q;
@@ -402,9 +410,15 @@ class Component extends DCLogic {
           rows = firstRows;
         }
       }
-      this.setState({ loading: false, demo: false, results: rows });
+      this.setState({
+        loading: false, demo: false, results: rows,
+        searchIntent: intentMeta.intent || 'place',
+        hotelNameQuery: intentMeta.hotelName || '',
+        cityHint: intentMeta.cityHint || ''
+      });
     } catch (e) {
-      this.setState({ loading: false, demo: true, results: this.demoResults() });
+      this.setState({ loading: false, demo: true, results: this.demoResults(),
+        searchIntent: 'place', hotelNameQuery: '', cityHint: '' });
     }
   }
   componentWillUnmount() { document.removeEventListener('click', this._navHandler, true); }
@@ -423,6 +437,30 @@ class Component extends DCLogic {
   }
 
   scoreWord(r) { return r >= 9.5 ? 'Exceptional' : r >= 9 ? 'Wonderful' : r >= 8.5 ? 'Fabulous' : r >= 8 ? 'Very good' : r >= 7 ? 'Good' : 'Pleasant'; }
+  // Normalize hotel names for match scoring (case/punct/diacritics).
+  normName(s) {
+    return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+  // Higher = closer to the searched hotel name. Used to pin hotel_name intent.
+  nameMatchScore(hotelName, query, hotelNameOnly) {
+    const h = this.normName(hotelName);
+    const q = this.normName(query);
+    const hn = this.normName(hotelNameOnly || query);
+    if (!h || (!q && !hn)) return 0;
+    if ((q && h === q) || (hn && h === hn)) return 100;
+    if (hn && (h.startsWith(hn + ' ') || h.startsWith(hn))) return 90;
+    if (q && (h.startsWith(q + ' ') || h.startsWith(q))) return 85;
+    if (hn && h.includes(hn)) return 70;
+    if (q && h.includes(q)) return 60;
+    const tokens = hn.split(' ').filter(t => t.length >= 3);
+    if (tokens.length && tokens.every(t => h.includes(t))) return 50;
+    if (tokens.length) {
+      const hit = tokens.filter(t => h.includes(t)).length;
+      if (hit) return 10 + hit * 10;
+    }
+    return 0;
+  }
   fmtDate(s) { try { return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(new Date(s + 'T12:00:00')); } catch (e) { return s || ''; } }
   set(k) { return (e) => this.setState({ [k]: e.currentTarget.type === 'checkbox' ? e.currentTarget.checked : e.currentTarget.value }); }
   setAndFetch(k) { return (e) => this.setState({ [k]: e.currentTarget.checked }, () => this.refetch()); }
@@ -480,6 +518,16 @@ class Component extends DCLogic {
     if (S.sort === 'priceAsc') f = f.slice().sort((a, b) => a.perNight - b.perNight);
     else if (S.sort === 'priceDesc') f = f.slice().sort((a, b) => b.perNight - a.perNight);
     else if (S.sort === 'rating') f = f.slice().sort((a, b) => b.rating - a.rating);
+    // Hotel-name searches: float the best name match to the top (Expedia-style),
+    // then keep the prior order for everyone else (stable sort).
+    if (S.searchIntent === 'hotel_name' && (S.hotelNameQuery || P.q)) {
+      const q = P.q;
+      const hn = S.hotelNameQuery || P.q;
+      f = f.slice().sort((a, b) => this.nameMatchScore(b.name, q, hn) - this.nameMatchScore(a.name, q, hn));
+    }
+    const distFrom = (S.searchIntent === 'hotel_name' && S.cityHint)
+      ? S.cityHint
+      : ((P.q || '').split(',')[0] || 'center');
     const cards = f.map(r => {
       const img = r.hd.main_photo || r.hd.thumbnail || (r.hd.images && r.hd.images[0] && r.hd.images[0].url) || 'assets/hotel-fallback-sm.webp';
       const isAbsImg = typeof cgImg === 'function' && typeof img === 'string' && /^https?:\/\//i.test(img);
@@ -497,7 +545,7 @@ class Component extends DCLogic {
         price: cgMoney(r.perNight),
         strike: r.sspAmt > r.total * CG_STRIKE ? cgMoney(cgPerNight(r.sspAmt, nights)) : '',
         offPct: off ? off + '%' : '',
-        distLabel: r.dist != null ? r.dist.toFixed(1) + ' mi from ' + ((P.q || '').split(',')[0] || 'center') : '',
+        distLabel: r.dist != null ? r.dist.toFixed(1) + ' mi from ' + distFrom : '',
         stayNote: nights + (nights === 1 ? ' night' : ' nights') + ', 1 room, incl. taxes & fees',
         href: '/hotel-detail?hotelId=' + encodeURIComponent(r.hotelId) + '&checkin=' + P.checkin + '&checkout=' + P.checkout + '&adults=' + P.adults
       };
@@ -510,7 +558,7 @@ class Component extends DCLogic {
       navSearch: (e) => { e.preventDefault(); const el = document.getElementById('cg-nav-q');
         const q = (el && el.value.trim()) || P.q;
         window.location.href = '/search-results?q=' + encodeURIComponent(q) + '&checkin=' + P.checkin + '&checkout=' + P.checkout + '&adults=' + P.adults; },
-      resultsTitle: S.loading ? 'Searching ' + P.q + '…' : (P.aiQ ? cards.length + ' properties · ✦ “' + P.aiQ + '”' : cards.length + ' properties in ' + P.q),
+      resultsTitle: S.loading ? 'Searching ' + P.q + '…' : (P.aiQ ? cards.length + ' properties · ✦ “' + P.aiQ + '”' : (S.searchIntent === 'hotel_name' ? cards.length + ' results for ' + P.q : cards.length + ' properties in ' + P.q)),
       setSort: (e) => this.setState({ sort: e.currentTarget.value }),
       setNameFilter: this.set('fName'), setPriceCap: this.set('fPriceCap'),
       priceCapLabel: Number(S.fPriceCap) >= 1000 ? '$1000+' : '$' + S.fPriceCap,
@@ -526,7 +574,7 @@ class Component extends DCLogic {
       toggleFacWifi: this.setAndFetch('fFacWifi'), toggleFacSpa: this.setAndFetch('fFacSpa'),
       toggleFacRestaurant: this.setAndFetch('fFacRestaurant'), toggleFacBar: this.setAndFetch('fFacBar'),
       toggleFacPets: this.setAndFetch('fFacPets'), toggleFacShuttle: this.setAndFetch('fFacShuttle'),
-      cityName: (P.q || '').split(',')[0],
+      cityName: (S.searchIntent === 'hotel_name' && S.cityHint) ? S.cityHint : (P.q || '').split(',')[0],
       hasBrands: this.opts(rows, 'brand').length > 0,
       brandOpts: this.opts(rows, 'brand').map(([name, count]) => ({ name, count, on: !!S.fBrands[name], toggle: this.toggleIn('fBrands', name) })),
       hasHoods: this.opts(rows, 'hood').length > 0,
