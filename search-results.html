@@ -321,19 +321,102 @@ class Component extends DCLogic {
     return ids;
   }
 
+  // Client-side city → ISO-2 backup when search-intent omits countryHint.
+  countryFromCity(city) {
+    const map = this._cityCountryMap();
+    if (!city) return '';
+    const key = String(city).trim().toLowerCase().replace(/\s+/g, ' ');
+    if (map[key]) return map[key];
+    const before = key.split(',')[0].trim();
+    return (before && map[before]) || '';
+  }
+  countryFromQuery(q) {
+    const map = this._cityCountryMap();
+    const padded = ' ' + String(q || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim() + ' ';
+    const keys = Object.keys(map).sort((a, b) => b.length - a.length);
+    for (const key of keys) { if (padded.includes(' ' + key + ' ')) return map[key]; }
+    if (/\bunited kingdom\b|\bengland\b|\buk\b/.test(padded)) return 'GB';
+    if (/\bunited states\b|\busa\b/.test(padded)) return 'US';
+    if (/\bfrance\b/.test(padded)) return 'FR';
+    if (/\bitaly\b/.test(padded)) return 'IT';
+    if (/\bspain\b/.test(padded)) return 'ES';
+    if (/\bgermany\b/.test(padded)) return 'DE';
+    return '';
+  }
+  _cityCountryMap() {
+    return {
+      london: 'GB', manchester: 'GB', edinburgh: 'GB', birmingham: 'GB', liverpool: 'GB', glasgow: 'GB', bristol: 'GB',
+      paris: 'FR', lyon: 'FR', marseille: 'FR', nice: 'FR',
+      'new york': 'US', nyc: 'US', 'los angeles': 'US', la: 'US', 'las vegas': 'US', miami: 'US', chicago: 'US',
+      'san francisco': 'US', boston: 'US', seattle: 'US', washington: 'US', 'washington dc': 'US', dc: 'US',
+      orlando: 'US', dallas: 'US', houston: 'US', atlanta: 'US', denver: 'US', phoenix: 'US', 'san diego': 'US',
+      austin: 'US', nashville: 'US', 'new orleans': 'US', honolulu: 'US',
+      rome: 'IT', milan: 'IT', florence: 'IT', venice: 'IT', naples: 'IT',
+      barcelona: 'ES', madrid: 'ES', seville: 'ES', valencia: 'ES',
+      berlin: 'DE', munich: 'DE', hamburg: 'DE', frankfurt: 'DE', amsterdam: 'NL', rotterdam: 'NL',
+      dubai: 'AE', 'abu dhabi': 'AE', tokyo: 'JP', osaka: 'JP', kyoto: 'JP',
+      sydney: 'AU', melbourne: 'AU', brisbane: 'AU', toronto: 'CA', vancouver: 'CA', montreal: 'CA',
+      singapore: 'SG', 'hong kong': 'HK', bangkok: 'TH', istanbul: 'TR',
+      vienna: 'AT', prague: 'CZ', lisbon: 'PT', dublin: 'IE', brussels: 'BE',
+      zurich: 'CH', geneva: 'CH', copenhagen: 'DK', stockholm: 'SE', oslo: 'NO', helsinki: 'FI',
+      athens: 'GR', budapest: 'HU', warsaw: 'PL', mexico: 'MX', 'mexico city': 'MX', cancun: 'MX',
+      'rio de janeiro': 'BR', 'sao paulo': 'BR', 'buenos aires': 'AR'
+    };
+  }
+  splitHotelAndCity(q) {
+    const HOTEL_SUFFIX_RE = /\b(hotel|hotels|inn|resort|resorts|suites?|motel|lodge|hostel|apartment|apartments|bnb|b&b)\b/i;
+    const trimmed = String(q || '').trim().replace(/\s+/g, ' ');
+    const tokens = trimmed.split(' ');
+    if (tokens.length < 2) return { hotelName: trimmed };
+    const last = tokens[tokens.length - 1];
+    if (HOTEL_SUFFIX_RE.test(last)) return { hotelName: trimmed };
+    if (!/^[A-Za-z][A-Za-z'.-]*$/.test(last)) return { hotelName: trimmed };
+    if (last.length < 3) return { hotelName: trimmed };
+    const hotelName = tokens.slice(0, -1).join(' ').trim();
+    if (!hotelName || hotelName.length < 2) return { hotelName: trimmed };
+    return { hotelName, cityHint: last };
+  }
+  // Resolve exact hotel id(s) via LiteAPI data/hotels so rates can use hotelIds.
+  async resolveHotelIds(hotelName, cityName, countryCode) {
+    if (!hotelName) return [];
+    const qs = new URLSearchParams({ hotelName: hotelName });
+    if (countryCode) qs.set('countryCode', countryCode);
+    if (cityName) qs.set('cityName', cityName);
+    try {
+      const hr = await this.api('/data/hotels?' + qs.toString());
+      const hotels = hr.data || [];
+      return hotels
+        .map(h => ({ id: h.id, name: h.name || '', score: this.nameMatchScore(h.name, hotelName, hotelName) }))
+        .filter(x => x.id && x.score >= 50)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 5)
+        .map(x => x.id);
+    } catch (e) { return []; }
+  }
+  async postRates(body) {
+    const res = await cgApiFetch('/hotels/rates', {
+      method: 'POST',
+      headers: { 'accept': 'application/json', 'content-type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const text = await res.text();
+    let json = null;
+    try { json = text ? JSON.parse(text) : null; } catch (e) { json = null; }
+    return { ok: res.ok, status: res.status, json };
+  }
   async refetch() {
     const P = this._P || this.params(); const S = this.state;
     this.setState({ loading: true });
     try {
-      const body = { checkin: P.checkin, checkout: P.checkout, occupancies: [{ adults: P.adults }],
+      const baseBody = { checkin: P.checkin, checkout: P.checkout, occupancies: [{ adults: P.adults }],
         currency: 'USD', guestNationality: 'US', includeHotelData: true, limit: 25 };
-      let intentMeta = { intent: 'place', hotelName: '', cityHint: '' };
+      const body = { ...baseBody };
+      let intentMeta = { intent: 'place', hotelName: '', cityHint: '', countryHint: '' };
       if (P.aiQ) {
         body.aiSearch = P.aiQ;
-        intentMeta = { intent: 'ai_vibe', hotelName: '', cityHint: '' };
-      } else if (P.placeId) {
-        body.placeId = P.placeId;
+        intentMeta = { intent: 'ai_vibe', hotelName: '', cityHint: '', countryHint: '' };
       } else {
+        // Classify even when placeId is set so Places hotel picks still pin to #1.
         let intent = { intent: 'place' };
         try {
           const ir = await fetch('/api/search-intent', {
@@ -346,12 +429,50 @@ class Component extends DCLogic {
         intentMeta = {
           intent: (intent && intent.intent) || 'place',
           hotelName: (intent && intent.hotelName) || '',
-          cityHint: (intent && intent.cityHint) || ''
+          cityHint: (intent && intent.cityHint) || '',
+          countryHint: (intent && intent.countryHint) || ''
         };
-        if (intentMeta.intent === 'hotel_name') {
-          body.hotelName = (intentMeta.hotelName || P.q || '').trim() || P.q;
-          if (intentMeta.cityHint) body.city = intentMeta.cityHint;
-          if (intent && intent.countryHint) body.country = intent.countryHint;
+        // Places hotel picks: if Jev missed but the label has a hotel suffix, still pin by name.
+        if (intentMeta.intent !== 'hotel_name' && intentMeta.intent !== 'ai_vibe'
+            && /\b(hotel|hotels|inn|resort|resorts|suites?|motel|lodge|hostel|apartment|apartments|bnb|b&b)\b/i.test(P.q)) {
+          const parts = this.splitHotelAndCity(P.q);
+          intentMeta = {
+            intent: 'hotel_name',
+            hotelName: parts.hotelName || P.q,
+            cityHint: parts.cityHint || '',
+            countryHint: this.countryFromCity(parts.cityHint) || this.countryFromQuery(P.q)
+          };
+        }
+        if (!intentMeta.countryHint) {
+          intentMeta.countryHint = this.countryFromCity(intentMeta.cityHint) || this.countryFromQuery(P.q);
+        }
+        // placeId path with a hotel-like q: keep live placeId rates, but force pin metadata
+        // so L'oscar (etc.) floats to #1 even when LiteAPI ranks neighbors first.
+        if (P.placeId && intentMeta.intent === 'hotel_name' && !intentMeta.hotelName) {
+          const parts = this.splitHotelAndCity(P.q);
+          intentMeta.hotelName = parts.hotelName || P.q;
+          if (parts.cityHint && !intentMeta.cityHint) intentMeta.cityHint = parts.cityHint;
+        }
+
+        if (P.placeId) {
+          // Live neighborhood rates via placeId; hotel_name intent still pins by name.
+          body.placeId = P.placeId;
+        } else if (intentMeta.intent === 'hotel_name') {
+          const hotelName = (intentMeta.hotelName || P.q || '').trim() || P.q;
+          const cityName = intentMeta.cityHint || '';
+          const countryCode = intentMeta.countryHint || this.countryFromCity(cityName) || this.countryFromQuery(P.q);
+          const resolved = await this.resolveHotelIds(hotelName, cityName, countryCode);
+          if (resolved.length) {
+            body.hotelIds = resolved;
+          } else if (countryCode || cityName) {
+            // LiteAPI requires geo with hotelName — use countryCode / cityName (not city/country).
+            body.hotelName = hotelName;
+            if (countryCode) body.countryCode = countryCode;
+            if (cityName) body.cityName = cityName;
+          } else {
+            // No geo available — aiSearch still returns live rates; pin sorts the match up.
+            body.aiSearch = P.q;
+          }
         } else if (intentMeta.intent === 'ai_vibe') {
           body.aiSearch = P.q;
         } else {
@@ -379,16 +500,61 @@ class Component extends DCLogic {
       if (types.length) body.hotelTypeIds = [...new Set(types)];
       if (S.fMeal !== 'any') body.boardType = S.fMeal;
       else if (S.fBreakfast) body.boardType = 'BI';
-      const r = await this.api('/hotels/rates', { method: 'POST', body: JSON.stringify(body) });
+      let rateResp = await this.postRates(body);
+      // Typed hotel_name with bad/missing geo used to 400 → silent demo. Retry once
+      // with corrected countryCode/cityName, then aiSearch, so users still see live prices.
+      if (!rateResp.ok && intentMeta.intent === 'hotel_name' && !P.placeId && !P.aiQ) {
+        const hotelName = (intentMeta.hotelName || P.q || '').trim() || P.q;
+        const cityName = intentMeta.cityHint || '';
+        const countryCode = intentMeta.countryHint || this.countryFromCity(cityName) || this.countryFromQuery(P.q);
+        if (countryCode || cityName) {
+          const retry = { ...baseBody, hotelName };
+          if (countryCode) retry.countryCode = countryCode;
+          if (cityName) retry.cityName = cityName;
+          rateResp = await this.postRates(retry);
+        }
+        if (!rateResp.ok) {
+          rateResp = await this.postRates({ ...baseBody, aiSearch: P.q });
+        }
+      }
+      if (!rateResp.ok || !rateResp.json) throw new Error('API ' + (rateResp.status || 0));
+      const r = rateResp.json;
       const hotels = r.hotels || [];
       const firstRows = (r.data || []).map(x => ({ ...x, hotelData: x.hotelData || hotels.find(h => h.id === x.hotelId) || {} }));
       let rows = firstRows;
+      // Places placeId sets are neighborhood-ranked. If the named hotel is missing,
+      // pull it by hotelIds and prepend so pin has something to float to #1.
+      if (P.placeId && intentMeta.intent === 'hotel_name') {
+        const hotelName = (intentMeta.hotelName || P.q || '').trim() || P.q;
+        const cityName = intentMeta.cityHint || '';
+        const countryCode = intentMeta.countryHint || this.countryFromCity(cityName) || this.countryFromQuery(P.q);
+        const resolved = await this.resolveHotelIds(hotelName, cityName, countryCode);
+        const have = new Set(firstRows.map(x => x.hotelId));
+        const missing = resolved.filter(id => !have.has(id));
+        if (missing.length) {
+          try {
+            const extra = await this.postRates({
+              hotelIds: missing, checkin: P.checkin, checkout: P.checkout,
+              occupancies: [{ adults: P.adults }], currency: 'USD', guestNationality: 'US',
+              includeHotelData: true
+            });
+            if (extra.ok && extra.json) {
+              const eh = extra.json.hotels || [];
+              const extraRows = (extra.json.data || []).map(x => ({
+                ...x, hotelData: x.hotelData || eh.find(h => h.id === x.hotelId) || {}
+              }));
+              rows = extraRows.concat(firstRows);
+            }
+          } catch (eMerge) { /* keep neighborhood rows */ }
+        }
+      }
       // LiteAPI caches /hotels/rates per request body, and aiSearch/placeId
       // based responses can carry stale/partial rate sets. Re-price via a
       // second hotelIds-based call (same shape the homepage/detail page use)
       // so prices agree across pages; keep the first call's hotelData
       // (name/photo/rating/geo) either way.
-      const hotelIds = firstRows.map(x => x.hotelId).filter(Boolean);
+      const pricedSource = rows;
+      const hotelIds = pricedSource.map(x => x.hotelId).filter(Boolean);
       if (hotelIds.length) {
         try {
           const r2 = await this.api('/hotels/rates', { method: 'POST', body: JSON.stringify({
@@ -397,7 +563,7 @@ class Component extends DCLogic {
           }) });
           const rateMap = {};
           (r2.data || []).forEach(x => { rateMap[x.hotelId] = x; });
-          rows = firstRows.map(x => {
+          rows = pricedSource.map(x => {
             const priced = rateMap[x.hotelId];
             // Hotel absent/rate-less in the second response: drop its rates
             // rather than keep the (possibly stale) first-response rate, so
@@ -405,9 +571,9 @@ class Component extends DCLogic {
             return { ...x, roomTypes: priced ? (priced.roomTypes || []) : [] };
           });
         } catch (e2) {
-          // Second call failed entirely: fall back to the first response's
-          // rates rather than showing nothing.
-          rows = firstRows;
+          // Second call failed entirely: fall back to the prior rows
+          // rather than showing nothing.
+          rows = pricedSource;
         }
       }
       this.setState({
