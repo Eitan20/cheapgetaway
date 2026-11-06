@@ -127,3 +127,47 @@ test('url city/country are hard filters in pickBest', async () => {
   const k = pickBest([{ name: 'The Kensington Hotel', city: 'London', country: 'gb' }], { hotelName: 'Kensington', urlCountry: 'FR', countryCode: 'FR' });
   assert.equal(k, null);
 });
+
+test('hotels.com strips marketing noise and peels lake buena vista', () => {
+  const a = P('https://www.hotels.com/ho2541600928/so-paris-hotel-opening-summer-2022-paris-france/');
+  assert.equal(a.hotelName, 'So Paris Hotel');
+  assert.equal(a.cityName, 'Paris');
+  assert.equal(a.countryCode, 'FR');
+  const b = P('https://www.hotels.com/ho121463/b-resort-spa-in-the-disney-springs-resort-area-lake-buena-vista-united-states-of-america/');
+  assert.equal(b.cityName, 'Lake Buena Vista');
+  assert.match(b.hotelName, /B Resort/i);
+  const c = P('https://www.hotels.com/ho3198568960/hotel-mousai-cancun-adults-only-punta-sam-mexico/');
+  assert.equal(c.countryCode, 'MX');
+  assert.equal(c.cityName, 'Punta Sam');
+  assert.match(c.hotelName, /Mousai/i);
+  // Bare /hoNNNN/ must not invent a name
+  const d = P('https://www.hotels.com/ho2981195328/');
+  assert.equal(d.ok, false);
+  assert.equal(d.error, 'no-hotel-or-destination');
+});
+
+test('booking country-aware peel, amp entity, trailing digit, intercontinental', () => {
+  const b = (x) => P('https://www.booking.com/hotel/' + x + '.html');
+  // "best" is a Dutch town — must not peel when path country is TR
+  assert.equal(b('tr/the-best').hotelName, 'The Best');
+  assert.equal(b('tr/the-best').urlCountry, 'TR');
+  assert.equal(b('tr/the-best').cityName, '');
+  assert.equal(b('tr/blue-istanbul').hotelName, 'Blue Istanbul');
+  assert.equal(b('tr/blue-istanbul').cityName, 'Istanbul');
+  assert.equal(b('tr/istanbul-amp-suites').hotelName, 'Istanbul Suites');
+  assert.equal(b('us/the-new-yorker1').hotelName, 'The New Yorker');
+  assert.equal(b('us/inter-continental-miami').hotelName, 'Intercontinental');
+  assert.equal(b('us/inter-continental-miami').cityName, 'Miami');
+  // Famous city name in the wrong country keeps path country
+  assert.equal(b('rs/amsterdam').countryCode, 'RS');
+  assert.equal(b('rs/amsterdam').urlCountry, 'RS');
+  assert.match(b('rs/amsterdam').hotelName, /Amsterdam/i);
+  assert.equal(b('fr/kensington').urlCountry, 'FR');
+  // pickBest rejects cross-country weak matches even without row.country
+  const k = pickBest(
+    [{ name: 'Eindhovenseweg Best', city: 'Best', country: '' }],
+    { hotelName: 'The Best', urlCountry: 'TR', countryCode: 'TR' }
+  );
+  // empty country on row → city Best maps to NL → filtered
+  assert.equal(k, null);
+});
