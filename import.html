@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./cg-analytics.js?v=1" defer></script>
 <title>Finding your hotel — cheapgetaway.com</title>
-<meta name="description" content="Paste an Expedia hotel link to find the same stay and dates on cheapgetaway.com.">
+<meta name="description" content="Paste a hotel link to find the same stay and dates on cheapgetaway.com.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,7 +44,7 @@
     <div id="panel">
       <div class="spinner" aria-hidden="true"></div>
       <p class="status" id="status">Detecting hotel and dates</p>
-      <p class="sub" id="sub">Looking up price on Expedia.com</p>
+      <p class="sub" id="sub">Looking up price on the hotel site</p>
     </div>
   </div>
 <script>
@@ -58,13 +58,13 @@
   function showError(msg) {
     panel.innerHTML =
       '<div class="error">' +
-        '<h1>Couldn’t read that Expedia link</h1>' +
-        '<p>' + escapeHtml(msg || 'Paste a hotel page link from Expedia and we’ll match the same stay and dates here.') + '</p>' +
+        '<h1>Couldn’t read that hotel link</h1>' +
+        '<p>' + escapeHtml(msg || 'Paste a hotel page link from Expedia, Hotels.com, Booking.com, or the hotel’s own site and we’ll match the same stay and dates here.') + '</p>' +
         '<form class="paste" id="paste-form">' +
-          '<input name="url" type="url" inputmode="url" autocomplete="off" placeholder="https://www.expedia.com/…Hotel-Information?chkin=…" required>' +
+          '<input name="url" type="url" inputmode="url" autocomplete="off" placeholder="https://www.hotels.com/… or any hotel page URL" required>' +
           '<button type="submit">Find this hotel</button>' +
         '</form>' +
-        '<p class="hint">Or type <code>cheapgetaway.com/</code> in front of any Expedia hotel URL in your address bar, then hit Enter.</p>' +
+        '<p class="hint">Or type <code>cheapgetaway.com/</code> in front of any hotel URL in your address bar, then hit Enter.</p>' +
       '</div>';
     document.getElementById('paste-form').addEventListener('submit', function (e) {
       e.preventDefault();
@@ -102,11 +102,30 @@
     setTimeout(function () { location.replace(path); }, wait);
   }
 
+  function hostLabel(value) {
+    var match = String(value || '').match(/(?:https?:\/\/)?(?:www\.)?((?:[a-z0-9-]+\.)+[a-z]{2,})/i);
+    if (!match) return '';
+    var host = match[1].toLowerCase();
+    if (host.indexOf('expedia.') !== -1) return 'Expedia.com';
+    if (host.indexOf('hotels.com') !== -1 || host.indexOf('hoteles.com') !== -1) return 'Hotels.com';
+    if (host.indexOf('booking.com') !== -1) return 'Booking.com';
+    if (host.indexOf('kayak.') !== -1) return 'Kayak.com';
+    if (host.indexOf('priceline.com') !== -1) return 'Priceline.com';
+    if (host.indexOf('agoda.') !== -1) return 'Agoda.com';
+    if (host.indexOf('tripadvisor.') !== -1) return 'Tripadvisor.com';
+    if (host.indexOf('google.') !== -1) return 'Google Hotels';
+    if (host.indexOf('orbitz.') !== -1) return 'Orbitz.com';
+    if (host.indexOf('travelocity.') !== -1) return 'Travelocity.com';
+    return match[1].replace(/^www\./i, '');
+  }
+
   var raw = incomingUrl();
   if (!raw) {
     showError('');
     return;
   }
+  var looking = hostLabel(raw);
+  if (looking) subEl.textContent = 'Looking up price on ' + looking;
 
   fetch('/api/import-url', {
     method: 'POST',
@@ -115,7 +134,7 @@
   }).then(function (res) { return res.json(); }).then(function (data) {
     if (!data || !data.ok || !data.searchResultsPath) {
       showError(data && data.error === 'unsupported-host'
-        ? 'That link isn’t an Expedia hotel page.'
+        ? 'We couldn’t read a hotel name from that site’s link.'
         : 'We couldn’t find a hotel name or dates in that link.');
       return;
     }
@@ -134,7 +153,8 @@
     if (data.competitorPrice) {
       var save = document.createElement('div');
       save.className = 'save';
-      save.innerHTML = '<strong>Checking member rates</strong><span>Compared to Expedia</span>';
+      var srcLabel = data.sourceLabel || 'the hotel site';
+      save.innerHTML = '<strong>Checking member rates</strong><span>Compared to ' + escapeHtml(srcLabel) + '</span>';
       panel.appendChild(save);
     }
     go(data.searchResultsPath);
