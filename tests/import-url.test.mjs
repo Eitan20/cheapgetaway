@@ -106,3 +106,24 @@ test('priceline P-city id gives the city for city-less slugs', () => {
   assert.equal(p.cityName, 'Las Vegas');
   assert.equal(p.countryCode, 'US');
 });
+
+test('booking hyphenless slugs keep whole words and city', () => {
+  const b = (x) => P('https://www.booking.com/hotel/' + x + '.html');
+  assert.equal(b('nl/hoteartemisamsterdam').hotelName, 'Hotel Artemis');
+  assert.equal(b('nl/hoteartemisamsterdam').cityName, 'Amsterdam');
+  assert.equal(b('at/rathauspark').hotelName, 'Rathauspark');
+  assert.equal(b('at/pensionaviano').hotelName, 'Pension Aviano');
+  assert.equal(b('nl/damsterdam').hotelName, 'Damsterdam');
+  assert.equal(b('nl/i').hotelName, 'I Hotel');
+  assert.equal(b('de/new-berlin').hotelName, 'New Berlin');
+  assert.equal(b('fr/kensington').urlCountry, 'FR');
+});
+
+test('url city/country are hard filters in pickBest', async () => {
+  const { pickBest } = await import('../api/import-url.js');
+  const p = { hotelName: 'Hotel du Louvre', cityName: 'Paris', urlCity: 'Paris', countryCode: 'FR' };
+  const best = pickBest([{ name: 'Hotel du Louvre', city: 'Cherbourg', country: 'fr' }, { name: 'Hotel du Louvre', city: 'Paris', country: 'fr' }], p);
+  assert.equal(best.row.city, 'Paris');
+  const k = pickBest([{ name: 'The Kensington Hotel', city: 'London', country: 'gb' }], { hotelName: 'Kensington', urlCountry: 'FR', countryCode: 'FR' });
+  assert.equal(k, null);
+});

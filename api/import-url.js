@@ -198,6 +198,8 @@ export function parseHotelUrl(raw) {
     competitorPrice,
     competitorCurrency,
     expediaHotelId: info.hotelId || '',
+    urlCity: info.cityName || '',
+    urlCountry: source === 'booking' ? (info.countryCode || '') : '',
     queryHint: [info.hotelName, info.cityName].filter(Boolean).join(' ').trim()
   };
 }
@@ -263,14 +265,56 @@ function hotelFromHotelsComPath(pathname) {
   return { ...loc, hotelId: match[1] };
 }
 
+const BOOKING_WEAK = new Set(['new', 'old', 'grand', 'the', 'hotel', 'city', 'park', 'central', 'royal', 'bb', 'b b']);
+const BOOKING_PREFIXES = ['hotel', 'hote', 'pension', 'residence', 'apartments', 'apartment', 'villa', 'hostel', 'the'];
+
+// Hyphenless Booking slugs ("hoteartemisamsterdam", "pensionaviano",
+// "rathauspark"): peel a known trailing city and a known leading type word,
+// keep the rest whole instead of splitting it into dictionary fragments.
+function splitBookingSlug(raw, countryCode) {
+  let s = String(raw || '').toLowerCase();
+  const out = [];
+  let city = '';
+  for (let k = Math.min(s.length - 1, 20); k >= 4; k -= 1) {
+    const tail = s.slice(-k);
+    const cc = CITY_TO_COUNTRY[tail] || WORLD_CITIES[tail];
+    if (cc && (!countryCode || cc === countryCode)) { city = tail; s = s.slice(0, -k); break; }
+  }
+  for (const pre of BOOKING_PREFIXES) {
+    if (s.startsWith(pre) && s.length - pre.length >= 4) { out.push(pre === 'hote' ? 'hotel' : pre); s = s.slice(pre.length); break; }
+  }
+  if (s) {
+    // Split the remainder only when every piece is a real ≥4-letter word
+    // ("novotellondontower" → novotel london tower; not "rath aus park").
+    const seg = s.length > 8 ? segmentWords(s) : [s];
+    const dict = segDict();
+    if (seg.length > 1 && seg.every((w) => w.length >= 4 && dict.has(w))) out.push(...seg);
+    else out.push(s);
+  }
+  if (city) out.push(city);
+  return out.join('-');
+}
+
 function hotelFromBookingPath(pathname) {
   const decoded = decodeURIComponent(pathname || '');
   const match = decoded.match(/\/hotel\/([a-z]{2})\/([^/?#]+)/i);
   if (!match) return hotelFromGenericPath(pathname);
   const countryCode = match[1].toUpperCase();
-  let slug = match[2].replace(/\.html?$/i, '').replace(/\.[a-z]{2}(-[a-z]{2})?$/i, '');
-  if (!/[-_]/.test(slug) && slug.length > 8) slug = segmentWords(slug).join('-');
+  let slug = match[2].replace(/\.html?$/i, '').replace(/\.[a-z]{2}(-[a-z]{2})?$/i, '')
+    .replace(/-39-s(?=-|$)/g, 's'); // &#39;s → 's ("tokio-39-s-…" = Tokio's)
+  if (!/[-_]/.test(slug)) slug = splitBookingSlug(slug, countryCode);
   const loc = parseLocationSlug(slug);
+  // Never leave a 1–3 letter or weak stub ("i", "D", "New" from new-berlin):
+  // keep the city words as part of the name instead.
+  const stub = normKey(loc.hotelName);
+  if (loc.cityName && (stub.replace(/ /g, '').length <= 3 || BOOKING_WEAK.has(stub))) {
+    const full = titleCase(slug.replace(/-/g, ' '));
+    // "d"+"amsterdam" → "Damsterdam" (→ D'Amsterdam variant); "new"+"berlin" → "New Berlin"
+    const name = stub.length <= 1 ? titleCase(stub + normKey(loc.cityName).replace(/ /g, '')) : titleCase(stub + ' ' + normKey(loc.cityName));
+    return { hotelName: name, cityName: loc.cityName, countryCode: loc.countryCode || countryCode, hotelId: '' };
+  }
+  if (!loc.hotelName) return { hotelName: titleCase(slug.replace(/-/g, ' ')) + (slug.length <= 2 ? ' Hotel' : ''), cityName: '', countryCode, hotelId: '' };
+  if (normKey(loc.hotelName).replace(/ /g, '').length <= 2) loc.hotelName += ' Hotel';
   return { ...loc, countryCode: loc.countryCode || countryCode, hotelId: '' };
 }
 
@@ -464,6 +508,8 @@ function hotelFromGenericPath(pathname) {
   return { ...parseLocationSlug(best), hotelId: '' };
 }
 
+const NOT_A_CITY = new Set(['airport', 'beach', 'downtown', 'center', 'centre', 'central', 'park', 'resort', 'spa', 'hotel', 'suites', 'inn', 'plaza', 'tower', 'station', 'harbour', 'harbor', 'marina', 'garden', 'gardens', 'bay', 'village', 'city', 'square', 'opera', 'palace']);
+
 function parseLocationSlug(slug) {
   if (!slug) return { hotelName: '', cityName: '', countryCode: '' };
   let rest = String(slug).trim().replace(/\.html?$/i, '').replace(/_+/g, '-').toLowerCase();
@@ -480,6 +526,7 @@ function parseLocationSlug(slug) {
   for (let n = 3; n >= 1; n -= 1) {
     if (parts.length <= n) continue;
     const candidate = parts.slice(-n).join(' ');
+    if (NOT_A_CITY.has(candidate)) continue;
     if (CITY_TO_COUNTRY[candidate] || WORLD_CITIES[candidate]) {
       cityName = candidate;
       if (!countryCode) countryCode = CITY_TO_COUNTRY[candidate] || WORLD_CITIES[candidate];
@@ -919,6 +966,25 @@ async function lookupLite(apiKey, hotelName, countryCode, cityName) {
   }
 }
 
+const METROS = [
+  ['las vegas', 'paradise', 'henderson', 'north las vegas', 'winchester', 'spring valley', 'enterprise'],
+  ['orlando', 'lake buena vista', 'kissimmee', 'celebration', 'bay lake', 'winter garden'],
+  ['miami', 'miami beach', 'north miami beach', 'sunny isles beach', 'bal harbour', 'surfside', 'coral gables', 'doral', 'key biscayne'],
+  ['new york', 'manhattan', 'brooklyn', 'queens', 'long island city', 'bronx', 'staten island'],
+  ['london', 'city of london', 'westminster', 'camden', 'kensington', 'southwark', 'greater london'],
+  ['paris', 'ile de france'],
+  ['cancun', 'puerto morelos', 'playa del carmen', 'riviera maya'],
+  ['los angeles', 'hollywood', 'west hollywood', 'beverly hills', 'santa monica'],
+  ['honolulu', 'waikiki'],
+  ['tokyo', 'minato', 'shinjuku', 'chuo', 'chiyoda', 'shibuya'],
+  ['chicago', 'rosemont'],
+  ['seattle', 'seatac', 'tukwila']
+];
+function sameMetro(a, b) {
+  const x = normKey(a); const y = normKey(b);
+  return METROS.some((g) => g.some((c) => x.includes(c)) && g.some((c) => y.includes(c)));
+}
+
 function cityCompatible(a, b) {
   const x = normKey(a);
   const y = normKey(b);
@@ -934,6 +1000,10 @@ export function pickBest(rows, parsed) {
   let best = null;
   for (const row of rows || []) {
     if (!row || !row.name) continue;
+    // The URL's own country/city is a hard filter when we have it.
+    if (parsed.urlCountry && row.country && String(row.country).toUpperCase() !== parsed.urlCountry) continue;
+    const cityOff = parsed.urlCity && row.city && !cityCompatible(row.city, parsed.urlCity) && !sameMetro(row.city, parsed.urlCity)
+      && normKey(row.city).slice(0, 4) !== normKey(parsed.urlCity).slice(0, 4);
     let score = identityScore(row.name, parsed.hotelName, parsed.cityName);
     // "Hotel Renew" for "Hotel Renew Waikiki Beach": every candidate word is in
     // the wanted name, one of them distinctive, and the city agrees.
@@ -965,6 +1035,8 @@ export function pickBest(rows, parsed) {
         || (normKey(row.city).length >= 4 && normKey(row.name).includes(normKey(row.city)));
       score -= named ? 0.25 : (score >= 0.95 ? 0.1 : 0.2);
     }
+    // A different city than the one in the URL path: only an exact name can survive, and barely not.
+    if (cityOff) score = Math.min(score, 1) - 0.35;
     if (!best || score > best.score) best = { row, score };
   }
   return best;
