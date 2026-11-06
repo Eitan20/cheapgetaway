@@ -89,3 +89,14 @@ test('canonical /https:// wrap, collapsed https:/ and legacy host-only wraps all
     assert.equal(p.countryCode, 'AT');
   }
 });
+
+test('kayak .ksp hotel pages and agoda -hNNN slugs parse', () => {
+  const k = P('https://www.kayak.com/London-Hotels-K-Hotel-Kensington.136817.ksp');
+  assert.equal(k.hotelName, 'K Hotel Kensington');
+  assert.equal(k.countryCode, 'GB');
+  assert.equal(P('https://www.agoda.com/conrad-new-york-midtown-h55831834/hotel/new-york-ny-us.html').hotelName, 'Conrad New York Midtown');
+});
+
+test('a single shared token is not enough to accept a LiteAPI match', () => {
+  assert.ok(identityScore('South', '1 Hotel South Beach', 'Miami Beach') < 0.7);
+});
