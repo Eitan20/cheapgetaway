@@ -269,7 +269,7 @@ function hotelFromBookingPath(pathname) {
   if (!match) return hotelFromGenericPath(pathname);
   const countryCode = match[1].toUpperCase();
   let slug = match[2].replace(/\.html?$/i, '').replace(/\.[a-z]{2}(-[a-z]{2})?$/i, '');
-  if (!/[-_]/.test(slug)) slug = segmentWords(slug).join('-');
+  if (!/[-_]/.test(slug) && slug.length > 8) slug = segmentWords(slug).join('-');
   const loc = parseLocationSlug(slug);
   return { ...loc, countryCode: loc.countryCode || countryCode, hotelId: '' };
 }
@@ -397,11 +397,20 @@ function hotelFromGoogle(parsed) {
   return { hotelName, cityName, countryCode: countryFromCity(cityName), hotelId: '', googleMid };
 }
 
+// Priceline city ids (the P… segment) seen on public hotels-in-{city}.ssp pages.
+const PRICELINE_CITY = {"3000007436": "Topeka", "3000007174": "Kansas City", "3000007194": "Lawrence", "3000004819": "Sioux City", "3000014119": "Omaha", "3000001349": "Phoenix", "3000005381": "Chicago", "3000005929": "North Chicago", "3000002573": "Denver", "3000018569": "Denver", "3000002795": "Westminster", "3000023414": "Seattle", "3000008602": "Boston", "3000008568": "Allston", "3000003349": "Orlando", "3000096129": "Celebration", "3000015123": "Las Vegas", "3000015284": "Las Vegas", "3000096159": "Paradise", "3000003496": "Atlanta", "3000020854": "Atlanta", "3000097481": "East Point", "3000016152": "New York", "3000015470": "Brooklyn", "3000003311": "Miami", "3000017745": "Miami", "3000090052": "Miami Beach", "3000001331": "Miami", "3000090293": "North Miami Beach", "3000090615": "Miami Gardens", "3000002244": "San Francisco", "3000002333": "South San Francisco", "3000035825": "London", "3000033081": "London", "5000437895": "London", "5000436232": "London", "3000020633": "Nashville", "3000006672": "Nashville", "3000020364": "Brentwood"};
+
 function hotelFromPricelinePath(pathname) {
   const decoded = decodeURIComponent(pathname || '');
+  const pc = decoded.match(/\/P(\d{6,})\//);
+  const pcity = pc ? (PRICELINE_CITY[pc[1]] || '') : '';
   // /hotel-deals/en-us/P5000463463/H30001603/hotel-relax-marrakech.ssp
   const deals = decoded.match(/\/hotel-deals\/(?:[a-z]{2}-[a-z]{2}\/)?(?:[^/]+\/)*?([a-z0-9-]+)\.ssp/i);
-  if (deals) return { ...parseLocationSlug(deals[1]), hotelId: '' };
+  if (deals) {
+    const loc = parseLocationSlug(deals[1]);
+    if (pcity && !loc.cityName) { loc.cityName = pcity; loc.countryCode = loc.countryCode || countryFromCity(pcity); }
+    return { ...loc, hotelId: '' };
+  }
   const named = decoded.match(/\/(?:hotel|hotels|hw)\/([^/]+)/i);
   if (named && !/^\d+$/.test(named[1])) {
     return { ...parseLocationSlug(named[1]), hotelId: '' };
@@ -941,8 +950,21 @@ export function pickBest(rows, parsed) {
       const leadDistinct = wl.slice(0, lead).some((t) => t.length >= 4 && !GENERIC_TOKENS.has(t) && !weak.has(t));
       if (score < 0.75 && lead >= 2 && leadDistinct && lead / cw.length >= 0.6) score = 0.75;
     }
+    // Exact match on the original slug text ("Hilton Chicago") beats a looser
+    // brand match once the city was split off the name.
+    if (parsed.queryHint && normKey(row.name).replace(/ /g, '') === normKey(parsed.queryHint).replace(/ /g, '')) score += 0.05;
     if (parsed.cityName && row.city && normKey(row.city) === normKey(parsed.cityName)) score += 0.03;
-    else if (parsed.cityName && row.city && !cityCompatible(row.city, parsed.cityName)) score -= 0.1;
+    else if (parsed.cityName && row.city && !cityCompatible(row.city, parsed.cityName)) {
+      // The city is spelled out in the hotel's own name ("Margaritaville Resort
+      // Orlando"): a same-brand property in another city is not it.
+      // Also when the candidate's own name ends in that other city
+      // ("Margaritaville Resort Gatlinburg" for an Orlando link).
+      const ct = normKey(row.name).split(' ');
+      const tail = [ct.slice(-2).join(' '), ct[ct.length - 1]].find((x) => x && x.length >= 4 && isKnownCity(x));
+      const named = normKey(parsed.hotelName).includes(normKey(parsed.cityName)) || (tail && !cityCompatible(tail, parsed.cityName))
+        || (normKey(row.city).length >= 4 && normKey(row.name).includes(normKey(row.city)));
+      score -= named ? 0.25 : (score >= 0.95 ? 0.1 : 0.2);
+    }
     if (!best || score > best.score) best = { row, score };
   }
   return best;
@@ -955,13 +977,15 @@ async function resolveLiteHotel(parsed) {
   let cc = parsed.countryCode;
   // No country: look for a known city phrase anywhere in the name
   // (priceline …/holiday-inn-new-york-city-times-square.ssp).
-  if (!cc) {
+  if (!cc || !parsed.cityName) {
     const toks = normKey(parsed.hotelName).split(' ');
     outer: for (let n = 3; n >= 1; n -= 1) {
       for (let i = 0; i + n <= toks.length; i += 1) {
         const phrase = toks.slice(i, i + n).join(' ');
         if (phrase.length >= 4 && (CITY_TO_COUNTRY[phrase] || WORLD_CITIES[phrase])) {
-          cc = CITY_TO_COUNTRY[phrase] || WORLD_CITIES[phrase];
+          const pc = CITY_TO_COUNTRY[phrase] || WORLD_CITIES[phrase];
+          if (cc && pc !== cc) continue;
+          cc = pc;
           if (!parsed.cityName) parsed = { ...parsed, cityName: titleCase(phrase) };
           break outer;
         }
@@ -998,7 +1022,8 @@ async function resolveLiteHotel(parsed) {
       results.forEach(consider);
     }
   }
-  if (!best || best.score < 0.7) return null;
+  // Without any known city, a same-name hotel elsewhere is too easy to pick.
+  if (!best || best.score < (parsed.cityName ? 0.7 : 0.85)) return null;
   const row = best.row;
   return { id: row.id || '', name: row.name, city: row.city || parsed.cityName, country: (row.country || parsed.countryCode || '').toUpperCase(), score: best.score };
 }

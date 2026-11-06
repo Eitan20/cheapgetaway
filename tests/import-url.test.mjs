@@ -100,3 +100,9 @@ test('kayak .ksp hotel pages and agoda -hNNN slugs parse', () => {
 test('a single shared token is not enough to accept a LiteAPI match', () => {
   assert.ok(identityScore('South', '1 Hotel South Beach', 'Miami Beach') < 0.7);
 });
+
+test('priceline P-city id gives the city for city-less slugs', () => {
+  const p = P('https://www.priceline.com/hotel-deals/en-us/P3000015284/H49325/mgm-grand-hotel-and-casino.ssp');
+  assert.equal(p.cityName, 'Las Vegas');
+  assert.equal(p.countryCode, 'US');
+});
