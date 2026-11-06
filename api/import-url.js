@@ -26,7 +26,9 @@ const CITY_TO_COUNTRY = {
   singapore: 'SG', 'hong kong': 'HK', bangkok: 'TH', istanbul: 'TR',
   vienna: 'AT', prague: 'CZ', lisbon: 'PT', dublin: 'IE', brussels: 'BE',
   zurich: 'CH', geneva: 'CH', copenhagen: 'DK', stockholm: 'SE', oslo: 'NO', helsinki: 'FI',
-  athens: 'GR', budapest: 'HU', warsaw: 'PL', 'mexico city': 'MX', cancun: 'MX'
+  athens: 'GR', budapest: 'HU', warsaw: 'PL', 'mexico city': 'MX', cancun: 'MX',
+  'lake buena vista': 'US', 'buena vista': 'US', 'punta sam': 'MX', 'riviera maya': 'MX',
+  'miami beach': 'US', 'times square': 'US', 'disney springs': 'US'
 };
 
 const REGION_TO_COUNTRY = {};
@@ -169,7 +171,7 @@ export function parseHotelUrl(raw) {
     info.countryCode = info.countryCode || dest.countryCode;
   }
   info.countryCode = info.countryCode || countryFromCity(info.cityName);
-  const CITY_ALIASES = { 'new york city': 'New York', nyc: 'New York', 'washington dc': 'Washington', 'washington d c': 'Washington', roma: 'Rome', wien: 'Vienna', 'hong kong': 'Hong Kong' };
+  const CITY_ALIASES = { 'new york city': 'New York', nyc: 'New York', 'washington dc': 'Washington', 'washington d c': 'Washington', roma: 'Rome', wien: 'Vienna', lisboa: 'Lisbon', praha: 'Prague', 'hong kong': 'Hong Kong', 'lake buena vista': 'Lake Buena Vista' };
   if (info.cityName && CITY_ALIASES[normKey(info.cityName)]) info.cityName = CITY_ALIASES[normKey(info.cityName)];
   else if (info.cityName && info.cityName === info.cityName.toLowerCase()) info.cityName = titleCase(info.cityName);
 
@@ -199,7 +201,7 @@ export function parseHotelUrl(raw) {
     competitorCurrency,
     expediaHotelId: info.hotelId || '',
     urlCity: info.cityName || '',
-    urlCountry: source === 'booking' ? (info.countryCode || '') : '',
+    urlCountry: (source === 'booking' || source === 'hotels') ? (info.countryCode || '') : '',
     queryHint: [info.hotelName, info.cityName].filter(Boolean).join(' ').trim()
   };
 }
@@ -261,11 +263,13 @@ function hotelFromHotelsComPath(pathname) {
   const decoded = decodeURIComponent(pathname || '');
   const match = decoded.match(/\/ho(\d+)(?:\/([^/?#]+))?/i);
   if (!match) return emptyHotel();
-  const loc = parseLocationSlug(match[2] || '');
+  // Bare /hoNNNN/ has no name in the URL — do not invent one.
+  if (!match[2]) return { hotelName: '', cityName: '', countryCode: '', hotelId: match[1] };
+  const loc = parseLocationSlug(match[2]);
   return { ...loc, hotelId: match[1] };
 }
 
-const BOOKING_WEAK = new Set(['new', 'old', 'grand', 'the', 'hotel', 'city', 'park', 'central', 'royal', 'bb', 'b b']);
+const BOOKING_WEAK = new Set(['new', 'old', 'grand', 'the', 'hotel', 'city', 'park', 'central', 'royal', 'bb', 'b b', 'blue', 'best', 'imperial', 'de', 'le', 'la', 'el']);
 const BOOKING_PREFIXES = ['hotel', 'hote', 'pension', 'residence', 'apartments', 'apartment', 'villa', 'hostel', 'the'];
 
 // Hyphenless Booking slugs ("hoteartemisamsterdam", "pensionaviano",
@@ -301,21 +305,31 @@ function hotelFromBookingPath(pathname) {
   if (!match) return hotelFromGenericPath(pathname);
   const countryCode = match[1].toUpperCase();
   let slug = match[2].replace(/\.html?$/i, '').replace(/\.[a-z]{2}(-[a-z]{2})?$/i, '')
-    .replace(/-39-s(?=-|$)/g, 's'); // &#39;s → 's ("tokio-39-s-…" = Tokio's)
+    .replace(/-39-s(?=-|$)/g, 's') // &#39;s → 's ("tokio-39-s-…" = Tokio's)
+    .replace(/-amp-/g, '-') // HTML &amp; in slugs ("istanbul-amp-suites")
+    .replace(/(\D)\d+$/g, '$1'); // trailing inventory digit ("the-new-yorker1")
+  // Brand compounds Booking splits with hyphens.
+  slug = slug.replace(/\binter-continental\b/g, 'intercontinental')
+    .replace(/\bac-hotel\b/g, 'ac-hotel')
+    .replace(/\bac-(?=[a-z])/g, 'ac-');
   if (!/[-_]/.test(slug)) slug = splitBookingSlug(slug, countryCode);
-  const loc = parseLocationSlug(slug);
+  const loc = parseLocationSlug(slug, countryCode);
   // Never leave a 1–3 letter or weak stub ("i", "D", "New" from new-berlin):
   // keep the city words as part of the name instead.
   const stub = normKey(loc.hotelName);
-  if (loc.cityName && (stub.replace(/ /g, '').length <= 3 || BOOKING_WEAK.has(stub))) {
-    const full = titleCase(slug.replace(/-/g, ' '));
+  if (loc.cityName && isWeakHotelStub(loc.hotelName) && !stub.includes(normKey(loc.cityName))) {
     // "d"+"amsterdam" → "Damsterdam" (→ D'Amsterdam variant); "new"+"berlin" → "New Berlin"
     const name = stub.length <= 1 ? titleCase(stub + normKey(loc.cityName).replace(/ /g, '')) : titleCase(stub + ' ' + normKey(loc.cityName));
-    return { hotelName: name, cityName: loc.cityName, countryCode: loc.countryCode || countryCode, hotelId: '' };
+    return { hotelName: name, cityName: loc.cityName, countryCode: countryCode, hotelId: '' };
   }
   if (!loc.hotelName) return { hotelName: titleCase(slug.replace(/-/g, ' ')) + (slug.length <= 2 ? ' Hotel' : ''), cityName: '', countryCode, hotelId: '' };
   if (normKey(loc.hotelName).replace(/ /g, '').length <= 2) loc.hotelName += ' Hotel';
-  return { ...loc, countryCode: loc.countryCode || countryCode, hotelId: '' };
+  // Single-token slug that is itself a famous city in another country
+  // ("/hotel/rs/amsterdam"): keep country from the path, clear false city.
+  if (!/[ -]/.test(normKey(loc.hotelName)) && cityCc(normKey(loc.hotelName)) && cityCc(normKey(loc.hotelName)) !== countryCode) {
+    return { hotelName: titleCase(loc.hotelName) + ' Hotel', cityName: '', countryCode, hotelId: '' };
+  }
+  return { ...loc, countryCode: countryCode, hotelId: '' };
 }
 
 function hotelFromKayakPath(pathname) {
@@ -508,11 +522,36 @@ function hotelFromGenericPath(pathname) {
   return { ...parseLocationSlug(best), hotelId: '' };
 }
 
-const NOT_A_CITY = new Set(['airport', 'beach', 'downtown', 'center', 'centre', 'central', 'park', 'resort', 'spa', 'hotel', 'suites', 'inn', 'plaza', 'tower', 'station', 'harbour', 'harbor', 'marina', 'garden', 'gardens', 'bay', 'village', 'city', 'square', 'opera', 'palace']);
+const NOT_A_CITY = new Set(['airport', 'beach', 'downtown', 'center', 'centre', 'central', 'park', 'resort', 'spa', 'hotel', 'suites', 'inn', 'plaza', 'tower', 'station', 'harbour', 'harbor', 'marina', 'garden', 'gardens', 'bay', 'village', 'city', 'square', 'opera', 'palace', 'vista', 'best', 'dome', 'mitte', 'old town', 'dong jing', 'adult', 'adults', 'only', 'inclusive', 'opening', 'summer', 'winter', 'spring']);
 
-function parseLocationSlug(slug) {
+function cityCc(candidate) {
+  return CITY_TO_COUNTRY[candidate] || WORLD_CITIES[candidate] || '';
+}
+
+function cityMatchesCountry(candidate, wantCc) {
+  if (!wantCc) return true;
+  const cc = cityCc(candidate);
+  return !!cc && cc === wantCc;
+}
+
+function isWeakHotelStub(name) {
+  const stub = normKey(name);
+  if (!stub) return true;
+  if (stub.replace(/ /g, '').length <= 3) return true;
+  if (BOOKING_WEAK.has(stub)) return true;
+  const toks = stub.split(' ').filter(Boolean);
+  if (toks.length === 1 && (toks[0].length < 5 || BOOKING_WEAK.has(toks[0]) || NOT_A_CITY.has(toks[0]))) return true;
+  if (toks.every((t) => BOOKING_WEAK.has(t) || NOT_A_CITY.has(t) || NAME_STOP.has(t))) return true;
+  return false;
+}
+
+// Marketing / stay-type noise Hotels.com and Booking tuck into slugs.
+const SLUG_NOISE = /(?:^|-)(?:opening(?:-summer|-winter|-spring|-fall)?-\d{4}|adults?-only|all-inclusive|all-inclusives|by-diamond-resorts)(?=-|$)/g;
+
+function parseLocationSlug(slug, preferCc) {
   if (!slug) return { hotelName: '', cityName: '', countryCode: '' };
   let rest = String(slug).trim().replace(/\.html?$/i, '').replace(/_+/g, '-').toLowerCase();
+  rest = rest.replace(SLUG_NOISE, '').replace(/-+/g, '-').replace(/^-|-$/g, '');
   let countryCode = '';
   for (const suffix of COUNTRY_SLUGS) {
     if (rest === suffix || rest.endsWith('-' + suffix)) {
@@ -521,23 +560,63 @@ function parseLocationSlug(slug) {
       break;
     }
   }
+  if (preferCc) countryCode = countryCode || preferCc;
   let parts = rest.split(/[-]+/).filter(Boolean);
   let cityName = '';
-  for (let n = 3; n >= 1; n -= 1) {
+  // Prefer longer trailing city phrases that match preferCc / known cities.
+  for (let n = 4; n >= 1; n -= 1) {
     if (parts.length <= n) continue;
     const candidate = parts.slice(-n).join(' ');
     if (NOT_A_CITY.has(candidate)) continue;
-    if (CITY_TO_COUNTRY[candidate] || WORLD_CITIES[candidate]) {
-      cityName = candidate;
-      if (!countryCode) countryCode = CITY_TO_COUNTRY[candidate] || WORLD_CITIES[candidate];
+    const cc = cityCc(candidate);
+    if (!cc) continue;
+    if (preferCc && cc !== preferCc && !cityMatchesCountry(candidate, preferCc)) continue;
+    // Don't peel if what's left is an empty/weak hotel stub — keep the city
+    // words in the hotel name and record city separately below.
+    const left = parts.slice(0, -n);
+    const leftName = left.join(' ');
+    if (isWeakHotelStub(leftName) && n === 1 && candidate.split(' ').length === 1) {
+      // Multi-char weak leftovers ("best", "blue", "new"): keep city in the
+      // name. Single-letter leftovers ("d"+"amsterdam") still peel so we can
+      // form Damsterdam for the apostrophe variant path.
+      if (normKey(leftName).replace(/ /g, '').length > 1) continue;
+    }
+    cityName = candidate;
+    if (!countryCode) countryCode = cc;
+    parts = left;
+    while (parts.length >= n && parts.slice(-n).join(' ') === candidate) {
       parts = parts.slice(0, -n);
-      while (parts.length >= n && parts.slice(-n).join(' ') === candidate) {
-        parts = parts.slice(0, -n);
+    }
+    break;
+  }
+  // If we never peeled but a known city sits inside the slug (and matches
+  // preferCc), surface it as cityName without stripping it from the hotel name.
+  let hotelName = titleCase(parts.join(' '));
+  if (!cityName) {
+    for (let n = 3; n >= 1; n -= 1) {
+      for (let i = 0; i + n <= parts.length; i += 1) {
+        const candidate = parts.slice(i, i + n).join(' ');
+        if (NOT_A_CITY.has(candidate)) continue;
+        const cc = cityCc(candidate);
+        if (!cc) continue;
+        if (preferCc && cc !== preferCc) continue;
+        cityName = candidate;
+        if (!countryCode) countryCode = cc;
+        break;
       }
-      break;
+      if (cityName) break;
     }
   }
-  return { hotelName: titleCase(parts.join(' ')), cityName: titleCase(cityName), countryCode };
+  // Weak stub after peel: put the city back into the searchable hotel name.
+  // Single-letter stubs concatenate ("d"+"amsterdam" → "Damsterdam") so the
+  // apostrophe variant path still fires.
+  if (cityName && isWeakHotelStub(hotelName) && !normKey(hotelName).includes(normKey(cityName))) {
+    const stub = normKey(hotelName);
+    hotelName = stub.length <= 1
+      ? titleCase(stub + normKey(cityName).replace(/ /g, ''))
+      : titleCase((stub + ' ' + cityName).trim());
+  }
+  return { hotelName, cityName: titleCase(cityName), countryCode: countryCode || preferCc || '' };
 }
 
 function emptyHotel() {
@@ -710,9 +789,18 @@ export default async function handler(req, res) {
   const hotelName = (resolved && resolved.name) || parsed.hotelName;
   const cityName = (resolved && resolved.city) || parsed.cityName;
   const countryCode = (resolved && resolved.country) || parsed.countryCode;
-  const query = hotelName && cityName && !hotelName.toLowerCase().includes(cityName.toLowerCase())
+  let query = hotelName && cityName && !hotelName.toLowerCase().includes(cityName.toLowerCase())
     ? (hotelName + ' ' + cityName).trim()
     : (hotelName || cityName);
+  // No LiteAPI pin + weak/generic name: append the country so free-text search
+  // does not jump to the famous namesake city ("Kensington" FR, "Amsterdam" RS).
+  if (!resolved && parsed.urlCountry && isWeakHotelStub(hotelName || parsed.hotelName)) {
+    const pretty = ({ GB: 'UK', US: 'USA', AE: 'UAE', CZ: 'Czechia', NL: 'Netherlands', RS: 'Serbia', TR: 'Turkey', AT: 'Austria', DE: 'Germany', FR: 'France', IT: 'Italy', PT: 'Portugal', JP: 'Japan', TH: 'Thailand' })[parsed.urlCountry]
+      || parsed.urlCountry;
+    if (query && !new RegExp('\\b' + pretty.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i').test(query)) {
+      query = (query + ' ' + pretty).trim();
+    }
+  }
 
   const payload = {
     ok: true,
@@ -938,6 +1026,29 @@ export function nameQueryVariants(parsed) {
     add(name.replace(/oe/g, 'ö').replace(/ue/g, 'ü').replace(/ae/g, 'ä'));
     add(name.replace(/oe/g, 'o').replace(/ue/g, 'u').replace(/ae/g, 'a'));
   }
+  // Inter Continental → InterContinental (LiteAPI / brand spelling)
+  if (/inter\s*continental/i.test(name)) {
+    add(name.replace(/inter\s*continental/ig, 'InterContinental'));
+    add(name.replace(/inter\s*continental/ig, 'InterContinental').replace(/\s+by\s+ihg/ig, ''));
+  }
+  // Trailing inventory digit left on a token ("Yorker1")
+  if (/\d$/.test(name)) add(name.replace(/\d+$/, '').trim());
+  // SO/ Paris marketing cruft already stripped from slug; keep short brand form
+  if (/^so\b/i.test(name)) add(name.replace(/^so\b/i, 'SO').replace(/\s+hotel.*$/i, ' Hotel').trim());
+  // "… Edition" brand
+  if (/\bedition\b/i.test(name)) {
+    add(name.replace(/\bthe\s+downtown\s+/i, 'The ').replace(/\bcollection\b/i, 'EDITION'));
+    const bits = name.replace(/\bedition\b/ig, '').replace(/\bdowntown\b/ig, '').replace(/\bthe\b/ig, ' ');
+    if (parsed.cityName) add('The ' + parsed.cityName + ' EDITION');
+    add(bits.replace(/\s+/g, ' ').trim() + ' EDITION');
+  }
+  // Marriott at place → City Marriott
+  if (/\bmarriott\b/i.test(name) && parsed.cityName) add(parsed.cityName + ' Marriott Hotel');
+  // AC Hotel by Marriott
+  if (/^ac\b/i.test(name) || /\bac hotel\b/i.test(name)) {
+    add(name.replace(/^ac\b/i, 'AC Hotel'));
+    if (parsed.cityName) add('AC Hotel ' + parsed.cityName + (name.match(/ginza/i) ? ' Ginza' : ''));
+  }
   return out;
 }
 
@@ -968,12 +1079,12 @@ async function lookupLite(apiKey, hotelName, countryCode, cityName) {
 
 const METROS = [
   ['las vegas', 'paradise', 'henderson', 'north las vegas', 'winchester', 'spring valley', 'enterprise'],
-  ['orlando', 'lake buena vista', 'kissimmee', 'celebration', 'bay lake', 'winter garden'],
+  ['orlando', 'lake buena vista', 'kissimmee', 'celebration', 'bay lake', 'winter garden', 'buena vista'],
   ['miami', 'miami beach', 'north miami beach', 'sunny isles beach', 'bal harbour', 'surfside', 'coral gables', 'doral', 'key biscayne'],
   ['new york', 'manhattan', 'brooklyn', 'queens', 'long island city', 'bronx', 'staten island'],
   ['london', 'city of london', 'westminster', 'camden', 'kensington', 'southwark', 'greater london'],
   ['paris', 'ile de france'],
-  ['cancun', 'puerto morelos', 'playa del carmen', 'riviera maya'],
+  ['cancun', 'puerto morelos', 'playa del carmen', 'riviera maya', 'punta sam', 'zona hotelera'],
   ['los angeles', 'hollywood', 'west hollywood', 'beverly hills', 'santa monica'],
   ['honolulu', 'waikiki'],
   ['tokyo', 'minato', 'shinjuku', 'chuo', 'chiyoda', 'shibuya'],
@@ -1001,7 +1112,13 @@ export function pickBest(rows, parsed) {
   for (const row of rows || []) {
     if (!row || !row.name) continue;
     // The URL's own country/city is a hard filter when we have it.
-    if (parsed.urlCountry && row.country && String(row.country).toUpperCase() !== parsed.urlCountry) continue;
+    const rowCc = (row.country && String(row.country).toUpperCase()) || countryFromCity(row.city) || '';
+    if (parsed.urlCountry && rowCc && rowCc !== parsed.urlCountry) continue;
+    // Single-token / weak wanted names must not accept a same-token hotel in
+    // another city ("The Best" TR ↛ "Eindhovenseweg Best" NL; "Kensington" FR ↛ London).
+    if (parsed.urlCountry && isWeakHotelStub(parsed.hotelName) && row.city && parsed.urlCity
+        && !cityCompatible(row.city, parsed.urlCity) && !sameMetro(row.city, parsed.urlCity)) continue;
+    if (parsed.urlCountry && isWeakHotelStub(parsed.hotelName) && !parsed.urlCity && rowCc && rowCc !== parsed.urlCountry) continue;
     const cityOff = parsed.urlCity && row.city && !cityCompatible(row.city, parsed.urlCity) && !sameMetro(row.city, parsed.urlCity)
       && normKey(row.city).slice(0, 4) !== normKey(parsed.urlCity).slice(0, 4);
     let score = identityScore(row.name, parsed.hotelName, parsed.cityName);
