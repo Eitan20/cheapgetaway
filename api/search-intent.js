@@ -8,6 +8,31 @@ const TYPESAFE_URL = 'https://api.typesafe.ai/v1/systemone';
 const MODEL = 'jev-latest';
 const HOTEL_SUFFIX_RE = /\b(hotel|hotels|inn|resort|resorts|suites?|motel|lodge|hostel|apartment|apartments|bnb|b&b)\b/i;
 
+// Light city → ISO-2 country map for LiteAPI hotelName searches (rates/data
+// require countryCode / cityName / placeId / latlng / hotelIds — not bare city).
+const CITY_TO_COUNTRY = {
+  london: 'GB', manchester: 'GB', edinburgh: 'GB', birmingham: 'GB', liverpool: 'GB', glasgow: 'GB', bristol: 'GB',
+  paris: 'FR', lyon: 'FR', marseille: 'FR', nice: 'FR',
+  'new york': 'US', nyc: 'US', 'los angeles': 'US', la: 'US', 'las vegas': 'US', miami: 'US', chicago: 'US',
+  'san francisco': 'US', boston: 'US', seattle: 'US', 'washington': 'US', 'washington dc': 'US', dc: 'US',
+  orlando: 'US', dallas: 'US', houston: 'US', atlanta: 'US', denver: 'US', phoenix: 'US', 'san diego': 'US',
+  austin: 'US', nashville: 'US', 'new orleans': 'US', honolulu: 'US',
+  rome: 'IT', milan: 'IT', florence: 'IT', venice: 'IT', naples: 'IT',
+  barcelona: 'ES', madrid: 'ES', seville: 'ES', valencia: 'ES',
+  berlin: 'DE', munich: 'DE', hamburg: 'DE', frankfurt: 'DE',
+  amsterdam: 'NL', rotterdam: 'NL',
+  dubai: 'AE', 'abu dhabi': 'AE',
+  tokyo: 'JP', osaka: 'JP', kyoto: 'JP',
+  sydney: 'AU', melbourne: 'AU', brisbane: 'AU',
+  toronto: 'CA', vancouver: 'CA', montreal: 'CA',
+  singapore: 'SG', 'hong kong': 'HK', bangkok: 'TH', istanbul: 'TR',
+  vienna: 'AT', prague: 'CZ', lisbon: 'PT', dublin: 'IE', brussels: 'BE',
+  zurich: 'CH', geneva: 'CH', copenhagen: 'DK', stockholm: 'SE', oslo: 'NO', helsinki: 'FI',
+  athens: 'GR', budapest: 'HU', warsaw: 'PL', mexico: 'MX', 'mexico city': 'MX', 'cancun': 'MX',
+  'rio de janeiro': 'BR', 'sao paulo': 'BR', 'buenos aires': 'AR'
+};
+
+
 export default async function handler(req, res) {
   const method = (req.method || 'GET').toUpperCase();
   if (method !== 'POST') {
@@ -101,6 +126,8 @@ async function classifyWithJev(q, apiKey) {
     const parts = splitHotelAndCity(q);
     out.hotelName = parts.hotelName;
     if (parts.cityHint) out.cityHint = parts.cityHint;
+    const country = countryFromCity(parts.cityHint) || countryFromQuery(q);
+    if (country) out.countryHint = country;
   }
 
   return out;
@@ -117,6 +144,35 @@ function placeFallback(reason) {
     confidence: 0,
     raw: { fallback: reason }
   };
+}
+
+
+function countryFromCity(city) {
+  if (!city) return '';
+  const key = String(city).trim().toLowerCase().replace(/\s+/g, ' ');
+  if (CITY_TO_COUNTRY[key]) return CITY_TO_COUNTRY[key];
+  // "London, UK" / "Paris, France" — use the city token before comma
+  const beforeComma = key.split(',')[0].trim();
+  if (beforeComma && CITY_TO_COUNTRY[beforeComma]) return CITY_TO_COUNTRY[beforeComma];
+  return '';
+}
+
+function countryFromQuery(q) {
+  const padded = ' ' + String(q || '').toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim() + ' ';
+  const keys = Object.keys(CITY_TO_COUNTRY).sort((a, b) => b.length - a.length);
+  for (const key of keys) {
+    if (padded.includes(' ' + key + ' ')) return CITY_TO_COUNTRY[key];
+  }
+  if (/\bunited kingdom\b|\bengland\b|\buk\b/.test(padded)) return 'GB';
+  if (/\bunited states\b|\busa\b/.test(padded)) return 'US';
+  if (/\bfrance\b/.test(padded)) return 'FR';
+  if (/\bitaly\b/.test(padded)) return 'IT';
+  if (/\bspain\b/.test(padded)) return 'ES';
+  if (/\bgermany\b/.test(padded)) return 'DE';
+  return '';
 }
 
 // Light heuristic only — Jev does not return free-text slots. "L'oscar London"
