@@ -170,6 +170,7 @@ export function parseHotelUrl(raw) {
     info.cityName = dest.cityName;
     info.countryCode = info.countryCode || dest.countryCode;
   }
+  applyBrandCity(info);
   info.countryCode = info.countryCode || countryFromCity(info.cityName);
   const CITY_ALIASES = { 'new york city': 'New York', nyc: 'New York', 'washington dc': 'Washington', 'washington d c': 'Washington', roma: 'Rome', wien: 'Vienna', lisboa: 'Lisbon', praha: 'Prague', 'hong kong': 'Hong Kong', 'lake buena vista': 'Lake Buena Vista' };
   if (info.cityName && CITY_ALIASES[normKey(info.cityName)]) info.cityName = CITY_ALIASES[normKey(info.cityName)];
@@ -271,6 +272,26 @@ function hotelFromHotelsComPath(pathname) {
 
 const BOOKING_WEAK = new Set(['new', 'old', 'grand', 'the', 'hotel', 'city', 'park', 'central', 'royal', 'bb', 'b b', 'blue', 'best', 'imperial', 'de', 'le', 'la', 'el']);
 const BOOKING_PREFIXES = ['hotel', 'hote', 'pension', 'residence', 'apartments', 'apartment', 'villa', 'hostel', 'the'];
+
+// Distinctive brand phrases whose home city is unambiguous from the name alone.
+const BRAND_CITY = [
+  [/\bnew yorker\b/i, 'New York', 'US'],
+  [/\bmoevenpick\b.*\bamsterdam\b|\bmovenpick\b.*\bamsterdam\b|\bmövenpick\b.*\bamsterdam\b/i, 'Amsterdam', 'NL'],
+  [/\bso\/?\s*paris\b/i, 'Paris', 'FR'],
+  [/\bdubai edition\b|\bedition\b.*\bdubai\b/i, 'Dubai', 'AE'],
+  [/\bmiami beach edition\b|\bedition\b.*\bmiami\b/i, 'Miami Beach', 'US'],
+];
+function applyBrandCity(info) {
+  if (!info || !info.hotelName) return info;
+  for (const [re, city, cc] of BRAND_CITY) {
+    if (!re.test(info.hotelName) && !re.test(info.hotelName + ' ' + (info.cityName || ''))) continue;
+    if (!info.cityName) info.cityName = city;
+    if (!info.countryCode) info.countryCode = cc;
+    break;
+  }
+  return info;
+}
+
 
 // Hyphenless Booking slugs ("hoteartemisamsterdam", "pensionaviano",
 // "rathauspark"): peel a known trailing city and a known leading type word,
@@ -542,6 +563,8 @@ function isWeakHotelStub(name) {
   const toks = stub.split(' ').filter(Boolean);
   if (toks.length === 1 && (toks[0].length < 5 || BOOKING_WEAK.has(toks[0]) || NOT_A_CITY.has(toks[0]))) return true;
   if (toks.every((t) => BOOKING_WEAK.has(t) || NOT_A_CITY.has(t) || NAME_STOP.has(t))) return true;
+  // "<Token> Hotel" with no other distinctive words is still too generic to free-search.
+  if (toks.length === 2 && toks[1] === 'hotel' && toks[0].length <= 12) return true;
   return false;
 }
 

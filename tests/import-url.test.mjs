@@ -171,3 +171,10 @@ test('booking country-aware peel, amp entity, trailing digit, intercontinental',
   // empty country on row → city Best maps to NL → filtered
   assert.equal(k, null);
 });
+
+test('brand city: New Yorker defaults to New York', () => {
+  const a = P('https://www.booking.com/hotel/us/the-new-yorker1.html');
+  assert.equal(a.hotelName, 'The New Yorker');
+  assert.equal(a.cityName, 'New York');
+  assert.equal(a.countryCode, 'US');
+});
