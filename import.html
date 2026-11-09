@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./cg-analytics.js?v=1" defer></script>
+<script src="/cg-analytics.js?v=1" defer></script>
 <title>Finding your hotel — cheapgetaway.com</title>
 <meta name="description" content="Paste a hotel link to find the same stay and dates on cheapgetaway.com.">
 <meta name="robots" content="noindex">
@@ -90,12 +90,16 @@
   }
 
   function incomingUrl() {
-    var params = new URLSearchParams(location.search);
-    if (params.get('u')) return params.get('u');
-    if (params.get('url')) return params.get('url');
     var path = location.pathname || '';
-    if (path === '/import' || path === '/import.html' || path === '/') return '';
-    return location.origin + path + location.search;
+    // A wrapped hotel's query belongs to that hotel, including keys named u/url.
+    // Only the standalone import form accepts ?u= or ?url= as an envelope.
+    if (path !== '/import' && path !== '/import.html' && path !== '/') {
+      var inner = path.replace(/^\/+/, '').replace(/^(https?):\/+(?=[^/])/i, '$1://');
+      if (!/^https?:\/\//i.test(inner)) inner = 'https://' + inner;
+      return inner + location.search;
+    }
+    var params = new URLSearchParams(location.search);
+    return params.get('u') || params.get('url') || '';
   }
 
   function go(path) {

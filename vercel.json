@@ -24,6 +24,17 @@
   },
   "redirects": [
     {
+      "source": "/:path(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "cheapgetaway.com"
+        }
+      ],
+      "destination": "https://www.cheapgetaway.com/:path",
+      "permanent": false
+    },
+    {
       "source": "/travorium-landing",
       "destination": "/join-the-club",
       "permanent": true
@@ -33,6 +44,22 @@
     {
       "source": "/api/liteapi/:path*",
       "destination": "/api/liteapi?path=:path*"
+    },
+    {
+      "source": "/https\\://:wrapped(.*)",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/https\\:/:wrapped(.*)",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/http\\://:wrapped(.*)",
+      "destination": "/import.html"
+    },
+    {
+      "source": "/http\\:/:wrapped(.*)",
+      "destination": "/import.html"
     },
     {
       "source": "/expedia.com/:path*",
